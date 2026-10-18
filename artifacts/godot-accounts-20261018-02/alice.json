@@ -1,0 +1,256 @@
+{
+	"checks": [
+		"Native display driver is active",
+		"Credential input is masked",
+		"AccountConnect control is enabled",
+		"Credential field clears synchronously on submission",
+		"Account login reaches lobby through production button",
+		"CreateRoom control is enabled",
+		"CreateRoom enters inventory room",
+		"Two independent native accounts share room",
+		"CollectWood control is enabled",
+		"Alice wood receives terminal result",
+		"Alice sees Bob collection in public count",
+		"Own inventory and own results are isolated; public count and visible UI agree",
+		"CollectKey control is enabled",
+		"One pending command disables all new collect buttons",
+		"Adapter rejects a second command while pending",
+		"Peer independently confirms server mutation before deliberately lost reply",
+		"Test hook exposes RetryCommand without changing retained seq or payload",
+		"RetryCommand control is enabled",
+		"UI retry uses a new request ID with exactly the same sequence and payload",
+		"Retry receives retained terminal result without another collection",
+		"Own inventory and own results are isolated; public count and visible UI agree",
+		"CollectStone control is enabled",
+		"Peer independently confirms server mutation before deliberately lost reply",
+		"Real request timeout disconnects after deliberately lost reply",
+		"Timeout preserves pending metadata and clears private UI",
+		"Reconnect control is enabled",
+		"Reconnect full sync resolves lost reply from retained result",
+		"Resume keeps exact player, room and instance",
+		"Own inventory and own results are isolated; public count and visible UI agree",
+		"Full sync restores recent own terminal result in UI",
+		"Bob independently observes count four without duplicate",
+		"Actual renderer saves alice-shared PNG after frame_post_draw",
+		"Both native renderer captures exist",
+		"ForceDisconnect control is enabled",
+		"Manual disconnect immediately hides private state and results",
+		"AccountConnect control is enabled",
+		"Credential field clears synchronously on submission",
+		"Same-account credential login rotates token and resumes membership",
+		"Account session token rotated in memory",
+		"Resume keeps exact player, room and instance",
+		"Own inventory and own results are isolated; public count and visible UI agree",
+		"Logout control is enabled",
+		"Logout clears local identity and credentials",
+		"Logout removes all stale personal state and results",
+		"Bob completes account switch and error UI scenarios"
+	],
+	"deliberately_discarded_socket_messages": {
+		"game.command.result": 2,
+		"snapshot": 97
+	},
+	"display_driver": "macOS",
+	"elapsed_seconds": 8.437,
+	"expected_errors": [
+		{
+			"code": "COMMAND_PENDING",
+			"command_type": "game.command",
+			"retryable": true
+		},
+		{
+			"code": "REQUEST_TIMEOUT",
+			"command_type": "game.command",
+			"retryable": true
+		}
+	],
+	"failures": [],
+	"interaction_method": "production Control signals; lost-reply socket drain and explicit transport-lock-release test fixture; no OS click claimed",
+	"known_runtime_token_scan_passed": true,
+	"observations": [
+		{
+			"command_results": [
+				{
+					"command_seq": 1.0,
+					"game_id": "inventory",
+					"ok": true,
+					"request_id": "5-4",
+					"result": {
+						"inventory_count": 2.0
+					},
+					"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+					"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+					"type": "game.command.result",
+					"v": 1.0
+				}
+			],
+			"label": "two-account-collections",
+			"last_processed_command_seq": 1,
+			"player_id": "a_190b01aa6f62438ae081d7fb8b91fef5320e00a06dd09020f7c5054d65be64f4",
+			"private_state": {
+				"inventory": [
+					"alice-starter-item",
+					"wood"
+				]
+			},
+			"private_ui": "내 아이템 2개\n• alice-starter-item\n• wood",
+			"public_state": {
+				"players": 2.0,
+				"total_collected": 2.0
+			},
+			"public_ui": "수집 횟수  2\n참가 인원  2",
+			"result_ui": "명령 1 · 성공 (최종 결과)\n내 인벤토리 2개",
+			"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+			"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+			"snapshot_seq": 2
+		},
+		{
+			"command_results": [
+				{
+					"command_seq": 1.0,
+					"game_id": "inventory",
+					"ok": true,
+					"request_id": "5-4",
+					"result": {
+						"inventory_count": 2.0
+					},
+					"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+					"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+					"type": "game.command.result",
+					"v": 1.0
+				},
+				{
+					"command_seq": 2.0,
+					"game_id": "inventory",
+					"ok": true,
+					"request_id": "5-6",
+					"result": {
+						"inventory_count": 3.0
+					},
+					"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+					"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+					"type": "game.command.result",
+					"v": 1.0
+				},
+				{
+					"command_seq": 3.0,
+					"game_id": "inventory",
+					"ok": true,
+					"request_id": "5-7",
+					"result": {
+						"inventory_count": 4.0
+					},
+					"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+					"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+					"type": "game.command.result",
+					"v": 1.0
+				}
+			],
+			"label": "lost-reply-timeout-resumed",
+			"last_processed_command_seq": 3,
+			"player_id": "a_190b01aa6f62438ae081d7fb8b91fef5320e00a06dd09020f7c5054d65be64f4",
+			"private_state": {
+				"inventory": [
+					"alice-starter-item",
+					"wood",
+					"key",
+					"stone"
+				]
+			},
+			"private_ui": "내 아이템 4개\n• alice-starter-item\n• wood\n• key\n• stone",
+			"public_state": {
+				"players": 2.0,
+				"total_collected": 4.0
+			},
+			"public_ui": "수집 횟수  4\n참가 인원  2",
+			"result_ui": "명령 3 · 성공 (최종 결과)\n내 인벤토리 4개",
+			"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+			"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+			"snapshot_seq": 102
+		},
+		{
+			"command_results": [
+				{
+					"command_seq": 1.0,
+					"game_id": "inventory",
+					"ok": true,
+					"request_id": "5-4",
+					"result": {
+						"inventory_count": 2.0
+					},
+					"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+					"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+					"type": "game.command.result",
+					"v": 1.0
+				},
+				{
+					"command_seq": 2.0,
+					"game_id": "inventory",
+					"ok": true,
+					"request_id": "5-6",
+					"result": {
+						"inventory_count": 3.0
+					},
+					"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+					"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+					"type": "game.command.result",
+					"v": 1.0
+				},
+				{
+					"command_seq": 3.0,
+					"game_id": "inventory",
+					"ok": true,
+					"request_id": "5-7",
+					"result": {
+						"inventory_count": 4.0
+					},
+					"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+					"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+					"type": "game.command.result",
+					"v": 1.0
+				}
+			],
+			"label": "same-account-token-rotation",
+			"last_processed_command_seq": 3,
+			"player_id": "a_190b01aa6f62438ae081d7fb8b91fef5320e00a06dd09020f7c5054d65be64f4",
+			"private_state": {
+				"inventory": [
+					"alice-starter-item",
+					"wood",
+					"key",
+					"stone"
+				]
+			},
+			"private_ui": "내 아이템 4개\n• alice-starter-item\n• wood\n• key\n• stone",
+			"public_state": {
+				"players": 2.0,
+				"total_collected": 4.0
+			},
+			"public_ui": "수집 횟수  4\n참가 인원  2",
+			"result_ui": "명령 3 · 성공 (최종 결과)\n내 인벤토리 4개",
+			"room_id": "r_175c077cb027adadbba9f4fb4996d725fea69427d51fe13a2759ca27b223e084",
+			"room_instance_id": "i_7bfb52a36308912a6f8b367e4facdd75129081743465fb5639b069ba7103a257",
+			"snapshot_seq": 108
+		}
+	],
+	"pid": 98618,
+	"rendering_method": "gl_compatibility",
+	"retry_evidence": {
+		"command_seq": 2,
+		"original_request_ids": [
+			"5-5"
+		],
+		"payload": {
+			"action": "collect",
+			"item": "key"
+		},
+		"retry_request_ids": [
+			"5-6"
+		],
+		"same_retained_command": true,
+		"transport_lock_release_fixture": true
+	},
+	"role": "alice",
+	"success": true,
+	"unexpected_errors": []
+}

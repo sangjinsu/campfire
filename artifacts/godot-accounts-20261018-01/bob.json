@@ -1,0 +1,134 @@
+{
+	"checks": [
+		"Native display driver is active",
+		"Credential input is masked",
+		"AccountConnect control is enabled",
+		"Credential field clears synchronously on submission",
+		"Account login reaches lobby through production button",
+		"Alice created room coordination barrier",
+		"RefreshRooms control is enabled",
+		"RefreshRooms lists exact Alice room instance",
+		"JoinRoom control is enabled",
+		"JoinRoom enters selected exact room instance",
+		"Alice first collection observed",
+		"CollectStone control is enabled",
+		"Bob stone receives own terminal result and shared count two",
+		"Own inventory and own results are isolated; public count and visible UI agree",
+		"Bob observes Alice key executed while Alice discards reply",
+		"Alice UI retry completed",
+		"Alice retry does not repeat mutation or leak terminal result to Bob",
+		"Bob observes Alice stone executed before genuine timeout",
+		"Alice genuine timeout and resume completed",
+		"Own inventory and own results are isolated; public count and visible UI agree",
+		"Actual renderer saves bob-shared PNG after frame_post_draw",
+		"Alice rotates and logs out before account switch",
+		"ForceDisconnect control is enabled",
+		"AccountConnect control is enabled",
+		"Credential field clears synchronously on submission",
+		"Different-account submission clears old Bob UI immediately",
+		"Different-account credential establishes fresh lobby identity",
+		"Different account cannot inherit prior membership or personal state",
+		"CreateRoom control is enabled",
+		"Switched Alice enters fresh membership",
+		"Own inventory and own results are isolated; public count and visible UI agree",
+		"ForceDisconnect control is enabled",
+		"Disconnected context edit clears old credentials and blocks old-context reconnect",
+		"Profile switch clears private state, results and account credentials",
+		"AccountConnect control is enabled",
+		"Credential field clears synchronously on submission"
+	],
+	"deliberately_discarded_socket_messages": {},
+	"display_driver": "macOS",
+	"elapsed_seconds": 14.045,
+	"expected_errors": [
+		{
+			"code": "UNAUTHENTICATED",
+			"command_type": "session.account",
+			"retryable": false
+		}
+	],
+	"failures": [
+		"Invalid credential UNAUTHENTICATED code is visible in production UI (timeout)"
+	],
+	"interaction_method": "production Control signals; lost-reply socket drain and explicit transport-lock-release test fixture; no OS click claimed",
+	"observations": [
+		{
+			"command_results": [
+				{
+					"command_seq": 1.0,
+					"game_id": "inventory",
+					"ok": true,
+					"request_id": "5-5",
+					"result": {
+						"inventory_count": 2.0
+					},
+					"room_id": "r_967918e14533712c8a598000e11f001f6da4f7dc9c7eddd5d9ccc8f2fe06f342",
+					"room_instance_id": "i_6a9ed9f56150b37a11af3a504edc029eb3db33c88e39be6794dde45fd367d0c2",
+					"type": "game.command.result",
+					"v": 1.0
+				}
+			],
+			"label": "two-account-collections",
+			"last_processed_command_seq": 1,
+			"player_id": "a_e4d0a440fffc8175cea3dcfde79ee84482d008a279924796767a6b0bd6cfa328",
+			"private_state": {
+				"inventory": [
+					"bob-starter-item",
+					"stone"
+				]
+			},
+			"private_ui": "내 아이템 2개\n• bob-starter-item\n• stone",
+			"public_state": {
+				"players": 2.0,
+				"total_collected": 2.0
+			},
+			"public_ui": "수집 횟수  2\n참가 인원  2",
+			"result_ui": "명령 1 · 성공 (최종 결과)\n내 인벤토리 2개",
+			"room_id": "r_967918e14533712c8a598000e11f001f6da4f7dc9c7eddd5d9ccc8f2fe06f342",
+			"room_instance_id": "i_6a9ed9f56150b37a11af3a504edc029eb3db33c88e39be6794dde45fd367d0c2",
+			"snapshot_seq": 3
+		},
+		{
+			"command_results": [
+				{
+					"command_seq": 1.0,
+					"game_id": "inventory",
+					"ok": true,
+					"request_id": "5-5",
+					"result": {
+						"inventory_count": 2.0
+					},
+					"room_id": "r_967918e14533712c8a598000e11f001f6da4f7dc9c7eddd5d9ccc8f2fe06f342",
+					"room_instance_id": "i_6a9ed9f56150b37a11af3a504edc029eb3db33c88e39be6794dde45fd367d0c2",
+					"type": "game.command.result",
+					"v": 1.0
+				}
+			],
+			"label": "lost-reply-timeout-resumed",
+			"last_processed_command_seq": 1,
+			"player_id": "a_e4d0a440fffc8175cea3dcfde79ee84482d008a279924796767a6b0bd6cfa328",
+			"private_state": {
+				"inventory": [
+					"bob-starter-item",
+					"stone"
+				]
+			},
+			"private_ui": "내 아이템 2개\n• bob-starter-item\n• stone",
+			"public_state": {
+				"players": 2.0,
+				"total_collected": 4.0
+			},
+			"public_ui": "수집 횟수  4\n참가 인원  2",
+			"result_ui": "명령 1 · 성공 (최종 결과)\n내 인벤토리 2개",
+			"room_id": "r_967918e14533712c8a598000e11f001f6da4f7dc9c7eddd5d9ccc8f2fe06f342",
+			"room_instance_id": "i_6a9ed9f56150b37a11af3a504edc029eb3db33c88e39be6794dde45fd367d0c2",
+			"snapshot_seq": 103
+		}
+	],
+	"pid": 96818,
+	"rendering_method": "gl_compatibility",
+	"retry_evidence": {},
+	"role": "bob",
+	"success": false,
+	"unexpected_errors": []
+}

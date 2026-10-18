@@ -1,6 +1,6 @@
 # Campfire Godot 플레이 예제
 
-Godot 4.7.2로 기존 Rust arena에 접속하는 작은 플레이 클라이언트입니다. 새 게스트로 연결하고 공개 방을 만들거나 목록에서 방을 골라 입장할 수 있습니다. 실제 서버 snapshot에 담긴 나와 다른 참가자의 위치, 연결 상태, 공동 점수와 처리 완료 입력 번호를 표시합니다.
+Godot 4.7.2의 production scene과 `CampfireClient`를 함께 제공하는 샘플입니다. **Guest Arena**에서 이동과 공동 점수를, **Account Inventory**에서 계정 로그인·수집 명령·내 inventory를 확인합니다. 공개 방 생성·목록·입장·퇴장과 재접속은 두 모드가 공유합니다.
 
 ## 실행
 
@@ -28,9 +28,28 @@ godot --path examples/godot --position 80,80
 
 **연결 끊기 (시험)**은 네트워크를 끊되 같은 게스트와 방 정보를 메모리에 보관합니다. **같은 게스트 재접속**을 누르면 새 WebSocket에서 인증하고 예약이 남아 있는 경우 자동으로 `resume`하여 최신 full sync를 받습니다. 기본 예약 시간은 30초입니다. 끊긴 동안 참가자는 정지하며 이전에 미처리한 입력을 재생하지 않습니다.
 
-예약이 만료되면 목록을 새로고침해 다시 입장하거나 새 방을 만듭니다. **방 나가기**는 자리를 즉시 반납합니다. **게스트 종료**는 서버에 logout을 요청하고 로컬 token·방 정보를 폐기하므로 이후 새 게스트로 연결해야 합니다. Logout 응답이 확인되면 서버 자리 해제도 확인된 것입니다. 응답 없이 연결이 닫히거나 timeout이 발생해도 명시한 종료 의사에 따라 로컬 정보는 폐기하지만, 서버의 처리 완료를 확인한 것으로 간주하지 않습니다. 이 경우 서버 자리는 예약 만료까지 남을 수 있습니다. 일반 연결 끊기와 오류는 재접속용 자격증명을 보존합니다. 앱을 종료하면 token을 저장하지 않으므로 같은 게스트 복구를 할 수 없습니다. 서버가 재시작되면 세션과 방도 사라집니다. URL/Game ID를 바꾸려면 연결을 끊은 뒤 **게스트로 연결**하여 새 게스트를 발급받습니다. 재접속은 원래 게스트의 서버와 게임을 그대로 사용합니다.
+예약이 만료되면 목록을 새로고침해 다시 입장하거나 새 방을 만듭니다. **방 나가기**는 자리를 즉시 반납합니다. **게스트 종료**는 서버에 logout을 요청하고 로컬 token·방 정보를 폐기하므로 이후 새 게스트로 연결해야 합니다. Logout 응답이 확인되면 서버 자리 해제도 확인된 것입니다. 응답 없이 연결이 닫히거나 timeout이 발생해도 명시한 종료 의사에 따라 로컬 정보는 폐기하지만, 서버의 처리 완료를 확인한 것으로 간주하지 않습니다. 이 경우 서버 자리는 예약 만료까지 남을 수 있습니다. 일반 연결 끊기와 오류는 재접속용 자격증명을 보존합니다. 앱을 종료하면 token을 저장하지 않으므로 같은 게스트 복구를 할 수 없습니다. 서버가 재시작되면 세션과 방도 사라집니다. URL/Game ID/profile은 연결이 끊긴 상태에서 편집합니다. 편집하는 즉시 이전 token·방·개인 상태·미확인 명령을 폐기하며 **재접속**은 비활성화됩니다. 새 context에서 다시 로그인하세요.
 
 토큰은 adapter 메모리에서만 취급하고 화면이나 로그에 표시하지 않습니다. 외부 서버는 HTTPS/WSS를 사용합니다. 다른 `game_id`의 방은 목록과 입장에서 격리됩니다.
+
+## 계정 Inventory
+
+개발용 verifier는 환경 변수의 두 credential을 Alice/Bob으로 구분합니다. 실제 IdP·DB 연동은 [호스트 계정 검증기](../../docs/reuse.md#기존-계정-검증기-연결하기)를 구현해야 합니다. 아래 값은 각자의 임의 값으로 바꾸고 terminal의 환경 변수에만 둡니다.
+
+```sh
+export CAMPFIRE_DEMO_ALICE_CREDENTIAL='choose-a-local-alice-value'
+export CAMPFIRE_DEMO_BOB_CREDENTIAL='choose-a-different-local-bob-value'
+# Optional: export CAMPFIRE_DEMO_BIND='127.0.0.1:3101'
+cargo run -p campfire-server --no-default-features --example account_server
+```
+
+두 Godot 창에서 **Account Inventory**를 선택합니다. 기본 주소는 `http://127.0.0.1:3001`, game ID는 `inventory`이며 optional bind를 바꿨다면 주소도 맞춥니다. 한 창은 Alice 값을, 다른 창은 Bob 값을 masked credential란에 넣고 **계정 로그인**합니다. 입력란은 제출 즉시 비워집니다. 첫 창에서 방을 만들고 두 번째 창에서 **새로고침 → 방 선택 → 선택한 방 입장**합니다.
+
+**wood / stone / key** 수집은 `game.command`를 한 번 보냅니다. 공용 수집 횟수는 같고, 내 inventory와 내 명령 결과는 계정마다 다릅니다. Inventory 모드는 이동 input을 보내지 않습니다. 결과를 기다리는 동안 새 수집 버튼은 잠깁니다. **미확인 명령 같은 내용으로 재확인**은 보관된 seq·payload를 재전송하며 이미 처리된 행동을 중복 실행하지 않습니다. 응답 timeout으로 연결이 끊기면 먼저 **같은 계정 재접속**으로 최신 상태와 retained 결과를 복원합니다.
+
+**연결 끊기 (시험)**은 화면의 개인 상태·결과를 지우고 같은 membership의 복구 metadata를 메모리에 유지합니다. 같은 계정 credential로 다시 로그인하면 token이 회전하고 살아 있는 player·room·inventory를 복구합니다. 다른 계정으로 로그인하거나 logout·방 퇴장·context 편집을 하면 이전 개인 상태와 명령 metadata를 폐기합니다. 결과 보관 이력이 퇴출되어 `COMMAND_RESULT_UNAVAILABLE`가 나오면 결과를 성공으로 추정하지 않으며, 방에서 나가 새 membership으로 복구해야 합니다.
+
+`CampfireClient`를 재사용할 때는 disconnected에서 `set_game_profile("inventory")` 후 `connect_account(url, game_id, credential)`를 호출합니다. `send_game_command(payload)`, `retry_pending_command()`, `has_pending_game_command()`, `can_retry_pending_command()`와 `private_state_changed`, `command_result_received`, `command_pending_changed` signal을 사용할 수 있습니다. `player_id`, `private_state`, `command_results`, `last_processed_command_seq`, `pending_command_seq`는 자신의 상태만 나타냅니다. profile은 schema 선택이고 game ID는 서버 namespace이므로 별개입니다.
 
 ## 검증
 
@@ -41,6 +60,17 @@ godot --headless --editor --path examples/godot --import --quit
 godot --headless --path examples/godot --script tests/client_unit.gd
 godot --headless --path examples/godot --script tests/ui_smoke.gd
 ```
+
+계정 transport와 실제 native Godot 창 두 개를 검증하는 stdlib runner입니다. 별도 임의 포트의 서버를 시작하고 랜덤 credential을 환경 변수로만 주입합니다. 기존 서버·창은 건드리지 않으며 자신의 모든 자식 프로세스를 종료합니다. macOS GUI 세션이 필요하고 `--headless`로 대체하지 않습니다. output은 새 디렉터리여야 합니다.
+
+```sh
+python3 -u tools/validate_godot_accounts.py --godot /opt/homebrew/bin/godot \
+  --output artifacts/godot-accounts-local
+```
+
+실제 scene의 Control signal로 로그인·방·수집·재확인·재접속을 실행하며 OS 클릭을 주장하지 않습니다. 응답 유실은 socket 응답을 실제로 버려 재현합니다. 자연 6초 timeout/resume 검사와, transport request lock만 해제하는 별도 fixture를 사용한 같은 seq·payload 재확인 버튼 검사를 구분해 기록합니다. PNG는 양쪽 실제 renderer의 `frame_post_draw` 이후 저장하며 JSON에는 PID·display driver·검사·공용/private 상태와 source/binary SHA를 남깁니다. credential과 token은 저장하지 않습니다.
+
+실제 두 native 계정 86개 검사와 계정 기능 추가 후 Arena 8명·16명 회귀 결과는 [계정 클라이언트 검증 보고서](../../docs/godot-accounts-2026-10-18.md)에 있습니다.
 
 아래 Python 표준 라이브러리 runner는 서버를 빌드하고 임시 포트에서 실행한 뒤 **실제 Godot 프로세스 8개 및 16개**를 각각 띄웁니다. 기본 20초 시나리오와 별도의 실제 scene 버튼·키 입력·재접속 검증을 수행하고 마지막에 모든 자식 프로세스를 정리합니다.
 

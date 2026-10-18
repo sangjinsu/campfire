@@ -2,7 +2,7 @@
 
 **협동·파티 게임을 위한 Rust 실시간 룸 서버.**
 
-게스트·기존 계정 연결, 방 만들기와 참여, 상태 동기화, 재접속까지 공통으로 처리하고 게임 규칙은 Rust 모듈로 작성하세요. Campfire는 여러 게임이 하나의 서버 기반을 공유하면서도 `game_id`별로 세션과 방을 격리하는 서버 프레임워크입니다. 바로 플레이할 수 있는 Godot 2D arena 예제를 함께 제공합니다.
+게스트·기존 계정 연결, 방 만들기와 참여, 상태 동기화, 재접속까지 공통으로 처리하고 게임 규칙은 Rust 모듈로 작성하세요. Campfire는 여러 게임이 하나의 서버 기반을 공유하면서도 `game_id`별로 세션과 방을 격리하는 서버 프레임워크입니다. Godot 샘플에서 Guest Arena 이동과 Account Inventory의 계정 로그인·수집 명령·내 개인 상태를 직접 확인할 수 있습니다.
 
 [빠른 시작](#빠른-시작) · [다른 Rust 서버에서 사용하기](#다른-rust-서버에서-사용하기) · [검증 결과](#확인한-동작) · [개발자 문서](#개발자-문서)
 
@@ -66,7 +66,9 @@ cargo run -p campfire-server --example headless -- http://127.0.0.1:3000 arena
 | 기존 Axum 0.8 서버 | `Campfire::router()`를 기존 router와 합성합니다. Campfire의 게스트·룸 프로토콜은 그대로 사용합니다. |
 | 다른 Rust 웹 프레임워크 | Campfire를 별도 서비스로 실행하고 HTTP/JSON WebSocket 프로토콜로 연동할 수 있습니다. 해당 프레임워크 전용 내장 adapter는 제공하지 않습니다. |
 
-`Game`은 최신 이동 입력, FIFO 단발 명령, 공용·수신자별 snapshot을 구분합니다. 기존 로그인은 호스트의 async `AccountAuthenticator`를 `Campfire::with_authenticator()`에 주입해 연결합니다. 기본 CLI와 Godot arena UI는 게스트 흐름을 사용하며, 실제 계정 공급자의 credential 검증·DB·서비스 설정은 호스트가 담당합니다. [의존성 설정, 계정 서버 예제와 게임 hook](docs/reuse.md)에서 연결 방법을 확인하세요.
+`Game`은 최신 이동 입력, FIFO 단발 명령, 공용·수신자별 snapshot을 구분합니다. 기존 로그인은 호스트의 async `AccountAuthenticator`를 `Campfire::with_authenticator()`에 주입해 연결합니다. 기본 CLI는 게스트 흐름을 사용합니다. Godot의 **Account Inventory** 모드는 개발용 계정 서버에 로그인하고 공용 수집 횟수·내 inventory·내 명령 결과를 표시합니다. 실제 계정 공급자의 credential 검증·DB·서비스 설정은 호스트가 담당합니다. [의존성 설정, 계정 서버 예제와 게임 hook](docs/reuse.md)에서 연결 방법을 확인하세요.
+
+개발용 계정 서버는 서로 다른 두 credential을 환경 변수로 설정한 뒤 `cargo run -p campfire-server --no-default-features --example account_server`로 시작합니다. Godot 두 창에서 **Account Inventory → credential 입력 → 계정 로그인**으로 접속하고 한 창에서 방을 만든 뒤 다른 창에서 목록을 새로고침해 입장하세요. 기본 주소는 `http://127.0.0.1:3001`, game ID는 `inventory`입니다. [계정 실행·조작·재확인 안내](examples/godot/README.md#계정-inventory)가 자세한 절차를 설명합니다.
 
 같은 arena 모듈을 두 게임으로 등록해 격리된 방 목록을 사용할 수도 있습니다.
 
@@ -90,13 +92,16 @@ cargo run -p campfire-server -- --game arena --game arena-b
 
 계정 연결·FIFO 명령·전용 상태의 Rust 8명/16명 검증과 기존 Godot 회귀 결과는 [runtime 확장 검증 보고서](docs/runtime-extensions-2026-10-18.md)에 있습니다.
 
-아래 결과는 계정·명령·비공개 상태 확장 이전의 게스트·이동 흐름을 **macOS arm64의 TCP loopback 환경**에서 실행한 기록입니다. 서버·클라이언트 검증과 실제 플레이 화면 확인을 각각 남겼습니다.
+Godot 계정 UI의 실제 두 native 창 검증은 [계정 클라이언트 검증 보고서](docs/godot-accounts-2026-10-18.md)에 있습니다. 같은 방의 공용 수집 4회, 서로 다른 개인 inventory, 명령 재확인·실제 timeout/resume·token rotation·오류 UI를 확인했습니다.
+
+아래 결과는 **macOS arm64의 TCP loopback 환경**에서 실행한 기록입니다. 각 실행의 계정·게스트 범위와 서버·클라이언트 검사, 실제 화면 증거를 함께 남겼습니다.
 
 | 검증 | 확인한 범위 | 실행 기록 |
 |---|---|---|
+| Account Inventory native Godot 창 두 개 | Alice/Bob 86개 검사, private·결과 분리, 같은 seq 재확인, 실제 timeout/resume·계정 전환 | [계정 UI·원본 두 PNG](docs/godot-accounts-2026-10-18.md) |
 | Rust WebSocket client 8명 / 16명 | 각각 실제 60초, 입력 처리와 snapshot 수신. client별 snapshot 간격 p95 최대 약 69ms / 71ms | [서버 검증](docs/verification-results.md) |
-| 실제 Godot 프로세스 8개 / 16개 | 각각 약 20초, 전원의 동일 snapshot 상태·원격 이동·동일 게스트 resume | [Godot 자동 검증](docs/godot-autotest-2026-10-18.md) |
-| Native Godot UI | 실제 scene의 연결·생성·입장·이동·재접속 등을 포함한 28개 검증 | [UI 검증과 캡처](docs/godot-autotest-2026-10-18.md#실제-godot-실행-결과) |
+| 실제 Godot 프로세스 8개 / 16개 | 계정 UI 추가 후 각각 약 20초, 전원의 동일 snapshot 상태·원격 이동·동일 게스트 resume | [기존 Arena 회귀](docs/godot-accounts-2026-10-18.md#단위ui-및-기존-arena-회귀) |
+| Native Godot Arena UI | 계정 UI 추가 후 실제 scene의 연결·생성·입장·이동·재접속 등 28개 검사 | [UI 검증과 캡처](docs/godot-accounts-2026-10-18.md#단위ui-및-기존-arena-회귀) |
 | Native Godot 창 두 개 | 같은 방의 참가자 2명, 양방향 이동 반영과 연결 유지 | [두 창 확인](docs/godot-two-windows-2026-10-18.md) |
 | 서버 회귀·경계 조건 | 빠른 테스트 44개, 기본 30초 재접속 경계, 느린 reader 격리, 게임 간 입장 차단 | [요구별 검증 추적표](docs/verification-coverage.md) |
 

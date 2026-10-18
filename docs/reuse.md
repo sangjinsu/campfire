@@ -159,7 +159,7 @@ pub fn runtime_with_accounts(
 3. 기존 Axum 합성 예제의 생성 부분을 `Campfire::with_authenticator(Config::default(), authenticator)?`로 바꿉니다. 나머지 game 등록·router·shutdown 흐름은 동일합니다.
 4. client는 `/v1/games/{game_id}/sessions`에 credential을 보내 runtime token을 받은 뒤 기존 `session.authenticate`와 room 프로토콜을 사용합니다. guest endpoint도 계속 사용할 수 있습니다.
 
-계정 key는 `(game_id, issuer, subject)`입니다. 살아 있는 동일 계정의 재발급은 기존 player ID와 room을 유지하고 token을 회전시킵니다. 이전 token·socket 작업은 거부하며 새 WebSocket에서 authenticate 후 resume해야 합니다. 동일 issuer/subject라도 다른 game은 독립된 session입니다. 기본 CLI와 Godot arena UI에는 실계정 공급자 설정·로그인 화면이 없으므로 실제 provider 설정은 호스트 애플리케이션에 둡니다.
+계정 key는 `(game_id, issuer, subject)`입니다. 살아 있는 동일 계정의 재발급은 기존 player ID와 room을 유지하고 token을 회전시킵니다. 이전 token·socket 작업은 거부하며 새 WebSocket에서 authenticate 후 resume해야 합니다. 동일 issuer/subject라도 다른 game은 독립된 session입니다. 기본 CLI는 guest-only이며 Godot **Account Inventory** UI는 credential 교환·private inventory·단발 명령을 제공합니다. 실제 provider 검증 설정은 호스트 애플리케이션에 둡니다.
 
 `player_joined_with_identity`에서 `PlayerIdentity::Account`의 검증된 claims를 게임 내부 인벤토리·권한으로 반영하고, `player_identity_changed`에서 갱신하세요. issuer/subject/claims는 다른 참가자에게 자동 전송하지 않습니다. 게임의 공용 `snapshot()`에도 비밀을 넣지 마세요.
 
@@ -175,7 +175,9 @@ export CAMPFIRE_DEMO_BOB_CREDENTIAL='local-bob-example'
 cargo run -p campfire-server --no-default-features --example account_server
 ```
 
-서버는 `127.0.0.1:3001`에 game ID `inventory`를 등록합니다. 같은 환경 변수를 설정한 다른 terminal에서 Alice의 session을 발급합니다.
+서버는 기본 `127.0.0.1:3001`에 game ID `inventory`를 등록합니다. 다른 로컬 서버와 포트가 겹치면 `CAMPFIRE_DEMO_BIND=127.0.0.1:3101`처럼 bind 주소를 설정할 수 있습니다. Godot 두 창에서 **Account Inventory**를 선택해 각각 Alice/Bob의 credential로 로그인하고 같은 방에 입장하면 공용 수집 횟수와 서로 다른 내 inventory를 볼 수 있습니다. [Godot 실행·adapter API·검증 runner](../examples/godot/README.md#계정-inventory)에 전체 조작법이 있습니다.
+
+직접 HTTP/WebSocket 계약을 확인하려면 같은 환경 변수를 설정한 다른 terminal에서 Alice의 session을 발급합니다. 아래 curl은 runtime token을 응답으로 출력하므로 그 출력을 로그·스크린샷·공유 아티팩트에 저장하지 마세요.
 
 ```sh
 curl -sS http://127.0.0.1:3001/v1/games/inventory/sessions \
