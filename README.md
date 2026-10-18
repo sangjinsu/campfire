@@ -2,7 +2,7 @@
 
 **협동·파티 게임을 위한 Rust 실시간 룸 서버.**
 
-게스트 연결, 방 만들기와 참여, 상태 동기화, 재접속까지 공통으로 처리하고 게임 규칙은 Rust 모듈로 작성하세요. Campfire는 여러 게임이 하나의 서버 기반을 공유하면서도 `game_id`별로 세션과 방을 격리하는 서버 프레임워크입니다. 바로 플레이할 수 있는 Godot 2D arena 예제를 함께 제공합니다.
+게스트·기존 계정 연결, 방 만들기와 참여, 상태 동기화, 재접속까지 공통으로 처리하고 게임 규칙은 Rust 모듈로 작성하세요. Campfire는 여러 게임이 하나의 서버 기반을 공유하면서도 `game_id`별로 세션과 방을 격리하는 서버 프레임워크입니다. 바로 플레이할 수 있는 Godot 2D arena 예제를 함께 제공합니다.
 
 [빠른 시작](#빠른-시작) · [다른 Rust 서버에서 사용하기](#다른-rust-서버에서-사용하기) · [검증 결과](#확인한-동작) · [개발자 문서](#개발자-문서)
 
@@ -14,9 +14,11 @@
 
 룸 기반 협동·파티 게임을 만들 때마다 연결과 재접속 흐름을 다시 구현하고 싶지 않은 Rust 개발자를 위한 출발점입니다.
 
-- **게스트에서 같은 방까지:** HTTP 게스트 발급과 JSON WebSocket, 공개 방 생성·목록·입장을 제공합니다.
+- **게스트·기존 계정에서 같은 방까지:** HTTP 게스트 발급과 호스트 인증기 기반 계정 세션 교환, JSON WebSocket, 공개 방 생성·목록·입장을 제공합니다.
 - **서버가 계산하는 상태:** arena 예제는 방향 입력을 검증하고 위치·공동 점수를 계산합니다. 기본 30Hz tick과 15Hz full snapshot으로 상태와 입력 처리 번호를 전송합니다.
-- **끊겨도 같은 자리로:** 기본 30초 동안 자리를 예약하고, 같은 게스트가 재접속하면 최신 full sync로 복구합니다. arena 예제는 예약 중 캐릭터를 정지시킵니다.
+- **끊겨도 같은 자리로:** 기본 30초 동안 자리를 예약하고, 같은 플레이어가 재접속하면 최신 full sync로 복구합니다. arena 예제는 예약 중 캐릭터를 정지시킵니다.
+- **재시도할 수 있는 단발 행동:** 이동은 최신 입력으로, 아이템 사용·선택은 별도 FIFO 명령으로 처리합니다. 살아 있는 같은 membership에서는 sequence와 결과 이력으로 재접속 후 중복 실행을 막습니다.
+- **각자에게만 보이는 상태:** 공용 snapshot과 별도로 수신자 전용 `private_state`와 자신의 명령 결과를 전달합니다.
 - **게임별 연결·방 격리:** 게스트 발급부터 인증·목록·입장·resume까지 `game_id` 경계를 검사합니다.
 - **교체할 수 있는 게임 모듈:** `GameModule`과 `Game`에 규칙을 구현하고 필요한 모듈만 서버에 등록합니다. 게임 callback은 Axum이나 WebSocket 타입을 받지 않습니다.
 
@@ -64,7 +66,7 @@ cargo run -p campfire-server --example headless -- http://127.0.0.1:3000 arena
 | 기존 Axum 0.8 서버 | `Campfire::router()`를 기존 router와 합성합니다. Campfire의 게스트·룸 프로토콜은 그대로 사용합니다. |
 | 다른 Rust 웹 프레임워크 | Campfire를 별도 서비스로 실행하고 HTTP/JSON WebSocket 프로토콜로 연동할 수 있습니다. 해당 프레임워크 전용 내장 adapter는 제공하지 않습니다. |
 
-현재 게임 계약은 플레이어별로 tick 사이의 최신 유효 입력 하나를 적용하고, 전원에게 같은 공개 게임 상태를 전송합니다. 개별 행동을 모두 처리하려면 별도 명령 처리 설계가 필요하며, 플레이어별 비공개 view는 공개 API 확장이 필요합니다. 기존 로그인·DB 연결과 내부 룸 actor를 직접 제어하는 transport도 별도 통합 범위입니다. [의존성 설정과 Axum 합성 예제](docs/reuse.md)에서 연결 방법을 확인하세요.
+`Game`은 최신 이동 입력, FIFO 단발 명령, 공용·수신자별 snapshot을 구분합니다. 기존 로그인은 호스트의 async `AccountAuthenticator`를 `Campfire::with_authenticator()`에 주입해 연결합니다. 기본 CLI와 Godot arena UI는 게스트 흐름을 사용하며, 실제 계정 공급자의 credential 검증·DB·서비스 설정은 호스트가 담당합니다. [의존성 설정, 계정 서버 예제와 게임 hook](docs/reuse.md)에서 연결 방법을 확인하세요.
 
 같은 arena 모듈을 두 게임으로 등록해 격리된 방 목록을 사용할 수도 있습니다.
 
@@ -78,7 +80,7 @@ cargo run -p campfire-server -- --game arena --game arena-b
 
 | Crate | 역할 |
 |---|---|
-| [`campfire-runtime`](crates/campfire-runtime) | 게스트 세션, 룸 task, tick·snapshot, 재접속, 자원 상한, Axum transport |
+| [`campfire-runtime`](crates/campfire-runtime) | 게스트·계정 세션, 룸 task, 입력·명령, 공용·전용 snapshot, 재접속, 자원 상한, Axum transport |
 | [`campfire-arena`](crates/campfire-arena) | 서버가 위치와 공동 점수를 계산하는 2D 게임 모듈 |
 | [`campfire-server`](crates/campfire-server) | 모듈 등록, CLI·환경 변수, 실행과 종료를 묶는 예제 바이너리 |
 
@@ -86,7 +88,9 @@ cargo run -p campfire-server -- --game arena --game arena-b
 
 ## 확인한 동작
 
-아래 결과는 **macOS arm64의 TCP loopback 환경**에서 실행한 기록입니다. 서버·클라이언트 검증과 실제 플레이 화면 확인을 각각 남겼습니다.
+계정 연결·FIFO 명령·전용 상태의 Rust 8명/16명 검증과 기존 Godot 회귀 결과는 [runtime 확장 검증 보고서](docs/runtime-extensions-2026-10-18.md)에 있습니다.
+
+아래 결과는 계정·명령·비공개 상태 확장 이전의 게스트·이동 흐름을 **macOS arm64의 TCP loopback 환경**에서 실행한 기록입니다. 서버·클라이언트 검증과 실제 플레이 화면 확인을 각각 남겼습니다.
 
 | 검증 | 확인한 범위 | 실행 기록 |
 |---|---|---|
@@ -100,13 +104,13 @@ cargo run -p campfire-server -- --game arena --game arena-b
 
 ## 운영 범위
 
-현재는 **단일 노드·인메모리 runtime**입니다. 서버 재시작 시 세션과 방이 초기화됩니다. queue·연결·세션·룸 상한과 처리 지표를 제공하며, 외부 공개 시 TLS 종료 계층(reverse proxy 등)이 필요합니다. 영속 DB, 분산 룸 directory와 기존 계정 시스템은 별도 통합 범위입니다. 게임 callback은 신뢰하는 동기 Rust 코드이므로 blocking I/O나 무한 계산을 피해야 합니다.
+현재는 **단일 노드·인메모리 runtime**입니다. 서버 재시작 시 세션과 방이 초기화됩니다. queue·연결·세션·룸 상한과 처리 지표를 제공하며, 외부 공개 시 TLS 종료 계층(reverse proxy 등)이 필요합니다. 영속 DB와 분산 룸 directory는 별도 통합 범위이며, 기존 계정의 검증기는 호스트가 제공합니다. 명령 결과 이력도 메모리에만 유지되므로 서버 재시작·membership 종료 이후의 durable exactly-once를 보장하지 않습니다. 게임 callback은 신뢰하는 동기 Rust 코드이므로 blocking I/O나 무한 계산을 피해야 합니다.
 
 ## 개발자 문서
 
 - [게임·서버 재사용 가이드](docs/reuse.md) — Rust API, Axum 합성, 다른 프레임워크 적용 범위
 - [Godot 예제](examples/godot/README.md) — 실행, 조작, 재접속, 테스트
-- [JSON 프로토콜](docs/protocol.md) — guest·room·input·resume 메시지와 오류
+- [JSON 프로토콜](docs/protocol.md) — guest·account·room·input·command·private state·resume 계약과 오류
 - [설정](docs/configuration.md) — CLI·환경 변수·기본값·상한
 - [설계 사양](docs/specification.md) — runtime과 게임 모듈의 책임
 - [서버 검증](docs/verification-results.md) · [Godot 검증](docs/godot-verification.md) — 실행 명령, 측정값, 원본 증거

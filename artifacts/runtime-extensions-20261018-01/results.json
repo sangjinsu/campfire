@@ -1,0 +1,96 @@
+{
+  "test_execution_success": true,
+  "final_architect_approval": "APPROVED",
+  "report_date_kst": "2026-10-18",
+  "core_commit": "63df83dc4218d5558731688e3bb6174b9a538a2a",
+  "scale_tests_commit": "8b93dfab18ac6e0364a8ad0a9176f43850e95890",
+  "final_source_sha256": "17115071638ecc64a45aed22f50594c70a076a5af85b2a37902a6a37a0fb4f5c",
+  "commands": [
+    {
+      "name": "fmt",
+      "command": "cargo fmt --all --check",
+      "exit_code": 0,
+      "log": "fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code_evidence": "Coordinator observed final sequential shell script exit0"
+    },
+    {
+      "name": "clippy",
+      "command": "cargo clippy --workspace --all-targets --all-features --offline -- -D warnings",
+      "exit_code": 0,
+      "log": "clippy.log",
+      "sha256": "bff86ba0907b60b72d23639cebe2e180615b46d558ce5c4443f91813d690ece1",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code_evidence": "Coordinator observed final sequential shell script exit0"
+    },
+    {
+      "name": "workspace",
+      "command": "cargo test --workspace --offline",
+      "exit_code": 0,
+      "log": "workspace.log",
+      "sha256": "7fb657a1603fc66059769d357e053f864bd166a7f5de977d7b95e903e308c2ed",
+      "passed": 79,
+      "failed": 0,
+      "ignored": 4,
+      "exit_code_evidence": "Coordinator observed final sequential shell script exit0"
+    },
+    {
+      "name": "no-default",
+      "command": "cargo test --workspace --no-default-features --offline",
+      "exit_code": 0,
+      "log": "no-default.log",
+      "sha256": "996988a9081d141390ef4d4e338012da5e3f583e746a56a0b541a06f62194690",
+      "passed": 61,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code_evidence": "Coordinator observed final sequential shell script exit0"
+    },
+    {
+      "name": "preserve-order",
+      "command": "cargo test -p campfire-runtime --features serde_json/preserve_order --offline",
+      "exit_code": 0,
+      "log": "preserve-order.log",
+      "sha256": "1e437f0c2a866e752b27bbc34ba0e79eab95e20a01803423163c2e4441a754bb",
+      "passed": 39,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code_evidence": "Coordinator observed final sequential shell script exit0"
+    },
+    {
+      "name": "ignored",
+      "command": "cargo test -p campfire-server --test headless --offline -- --ignored --test-threads=1 --nocapture",
+      "exit_code": 0,
+      "log": "ignored.log",
+      "sha256": "04e3a71a7c3db31ea45234a3ca72934423cb390ea7e04c34cc544f50ea658782",
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code_evidence": "QA exec session62475 exit0;4passed168.67seconds"
+    }
+  ],
+  "godot_summary": "godot/summary.json",
+  "godot_success": true,
+  "server_binary_sha256": "c1a4e44279278503cda868d7e9e0e12912482742628e06e8a2cb61b45030ea7b",
+  "binary_after_checks_matches": true,
+  "legacy_measurement_files_restored": true,
+  "preserved_live_process_check": {
+    "server63797": true,
+    "godot65028": true,
+    "godot25278": false,
+    "health3000": 200,
+    "note": "PID25278 absent at post-validation check;coordinator independently confirmed only original GUI65028.No stop/kill/run_project command issued;cause not inferred."
+  },
+  "final_architect_review": {
+    "spec": "APPROVED",
+    "quality": "APPROVED",
+    "security": "APPROVED",
+    "critical": 0,
+    "important": 0,
+    "basis": "Independent original fast/long/Godot logs, source provenance, current disk binary SHA, and corrected no-default report wording reviewed."
+  }
+}

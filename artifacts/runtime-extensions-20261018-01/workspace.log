@@ -1,0 +1,145 @@
+   Compiling campfire-server v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-server)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.37s
+     Running unittests src/lib.rs (target/debug/deps/campfire_arena-c7e80f26c782c71a)
+
+running 7 tests
+test tests::disconnect_stops_direction_and_reconnect_does_not_replay_it ... ok
+test tests::invalid_settings_are_rejected ... ok
+test tests::input_messages_do_not_move_until_tick_and_speed_is_fixed ... ok
+test tests::rejects_client_authority_invalid_components_and_unknown_fields ... ok
+test tests::diagonals_are_normalized_and_boundaries_clamped ... ok
+test tests::simultaneous_goal_acquisition_scores_exactly_once ... ok
+test tests::replay_is_deterministic_and_departure_removes_player ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/campfire_runtime-609836da66d738e3)
+
+running 37 tests
+test protocol::tests::fingerprints_canonicalize_nested_object_keys_but_preserve_array_order ... ok
+test room::tests::cancellation_before_admission_has_no_membership_or_game_side_effect ... ok
+test protocol::tests::requires_explicit_version_type_request_id_and_fields ... ok
+test protocol::tests::response_cache_is_bounded_and_conflicting_request_body_is_rejected ... ok
+test room::tests::account_rotation_refreshes_token_deadline_without_reusing_older_token_lifetime ... ok
+test protocol::tests::parses_ordered_game_commands ... ok
+test room::tests::admission_full_sync_is_reliable_before_latest_snapshot_and_expiry_releases_seat ... ok
+test room::tests::command_replay_conflict_gap_eviction_and_generation_fences_never_reexecute ... ok
+test room::tests::command_result_survives_reply_loss_and_expiry_prevents_replay ... ok
+test room::tests::full_sync_and_snapshot_include_independent_command_ack ... ok
+test room::tests::commands_are_fifo_while_inputs_coalesce_and_terminal_errors_consume_sequence ... ok
+test room::tests::newest_valid_input_is_applied_once_per_tick_and_invalid_does_not_advance_ack ... ok
+test room::tests::replacement_does_not_extend_existing_grace_and_old_close_cannot_disconnect_resume ... ok
+test room::tests::response_failure_after_commit_preserves_resumable_reservation ... ok
+test room::tests::prepared_rotation_keeps_old_identity_and_deadline_until_commit ... ok
+test room::tests::replacement_discards_unprocessed_old_generation_and_reuses_processed_sequence ... ok
+test room::tests::pending_rotation_cannot_commit_after_room_is_dropped ... ok
+test room::tests::private_state_is_recipient_scoped_for_initial_periodic_and_resume ... ok
+test room::tests::cancelled_short_grant_preparation_does_not_shorten_real_actor_reservation ... ok
+test session::tests::account_disabled_and_invalid_credentials_do_not_create_sessions ... ok
+test room::tests::queued_old_generation_commands_are_fenced_by_control_barrier ... ok
+test session::tests::account_cancelled_rotation_keeps_old_token_identity_and_deadline_before_actor_commit ... ok
+test session::tests::account_invalid_grants_are_bounded_and_debug_redacts_identity ... ok
+test session::tests::account_grant_expiring_while_waiting_for_commit_does_not_create_session ... ok
+test session::tests::account_grant_expiring_during_expired_seat_cleanup_does_not_commit ... ok
+test session::tests::account_valid_grant_is_scoped_and_rotation_replaces_token_without_replacing_player ... ok
+test session::tests::account_grant_lifetime_starts_before_verification_and_is_capped_by_guest_ttl ... ok
+test session::tests::accepted_rotation_preserves_real_actor_ledger_when_old_ttl_expires_before_next_poll ... ok
+test room::tests::same_manual_clock_trace_replays_tick_ack_expiry_and_state_deterministically ... ok
+test session::tests::account_verification_does_not_hold_state_lock_and_cancel_releases_shared_permit ... ok
+test session::tests::account_timeout_and_shutdown_release_verification_capacity_without_session_mutation ... ok
+test session::tests::bounded_command_queue_full_is_non_consuming_and_retry_uses_same_sequence ... ok
+test session::tests::reservation_expiry_timestamp_is_stable_across_manual_clock_reauthentication ... ok
+test session::tests::shutdown_delivers_stop_even_when_control_queue_is_full ... ok
+test session::tests::cancelled_create_rolls_back_temporary_room_and_refunds_room_capacity ... ok
+test transport::tests::reliable_send_survives_first_deadline_without_dropping_full_sync ... ok
+test session::tests::manual_clock_reclaims_session_rate_keys_room_and_reservation_before_reissue ... ok
+
+test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/invariants.rs (target/debug/deps/invariants-11b92c785b8841a3)
+
+running 2 tests
+test config_rejects_values_that_overflow_clocks_or_channel_allocations ... ok
+test config_rejects_unbounded_or_invalid_timing ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/campfire_server-9113f3613e7aa885)
+
+running 3 tests
+test cli::tests::cli_overrides_environment_without_global_env_mutation ... ok
+test cli::tests::defaults_and_explicit_module_selection ... ok
+test cli::tests::rejects_invalid_unknown_duplicate_and_overflow_values ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/campfire_server-a5e7ba96029f4900)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/extensions.rs (target/debug/deps/extensions-ce165ef65247edad)
+
+running 12 tests
+test account_endpoint_preserves_media_type_status_without_echoing_credentials ... ok
+test account_keys_are_scoped_by_game_and_issuer_and_tokens_cannot_cross_games ... ok
+test bounded_command_history_rejects_evicted_sequences_without_reapplying ... ok
+test concurrent_account_logins_leave_only_the_last_issued_token_valid ... ok
+test account_endpoint_rejects_disabled_invalid_expired_and_client_identity ... ok
+test pending_host_verification_does_not_block_health_or_guest_issuance ... ok
+test command_request_cache_and_stale_instance_cannot_bypass_membership_validation ... ok
+test account_rotation_closes_old_socket_preserves_room_and_private_state_stays_recipient_local ... ok
+test eight_accounts_share_fifo_state_without_private_data_leaks ... ok
+test sixteen_accounts_share_fifo_state_without_private_data_leaks ... ok
+test account_verification_timeout_returns_permit_and_cannot_issue_a_session ... ok
+test command_fifo_replay_conflict_gap_failures_and_resume_preserve_exact_mutations ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.10s
+
+     Running tests/headless.rs (target/debug/deps/headless-2af092e44d3e1158)
+
+running 22 tests
+test game_isolation_and_stale_instance ... ok
+test last_seat_race_is_atomic ... ok
+test authentication_deadline_and_invalid_first_message ... ok
+test panic_supervision_cleans_directory ... ok
+test reconnect_grace_expires ... ignored, real 30 second reservation boundary
+test concurrent_authentication_and_cross_room_admission_has_one_membership ... ok
+test connection_and_unauthenticated_caps_refund_permits ... ok
+test replay_and_idempotent_leave ... ok
+test input_validation_and_recipient_ack ... ok
+test schema_and_explicit_game_mismatch_are_rejected ... ok
+test abusive_connection_is_isolated ... ok
+test slow_reader_isolated_and_p95 ... ignored, real socket backpressure and matched baseline measurement
+test soak_16_clients_60_seconds ... ignored, real TCP soak, minimum 60 seconds
+test soak_8_clients_60_seconds ... ignored, real TCP soak, minimum 60 seconds
+test replacement_requires_resume_and_preserves_membership ... ok
+test issuer_and_global_guest_rate_limits_recover ... ok
+test rate_key_cap_and_ttl_reclaim_trusted_source_entries ... ok
+test caps_and_cleanup ... ok
+test room_cap_refunds_rejected_and_disconnected_creation ... ok
+test token_expiry_and_logout ... ok
+test repeated_authentication_does_not_extend_reservation ... ok
+test shared_queue_saturation_is_not_abuse ... ok
+
+test result: ok. 18 passed; 0 failed; 4 ignored; 0 measured; 0 filtered out; finished in 2.40s
+
+   Doc-tests campfire_arena
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests campfire_runtime
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests campfire_server
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,59 @@
+   Compiling campfire-runtime v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.39s
+     Running unittests src/lib.rs (target/debug/deps/campfire_runtime-938b815d75db1e24)
+
+running 37 tests
+test protocol::tests::parses_ordered_game_commands ... ok
+test protocol::tests::fingerprints_canonicalize_nested_object_keys_but_preserve_array_order ... ok
+test protocol::tests::requires_explicit_version_type_request_id_and_fields ... ok
+test room::tests::cancellation_before_admission_has_no_membership_or_game_side_effect ... ok
+test room::tests::command_replay_conflict_gap_eviction_and_generation_fences_never_reexecute ... ok
+test room::tests::account_rotation_refreshes_token_deadline_without_reusing_older_token_lifetime ... ok
+test protocol::tests::response_cache_is_bounded_and_conflicting_request_body_is_rejected ... ok
+test room::tests::commands_are_fifo_while_inputs_coalesce_and_terminal_errors_consume_sequence ... ok
+test room::tests::command_result_survives_reply_loss_and_expiry_prevents_replay ... ok
+test room::tests::admission_full_sync_is_reliable_before_latest_snapshot_and_expiry_releases_seat ... ok
+test room::tests::full_sync_and_snapshot_include_independent_command_ack ... ok
+test room::tests::pending_rotation_cannot_commit_after_room_is_dropped ... ok
+test room::tests::newest_valid_input_is_applied_once_per_tick_and_invalid_does_not_advance_ack ... ok
+test room::tests::private_state_is_recipient_scoped_for_initial_periodic_and_resume ... ok
+test room::tests::replacement_discards_unprocessed_old_generation_and_reuses_processed_sequence ... ok
+test room::tests::replacement_does_not_extend_existing_grace_and_old_close_cannot_disconnect_resume ... ok
+test room::tests::prepared_rotation_keeps_old_identity_and_deadline_until_commit ... ok
+test room::tests::response_failure_after_commit_preserves_resumable_reservation ... ok
+test session::tests::account_disabled_and_invalid_credentials_do_not_create_sessions ... ok
+test room::tests::cancelled_short_grant_preparation_does_not_shorten_real_actor_reservation ... ok
+test session::tests::account_invalid_grants_are_bounded_and_debug_redacts_identity ... ok
+test room::tests::queued_old_generation_commands_are_fenced_by_control_barrier ... ok
+test session::tests::account_cancelled_rotation_keeps_old_token_identity_and_deadline_before_actor_commit ... ok
+test session::tests::account_grant_expiring_while_waiting_for_commit_does_not_create_session ... ok
+test session::tests::account_valid_grant_is_scoped_and_rotation_replaces_token_without_replacing_player ... ok
+test session::tests::account_grant_expiring_during_expired_seat_cleanup_does_not_commit ... ok
+test session::tests::account_grant_lifetime_starts_before_verification_and_is_capped_by_guest_ttl ... ok
+test session::tests::account_verification_does_not_hold_state_lock_and_cancel_releases_shared_permit ... ok
+test session::tests::bounded_command_queue_full_is_non_consuming_and_retry_uses_same_sequence ... ok
+test session::tests::accepted_rotation_preserves_real_actor_ledger_when_old_ttl_expires_before_next_poll ... ok
+test session::tests::account_timeout_and_shutdown_release_verification_capacity_without_session_mutation ... ok
+test session::tests::shutdown_delivers_stop_even_when_control_queue_is_full ... ok
+test session::tests::reservation_expiry_timestamp_is_stable_across_manual_clock_reauthentication ... ok
+test transport::tests::reliable_send_survives_first_deadline_without_dropping_full_sync ... ok
+test session::tests::cancelled_create_rolls_back_temporary_room_and_refunds_room_capacity ... ok
+test room::tests::same_manual_clock_trace_replays_tick_ack_expiry_and_state_deterministically ... ok
+test session::tests::manual_clock_reclaims_session_rate_keys_room_and_reservation_before_reissue ... ok
+
+test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/invariants.rs (target/debug/deps/invariants-bd3f664fd145efaf)
+
+running 2 tests
+test config_rejects_unbounded_or_invalid_timing ... ok
+test config_rejects_values_that_overflow_clocks_or_channel_allocations ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests campfire_runtime
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

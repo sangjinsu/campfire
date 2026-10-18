@@ -1,0 +1,91 @@
+{
+  "duration_seconds": 20.507,
+  "errors": [],
+  "failure": "",
+  "guest_id": "g_6833a7904b9febdf72229c09ea0c887a2141342e6def5b5a8c2fd6846bf63ac5",
+  "index": 14,
+  "last_processed_input_seq": 391,
+  "max_members": 16,
+  "monotonic": true,
+  "own_position_span": 10.833333325,
+  "reconnect_before": {},
+  "reconnect_done": false,
+  "reconnect_resumed": {},
+  "remote_disconnect": [
+    {
+      "server_tick": 242,
+      "snapshot_seq": 121,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 244,
+      "snapshot_seq": 122,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 246,
+      "snapshot_seq": 123,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 248,
+      "snapshot_seq": 124,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 250,
+      "snapshot_seq": 125,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 252,
+      "snapshot_seq": 126,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 254,
+      "snapshot_seq": 127,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 256,
+      "snapshot_seq": 128,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 258,
+      "snapshot_seq": 129,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 260,
+      "snapshot_seq": 130,
+      "x": 0.0,
+      "y": 8.99999991
+    },
+    {
+      "server_tick": 262,
+      "snapshot_seq": 131,
+      "x": 0.0,
+      "y": 8.99999991
+    }
+  ],
+  "room_id": "r_415667ee8c5393f195b6fb05a22e63868cb5bcf4d771d2de8d11e193cdf1a150",
+  "room_instance_id": "i_9bbbe75494be6c851f17ac17976ac0f10ad0262fb6818bfff1ca00ba474d0d48",
+  "saw_remote_return": true,
+  "server_tick": 672,
+  "snapshot_count": 306,
+  "snapshot_seq": 336,
+  "success": true,
+  "snapshot_gap_ms_p95": 71,
+  "snapshot_gap_ms_max": 295
+}

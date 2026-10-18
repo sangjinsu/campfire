@@ -1,16 +1,50 @@
 # Campfire protocol v1
 
-전송은 UTF-8 JSON WebSocket이다. TLS 외부 노출에서는 HTTPS/WSS를 사용한다. client command에는 `v:1`, `type`, 연결 안에서 고유한 `request_id`(비어 있지 않은 최대 128 byte 문자열)를 넣는다. 미지원 버전, 알 수 없는 type/필드, 누락 필드와 잘못된 타입은 오류다. 입력은 부호 없는 64-bit 증가 정수이며 JavaScript client는 정밀도 손실에 주의한다.
+전송은 UTF-8 JSON WebSocket이다. TLS 외부 노출에서는 HTTPS/WSS를 사용한다. client command에는 `v:1`, `type`, 연결 안에서 고유한 `request_id`(비어 있지 않은 최대 128 byte 문자열)를 넣는다. 미지원 버전, 알 수 없는 type/필드, 누락 필드와 잘못된 타입은 오류다. 입력·명령 sequence는 부호 없는 64-bit 증가 정수이며 JavaScript client는 정밀도 손실에 주의한다.
 
-`POST /v1/games/{game_id}/guests`는 body 없이 호출한다. 성공 HTTP status는 201이며 응답은 `guest_id`, `token`, `expires_at`(Unix milliseconds), `game_id`다. 미등록 게임은 404, 발급 rate 초과는 429, 서버 수용량 거부는 503이다. 토큰은 한 game_id 전용이며 서버에는 SHA-256 hash만 보관한다. URL/query/access log에 토큰을 넣지 않는다. `GET /health`는 게임/토큰 상태를 공개하지 않는다. 이 두 경로와 `GET /v1/games/{game_id}/ws` 외의 HTTP API는 없다.
+`POST /v1/games/{game_id}/guests`는 body 없이 호출한다. 성공 HTTP status는 201이며 응답은 `guest_id`, `token`, `expires_at`(Unix milliseconds), `game_id`다. 미등록 게임은 404, 발급 rate 초과는 429, 서버 수용량 거부는 503이다. 토큰은 한 game_id 전용이며 서버에는 SHA-256 hash만 보관한다. URL/query/access log에 토큰을 넣지 않는다. `GET /health`는 게임/토큰 상태를 공개하지 않는다. 계정 교환은 아래 `/sessions` 경로를 사용하며 WebSocket 경로는 `GET /v1/games/{game_id}/ws`다.
+
+## 기존 계정의 세션 교환
+
+호스트가 `AccountAuthenticator`를 등록하면 `POST /v1/games/{game_id}/sessions`로 외부 credential을 교환한다. 기본 CLI의 `Campfire::new()` 구성에는 검증기가 없다. `Content-Type: application/json`과 다음 body를 보낸다.
+
+```json
+{"credential":"<host credential>"}
+```
+
+성공은 HTTP 201이다. credential·issuer·subject·claims를 응답에 포함하지 않는다.
+
+```json
+{"player_id":"a_...","token":"<runtime token>","expires_at":1790000000000,"game_id":"arena"}
+```
+
+`expires_at`은 Unix milliseconds다. `player_id`는 runtime 자리 식별자이며 외부 계정 subject가 아니다. 검증 결과의 `(game_id, issuer, subject)`를 계정 namespace로 사용하므로 game 또는 issuer가 다르면 같은 subject도 다른 session이다. 같은 key의 살아 있는 session에 재발급하면 player ID·room·membership 명령 이력을 유지하고 token을 교체한다. 최종 발급 성공 token만 유효하며 이전 token과 이전 연결의 작업을 거부한다. 검증 실패·취소·timeout은 기존 token을 폐기하지 않는다.
+
+검증기가 선언하는 `valid_for`와 `guest_ttl` 중 짧은 값을 **요청 시작 시점**부터 적용한다. 재발급은 기존 재접속 grace를 연장하지 않고 새 token deadline이 더 짧으면 예약도 단축한다. 만료·로그아웃·leave 등으로 끝난 membership을 되살리지 않는다.
+
+| 조건 | HTTP status / code |
+|---|---|
+| 미등록 game | 404 / `GAME_NOT_FOUND` |
+| 검증기 미설정 | 501 / `ACCOUNT_AUTH_DISABLED` |
+| JSON/schema 오류, 빈 credential | 400 / `INVALID_MESSAGE` |
+| body 한도 초과 / Content-Type 누락·미지원 | 413 / 415 |
+| credential 거부 | 401 / `UNAUTHENTICATED` |
+| verifier timeout | 504 / `AUTH_TIMEOUT` |
+| verifier 장애 또는 잘못된 grant | 503 / `AUTH_UNAVAILABLE` |
+| 발급 rate 제한 | 429 / `RATE_LIMITED` |
+| 동시성·session·shutdown 제한 | 503 / `SERVER_BUSY` |
+
+JSON 문법·필드 schema 오류는 `INVALID_MESSAGE`/400으로 정규화한다. Axum JSON rejection 중 body 한도 초과는 413, `Content-Type` 누락·미지원은 415를 보존하되 응답 메시지는 고정된 값으로 반환한다. runtime이 직접 생성하는 응답·로그에는 verifier의 내부 오류나 credential을 넣지 않는다. `catch_unwind`는 Rust 기본 panic hook의 stderr 출력을 막지 않으므로 trusted host verifier는 민감값을 자체 로그나 panic 메시지에 포함하지 않아야 한다. body·grant·공유 자원 상한은 [설정](configuration.md#계정명령비공개-상태의-제한)에 정리되어 있다.
+
+## WebSocket 인증과 룸
 
 WS 연결 뒤 기본 5초 안에 다음 메시지를 먼저 보낸다.
 
 ```json
-{"v":1,"type":"session.authenticate","request_id":"auth-1","token":"<guest token>"}
+{"v":1,"type":"session.authenticate","request_id":"auth-1","token":"<runtime token>"}
 ```
 
-`session.authenticated`는 `game_id`, `guest_id`, `expires_at`, `room_id`, `room_instance_id`, `can_resume`, `reservation_expires_at`를 반환한다. 룸이 없으면 식별자와 예약 시각은 null이다. 재인증은 구 연결을 무효화하고 기존 활성 자리를 예약으로 바꾼다. 이미 예약된 자리의 기한은 연장하지 않는다. 만료 시각 표시는 runtime 생성 시 고정한 monotonic/Unix 기준점으로 변환하므로 재인증마다 같은 예약의 표시 시각이 바뀌지 않는다. 조작 재개에는 `resume`이 필요하다. generation은 서버 내부 권한이며 client가 보내는 generation을 신뢰하지 않는다.
+`session.authenticated`는 `game_id`, `guest_id`, `player_id`, `expires_at`, `room_id`, `room_instance_id`, `can_resume`, `reservation_expires_at`를 반환한다. 룸이 없으면 식별자와 예약 시각은 null이다. 재인증은 구 연결을 무효화하고 기존 활성 자리를 예약으로 바꾼다. 이미 예약된 자리의 기한은 연장하지 않는다. 만료 시각 표시는 runtime 생성 시 고정한 monotonic/Unix 기준점으로 변환하므로 재인증마다 같은 예약의 표시 시각이 바뀌지 않는다. 조작 재개에는 `resume`이 필요하다. `guest_id`는 호환을 위해 유지하며 guest/account 모두 `player_id`와 같은 runtime 자리 식별자다. 외부 identity는 전달하지 않는다. generation은 서버 내부 권한이며 client가 보내는 generation을 신뢰하지 않는다.
 
 | Client type | 필수 추가 필드 | 직접 성공 응답 |
 | --- | --- | --- |
@@ -22,12 +56,13 @@ WS 연결 뒤 기본 5초 안에 다음 메시지를 먼저 보낸다.
 | `room.leave` | `room_id`, `room_instance_id` | `room.left`, 즉시 자리 해제; 재전송 성공 |
 | `resume` | `room_id`, `room_instance_id` | `room.resumed` full sync |
 | `game.input` | `room_id`, `room_instance_id`, `input_seq`, `payload` | `game.input.accepted`: `input_seq` |
+| `game.command` | `room_id`, `room_instance_id`, `command_seq`, `payload` | `game.command.result`: terminal 성공 또는 게임 오류 |
 
 모든 직접 응답과 오류는 `request_id`를 돌려준다. 선택적 `game_id`를 command에 넣으면 인증 경로의 게임과 같아야 한다. 실제 room lookup과 resume은 token/connection/room 게임을 다시 검증한다. 목록은 같은 게임의 공개 룸만 포함하며 항목은 `game_id`, `room_id`, `room_instance_id`, `members`, `capacity`다. 예약 자리도 `members`와 정원에 포함한다. cursor는 서버가 발급한 값을 그대로 사용한다.
 
-한 게스트는 예약을 포함해 한 룸만 가질 수 있다. 현재 룸이 있는데 다시 create/join하면 새 membership을 만들지 않는다. 정원 확인과 임시 입장/commit/rollback은 룸 task가 소유한다. commit 전 실패/취소는 자리와 임시 룸을 제거하고, commit 후 응답 실패는 단절 예약으로 복구한다.
+한 플레이어는 예약을 포함해 한 룸만 가질 수 있다. 현재 룸이 있는데 다시 create/join하면 새 membership을 만들지 않는다. 정원 확인과 임시 입장/commit/rollback은 룸 task가 소유한다. commit 전 실패/취소는 자리와 임시 룸을 제거하고, commit 후 응답 실패는 단절 예약으로 복구한다.
 
-연결별 bounded 응답 cache에 같은 `request_id`/같은 본문이 있으면 저장된 응답을 재전송한다. 같은 ID에 다른 본문은 `REQUEST_ID_CONFLICT`다. cache에서 제거되거나 새 연결인 경우 무한한 exactly-once 보장은 없으며 membership/instance/seq 규칙이 중복 변경을 막는다.
+연결별 bounded 응답 cache에 같은 `request_id`/같은 본문이 있으면 저장된 응답을 재전송한다. 같은 ID에 다른 본문은 `REQUEST_ID_CONFLICT`다. `game.command`는 같은 본문의 cache hit라도 actor의 membership·generation·token deadline과 sequence 이력을 다시 검사한다. 일시적 `SERVER_BUSY` 응답을 cache로 확정하지 않는다. cache에서 제거되거나 새 연결인 경우 무한한 exactly-once 보장은 없으며 membership/instance/seq 규칙이 중복 변경을 막는다.
 
 ```json
 {"v":1,"type":"room.create","request_id":"create-1","settings":{"capacity":16,"public":true}}
@@ -38,13 +73,48 @@ WS 연결 뒤 기본 5초 안에 다음 메시지를 먼저 보낸다.
 
 `game.input.accepted`는 수신 수락이다. 실제 처리 완료는 snapshot의 `last_processed_input_seq`로만 확인한다. runtime은 플레이어별 tick 안에서 최신 유효 방향 하나를 선택하고 더 오래된 입력을 폐기한다. stale/중복/현재 generation의 마지막 수신 번호에서 과도한 도약은 거부한다. 적용 직전 generation을 다시 검증하고 연결 교체 시 구 입력과 arena 보관 방향을 폐기한다. 새 generation의 seq 기준은 마지막 실제 처리 ack로 재설정한다. 클라이언트는 이전 미처리 입력을 자동 재생하지 않는다.
 
+## 단발 명령과 재시도
+
+이동처럼 최신 값만 필요한 작업은 `game.input`, 아이템 사용·카드 선택처럼 각 행동을 처리해야 하는 작업은 `game.command`로 보낸다. command는 input과 독립된 bounded FIFO에 들어가고 room actor가 receive 시 순차 실행한다. tick을 기다리는 접수 ACK는 없으며 terminal 결과만 reliable lane으로 요청자에게 보낸다. tick/input과의 순서는 actor 처리 순서다.
+
+```json
+{"v":1,"type":"game.command","request_id":"collect-1","game_id":"inventory","room_id":"<room>","room_instance_id":"<instance>","command_seq":1,"payload":{"action":"collect","item":"wood"}}
+{"v":1,"type":"game.command.result","request_id":"collect-1","game_id":"inventory","room_id":"<room>","room_instance_id":"<instance>","command_seq":1,"ok":true,"result":{"inventory_count":2}}
+```
+
+게임이 거부한 terminal 결과에는 `result` 대신 `error`를 넣는다.
+
+```json
+{"v":1,"type":"game.command.result","request_id":"collect-1","game_id":"inventory","room_id":"<room>","room_instance_id":"<instance>","command_seq":1,"ok":false,"error":{"code":"INVALID_ITEM","message":"collect wood, stone, or key","retryable":false}}
+```
+
+1. membership마다 `command_seq: 1`부터 시작한다. terminal 성공과 게임 오류(`validate_command`·`apply_command`의 Err) 모두 sequence를 소비한다. 다음 행동은 정확히 1을 더한다.
+2. 응답을 잃으면 resume 후 **같은 sequence·같은 payload**로 재시도한다. 보관 중인 결과는 현재 `request_id`로 재생하며 다시 실행하지 않는다. 새 request ID를 써도 된다. 같은 ID에 다른 본문을 보내면 `REQUEST_ID_CONFLICT`다.
+3. 같은 sequence에 다른 payload는 `COMMAND_SEQUENCE_CONFLICT`, expected보다 큰 sequence는 `COMMAND_SEQUENCE_GAP`, 0 또는 결과 이력에서 퇴출된 과거 sequence는 `STALE_COMMAND`다. payload 비교는 canonical JSON을 사용하며 request ID는 fingerprint에 포함하지 않는다.
+4. queue full(`SERVER_BUSY`)이나 room·권한·generation·deadline 검사 실패는 sequence를 소비하지 않는다. 원인을 해결한 뒤 같은 sequence로 재시도한다. 큐에 들어갔어도 연결 세대가 바뀌면 구세대 작업은 거부될 수 있다.
+5. terminal 결과는 전송 전에 membership 이력에 기록한다. 출력이 실패해도 유효한 seat라면 재생할 수 있다. 계정 token rotation과 reconnect는 이력을 유지한다. explicit leave 뒤 새 membership은 1부터 시작한다.
+
+이력은 membership당 최근 `request_cache_capacity`개(기본 128개)다. 퇴출된 결과를 복구하거나 재실행하지 않으며 high-water는 유지한다. leave·유예/세션 만료·room 종료·서버 재시작 이후의 중복 방지와 durable exactly-once는 보장하지 않는다. 과거 room instance 요청은 `STALE_INSTANCE`로 거부한다. input과 command는 연결별 rate bucket을 공유한다.
+
+## 공용·수신자 전용 상태
+
 정기 `snapshot`에는 request_id가 없다. `room.entered`/`room.resumed`는 같은 snapshot 필드를 포함한 full sync다.
 
 ```json
-{"v":1,"type":"snapshot","game_id":"arena","room_id":"<room>","room_instance_id":"<instance>","server_tick":120,"snapshot_seq":60,"last_processed_input_seq":19,"state":{"players":[{"id":"<guest>","x":2.5,"y":1.0,"connected":true}],"shared_score":0,"goal":{"x":5.0,"y":0.0,"radius":0.5,"active":true}}}
+{"v":1,"type":"snapshot","game_id":"arena","room_id":"<room>","room_instance_id":"<instance>","server_tick":120,"snapshot_seq":60,"last_processed_input_seq":19,"last_processed_command_seq":0,"state":{"players":[{"id":"<guest>","x":2.5,"y":1.0,"connected":true}],"shared_score":0,"goal":{"x":5.0,"y":0.0,"radius":0.5,"active":true}}}
 ```
 
-ack는 수신자 자신의 값이다. server_tick/snapshot_seq는 재접속으로 초기화하지 않는다. snapshot에는 game_id도 포함된다. 단일 writer는 초기 full sync를 reliable queue에서 먼저 보낸 뒤 최신 snapshot slot을 읽는다. client는 다른 instance와 이미 적용한 snapshot_seq 이하를 버린다. 재접속 full sync는 현재 상태를 새 기준으로 적용한다.
+`last_processed_input_seq`와 `last_processed_command_seq`는 수신자 자신의 값이다. 명령 ack는 terminal 게임 오류도 포함한다. `private_state`는 게임의 `private_snapshot(player_id)`가 Some을 반환할 때만 추가하며 None이면 필드를 생략한다. 공개 `state`의 기존 구조는 유지하고 비공개 값을 병합하지 않는다.
+
+`room.entered`와 `room.resumed` full sync에는 자신의 retained terminal 결과를 sequence 순서의 `command_results` 배열로 포함한다. 최초 입장은 빈 배열이다. 각 항목은 위 `game.command.result` 형식이며 원래 request ID를 유지한다. 정기 snapshot에는 이 배열이 없다. 클라이언트는 `(room_instance_id, command_seq)`로 이미 처리한 결과를 중복 제거하며, 배열이 전체 영구 이력이 아님을 고려한다.
+
+```json
+{"last_processed_command_seq":1,"private_state":{"inventory":["alice-starter-item","wood"]},"command_results":[{"v":1,"type":"game.command.result","request_id":"collect-1","game_id":"inventory","room_id":"<room>","room_instance_id":"<instance>","command_seq":1,"ok":true,"result":{"inventory_count":2}}]}
+```
+
+위 JSON은 full sync에 추가되는 필드만 표시했다. create·join·resume·periodic 모두 수신자별 projection을 사용하며 다른 플레이어의 private state·명령 결과를 넣지 않는다. 게임은 공용 `snapshot()`에 비밀을 넣지 않아야 한다. runtime은 신뢰된 게임이 공개한 JSON에서 비밀을 자동으로 찾아 제거하지 않는다.
+
+server_tick/snapshot_seq는 재접속으로 초기화하지 않는다. snapshot에는 game_id도 포함된다. 단일 writer는 초기 full sync를 reliable queue에서 먼저 보낸 뒤 최신 snapshot slot을 읽는다. client는 다른 instance와 이미 적용한 snapshot_seq 이하를 버린다. 재접속 full sync는 현재 상태를 새 기준으로 적용한다.
 
 단절 시 기본 30초 예약하며 arena는 즉시 이동을 멈춘다. 유예/토큰 TTL/로그아웃 중 먼저 발생한 조건이 자리를 해제한다. 인증된 새 연결에서 다음 요청을 보내 같은 플레이어와 instance를 복구한다.
 
@@ -69,10 +139,13 @@ ack는 수신자 자신의 값이다. server_tick/snapshot_seq는 재접속으�
 | `RESUME_EXPIRED` | 유효 예약 없음/만료 |
 | `STALE_INSTANCE` | 과거 room epoch |
 | `STALE_INPUT` | 중복/역순 입력 |
+| `STALE_COMMAND` | seq 0 또는 결과가 퇴출된 과거 명령 |
+| `COMMAND_SEQUENCE_GAP` | 다음 expected보다 큰 명령 번호 |
+| `COMMAND_SEQUENCE_CONFLICT` | 같은 명령 번호에 다른 payload |
 | `RATE_LIMITED` | 개인 또는 발급 빈도 제한 |
 | `SERVER_BUSY` | 공유 queue/서버 수용량 포화, retryable true |
 | `INVALID_MESSAGE`, `UNSUPPORTED_VERSION` | envelope/schema 오류 |
 | `INVALID_INPUT`, `INVALID_SETTINGS` | 게임 입력/설정 거부 |
 | `REQUEST_ID_CONFLICT` | 같은 요청 ID의 다른 본문 |
 
-추가 오류에는 `GAME_NOT_FOUND`(미등록 게임), `ALREADY_IN_ROOM`(기존 멤버십), `FRAME_TOO_LARGE`(개인 JSON 한도), `CANCELLED`(인증/입장 중 연결 취소), `GAME_FAILED`(factory panic)가 있다. 오류 code의 실제 상세 분류는 runtime tests와 함께 유지한다. 공유 queue 포화는 개인 위반에 포함하지 않는다. JSON application 한도 초과는 처리하지 않고 위반으로 센다. transport는 fragmentation 우회를 제한하는 별도 안전 상한(설정의 4배)을 두며 이를 넘는 frame/message는 즉시 종료될 수 있다. 개인 frame/빈도 위반이 지속되거나 reliable queue가 포화되면 그 연결을 종료하고 예약 절차를 적용한다. writer는 동일 send future를 기한 사이에도 유지하며, 설정한 횟수까지 완료되지 않으면 연결을 종료한다. reliable full sync를 첫 timeout 때 버리고 후속 snapshot으로 진행하지 않는다. snapshot slot은 이전 상태를 대체할 수 있으므로 중간 snapshot 모두 수신할 것을 요구하지 않는다. arena에는 별도 필수 reliable 게임 이벤트가 없으며 최신 full sync로 복구한다.
+추가 오류에는 `GAME_NOT_FOUND`(미등록 게임), `ALREADY_IN_ROOM`(기존 멤버십), `FRAME_TOO_LARGE`(개인 JSON 한도), `CANCELLED`(인증/입장 중 연결 취소), `GAME_FAILED`(factory panic)가 있다. 오류 code의 실제 상세 분류는 runtime tests와 함께 유지한다. 공유 queue 포화는 개인 위반에 포함하지 않는다. JSON application 한도 초과는 처리하지 않고 위반으로 센다. transport는 fragmentation 우회를 제한하는 별도 안전 상한(설정의 4배)을 두며 이를 넘는 frame/message는 즉시 종료될 수 있다. 개인 frame/빈도 위반이 지속되거나 reliable queue가 포화되면 그 연결을 종료하고 예약 절차를 적용한다. writer는 동일 send future를 기한 사이에도 유지하며, 설정한 횟수까지 완료되지 않으면 연결을 종료한다. reliable full sync를 첫 timeout 때 버리고 후속 snapshot으로 진행하지 않는다. snapshot slot은 이전 상태를 대체할 수 있으므로 중간 snapshot 모두 수신할 것을 요구하지 않는다. 명령 결과는 reliable lane으로 전송하며 full sync의 보관 이력으로 복구한다. arena에는 별도 필수 reliable 게임 이벤트가 없으며 최신 full sync로 복구한다.
