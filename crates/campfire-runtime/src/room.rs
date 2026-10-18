@@ -1,6 +1,7 @@
 use crate::{
     Config, Game, PlayerIdentity,
     metrics::{Metrics, inc, max},
+    observation::PublishedRoom,
     output::Output,
     protocol::{Error, fingerprint},
 };
@@ -11,7 +12,7 @@ use std::{
     time::Duration,
 };
 use tokio::{
-    sync::{mpsc, oneshot},
+    sync::{mpsc, oneshot, watch},
     time::{Instant, MissedTickBehavior},
 };
 
@@ -186,9 +187,13 @@ struct Room {
     snapshot_seq: u64,
     ever_joined: bool,
     metrics: Arc<Metrics>,
+    observation: watch::Sender<PublishedRoom>,
+    observation_dirty: bool,
+    last_observed: Instant,
 }
 
 pub(crate) struct Channels {
+    pub observation: watch::Sender<PublishedRoom>,
     pub controls: mpsc::Receiver<Control>,
     pub inputs: mpsc::Receiver<Input>,
     pub commands: mpsc::Receiver<GameCommand>,
@@ -206,6 +211,7 @@ pub(crate) async fn run(
     channels: Channels,
 ) -> &'static str {
     let Channels {
+        observation,
         mut controls,
         mut inputs,
         mut commands,
@@ -220,7 +226,11 @@ pub(crate) async fn run(
         snapshot_seq: 0,
         ever_joined: false,
         metrics,
+        observation,
+        observation_dirty: true,
+        last_observed: Instant::now(),
     };
+    room.observe_if_due();
     let period = config.tick_interval();
     let start = Instant::now() + period;
     let mut ticker = tokio::time::interval_at(start, period);
@@ -259,12 +269,34 @@ pub(crate) async fn run(
                 _=>{},
             }}
         }
+        room.observe_if_due();
         if room.ever_joined && room.members.is_empty() {
             return "empty";
         }
     }
 }
 impl Room {
+    fn observe_if_due(&mut self) {
+        if !self.observation_dirty && self.last_observed.elapsed() < Duration::from_secs(1) {
+            return;
+        }
+        let mut summary = self.observation.borrow().summary.clone();
+        summary.reserved_members = self
+            .members
+            .values()
+            .filter(|member| member.reserved_until.is_some())
+            .count();
+        summary.connected_members = self.members.len() - summary.reserved_members;
+        summary.server_tick = self.tick;
+        summary.snapshot_seq = self.snapshot_seq;
+        let now = Instant::now();
+        self.observation.send_replace(PublishedRoom {
+            summary,
+            published_at: now,
+        });
+        self.last_observed = now;
+        self.observation_dirty = false;
+    }
     fn reserve(&mut self, player: &str, generation: u64) {
         if let Some(member) = self.members.get_mut(player) {
             if member.generation != generation {
@@ -273,6 +305,7 @@ impl Room {
             member.pending = None;
             member.highest_received = member.processed;
             member.output = None;
+            self.observation_dirty = true;
             member.reserved_until.get_or_insert_with(|| {
                 (Instant::now() + self.config.reconnect_grace).min(member.token_deadline)
             });
@@ -350,6 +383,7 @@ impl Room {
                     {
                         rotation.transaction.abort();
                     }
+                    self.observation_dirty = true;
                     self.game.player_left(&player);
                 }
                 let _ = reply.send(());
@@ -408,6 +442,7 @@ impl Room {
             }
         }
         // This is the admission commit point. All later delivery failures preserve the seat.
+        self.observation_dirty = true;
         if resume {
             let member = self
                 .members
@@ -644,6 +679,7 @@ impl Room {
                 }
             }
             if let Some(member) = self.members.remove(&player) {
+                self.observation_dirty = true;
                 if let Some(output) = member.output {
                     output.close();
                 }
@@ -814,12 +850,14 @@ mod tests {
         }
     }
     fn room() -> Room {
+        let reference = RoomRef {
+            game_id: "a".into(),
+            id: "r".into(),
+            instance: "i".into(),
+        };
+        let (observation, _) = watch::channel(PublishedRoom::new(&reference, true, 16));
         Room {
-            reference: RoomRef {
-                game_id: "a".into(),
-                id: "r".into(),
-                instance: "i".into(),
-            },
+            reference,
             config: Config::default(),
             capacity: 16,
             game: Box::<TestGame>::default(),
@@ -828,6 +866,9 @@ mod tests {
             snapshot_seq: 0,
             ever_joined: false,
             metrics: Arc::new(Metrics::default()),
+            observation,
+            observation_dirty: true,
+            last_observed: Instant::now(),
         }
     }
     fn output(capacity: usize) -> (Arc<Output>, mpsc::Receiver<Value>) {
@@ -893,6 +934,54 @@ mod tests {
             reply: tx,
         });
         rx.try_recv().unwrap()
+    }
+    #[tokio::test(start_paused = true)]
+    async fn observation_keeps_expired_unprocessed_seats_without_callbacks_or_sequence_changes() {
+        struct CallbackTrap;
+        impl Game for CallbackTrap {
+            fn player_joined(&mut self, _: &str) {
+                panic!("observation called player_joined");
+            }
+            fn player_left(&mut self, _: &str) {
+                panic!("observation called player_left");
+            }
+            fn player_connection_changed(&mut self, _: &str, _: bool) {
+                panic!("observation called connection callback");
+            }
+            fn validate_input(&self, _: &str, _: &Value) -> Result<(), crate::GameError> {
+                panic!("observation validated input");
+            }
+            fn apply_input(&mut self, _: &str, _: &Value) {
+                panic!("observation applied input");
+            }
+            fn tick(&mut self, _: Duration) {
+                panic!("observation ticked game");
+            }
+            fn snapshot(&self) -> Value {
+                panic!("observation called game snapshot");
+            }
+            fn private_snapshot(&self, _: &str) -> Option<Value> {
+                panic!("observation called private snapshot");
+            }
+        }
+        let mut room = room();
+        let (out, _rx) = output(16);
+        enter(&mut room, out, false, 1).unwrap();
+        room.reserve("p", 1);
+        room.observe_if_due();
+        let receiver = room.observation.subscribe();
+        room.game = Box::new(CallbackTrap);
+        tokio::time::advance(room.config.reconnect_grace).await;
+        room.observe_if_due();
+        let summary = receiver.borrow().summary.clone();
+        assert_eq!(
+            (summary.connected_members, summary.reserved_members),
+            (0, 1)
+        );
+        assert_eq!((summary.server_tick, summary.snapshot_seq), (0, 0));
+        assert_eq!(room.members.len(), 1);
+        assert_eq!(room.metrics.snapshot().ticks, 0);
+        assert_eq!(room.metrics.snapshot().snapshots, 0);
     }
     #[tokio::test(start_paused = true)]
     async fn commands_are_fifo_while_inputs_coalesce_and_terminal_errors_consume_sequence() {
@@ -1209,6 +1298,7 @@ mod tests {
             Box::<TestGame>::default(),
             Arc::new(Metrics::default()),
             Channels {
+                observation: room().observation,
                 controls,
                 inputs: input_rx,
                 commands: command_rx,
@@ -1379,6 +1469,7 @@ mod tests {
             Box::<TestGame>::default(),
             Arc::new(Metrics::default()),
             Channels {
+                observation: room().observation,
                 controls,
                 inputs: input_rx,
                 commands: command_rx,

@@ -1,6 +1,7 @@
 use crate::{
     AccountAuthenticator, AuthError, Config, ConfigError, GameContext, GameModule, PlayerIdentity,
     metrics::{Metrics, MetricsSnapshot, inc},
+    observation::{ObservationDirectory, PublishedRoom, RuntimeObserver},
     output::Output,
     protocol::{Command, Error, Request},
     rate::Bucket,
@@ -64,8 +65,9 @@ pub(crate) struct Inner {
     pub unauthenticated: Arc<Semaphore>,
     pub shutdown: watch::Sender<bool>,
     pub authenticator: Option<Arc<dyn AccountAuthenticator>>,
+    pub observations: ObservationDirectory,
     started: AtomicBool,
-    clock_origin: Instant,
+    pub clock_origin: Instant,
     unix_origin: u64,
 }
 #[derive(Clone)]
@@ -103,6 +105,7 @@ impl Campfire {
                 metrics: Arc::new(Metrics::default()),
                 shutdown,
                 authenticator,
+                observations: ObservationDirectory::default(),
                 started: AtomicBool::new(false),
                 clock_origin: Instant::now(),
                 unix_origin: unix_millis(),
@@ -133,7 +136,8 @@ impl Campfire {
         if modules.contains_key(&game_id) {
             return Err(ConfigError("game_id already registered".into()));
         }
-        modules.insert(game_id, Arc::new(module));
+        modules.insert(game_id.clone(), Arc::new(module));
+        self.inner.observations.register_game(game_id);
         Ok(())
     }
     pub fn router(&self) -> Router {
@@ -169,13 +173,12 @@ impl Campfire {
         });
     }
     pub fn metrics(&self) -> MetricsSnapshot {
-        let mut snapshot = self.inner.metrics.snapshot();
-        snapshot.active_connections =
-            (self.inner.config.max_connections - self.inner.connections.available_permits()) as u64;
-        snapshot.unauthenticated_connections = (self.inner.config.max_unauthenticated_connections
-            - self.inner.unauthenticated.available_permits())
-            as u64;
-        snapshot
+        self.inner.metrics_snapshot()
+    }
+    pub fn observer(&self) -> RuntimeObserver {
+        RuntimeObserver {
+            inner: Arc::downgrade(&self.inner),
+        }
     }
     pub async fn shutdown(&self) {
         self.inner.shutdown.send_replace(true);
@@ -231,6 +234,15 @@ fn unix_millis() -> u64 {
 }
 
 impl Inner {
+    pub(crate) fn metrics_snapshot(&self) -> MetricsSnapshot {
+        let mut snapshot = self.metrics.snapshot();
+        snapshot.active_connections =
+            (self.config.max_connections - self.connections.available_permits()) as u64;
+        snapshot.unauthenticated_connections = (self.config.max_unauthenticated_connections
+            - self.unauthenticated.available_permits())
+            as u64;
+        snapshot
+    }
     fn deadline_millis(&self, deadline: Instant) -> u64 {
         self.unix_origin.saturating_add(
             deadline
@@ -824,6 +836,8 @@ impl Inner {
                 let (control, controls) = mpsc::channel(64);
                 let (inputs, input_rx) = mpsc::channel(self.config.room_input_capacity);
                 let (commands, command_rx) = mpsc::channel(self.config.room_input_capacity);
+                let (observation, observed) =
+                    watch::channel(PublishedRoom::new(&reference, public, capacity));
                 let handle = RoomHandle {
                     reference: reference.clone(),
                     control,
@@ -837,6 +851,7 @@ impl Inner {
                     (reference.game_id.clone(), reference.id.clone()),
                     handle.clone(),
                 );
+                self.observations.insert(&reference, observed);
                 inc(&self.metrics.active_rooms);
                 let room_config = self.config.clone();
                 let metrics = self.metrics.clone();
@@ -848,6 +863,7 @@ impl Inner {
                     game_state,
                     metrics,
                     room::Channels {
+                        observation,
                         controls,
                         inputs: input_rx,
                         commands: command_rx,
@@ -1068,9 +1084,15 @@ impl Inner {
             }
         };
         let mut state = self.state.lock().await;
-        state
+        self.observations.remove(&reference);
+        let key = (reference.game_id.clone(), reference.id.clone());
+        if state
             .rooms
-            .remove(&(reference.game_id.clone(), reference.id.clone()));
+            .get(&key)
+            .is_some_and(|handle| handle.reference == reference)
+        {
+            state.rooms.remove(&key);
+        }
         for session in state
             .sessions
             .values_mut()
@@ -1258,6 +1280,68 @@ mod tests {
         fn tick(&mut self, _: Duration) {}
         fn snapshot(&self) -> Value {
             json!({"players":self.players})
+        }
+    }
+    struct ObservedModule {
+        callbacks: Arc<std::sync::atomic::AtomicU64>,
+        panic_on_tick: bool,
+    }
+    impl GameModule for ObservedModule {
+        fn create(&self, _: &Value, _: &GameContext) -> Result<Box<dyn Game>, crate::GameError> {
+            Ok(Box::new(ObservedGame {
+                callbacks: self.callbacks.clone(),
+                panic_on_tick: self.panic_on_tick,
+            }))
+        }
+    }
+    struct ObservedGame {
+        callbacks: Arc<std::sync::atomic::AtomicU64>,
+        panic_on_tick: bool,
+    }
+    impl ObservedGame {
+        fn called(&self) {
+            self.callbacks.fetch_add(1, Ordering::Relaxed);
+        }
+    }
+    impl Game for ObservedGame {
+        fn player_joined(&mut self, _: &str) {
+            self.called();
+        }
+        fn player_left(&mut self, _: &str) {
+            self.called();
+        }
+        fn player_connection_changed(&mut self, _: &str, _: bool) {
+            self.called();
+        }
+        fn validate_input(&self, _: &str, _: &Value) -> Result<(), crate::GameError> {
+            self.called();
+            Ok(())
+        }
+        fn apply_input(&mut self, _: &str, _: &Value) {
+            self.called();
+        }
+        fn validate_command(&self, _: &str, _: &Value) -> Result<(), crate::GameError> {
+            self.called();
+            Ok(())
+        }
+        fn apply_command(&mut self, _: &str, _: &Value) -> Result<Value, crate::GameError> {
+            self.called();
+            Ok(json!({"secret":"COMMAND_RESULT_SENTINEL"}))
+        }
+        fn tick(&mut self, _: Duration) {
+            self.called();
+            assert!(
+                !self.panic_on_tick,
+                "intentional observation panic regression"
+            );
+        }
+        fn snapshot(&self) -> Value {
+            self.called();
+            json!({"secret":"PUBLIC_STATE_SENTINEL"})
+        }
+        fn private_snapshot(&self, _: &str) -> Option<Value> {
+            self.called();
+            Some(json!({"secret":"PRIVATE_STATE_SENTINEL"}))
         }
     }
     fn output(capacity: usize) -> (Arc<Output>, mpsc::Receiver<Value>) {
@@ -1576,6 +1660,318 @@ mod tests {
             },
         );
         (controls, command_rx, commands)
+    }
+    #[tokio::test(start_paused = true)]
+    async fn late_old_instance_close_keeps_replacement_room_and_decrements_only_old_actor() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let issued = runtime.inner.issue("a", "source".into()).await.unwrap();
+        let key = token_hash(issued["token"].as_str().unwrap());
+        let mut state = runtime.inner.state.lock().await;
+        let (_controls, _commands, _sender) = stub_membership(&mut state, key);
+        let replacement = state.rooms.values_mut().next().unwrap();
+        let old = replacement.reference.clone();
+        replacement.reference.instance = "replacement".into();
+        let new = replacement.reference.clone();
+        state.sessions.get_mut(&key).unwrap().room = Some(new.clone());
+        runtime
+            .inner
+            .metrics
+            .active_rooms
+            .store(2, Ordering::Relaxed);
+        drop(state);
+
+        runtime.inner.closed(old, Ok("empty")).await;
+
+        let state = runtime.inner.state.lock().await;
+        assert_eq!(state.rooms.len(), 1, "old supervisor removed the new actor");
+        assert_eq!(state.rooms.values().next().unwrap().reference, new);
+        assert_eq!(state.sessions[&key].room, Some(new.clone()));
+        assert_eq!(runtime.metrics().active_rooms, 1);
+        drop(state);
+        runtime.inner.closed(new, Ok("shutdown")).await;
+        assert!(runtime.inner.state.lock().await.rooms.is_empty());
+        assert_eq!(runtime.metrics().active_rooms, 0);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn observer_reports_empty_registered_games_without_manager_or_module_locks() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        runtime
+            .register_game(
+                "empty",
+                TestModule {
+                    close_on_create: None,
+                },
+            )
+            .unwrap();
+        let observer = runtime.observer();
+        {
+            let _manager = runtime.inner.state.lock().await;
+            let _modules = runtime.inner.modules.write().unwrap();
+            let snapshot = observer.snapshot().unwrap();
+            assert_eq!(snapshot.game_ids, ["a", "empty"]);
+            assert!(snapshot.rooms.is_empty());
+            assert!(!snapshot.stopping);
+            assert_eq!(snapshot.uptime_ms, 0);
+        }
+        tokio::time::advance(Duration::from_millis(250)).await;
+        assert_eq!(observer.snapshot().unwrap().uptime_ms, 250);
+    }
+    #[test]
+    fn observer_does_not_keep_runtime_alive() {
+        let runtime = Campfire::new(Config::default()).unwrap();
+        let observer = runtime.observer();
+        assert_eq!(Arc::strong_count(&runtime.inner), 1);
+        assert!(observer.snapshot().is_some());
+        assert_eq!(Arc::strong_count(&runtime.inner), 1);
+        drop(runtime);
+        assert!(observer.snapshot().is_none());
+    }
+    async fn create_observed_room(
+        runtime: &Campfire,
+    ) -> (TokenHash, u64, Arc<Output>, mpsc::Receiver<Value>, Value) {
+        let guest = runtime.inner.issue("a", "creator".into()).await.unwrap();
+        let (out, rx) = output(64);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", guest["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let create = crate::protocol::parse(r#"{"v":1,"type":"room.create","request_id":"create","settings":{"capacity":3,"public":false,"private_setting":"SETTINGS_SENTINEL"}}"#).unwrap();
+        let entered = runtime
+            .inner
+            .command(key, generation, "a", out.clone(), &create)
+            .await
+            .unwrap()
+            .0;
+        (key, generation, out, rx, entered)
+    }
+    #[tokio::test(start_paused = true)]
+    async fn observer_tracks_actual_actor_seats_through_join_disconnect_resume_expiry_and_close() {
+        let runtime = account_runtime(
+            Config {
+                reconnect_grace: Duration::from_secs(2),
+                ..Config::default()
+            },
+            AccountVerifier,
+        );
+        let observer = runtime.observer();
+        let (_creator, _, _out, _rx, entered) = create_observed_room(&runtime).await;
+        let initial = observer.snapshot().unwrap();
+        let room = &initial.rooms[0];
+        assert_eq!(
+            (&room.game_id, &room.room_id, &room.room_instance_id),
+            (
+                &"a".to_owned(),
+                &entered["room_id"].as_str().unwrap().to_owned(),
+                &entered["room_instance_id"].as_str().unwrap().to_owned()
+            )
+        );
+        assert!(!room.public);
+        assert_eq!(
+            (room.capacity, room.connected_members, room.reserved_members),
+            (3, 1, 0)
+        );
+        let guest = runtime.inner.issue("a", "peer".into()).await.unwrap();
+        let token = guest["token"].as_str().unwrap();
+        let (out, _rx) = output(64);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", token, "auth", out.clone())
+            .await
+            .unwrap();
+        let join = crate::protocol::parse(&json!({"v":1,"type":"room.join","request_id":"join","room_id":entered["room_id"],"room_instance_id":entered["room_instance_id"]}).to_string()).unwrap();
+        runtime
+            .inner
+            .command(key, generation, "a", out, &join)
+            .await
+            .unwrap();
+        assert_eq!(observer.snapshot().unwrap().rooms[0].connected_members, 2);
+        runtime.inner.disconnect(key, generation).await;
+        let reserved = observer.snapshot().unwrap().rooms.remove(0);
+        assert_eq!(
+            (reserved.connected_members, reserved.reserved_members),
+            (1, 1)
+        );
+        let (out, _rx) = output(64);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", token, "resume-auth", out.clone())
+            .await
+            .unwrap();
+        let resume = crate::protocol::parse(&json!({"v":1,"type":"resume","request_id":"resume","room_id":entered["room_id"],"room_instance_id":entered["room_instance_id"]}).to_string()).unwrap();
+        runtime
+            .inner
+            .command(key, generation, "a", out, &resume)
+            .await
+            .unwrap();
+        let resumed = observer.snapshot().unwrap().rooms.remove(0);
+        assert_eq!(
+            (resumed.connected_members, resumed.reserved_members),
+            (2, 0)
+        );
+        runtime.inner.disconnect(key, generation).await;
+        tokio::time::advance(Duration::from_secs(2)).await;
+        for _ in 0..4 {
+            tokio::task::yield_now().await;
+        }
+        let expired = observer.snapshot().unwrap().rooms.remove(0);
+        assert_eq!(
+            (expired.connected_members, expired.reserved_members),
+            (1, 0)
+        );
+        assert!(expired.server_tick > 0);
+        tokio::time::advance(Duration::from_secs(1)).await;
+        for _ in 0..4 {
+            tokio::task::yield_now().await;
+        }
+        assert!(observer.snapshot().unwrap().rooms[0].snapshot_seq > 0);
+        runtime.shutdown().await;
+        let stopped = observer.snapshot().unwrap();
+        assert!(stopped.stopping);
+        assert!(stopped.rooms.is_empty());
+        assert_eq!(stopped.metrics.active_rooms, 0);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn observer_only_serializes_allowlisted_summary_without_game_callbacks_or_mutations() {
+        let callbacks = Arc::new(std::sync::atomic::AtomicU64::new(0));
+        let runtime = Campfire::with_authenticator(
+            Config::default(),
+            Arc::new(GrantVerifier {
+                grant: grant(),
+                delay: Duration::ZERO,
+            }),
+        )
+        .unwrap();
+        runtime
+            .register_game(
+                "a",
+                ObservedModule {
+                    callbacks: callbacks.clone(),
+                    panic_on_tick: false,
+                },
+            )
+            .unwrap();
+        let issued = runtime
+            .inner
+            .issue_account("a", "CREDENTIAL_SENTINEL", "source".into())
+            .await
+            .unwrap();
+        let (out, _rx) = output(64);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", issued["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let create = crate::protocol::parse(r#"{"v":1,"type":"room.create","request_id":"create","settings":{"public":false,"secret":"SETTINGS_SENTINEL"}}"#).unwrap();
+        let entered = runtime
+            .inner
+            .command(key, generation, "a", out.clone(), &create)
+            .await
+            .unwrap()
+            .0;
+        let command = crate::protocol::parse(&json!({"v":1,"type":"game.command","request_id":"command","room_id":entered["room_id"],"room_instance_id":entered["room_instance_id"],"command_seq":1,"payload":{"secret":"COMMAND_PAYLOAD_SENTINEL"}}).to_string()).unwrap();
+        runtime
+            .inner
+            .command(key, generation, "a", out.clone(), &command)
+            .await
+            .unwrap();
+        let input = crate::protocol::parse(&json!({"v":1,"type":"game.input","request_id":"input","room_id":entered["room_id"],"room_instance_id":entered["room_instance_id"],"input_seq":1,"payload":{"secret":"INPUT_PAYLOAD_SENTINEL"}}).to_string()).unwrap();
+        runtime
+            .inner
+            .command(key, generation, "a", out, &input)
+            .await
+            .unwrap();
+        let observer = runtime.observer();
+        let before = observer.snapshot().unwrap();
+        let calls = callbacks.load(Ordering::Relaxed);
+        let _manager = runtime.inner.state.lock().await;
+        let _modules = runtime.inner.modules.write().unwrap();
+        for _ in 0..32 {
+            let snapshot = observer.snapshot().unwrap();
+            assert_eq!(snapshot.metrics.ticks, before.metrics.ticks);
+            assert_eq!(snapshot.metrics.snapshots, before.metrics.snapshots);
+            assert_eq!(snapshot.rooms[0].server_tick, before.rooms[0].server_tick);
+            assert_eq!(snapshot.rooms[0].snapshot_seq, before.rooms[0].snapshot_seq);
+            let serialized = serde_json::to_string(&snapshot).unwrap();
+            for secret in [
+                "SETTINGS_SENTINEL",
+                "CREDENTIAL_SENTINEL",
+                "INPUT_PAYLOAD_SENTINEL",
+                "COMMAND_PAYLOAD_SENTINEL",
+                "PUBLIC_STATE_SENTINEL",
+                "PRIVATE_STATE_SENTINEL",
+                "COMMAND_RESULT_SENTINEL",
+                "issuer",
+                "subject",
+                "grant-private",
+                issued["token"].as_str().unwrap(),
+                issued["player_id"].as_str().unwrap(),
+            ] {
+                assert!(!serialized.contains(secret), "observation leaked {secret}");
+            }
+            let value = serde_json::to_value(&snapshot.rooms[0]).unwrap();
+            let mut keys: Vec<_> = value
+                .as_object()
+                .unwrap()
+                .keys()
+                .map(String::as_str)
+                .collect();
+            keys.sort_unstable();
+            assert_eq!(
+                keys,
+                [
+                    "capacity",
+                    "connected_members",
+                    "game_id",
+                    "public",
+                    "reserved_members",
+                    "room_id",
+                    "room_instance_id",
+                    "server_tick",
+                    "snapshot_seq",
+                    "summary_age_ms"
+                ]
+            );
+        }
+        assert_eq!(callbacks.load(Ordering::Relaxed), calls);
+        drop(_modules);
+        drop(_manager);
+        runtime.shutdown().await;
+    }
+    #[tokio::test(start_paused = true)]
+    async fn observer_omits_panicked_actor_and_supervision_refunds_active_room_once() {
+        let runtime = Campfire::new(Config {
+            tick_hz: 1,
+            snapshot_hz: 1,
+            ..Config::default()
+        })
+        .unwrap();
+        runtime
+            .register_game(
+                "a",
+                ObservedModule {
+                    callbacks: Arc::new(std::sync::atomic::AtomicU64::new(0)),
+                    panic_on_tick: true,
+                },
+            )
+            .unwrap();
+        let observer = runtime.observer();
+        let (_, _, _out, _rx, _) = create_observed_room(&runtime).await;
+        assert_eq!(observer.snapshot().unwrap().rooms.len(), 1);
+        tokio::time::advance(Duration::from_secs(1)).await;
+        for _ in 0..8 {
+            tokio::task::yield_now().await;
+        }
+        let snapshot = observer.snapshot().unwrap();
+        assert!(snapshot.rooms.is_empty());
+        assert_eq!(snapshot.metrics.active_rooms, 0);
+        assert_eq!(snapshot.metrics.room_panics, 1);
+        tokio::time::advance(Duration::from_secs(3)).await;
+        for _ in 0..4 {
+            tokio::task::yield_now().await;
+        }
+        assert_eq!(observer.snapshot().unwrap().metrics.active_rooms, 0);
+        runtime.shutdown().await;
     }
     #[tokio::test(start_paused = true)]
     async fn account_cancelled_rotation_keeps_old_token_identity_and_deadline_before_actor_commit()
@@ -2010,6 +2406,7 @@ mod tests {
                 .room
                 .is_none()
         );
+        assert!(runtime.observer().snapshot().unwrap().rooms.is_empty());
         for _ in 0..8 {
             tokio::task::yield_now().await;
         }
