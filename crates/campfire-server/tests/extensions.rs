@@ -40,6 +40,20 @@ impl AccountAuthenticator for TestAuthenticator {
             if credential == "denied-sensitive-credential" {
                 return Err(AuthError::InvalidCredential);
             }
+            if let Some(index) = credential
+                .strip_prefix("player-")
+                .and_then(|value| value.parse::<usize>().ok())
+                .filter(|index| *index < 16)
+            {
+                return Ok(AccountGrant {
+                    identity: AccountIdentity {
+                        issuer: "test-issuer".into(),
+                        subject: format!("scaled-subject-{index:02}-end"),
+                        claims: json!({"inventory_secret":format!("scaled-secret-{index:02}-end")}),
+                    },
+                    valid_for: Duration::from_secs(60),
+                });
+            }
             let (issuer, subject, secret) = match credential {
                 "bob" => ("test-issuer", "private-subject-bob", BOB_SECRET),
                 "other-issuer" => (
@@ -130,6 +144,7 @@ impl Game for Counter {
 }
 
 struct Server {
+    runtime: Campfire,
     address: SocketAddr,
     task: JoinHandle<()>,
     entered: Arc<tokio::sync::Notify>,
@@ -155,10 +170,11 @@ impl Server {
         runtime.register_game("b", CounterModule).unwrap();
         let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
         let address = listener.local_addr().unwrap();
+        let serve_runtime = runtime.clone();
         let task = tokio::spawn(async move {
             axum::serve(
                 listener,
-                runtime
+                serve_runtime
                     .router()
                     .into_make_service_with_connect_info::<SocketAddr>(),
             )
@@ -166,11 +182,17 @@ impl Server {
             .unwrap();
         });
         Self {
+            runtime,
             address,
             task,
             entered,
             release,
         }
+    }
+    async fn stop(&mut self) {
+        self.runtime.shutdown().await;
+        self.task.abort();
+        let _ = (&mut self.task).await;
     }
     fn endpoint(&self, game: &str, route: &str) -> String {
         format!("http://{}/v1/games/{game}/{route}", self.address)
@@ -800,4 +822,183 @@ async fn account_endpoint_preserves_media_type_status_without_echoing_credential
             .status(),
         404
     );
+}
+
+async fn scaled_account_commands_and_private_state(players: usize) {
+    use futures_util::future::join_all;
+    let mut server = Server::new(
+        Config {
+            room_capacity: players,
+            ..config()
+        },
+        true,
+    )
+    .await;
+    let credentials: Vec<_> = (0..players)
+        .map(|index| format!("player-{index}"))
+        .collect();
+    let secrets: Vec<_> = (0..players)
+        .map(|index| format!("scaled-secret-{index:02}-end"))
+        .collect();
+    let sessions = join_all(
+        credentials
+            .iter()
+            .map(|credential| server.account("a", credential)),
+    )
+    .await;
+    let mut clients = join_all(sessions.iter().enumerate().map(|(index, session)| {
+        let server = &server;
+        let secrets = &secrets;
+        async move {
+            let forbidden: Vec<_> = secrets
+                .iter()
+                .enumerate()
+                .filter(|(peer, _)| *peer != index)
+                .map(|(_, secret)| secret.as_str())
+                .collect();
+            let mut client = server.client("a", session, &forbidden).await;
+            client
+                .forbidden
+                .extend((0..players).map(|peer| format!("scaled-subject-{peer:02}-end")));
+            client
+        }
+    }))
+    .await;
+    let room = clients[0].enter(None).await;
+    assert_eq!(room["private_state"]["secret"], secrets[0]);
+    join_all(
+        clients
+            .iter_mut()
+            .enumerate()
+            .skip(1)
+            .map(|(index, client)| {
+                let room = &room;
+                let secrets = &secrets;
+                async move {
+                    assert_eq!(
+                        client.enter(Some(room)).await["private_state"]["secret"],
+                        secrets[index]
+                    );
+                }
+            }),
+    )
+    .await;
+    join_all(clients.iter_mut().enumerate().map(|(index, client)| {
+        let secrets = &secrets;
+        async move {
+            let mut requests = Vec::new();
+            for sequence in 1..=3 {
+                requests.push(
+                    client
+                        .send(
+                            "game.command",
+                            client.command_fields(
+                                sequence,
+                                json!({"value":index as u64 * 100 + sequence}),
+                            ),
+                        )
+                        .await,
+                );
+            }
+            for (offset, request) in requests.iter().enumerate() {
+                let result = client.response(request).await;
+                assert_eq!(result["type"], "game.command.result");
+                assert_eq!(result["command_seq"], offset + 1);
+                assert_eq!(result["ok"], true);
+                assert_eq!(result["result"]["secret"], secrets[index]);
+            }
+            let duplicate = client
+                .command(2, json!({"value":index as u64 * 100 + 2}))
+                .await;
+            assert_eq!(duplicate["type"], "game.command.result");
+            assert_eq!(duplicate["result"]["secret"], secrets[index]);
+        }
+    }))
+    .await;
+    let snapshots = join_all(clients.iter_mut().enumerate().map(|(index, client)| {
+        let secrets = &secrets;
+        async move {
+            loop {
+                let snapshot = client.snapshot_ack(3).await;
+                assert_eq!(snapshot["private_state"]["secret"], secrets[index]);
+                if snapshot["state"]["values"].as_array().unwrap().len() == players * 3 {
+                    break snapshot["state"].clone();
+                }
+            }
+        }
+    }))
+    .await;
+    let expected = snapshots[0].clone();
+    for state in &snapshots {
+        assert_eq!(state, &expected);
+    }
+    let values = expected["values"].as_array().unwrap();
+    assert_eq!(
+        values.len(),
+        players * 3,
+        "commands were dropped or applied twice"
+    );
+    for index in 0..players {
+        let own: Vec<_> = values
+            .iter()
+            .filter_map(Value::as_u64)
+            .filter(|value| value / 100 == index as u64)
+            .collect();
+        assert_eq!(
+            own,
+            vec![
+                index as u64 * 100 + 1,
+                index as u64 * 100 + 2,
+                index as u64 * 100 + 3
+            ],
+            "per-player FIFO changed"
+        );
+    }
+    for index in [0, players - 1] {
+        let replacement = server.account("a", &credentials[index]).await;
+        assert_eq!(replacement["player_id"], sessions[index]["player_id"]);
+        let forbidden: Vec<_> = secrets
+            .iter()
+            .enumerate()
+            .filter(|(peer, _)| *peer != index)
+            .map(|(_, secret)| secret.as_str())
+            .collect();
+        let mut resumed = server.client("a", &replacement, &forbidden).await;
+        resumed
+            .forbidden
+            .extend((0..players).map(|peer| format!("scaled-subject-{peer:02}-end")));
+        resumed.room = room.clone();
+        let full = resumed.call("resume", room_ids(&room)).await;
+        assert_eq!(full["type"], "room.resumed");
+        assert_eq!(full["private_state"]["secret"], secrets[index]);
+        assert_eq!(full["last_processed_command_seq"], 3);
+        assert_eq!(full["state"], expected);
+        let ledger = full["command_results"].as_array().unwrap();
+        assert_eq!(ledger.len(), 3);
+        for (offset, result) in ledger.iter().enumerate() {
+            assert_eq!(result["command_seq"], offset + 1);
+            assert_eq!(result["result"]["secret"], secrets[index]);
+        }
+        assert_eq!(
+            resumed
+                .command(2, json!({"value":index as u64 * 100 + 2}))
+                .await["type"],
+            "game.command.result"
+        );
+        assert_eq!(resumed.snapshot_ack(3).await["state"], expected);
+        resumed.socket.close(None).await.unwrap();
+    }
+    for client in &mut clients {
+        let _ = client.socket.close(None).await;
+    }
+    server.stop().await;
+}
+
+#[tokio::test]
+async fn eight_accounts_share_fifo_state_without_private_data_leaks() {
+    scaled_account_commands_and_private_state(8).await;
+}
+#[tokio::test]
+async fn sixteen_accounts_share_fifo_state_without_private_data_leaks() {
+    scaled_account_commands_and_private_state(16).await;
 }
