@@ -21,7 +21,7 @@
 ## Review Focus
 - URL/game 입력란에 WASD를 입력해도 참가자가 움직이지 않아야 한다.
 - Focus 상실, 퇴장과 단절은 방향을 지우고 재접속 때 재생하지 않아야 한다.
-- 방 GUID/instance와 16명 목록은 최소 viewport에서도 읽을 수 있어야 한다.
+- 전체 room_id/instance와 16명 목록은 최소 viewport에서도 읽을 수 있어야 한다.
 - 예약 만료와 만실 뒤에는 사용 가능한 재시도 버튼을 유지해야 한다.
 - 캐시를 커밋하지 않아도 clean import 후 F5/F6와 CLI가 실행돼야 한다.
 
@@ -45,12 +45,12 @@
 **Files:** integration/bot SceneTree scripts, Python coordinator and official API notes.
 **Interfaces:** 동일한 Task 1 adapter로 별도 Godot 프로세스를 Rust 서버에 연결한다.
 - [x] 실제 클라이언트 생성/목록/입장/이동/재접속 assertion과 게임 격리·예약 만료·로그아웃의 오류·거부 상황 테스트 및 발견 경계의 회귀 검증을 추가했다. 최초 실제 8명 bot 검증은 adapter v1 구현 뒤 실행해 기능 assertion이 통과했으며, baseline adapter에서 실패를 관찰한 것으로 기록하지 않는다. 초기 실행의 source hash 변경 및 뒤이은 fixture/로그아웃 실패 원본은 보존했다.
-- [ ] 중간 checkpoint 뒤 고정된 최종 소스로 실제 8명/16명, 처리 입력 ack, 다른 참가자, 공동 점수, 재접속의 동일 플레이어/instance와 정지 입력을 root가 독립 검증한다. 이전 실행의 개별 assertion 통과를 최종 전체 실행 통과로 간주하지 않는다.
-- [x] 지금까지 실행한 명령·시간·개별 결과를 기록하고 실패 원본을 보존했다. 최종 독립 실행 결과는 실행이 끝난 뒤 별도로 추가한다.
+- [x] 중간 checkpoint `00ea582` 뒤 root가 고정된 최종 소스로 실제 8명 20.620860초·20개 공통 state 및 16명 20.637036초·19개 공통 state, 처리 ack, 원격 위치, 공동 점수 0→1, 동일 guest/room/instance resume와 예약 중 정지를 독립 검증했다. `artifacts/godot-independent/summary.json`의 전체 success가 true다.
+- [x] 지금까지 실행한 명령·시간·개별 결과를 기록하고 실패 원본을 보존했다. 최종 독립 실행도 명령·버전·source/binary hash·각 client 보고서와 함께 별도로 보존했다.
 
 ### Task 4: 사용자 문서와 최종 검증 (UI + coordinator)
 **Files:** examples/godot/README.md, root README Godot section, docs/godot-client-verification.md.
 **Interfaces:** Task 2/3에서 검증한 명령과 결과를 사용한다.
 - [x] 서버 시작, 편집기/F5/F6, 두 번째 창, 조작, 재접속/만료와 실제 Godot 검증을 문서화한다.
-- [ ] Clean import, 단위/scene smoke/실제 통합 검증을 실행하고 coordinator가 Rust 회귀 검증을 수행한다.
-- [ ] Fresh Architect가 최종 소스와 근거를 검토하고 blocking finding을 해결한 뒤 최종 커밋을 요청한다.
+- [x] Root가 clean import·adapter 단위·scene smoke·8/16명 및 native UI 28개 전체 통합, Rust fmt/clippy와 빠른 테스트 44개(4개 장시간 ignored)를 독립 실행해 통과를 확인했다.
+- [x] Fresh Architect가 최종 소스·source/binary hash·독립 전체 실행과 수정 회귀를 검토해 APPROVED를 반환했다. 미해결 blocking finding이 없으며 root가 최종 test/docs 증거 커밋을 승인했다.

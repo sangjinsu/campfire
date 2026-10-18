@@ -1,0 +1,53 @@
+{
+  "success": false,
+  "source_sha256": "82a0e4025651916b0741e8b8c22e9267bbd8d6d843a8100eb19232a1b517b98a",
+  "git_commit": "5ffbbb1cd720ea5d33a3b23fb90c437f0c94760a",
+  "git_status": [
+    " M .gitignore",
+    " M README.md",
+    "?? artifacts/godot-final/",
+    "?? artifacts/godot-smoke/",
+    "?? artifacts/godot-ui-debug/",
+    "?? artifacts/godot-validation/",
+    "?? artifacts/godot/",
+    "?? docs/godot-api-research.md",
+    "?? docs/godot-client-verification.md",
+    "?? docs/superpowers/plans/2026-10-18-godot-client.md",
+    "?? docs/superpowers/specs/",
+    "?? examples/",
+    "?? tools/"
+  ],
+  "godot_version": "4.7.2.stable.official.ed1daf0bf",
+  "invocation": [
+    "tools/validate_godot.py",
+    "--ui-only",
+    "--output",
+    "artifacts/godot-ui-final"
+  ],
+  "timestamp_utc": "2026-10-18T09:22:17Z",
+  "server_binary_sha256": "a8cbcc9964b1be2b009a42edfe77267a3161480b2ae6bde0f948ba8223359081",
+  "rust_version": "rustc 1.96.1 (31fca3adb 2026-06-26)",
+  "server_command": [
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/target/debug/campfire-server",
+    "--bind",
+    "127.0.0.1:60539",
+    "--game",
+    "arena",
+    "--game",
+    "arena-b",
+    "--capacity",
+    "16",
+    "--reconnect-grace-ms",
+    "2000",
+    "--guest-burst",
+    "100",
+    "--guest-rate-per-second",
+    "100"
+  ],
+  "configuration_note": "Validation-only guest burst/rate100 avoids default issuer burst10; reconnect grace shortened from30000 to2000ms. Other server timing/transport defaults retained.",
+  "health": {
+    "status": "ok"
+  },
+  "scenarios": [],
+  "failure": "Godot UI/negative integration failed; see /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-ui-final/integration.log; report={'capture': '/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-ui-final/ui-live.png', 'checks': ['Native guest connect button authenticates', 'Native create button enters room', 'Second production adapter authenticates', 'Production adapter lists rooms', 'List includes exact created room instance', 'Same room remote membership reaches visible UI', 'Native leave button releases room', 'Native refresh button populates ItemList with requested room', 'UI room list preserves room identity metadata', 'Native join button enters selected room', 'Real D key event moves server-authoritative visible player with processed ack', 'Native UI participant count reflects shared snapshot', 'Actual renderer saves live-server UI screenshot', 'Native force disconnect button closes transport', 'Grace-expired same-token reconnect returns to lobby', 'Expired reservation cannot resume previous membership', 'Expired membership clears the visible stale room state', 'Other game adapter authenticates', 'Other game lists its namespace', 'Cross-game join is rejected by server', 'Cross-game failure preserves original game membership', 'Rejoin restores live scene before logout'], 'display_driver': 'macOS', 'elapsed_seconds': 11.732, 'expected_errors': [{'code': 'GAME_MISMATCH', 'message': 'room belongs to another game', 'retryable': False}], 'failures': ['Native logout button revokes guest session (timeout)'], 'grace_override_ms': 2000, 'success': False, 'unexpected_errors': [{'code': 'CONNECTION_CLOSED', 'message': '\uc11c\ubc84 \uc5f0\uacb0\uc774 \ub04a\uacbc\uc2b5\ub2c8\ub2e4. \uac19\uc740 \uac8c\uc2a4\ud2b8\ub85c \uc7ac\uc811\uc18d\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.', 'retryable': True}], 'command': ['/opt/homebrew/bin/godot', '--path', '/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot', '--audio-driver', 'Dummy', '--max-fps', '30', '--single-threaded-scene', '--script', 'res://tests/integration_ui.gd', '--', 'http://127.0.0.1:60539', '/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-epncs8io/integration.json', '/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-ui-final/ui-live.png'], 'graphical': True}"
+}

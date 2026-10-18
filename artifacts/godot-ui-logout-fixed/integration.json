@@ -1,0 +1,59 @@
+{
+  "capture": "/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-ui-logout-fixed/ui-live.png",
+  "checks": [
+    "Native guest connect button authenticates",
+    "Native create button enters room",
+    "Second production adapter authenticates",
+    "Production adapter lists rooms",
+    "List includes exact created room instance",
+    "Same room remote membership reaches visible UI",
+    "Native leave button releases room",
+    "Native refresh button populates ItemList with requested room",
+    "UI room list preserves room identity metadata",
+    "Native join button enters selected room",
+    "Real D key event moves server-authoritative visible player with processed ack",
+    "Native UI participant count reflects shared snapshot",
+    "Actual renderer saves live-server UI screenshot",
+    "Native force disconnect button closes transport",
+    "Grace-expired same-token reconnect returns to lobby",
+    "Expired reservation cannot resume previous membership",
+    "Expired membership clears the visible stale room state",
+    "Other game adapter authenticates",
+    "Other game lists its namespace",
+    "Cross-game join is rejected by server",
+    "Cross-game failure preserves original game membership",
+    "Rejoin restores live scene before logout",
+    "Native logout button revokes guest session",
+    "Logout clears visible room state without room.left"
+  ],
+  "display_driver": "macOS",
+  "elapsed_seconds": 5.823,
+  "expected_errors": [
+    {
+      "code": "GAME_MISMATCH",
+      "message": "room belongs to another game",
+      "retryable": false
+    }
+  ],
+  "failures": [],
+  "grace_override_ms": 2000,
+  "success": true,
+  "unexpected_errors": [],
+  "command": [
+    "/opt/homebrew/bin/godot",
+    "--path",
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+    "--audio-driver",
+    "Dummy",
+    "--max-fps",
+    "30",
+    "--single-threaded-scene",
+    "--script",
+    "res://tests/integration_ui.gd",
+    "--",
+    "http://127.0.0.1:61640",
+    "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-lsk4x52u/integration.json",
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-ui-logout-fixed/ui-live.png"
+  ],
+  "graphical": true
+}

@@ -1,0 +1,3840 @@
+{
+  "success": true,
+  "client_engine": "Godot WebSocketPeer via production CampfireClient",
+  "count": 16,
+  "measured_seconds": 20.657927707987255,
+  "total_seconds": 25.06908695801394,
+  "config": {
+    "server": "http://127.0.0.1:59578",
+    "count": 16,
+    "duration": 20.0
+  },
+  "commands": [
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "0"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "1"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "2"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "3"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "4"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "5"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "6"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "7"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "8"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "9"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "10"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "11"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "12"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "13"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "14"
+    ],
+    [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16/config.json",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-qu7hfk09/clients-16",
+      "15"
+    ]
+  ],
+  "common_state_checks": [
+    {
+      "snapshot_seq": 75,
+      "server_tick": 150,
+      "state_sha256": "83c01cd476920aa8ec03e78417804ec0aa26c71ae9d0e721c6e3a9262768d148",
+      "state": {
+        "goal": {
+          "active": true,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 3.833333295,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 3.99999996,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 3.833333295,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 3.833333295,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 3.99999996,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 3.99999996
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 3.99999996,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 3.99999996
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 3.99999996
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 3.833333295
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 3.99999996
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 3.99999996,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 3.833333295
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 3.833333295
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 3.833333295,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 3.99999996
+          }
+        ],
+        "shared_score": 0.0
+      }
+    },
+    {
+      "snapshot_seq": 90,
+      "server_tick": 180,
+      "state_sha256": "969d3589889c64258dbb03d352454b42bed34835af48d9dcb415dd804e279a72",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 8.833333245,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 8.99999991,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 8.833333245,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 8.833333245,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 8.99999991,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 8.99999991
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 8.99999991,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 8.99999991
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 8.99999991
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 8.833333245
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 8.99999991
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 8.99999991,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 8.833333245
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 8.833333245
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 8.833333245,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 8.99999991
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 105,
+      "server_tick": 210,
+      "state_sha256": "dd2a7ef28754fba045ca823976654cea796c96e7db879664bea8467b25734dc6",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 5.833333275,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 5.833333275,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 5.833333275,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 5.99999994
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 6.16666670500001
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 6.16666670500001
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 5.833333275
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 5.99999994
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 5.833333275
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 6.166666605
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 6.166666605,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 6.16666670500001
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 120,
+      "server_tick": 240,
+      "state_sha256": "0a5bd948fdba937348cd24282dfcf0ba793666a48639a016f8137f00e14e6bcd",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 0.833333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 0.833333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 0.833333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 0.99999999
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 1.166666755
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 1.166666755
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 0.833333325
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 0.99999999
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 0.833333325
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 1.166666655
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 1.166666655,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 1.166666755
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 135,
+      "server_tick": 270,
+      "state_sha256": "0cdb0b03c59fd61e0ff60a08a183b7146dc7b6ba1ff37a5587f18034cf3106a7",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 3.833333295,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 3.833333395,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 3.499999965,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 3.833333295,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 3.833333395,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 3.66666663
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 3.833333395,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 3.833333395
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 4.16666672500001
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 3.833333295
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 3.99999996
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 4.16666672500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 3.833333295
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 3.833333295
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 4.166666625,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 4.16666672500001
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 150,
+      "server_tick": 300,
+      "state_sha256": "895820ced6bb7b4612731230d462cc0cf63243c324a87c789ff4aeb0686dd8fe",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 8.833333245,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 8.83333334500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 8.499999915,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 8.833333245,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 8.83333334500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 8.66666658
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 8.83333334500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 8.83333334500001
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 9.166666675
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 8.833333245
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 8.99999991
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 9.166666675,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 8.833333245
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 8.833333245
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 9.166666575,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 9.166666675
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 165,
+      "server_tick": 330,
+      "state_sha256": "3991bfd380d62668047ef80ae5a0a95a5436f8e2d0f5d54fb877164ec8db518f",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 5.833333275,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 5.499999945,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 6.166666605,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 5.99999994
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 5.83333337500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 9.66666667
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 6.00000004000001
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 6.166666605
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 5.99999994
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 6.166666605
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 5.833333275
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 6.00000004000001
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 180,
+      "server_tick": 360,
+      "state_sha256": "10b3e23056357d5d8dd2bafd9bcf617e06ededfacf47cbe765bf5cda817d5cb4",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 0.833333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 0.499999995,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 1.166666655,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 0.99999999
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 0.833333425000004,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 4.66666672000001
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 1.00000009
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 1.166666655
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 0.99999999
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 1.166666655
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 0.833333325
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 1.00000009
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 195,
+      "server_tick": 390,
+      "state_sha256": "19751f7a8cc2db4850cf987031aeb6dcd4925644454da8a14a3d7d1f777618e8",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 3.833333295,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 4.16666672500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 3.499999965,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 4.166666625,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 4.16666672500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 3.99999996
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 3.833333395,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 7.66666669000001
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 4.00000006
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 4.166666625
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 3.99999996
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 4.00000006,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 4.166666625
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 3.833333295
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 4.00000006,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 4.00000006
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 210,
+      "server_tick": 420,
+      "state_sha256": "8282cbb1239d9eb4d542ec74472518d8289b006a36bb79b76c7800c7dddf160b",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 8.833333245,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 9.166666675,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 8.499999915,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 9.166666575,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 9.166666675,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 8.99999991
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 8.83333334500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 10.0
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 9.00000001
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 9.166666575
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 8.99999991
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 9.00000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 9.166666575
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 8.833333245
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 9.00000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 9.00000001
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 225,
+      "server_tick": 450,
+      "state_sha256": "d0ad8f7afde8556116799d693a3cd231382a8ddfb8fa00e896f96bcfcb71b0fb",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 5.833333275,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 5.833333275,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 6.16666670500001
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 6.00000004000001
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 6.00000004000001
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 6.16666670500001
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 5.99999994
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 6.00000004000001
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 5.833333275
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 6.00000004000001
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 240,
+      "server_tick": 480,
+      "state_sha256": "82a01177a8ea97c8fe4151cd613360984facaa95be888d164cee92c8539905aa",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 0.833333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 0.833333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 1.166666755
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 1.00000009
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 1.00000009
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 1.166666755
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 0.99999999
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 1.00000009
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 0.833333325
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 1.00000009
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 255,
+      "server_tick": 510,
+      "state_sha256": "2a8e261fc4d1a9c9db1260082f8f7b5d5b4f5461a6a0ff82bfb611cbbd0816e6",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 3.499999965,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 3.833333395,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 3.499999965,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 4.00000006,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 4.00000006,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 3.833333395
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 4.16666672500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 3.66666673
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 3.66666673
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 3.833333395
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 3.66666663
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 3.66666673,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 3.66666673
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 3.833333295
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 4.00000006,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 4.00000006
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 270,
+      "server_tick": 540,
+      "state_sha256": "7f4e6be8e79cbf382dc79cef2e2f3a2b60e64f9c9e8e3db33adeda833c0ec422",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 8.499999915,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 8.83333334500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 8.499999915,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 9.00000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 9.00000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 8.83333334500001
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 9.166666675,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 8.66666668000001
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 8.66666668000001
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 8.83333334500001
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 8.66666658
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 8.66666668000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 8.66666668000001
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 8.833333245
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 9.00000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 9.00000001
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 285,
+      "server_tick": 570,
+      "state_sha256": "67069125602a534f450479fbf427b80ba5698a6f0828c2248d7c8bc57abc8c04",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 5.833333275,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 5.833333275,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 6.16666670500001
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 6.00000004000001
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 5.66666671000001
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 6.16666670500001
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 5.66666661
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 5.66666671000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 6.00000004000001
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 5.833333275
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 6.00000004000001
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 300,
+      "server_tick": 600,
+      "state_sha256": "88cb0859f5ab4ba333683f7c5b35f3e369b5f9285650df647b9db1eb2100d84e",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 0.833333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 0.833333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 1.166666755
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 1.00000009
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 0.666666760000004
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 1.166666755
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 0.66666666
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 0.666666760000004,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 1.00000009
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 0.833333325
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 1.00000009
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 315,
+      "server_tick": 630,
+      "state_sha256": "4278a24bac61a45ae1ae0c95045124c86cb645a3b6715b7962971ae8da9b1461",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 3.499999965,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 4.16666672500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 3.499999965,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 4.00000006,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 4.00000006,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 3.833333395
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 4.00000006,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 3.66666673
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 3.66666673
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 3.833333395
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 3.66666663
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 3.66666673,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 4.00000006
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 3.833333295
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 4.00000006,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 4.00000006
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 330,
+      "server_tick": 660,
+      "state_sha256": "6a4a0b14484599500acae3b31212c3a4f45e9cbdf258467f0192621e5f798344",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 8.499999915,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 9.166666675,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 8.499999915,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 9.00000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 9.00000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 8.83333334500001
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 9.00000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 8.66666668000001
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 8.66666668000001
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 8.83333334500001
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 8.66666658
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 8.66666668000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 9.00000001
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 8.833333245
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 9.00000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 9.00000001
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 345,
+      "server_tick": 690,
+      "state_sha256": "546aac9f510ed76733185f49d72e2d42e6828eb25e96b68dfc33aa733928d116",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 5.499999945,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 5.499999945,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 6.00000004000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 5.83333337500001
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 5.66666671000001
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 5.66666671000001
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 5.83333337500001
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 5.66666661
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 5.66666671000001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 6.00000004000001
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 5.833333275
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 6.16666670500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 6.16666670500001
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 360,
+      "server_tick": 720,
+      "state_sha256": "3633824d122e1766890bd967d646ad12420e581a5ec0e7ed424b98203417ea43",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+            "x": 0.499999995,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+            "x": 0.499999995,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+            "x": 1.00000009,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+            "x": 0.0,
+            "y": 0.833333425000004
+          },
+          {
+            "connected": true,
+            "id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+            "x": 0.0,
+            "y": 0.666666760000004
+          },
+          {
+            "connected": true,
+            "id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+            "x": 0.0,
+            "y": 0.666666760000004
+          },
+          {
+            "connected": true,
+            "id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+            "x": 0.0,
+            "y": 0.833333425000004
+          },
+          {
+            "connected": true,
+            "id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+            "x": 0.0,
+            "y": 0.66666666
+          },
+          {
+            "connected": true,
+            "id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+            "x": 0.666666760000004,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+            "x": 0.0,
+            "y": 1.00000009
+          },
+          {
+            "connected": true,
+            "id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+            "x": 0.0,
+            "y": 0.833333325
+          },
+          {
+            "connected": true,
+            "id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+            "x": 1.166666755,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+            "x": 0.0,
+            "y": 1.166666755
+          }
+        ],
+        "shared_score": 1.0
+      }
+    }
+  ],
+  "clients": [
+    {
+      "duration_seconds": 20.527,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_59b9d27df23ab6dc063eebf81024a4946f01e701c756d283fb89d9e92c0c8352",
+      "index": 0,
+      "last_processed_input_seq": 471,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.166666565,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 372,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 107
+    },
+    {
+      "duration_seconds": 20.526,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_a6baf9f48446cabd5cfa7c7d67fb849d29b4eb5a4e719bfcd548db8a68df4e87",
+      "index": 1,
+      "last_processed_input_seq": 467,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.166666665,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 370,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 73,
+      "snapshot_gap_ms_max": 126
+    },
+    {
+      "duration_seconds": 20.525,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_22ad2cbf7521c917a3f520769a317e700619e200605801365d7496decabc2558",
+      "index": 2,
+      "last_processed_input_seq": 468,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.33333323,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 368,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 101
+    },
+    {
+      "duration_seconds": 20.527,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_9f550e5ed15ee9a69a19ee8ccacf702c90dc94ff012e02b6c6362d940f7ccec8",
+      "index": 3,
+      "last_processed_input_seq": 461,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.33333323,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 366,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 98
+    },
+    {
+      "duration_seconds": 20.527,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_ebbb0e34d7bd63093cc099254750b66daf88355267d25b100b2ffb3933e17c7b",
+      "index": 4,
+      "last_processed_input_seq": 458,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.0,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 362,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 95
+    },
+    {
+      "duration_seconds": 20.529,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_eb336e6db2c888f4425ab9de62fe704e68d3b9d807f8e5ba0b23940b3f32d602",
+      "index": 5,
+      "last_processed_input_seq": 447,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.166666565,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 353,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 73,
+      "snapshot_gap_ms_max": 98
+    },
+    {
+      "duration_seconds": 20.526,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_211db6ff70caf414ff7f9cb8c14eb7654685983fe88246f2ba719b0cdd0a09a1",
+      "index": 6,
+      "last_processed_input_seq": 424,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.0,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 332,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 92
+    },
+    {
+      "duration_seconds": 20.528,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_476987d5d67a3ebd762fc336e0fc110f384016f653a6ac44999a5a2714a82abc",
+      "index": 7,
+      "last_processed_input_seq": 420,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.166666465,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 329,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 113
+    },
+    {
+      "duration_seconds": 20.529,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_364d143e3bf22b2e44e3ae71917ac1dbc76f918f7d9c3bc648f3f9730973bd95",
+      "index": 8,
+      "last_processed_input_seq": 416,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.166666665,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 327,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 126
+    },
+    {
+      "duration_seconds": 20.529,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_eea3a757e0be60c246425c2364bdd3b67ed31049d5bb2c76fa1c25f899fa00ae",
+      "index": 9,
+      "last_processed_input_seq": 413,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.0,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 323,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 71,
+      "snapshot_gap_ms_max": 97
+    },
+    {
+      "duration_seconds": 20.528,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_3b10c09eeac4f94c99ae1d2431a829f7f807293e19a4b465fc5cc45a9032dcde",
+      "index": 10,
+      "last_processed_input_seq": 412,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.166666565,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 323,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 71,
+      "snapshot_gap_ms_max": 97
+    },
+    {
+      "duration_seconds": 20.531,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_bd86bc6d16d993fe9c4ce6bea4cfd6f1653bb54b489f828493365f0cea20b21b",
+      "index": 11,
+      "last_processed_input_seq": 401,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.33333323,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 314,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 112
+    },
+    {
+      "duration_seconds": 20.526,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_c7094e6ef4337282a6d214cb404faa4fe6ff70205cdf3e9bf66cc2660af13c6a",
+      "index": 12,
+      "last_processed_input_seq": 414,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.33333323,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 324,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 73,
+      "snapshot_gap_ms_max": 101
+    },
+    {
+      "duration_seconds": 20.525,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_cc17d7f5d6d7fb7596173665affc51b060ec55c9df3ff26531de0f9a6db1e532",
+      "index": 13,
+      "last_processed_input_seq": 403,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.166666665,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 316,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 102
+    },
+    {
+      "duration_seconds": 20.529,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_1eab97cae29347b474b33609425d26394f0d07fd9dff5d4095a6510b5e310cbb",
+      "index": 14,
+      "last_processed_input_seq": 401,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.499999895,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 308,
+          "snapshot_seq": 154,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 310,
+          "snapshot_seq": 155,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 312,
+          "snapshot_seq": 156,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 314,
+          "snapshot_seq": 157,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 316,
+          "snapshot_seq": 158,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 318,
+          "snapshot_seq": 159,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 320,
+          "snapshot_seq": 160,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 322,
+          "snapshot_seq": 161,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 324,
+          "snapshot_seq": 162,
+          "x": 0.0,
+          "y": 9.833333335
+        },
+        {
+          "server_tick": 326,
+          "snapshot_seq": 163,
+          "x": 0.0,
+          "y": 9.833333335
+        }
+      ],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": true,
+      "server_tick": 740,
+      "snapshot_count": 314,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 99
+    },
+    {
+      "duration_seconds": 20.518,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+      "index": 15,
+      "last_processed_input_seq": 382,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.33333323,
+      "reconnect_before": {
+        "ack": 116,
+        "server_tick": 306,
+        "snapshot_seq": 153
+      },
+      "reconnect_done": true,
+      "reconnect_resumed": {
+        "ack": 116.0,
+        "guest_id": "g_7c23f73bea4f322a946841df7275cb057d9e8a5044570ec259135a44d19e391b",
+        "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+        "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+        "server_tick": 327.0,
+        "snapshot_seq": 163.0
+      },
+      "remote_disconnect": [],
+      "room_id": "r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f",
+      "room_instance_id": "i_4db78b4e22a70a9e6a07ef0ee9cc55262ead4e8fcdfc4994543b1b92a7b17b16",
+      "saw_remote_return": false,
+      "server_tick": 740,
+      "snapshot_count": 301,
+      "snapshot_seq": 370,
+      "success": true,
+      "snapshot_gap_ms_p95": 72,
+      "snapshot_gap_ms_max": 723
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "success": false,
+  "source_sha256": "813c7249abf759871e74b6517bfbb10a8347bd3e91138eb09b3369630239237b",
+  "git_commit": "5ffbbb1cd720ea5d33a3b23fb90c437f0c94760a",
+  "git_status": [
+    " M .gitignore",
+    "?? docs/godot-api-research.md",
+    "?? docs/superpowers/plans/2026-10-18-godot-client.md",
+    "?? docs/superpowers/specs/",
+    "?? examples/",
+    "?? tools/"
+  ],
+  "godot_version": "4.7.2.stable.official.ed1daf0bf",
+  "invocation": [
+    "tools/validate_godot.py",
+    "--counts",
+    "8",
+    "--duration",
+    "15",
+    "--skip-ui",
+    "--output",
+    "artifacts/godot-smoke"
+  ],
+  "timestamp_utc": "2026-10-18T09:19:25Z",
+  "server_command": [
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/target/debug/campfire-server",
+    "--bind",
+    "127.0.0.1:59398",
+    "--game",
+    "arena",
+    "--game",
+    "arena-b",
+    "--capacity",
+    "16",
+    "--reconnect-grace-ms",
+    "2000",
+    "--guest-burst",
+    "100",
+    "--guest-rate-per-second",
+    "100"
+  ],
+  "configuration_note": "Validation-only guest burst/rate100 avoids default issuer burst10; reconnect grace shortened from30000 to2000ms. Other server timing/transport defaults retained.",
+  "health": {
+    "status": "ok"
+  },
+  "scenarios": [
+    {
+      "count": 8,
+      "success": true,
+      "common_state_checks": 14,
+      "measured_seconds": 15.639210875000572
+    }
+  ],
+  "failure": "Validation source changed during run"
+}

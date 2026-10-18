@@ -1,0 +1,60 @@
+{
+  "success": false,
+  "source_sha256": "ff8fb9318fc0769ca4cb3966f7fa1d41677fb8c02b395083a2f96b934bdeba16",
+  "git_commit": "5ffbbb1cd720ea5d33a3b23fb90c437f0c94760a",
+  "git_status": [
+    " M .gitignore",
+    "?? artifacts/godot-smoke/",
+    "?? artifacts/godot/",
+    "?? docs/godot-api-research.md",
+    "?? docs/superpowers/plans/2026-10-18-godot-client.md",
+    "?? docs/superpowers/specs/",
+    "?? examples/",
+    "?? tools/"
+  ],
+  "godot_version": "4.7.2.stable.official.ed1daf0bf",
+  "invocation": [
+    "tools/validate_godot.py",
+    "--duration",
+    "20",
+    "--output",
+    "artifacts/godot-validation"
+  ],
+  "timestamp_utc": "2026-10-18T09:19:52Z",
+  "server_command": [
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/target/debug/campfire-server",
+    "--bind",
+    "127.0.0.1:59578",
+    "--game",
+    "arena",
+    "--game",
+    "arena-b",
+    "--capacity",
+    "16",
+    "--reconnect-grace-ms",
+    "2000",
+    "--guest-burst",
+    "100",
+    "--guest-rate-per-second",
+    "100"
+  ],
+  "configuration_note": "Validation-only guest burst/rate100 avoids default issuer burst10; reconnect grace shortened from30000 to2000ms. Other server timing/transport defaults retained.",
+  "health": {
+    "status": "ok"
+  },
+  "scenarios": [
+    {
+      "count": 8,
+      "success": true,
+      "common_state_checks": 19,
+      "measured_seconds": 20.61252450000029
+    },
+    {
+      "count": 16,
+      "success": true,
+      "common_state_checks": 20,
+      "measured_seconds": 20.657927707987255
+    }
+  ],
+  "failure": "Godot UI/negative integration failed; see /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-validation/integration.log; report={'capture': '/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-validation/ui-live.png', 'checks': ['Native guest connect button authenticates', 'Native create button enters room', 'Second production adapter authenticates', 'Production adapter lists rooms', 'List includes exact created room instance', 'Same room remote membership reaches visible UI', 'Native leave button releases room', 'Native refresh button populates ItemList'], 'display_driver': 'macOS', 'elapsed_seconds': 0.511, 'expected_errors': [], 'failures': ['UI room list preserves room identity metadata'], 'grace_override_ms': 2000, 'success': False, 'unexpected_errors': []}"
+}

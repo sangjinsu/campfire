@@ -1,0 +1,103 @@
+{
+  "success": true,
+  "source_sha256": "3d3a550a98309a71f82f48e19f9897dca7abecfa7a53aa3818bd2427e05a816e",
+  "git_commit": "5ffbbb1cd720ea5d33a3b23fb90c437f0c94760a",
+  "git_status": [
+    " M .gitignore",
+    " M README.md",
+    "?? artifacts/godot-smoke/",
+    "?? artifacts/godot-validation/",
+    "?? artifacts/godot/",
+    "?? docs/godot-api-research.md",
+    "?? docs/godot-client-verification.md",
+    "?? docs/superpowers/plans/2026-10-18-godot-client.md",
+    "?? docs/superpowers/specs/",
+    "?? examples/",
+    "?? tools/"
+  ],
+  "godot_version": "4.7.2.stable.official.ed1daf0bf",
+  "invocation": [
+    "tools/validate_godot.py",
+    "--ui-only",
+    "--output",
+    "artifacts/godot-ui-debug"
+  ],
+  "timestamp_utc": "2026-10-18T09:20:58Z",
+  "server_command": [
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/target/debug/campfire-server",
+    "--bind",
+    "127.0.0.1:60031",
+    "--game",
+    "arena",
+    "--game",
+    "arena-b",
+    "--capacity",
+    "16",
+    "--reconnect-grace-ms",
+    "2000",
+    "--guest-burst",
+    "100",
+    "--guest-rate-per-second",
+    "100"
+  ],
+  "configuration_note": "Validation-only guest burst/rate100 avoids default issuer burst10; reconnect grace shortened from30000 to2000ms. Other server timing/transport defaults retained.",
+  "health": {
+    "status": "ok"
+  },
+  "scenarios": [],
+  "integration": {
+    "capture": "/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-ui-debug/ui-live.png",
+    "checks": [
+      "Native guest connect button authenticates",
+      "Native create button enters room",
+      "Second production adapter authenticates",
+      "Production adapter lists rooms",
+      "List includes exact created room instance",
+      "Same room remote membership reaches visible UI",
+      "Native leave button releases room",
+      "Native refresh button populates ItemList with requested room",
+      "UI room list preserves room identity metadata",
+      "Native join button enters selected room",
+      "Real D key event moves server-authoritative visible player with processed ack",
+      "Native UI participant count reflects shared snapshot",
+      "Actual renderer saves live-server UI screenshot",
+      "Native force disconnect button closes transport",
+      "Grace-expired same-token reconnect returns to lobby",
+      "Expired reservation cannot resume previous membership",
+      "Other game adapter authenticates",
+      "Other game lists its namespace",
+      "Cross-game join is rejected by server",
+      "Cross-game failure preserves original game membership"
+    ],
+    "display_driver": "macOS",
+    "elapsed_seconds": 5.581,
+    "expected_errors": [
+      {
+        "code": "GAME_MISMATCH",
+        "message": "room belongs to another game",
+        "retryable": false
+      }
+    ],
+    "failures": [],
+    "grace_override_ms": 2000,
+    "success": true,
+    "unexpected_errors": [],
+    "command": [
+      "/opt/homebrew/bin/godot",
+      "--path",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--script",
+      "res://tests/integration_ui.gd",
+      "--",
+      "http://127.0.0.1:60031",
+      "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-f4r8ts_y/integration.json",
+      "/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-ui-debug/ui-live.png"
+    ],
+    "graphical": true
+  }
+}

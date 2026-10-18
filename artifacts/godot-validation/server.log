@@ -1,0 +1,1 @@
+{"timestamp":"2026-10-18T09:20:19.112964Z","level":"WARN","fields":{"message":"trusted game tick exceeded processing budget","game_id":"arena","room_id":"r_d64e71c023f66d9ebaf413409fb452aeb9b2be2f040980a9d8168b8d9760178f","server_tick":108,"duration_micros":36306,"budget_micros":33333},"target":"campfire_runtime::room"}

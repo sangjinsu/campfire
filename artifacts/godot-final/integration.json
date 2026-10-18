@@ -1,0 +1,65 @@
+{
+  "capture": "/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-final/ui-live.png",
+  "checks": [
+    "Native guest connect button authenticates",
+    "Native create button enters room",
+    "Second production adapter authenticates",
+    "Production adapter lists rooms",
+    "List includes exact created room instance",
+    "Same room remote membership reaches visible UI",
+    "Native leave button releases room",
+    "Native refresh button populates ItemList with requested room",
+    "UI room list preserves room identity metadata",
+    "Native join button enters selected room",
+    "Real D key event moves server-authoritative visible player with processed ack",
+    "Native UI participant count reflects shared snapshot",
+    "Actual renderer saves live-server UI screenshot",
+    "Native force disconnect button closes transport",
+    "Grace-expired same-token reconnect returns to lobby",
+    "Expired reservation cannot resume previous membership",
+    "Expired membership clears the visible stale room state",
+    "Other game adapter authenticates",
+    "Other game lists its namespace",
+    "Cross-game join is rejected by server",
+    "Cross-game failure preserves original game membership",
+    "Rejoin restores live scene before logout"
+  ],
+  "display_driver": "macOS",
+  "elapsed_seconds": 11.658,
+  "expected_errors": [
+    {
+      "code": "GAME_MISMATCH",
+      "message": "room belongs to another game",
+      "retryable": false
+    }
+  ],
+  "failures": [
+    "Native logout button revokes guest session (timeout)"
+  ],
+  "grace_override_ms": 2000,
+  "success": false,
+  "unexpected_errors": [
+    {
+      "code": "CONNECTION_CLOSED",
+      "message": "\uc11c\ubc84 \uc5f0\uacb0\uc774 \ub04a\uacbc\uc2b5\ub2c8\ub2e4. \uac19\uc740 \uac8c\uc2a4\ud2b8\ub85c \uc7ac\uc811\uc18d\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
+      "retryable": true
+    }
+  ],
+  "command": [
+    "/opt/homebrew/bin/godot",
+    "--path",
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+    "--audio-driver",
+    "Dummy",
+    "--max-fps",
+    "30",
+    "--single-threaded-scene",
+    "--script",
+    "res://tests/integration_ui.gd",
+    "--",
+    "http://127.0.0.1:60144",
+    "/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-godot-7uzfj5fq/integration.json",
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-final/ui-live.png"
+  ],
+  "graphical": true
+}
