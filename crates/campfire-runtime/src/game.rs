@@ -1,21 +1,8 @@
+use crate::PlayerIdentity;
 use serde_json::Value;
 use std::{fmt, time::Duration};
 
 pub type PlayerId = String;
-
-/// Account data is supplied only to trusted game callbacks, never to protocol snapshots.
-#[derive(Clone, Debug, PartialEq)]
-pub struct AccountIdentity {
-    pub issuer: String,
-    pub subject: String,
-    pub claims: Value,
-}
-
-#[derive(Clone, Debug, PartialEq)]
-pub enum PlayerIdentity {
-    Guest,
-    Account(AccountIdentity),
-}
 
 #[derive(Clone, Debug)]
 pub struct GameContext {

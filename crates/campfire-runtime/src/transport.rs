@@ -16,6 +16,7 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use futures_util::{SinkExt, StreamExt};
+use serde::Deserialize;
 use serde_json::{Value, json};
 use std::{
     net::SocketAddr,
@@ -44,10 +45,70 @@ pub(crate) async fn guest(
         Err(error) => http_error(error),
     }
 }
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+pub(crate) struct AccountRequest {
+    credential: String,
+}
+pub(crate) async fn account(
+    State(runtime): State<Campfire>,
+    Path(game): Path<String>,
+    source: Result<ConnectInfo<SocketAddr>, axum::extract::rejection::ExtensionRejection>,
+    body: Result<Json<AccountRequest>, axum::extract::rejection::JsonRejection>,
+) -> Response {
+    let Json(body) = match body {
+        Ok(body) => body,
+        Err(rejection) if rejection.status() == StatusCode::PAYLOAD_TOO_LARGE => {
+            return (
+                StatusCode::PAYLOAD_TOO_LARGE,
+                Json(
+                    Error::new("FRAME_TOO_LARGE", "request body exceeds configured limit")
+                        .value(None),
+                ),
+            )
+                .into_response();
+        }
+        Err(rejection) if rejection.status() == StatusCode::UNSUPPORTED_MEDIA_TYPE => {
+            return (
+                StatusCode::UNSUPPORTED_MEDIA_TYPE,
+                Json(
+                    Error::new(
+                        "INVALID_MESSAGE",
+                        "application/json content type is required",
+                    )
+                    .value(None),
+                ),
+            )
+                .into_response();
+        }
+        Err(_) => {
+            return http_error(Error::new(
+                "INVALID_MESSAGE",
+                "invalid account authentication request",
+            ));
+        }
+    };
+    let source = source.map_or_else(
+        |_| "unknown".into(),
+        |ConnectInfo(address)| address.ip().to_string(),
+    );
+    match runtime
+        .inner
+        .issue_account(&game, &body.credential, source)
+        .await
+    {
+        Ok(value) => (StatusCode::CREATED, Json(value)).into_response(),
+        Err(error) => http_error(error),
+    }
+}
 fn http_error(error: Error) -> Response {
     let status = match error.code.as_str() {
         "GAME_NOT_FOUND" => StatusCode::NOT_FOUND,
         "RATE_LIMITED" => StatusCode::TOO_MANY_REQUESTS,
+        "ACCOUNT_AUTH_DISABLED" => StatusCode::NOT_IMPLEMENTED,
+        "INVALID_MESSAGE" => StatusCode::BAD_REQUEST,
+        "UNAUTHENTICATED" => StatusCode::UNAUTHORIZED,
+        "AUTH_TIMEOUT" => StatusCode::GATEWAY_TIMEOUT,
         _ => StatusCode::SERVICE_UNAVAILABLE,
     };
     (status, Json(error.value(None))).into_response()
@@ -242,7 +303,7 @@ async fn connection_task(
             }
             if matches!(
                 request.command,
-                Command::Input { .. } | Command::GameCommand { .. }
+                Command::Input { .. } | Command::Execute { .. }
             ) && !rate.take(
                 reader_config.input_rate_per_second,
                 reader_config.input_burst,
@@ -283,7 +344,7 @@ async fn connection_task(
         };
         match cache.get(&request) {
             Ok(Some(response)) => {
-                if !matches!(request.command, Command::GameCommand { .. }) {
+                if !matches!(request.command, Command::Execute { .. }) {
                     output.send(response);
                     continue;
                 }

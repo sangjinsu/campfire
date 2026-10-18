@@ -37,7 +37,7 @@ pub(crate) enum Command {
         payload: Value,
     },
     #[serde(rename = "game.command")]
-    GameCommand {
+    Execute {
         room_id: String,
         room_instance_id: String,
         command_seq: u64,
@@ -149,12 +149,25 @@ impl ResponseCache {
 }
 
 pub(crate) fn fingerprint(body: &Value) -> [u8; 32] {
-    Sha256::digest(body.to_string().as_bytes()).into()
+    let mut canonical = body.clone();
+    canonical.sort_all_objects();
+    Sha256::digest(canonical.to_string().as_bytes()).into()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn fingerprints_canonicalize_nested_object_keys_but_preserve_array_order() {
+        let first: Value =
+            serde_json::from_str(r#"{"outer":{"b":2,"a":1},"array":[{"d":4,"c":3},5]}"#).unwrap();
+        let reordered: Value =
+            serde_json::from_str(r#"{"array":[{"c":3,"d":4},5],"outer":{"a":1,"b":2}}"#).unwrap();
+        let reversed: Value =
+            serde_json::from_str(r#"{"array":[5,{"c":3,"d":4}],"outer":{"a":1,"b":2}}"#).unwrap();
+        assert_eq!(fingerprint(&first), fingerprint(&reordered));
+        assert_ne!(fingerprint(&first), fingerprint(&reversed));
+    }
     #[test]
     fn parses_ordered_game_commands() {
         assert!(parse(r#"{"v":1,"type":"game.command","request_id":"cmd","room_id":"r","room_instance_id":"i","command_seq":1,"payload":{"buy":"shield"}}"#).is_ok());

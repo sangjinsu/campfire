@@ -1,9 +1,9 @@
+mod auth;
 mod config;
 mod game;
+pub use auth::{AccountAuthenticator, AccountGrant, AccountIdentity, AuthError, PlayerIdentity};
 pub use config::{Config, ConfigError};
-pub use game::{
-    AccountIdentity, Game, GameContext, GameError, GameModule, PlayerId, PlayerIdentity,
-};
+pub use game::{Game, GameContext, GameError, GameModule, PlayerId};
 
 mod metrics;
 mod output;

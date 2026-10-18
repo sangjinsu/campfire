@@ -7,7 +7,7 @@ use crate::{
 use serde_json::{Value, json};
 use std::{
     collections::{BTreeMap, VecDeque},
-    sync::Arc,
+    sync::{Arc, Mutex as StdMutex},
     time::Duration,
 };
 use tokio::{
@@ -57,11 +57,81 @@ pub(crate) struct GameCommand {
     pub request_id: String,
     pub reply: oneshot::Sender<Result<Value, Error>>,
 }
+#[derive(Clone, Copy)]
+enum RotationDecision {
+    Pending { valid_until: Option<Instant> },
+    Committed(Instant),
+    Aborted,
+}
+/// One synchronous decision coordinates the token-map commit with actor expiry.
+pub(crate) struct Rotation {
+    deadline: Instant,
+    identity: PlayerIdentity,
+    decision: StdMutex<RotationDecision>,
+}
+impl Rotation {
+    pub fn new(deadline: Instant, identity: PlayerIdentity) -> Arc<Self> {
+        Arc::new(Self {
+            deadline,
+            identity,
+            decision: StdMutex::new(RotationDecision::Pending { valid_until: None }),
+        })
+    }
+    fn prepare(&self, valid_until: Instant) -> bool {
+        let mut decision = self
+            .decision
+            .lock()
+            .unwrap_or_else(|error| error.into_inner());
+        if matches!(*decision, RotationDecision::Pending { .. }) && valid_until > Instant::now() {
+            *decision = RotationDecision::Pending {
+                valid_until: Some(valid_until),
+            };
+            true
+        } else {
+            false
+        }
+    }
+    pub fn commit(&self) -> bool {
+        let mut decision = self
+            .decision
+            .lock()
+            .unwrap_or_else(|error| error.into_inner());
+        let now = Instant::now();
+        if matches!(*decision,RotationDecision::Pending {valid_until:Some(until)} if until>now)
+            && self.deadline > now
+        {
+            *decision = RotationDecision::Committed(now);
+            true
+        } else {
+            *decision = RotationDecision::Aborted;
+            false
+        }
+    }
+    pub fn abort(&self) -> bool {
+        let mut decision = self
+            .decision
+            .lock()
+            .unwrap_or_else(|error| error.into_inner());
+        if matches!(*decision, RotationDecision::Committed(_)) {
+            false
+        } else {
+            *decision = RotationDecision::Aborted;
+            true
+        }
+    }
+    fn outcome(&self) -> RotationDecision {
+        *self
+            .decision
+            .lock()
+            .unwrap_or_else(|error| error.into_inner())
+    }
+}
 pub(crate) enum Control {
     Enter(Admission),
     Replace {
         player: String,
         generation: u64,
+        rotation: Option<Arc<Rotation>>,
         reply: oneshot::Sender<Option<Instant>>,
     },
     Disconnect {
@@ -95,6 +165,16 @@ struct Member {
     pending: Option<Pending>,
     command_processed: u64,
     command_results: VecDeque<(u64, [u8; 32], Value)>,
+    rotation: Option<PendingRotation>,
+}
+struct PendingRotation {
+    transaction: Arc<Rotation>,
+    reservation: Instant,
+}
+impl Drop for PendingRotation {
+    fn drop(&mut self) {
+        self.transaction.abort();
+    }
 }
 struct Room {
     reference: RoomRef,
@@ -108,16 +188,28 @@ struct Room {
     metrics: Arc<Metrics>,
 }
 
+pub(crate) struct Channels {
+    pub controls: mpsc::Receiver<Control>,
+    pub inputs: mpsc::Receiver<Input>,
+    pub commands: mpsc::Receiver<GameCommand>,
+}
+enum Data {
+    Input(Option<Input>),
+    Command(Option<GameCommand>),
+}
 pub(crate) async fn run(
     reference: RoomRef,
     config: Config,
     capacity: usize,
     game: Box<dyn Game>,
     metrics: Arc<Metrics>,
-    mut controls: mpsc::Receiver<Control>,
-    mut inputs: mpsc::Receiver<Input>,
-    mut commands: mpsc::Receiver<GameCommand>,
+    channels: Channels,
 ) -> &'static str {
+    let Channels {
+        mut controls,
+        mut inputs,
+        mut commands,
+    } = channels;
     let mut room = Room {
         reference,
         config: config.clone(),
@@ -155,11 +247,17 @@ pub(crate) async fn run(
                     Some(command)=>room.control(command),
                 }
             }
-            input=inputs.recv()=> {if let Some(input)=input {
-                let began=std::time::Instant::now();room.input(input);
-                max(&room.metrics.max_input_duration_micros,began.elapsed().as_micros() as u64);
-            } }
-            command=commands.recv()=> {if let Some(command)=command {room.command(command);} }
+            data=async { tokio::select! {
+                input=inputs.recv()=>Data::Input(input),
+                command=commands.recv()=>Data::Command(command),
+            }}=> { match data {
+                Data::Input(Some(input))=> {
+                    let began=std::time::Instant::now();room.input(input);
+                    max(&room.metrics.max_input_duration_micros,began.elapsed().as_micros() as u64);
+                }
+                Data::Command(Some(command))=>room.command(command),
+                _=>{},
+            }}
         }
         if room.ever_joined && room.members.is_empty() {
             return "empty";
@@ -182,6 +280,7 @@ impl Room {
         }
     }
     fn control(&mut self, command: Control) {
+        self.settle_rotations();
         match command {
             Control::Enter(admission) => {
                 self.enter(admission);
@@ -189,16 +288,44 @@ impl Room {
             Control::Replace {
                 player,
                 generation,
+                rotation,
                 reply,
             } => {
-                let old = self.members.get(&player).map(|m| m.generation);
-                if let Some(old) = old {
+                self.expire();
+                let mut reservation = None;
+                if let Some(member) = self.members.get(&player) {
+                    let candidate = member
+                        .reserved_until
+                        .unwrap_or_else(|| Instant::now() + self.config.reconnect_grace);
+                    let valid_until = candidate.min(member.token_deadline);
+                    if rotation
+                        .as_ref()
+                        .is_some_and(|transaction| !transaction.prepare(valid_until))
+                    {
+                        let _ = reply.send(None);
+                        return;
+                    }
+                    let old = member.generation;
+                    if let Some(output) = &member.output {
+                        output.close();
+                    }
                     self.reserve(&player, old);
-                    if let Some(member) = self.members.get_mut(&player) {
-                        member.generation = generation;
+                    let member = self.members.get_mut(&player).expect("existing member");
+                    if let Some(previous) = member.rotation.take() {
+                        previous.transaction.abort();
+                    }
+                    member.generation = generation;
+                    if let Some(transaction) = rotation {
+                        reservation = Some(candidate.min(transaction.deadline));
+                        member.rotation = Some(PendingRotation {
+                            transaction,
+                            reservation: candidate,
+                        });
+                    } else {
+                        reservation = member.reserved_until;
                     }
                 }
-                let _ = reply.send(self.members.get(&player).and_then(|m| m.reserved_until));
+                let _ = reply.send(reservation);
             }
             Control::Disconnect {
                 player,
@@ -218,7 +345,11 @@ impl Room {
                     .get(&player)
                     .is_some_and(|m| generation.is_none_or(|g| g == m.generation))
                 {
-                    self.members.remove(&player);
+                    if let Some(member) = self.members.remove(&player)
+                        && let Some(rotation) = member.rotation
+                    {
+                        rotation.transaction.abort();
+                    }
                     self.game.player_left(&player);
                 }
                 let _ = reply.send(());
@@ -301,6 +432,7 @@ impl Room {
                     pending: None,
                     command_processed: 0,
                     command_results: VecDeque::new(),
+                    rotation: None,
                 },
             );
             self.ever_joined = true;
@@ -322,6 +454,7 @@ impl Room {
         let _ = reply.send(Ok(response));
     }
     fn input(&mut self, input: Input) {
+        self.settle_rotations();
         let outcome = (|| {
             let member = self
                 .members
@@ -366,6 +499,7 @@ impl Room {
         let _ = input.reply.send(outcome);
     }
     fn command(&mut self, command: GameCommand) {
+        self.settle_rotations();
         let outcome = (|| {
             let member = self
                 .members
@@ -438,15 +572,77 @@ impl Room {
         })();
         let _ = command.reply.send(outcome);
     }
-    fn expire(&mut self) {
-        let now = Instant::now();
-        let expired: Vec<_> = self
+    fn settle_rotation(&mut self, player: &str) {
+        let Some(member) = self.members.get_mut(player) else {
+            return;
+        };
+        let Some(pending) = member.rotation.as_ref() else {
+            return;
+        };
+        match pending.transaction.outcome() {
+            RotationDecision::Committed(_accepted_at) => {
+                let pending = member.rotation.take().expect("committed rotation");
+                member.token_deadline = pending.transaction.deadline;
+                member.reserved_until = Some(pending.reservation.min(pending.transaction.deadline));
+                self.game
+                    .player_identity_changed(player, &pending.transaction.identity);
+            }
+            RotationDecision::Aborted => {
+                member.rotation = None;
+            }
+            RotationDecision::Pending { .. } => {}
+        }
+    }
+    fn settle_rotations(&mut self) {
+        let players: Vec<_> = self
             .members
             .iter()
-            .filter(|(_, m)| m.token_deadline <= now || m.reserved_until.is_some_and(|d| d <= now))
-            .map(|(id, _)| id.clone())
+            .filter(|(_, member)| member.rotation.is_some())
+            .map(|(player, _)| player.clone())
             .collect();
-        for player in expired {
+        for player in players {
+            self.settle_rotation(&player);
+        }
+    }
+    fn expire(&mut self) {
+        self.settle_rotations();
+        let now = Instant::now();
+        let players: Vec<_> = self
+            .members
+            .iter()
+            .filter(|(_, member)| {
+                member.token_deadline <= now
+                    || member
+                        .reserved_until
+                        .is_some_and(|deadline| deadline <= now)
+            })
+            .map(|(player, _)| player.clone())
+            .collect();
+        for player in players {
+            let expired = self.members.get(&player).is_some_and(|member| {
+                member.token_deadline <= now
+                    || member
+                        .reserved_until
+                        .is_some_and(|deadline| deadline <= now)
+            });
+            if !expired {
+                continue;
+            }
+            if let Some(rotation) = self
+                .members
+                .get(&player)
+                .and_then(|member| member.rotation.as_ref())
+                && !rotation.transaction.abort()
+            {
+                // The issuer committed while expiry examined the old token. Apply it before removal.
+                self.settle_rotation(&player);
+                if self.members.get(&player).is_some_and(|member| {
+                    member.token_deadline > now
+                        && member.reserved_until.is_none_or(|deadline| deadline > now)
+                }) {
+                    continue;
+                }
+            }
             if let Some(member) = self.members.remove(&player) {
                 if let Some(output) = member.output {
                     output.close();
@@ -520,6 +716,7 @@ impl Room {
         value
     }
     fn publish(&mut self) {
+        self.settle_rotations();
         self.snapshot_seq += 1;
         inc(&self.metrics.snapshots);
         let state = self.game.snapshot();
@@ -554,6 +751,7 @@ mod tests {
         players: BTreeMap<String, (bool, i64)>,
         applied: Vec<u64>,
         commands: Vec<Value>,
+        identities: BTreeMap<String, PlayerIdentity>,
     }
     impl Game for TestGame {
         fn player_joined(&mut self, id: &str) {
@@ -561,6 +759,14 @@ mod tests {
         }
         fn player_left(&mut self, id: &str) {
             self.players.remove(id);
+            self.identities.remove(id);
+        }
+        fn player_joined_with_identity(&mut self, id: &str, identity: &PlayerIdentity) {
+            self.player_joined(id);
+            self.identities.insert(id.into(), identity.clone());
+        }
+        fn player_identity_changed(&mut self, id: &str, identity: &PlayerIdentity) {
+            self.identities.insert(id.into(), identity.clone());
         }
         fn player_connection_changed(&mut self, id: &str, connected: bool) {
             if let Some(p) = self.players.get_mut(id) {
@@ -598,7 +804,10 @@ mod tests {
             Ok(json!({"count":self.commands.len()}))
         }
         fn private_snapshot(&self, player: &str) -> Option<Value> {
-            Some(json!({"secret":player}))
+            match self.identities.get(player) {
+                Some(PlayerIdentity::Account(identity)) => Some(identity.claims.clone()),
+                _ => Some(json!({"secret":player})),
+            }
         }
         fn snapshot(&self) -> Value {
             json!({"players":self.players,"applied":self.applied,"commands":self.commands})
@@ -749,6 +958,7 @@ mod tests {
         room.control(Control::Replace {
             player: "p".into(),
             generation: 2,
+            rotation: None,
             reply: tx,
         });
         assert_eq!(
@@ -902,6 +1112,7 @@ mod tests {
         room.control(Control::Replace {
             player: "p".into(),
             generation: 2,
+            rotation: None,
             reply: tx,
         });
         assert!(rx.try_recv().unwrap().is_some());
@@ -925,6 +1136,7 @@ mod tests {
         room.control(Control::Replace {
             player: "p".into(),
             generation: 2,
+            rotation: None,
             reply: tx,
         });
         assert!(rx.try_recv().unwrap().is_some());
@@ -954,6 +1166,7 @@ mod tests {
         room.control(Control::Replace {
             player: "p".into(),
             generation: 2,
+            rotation: None,
             reply: tx,
         });
         assert_eq!(room.members["p"].reserved_until, Some(deadline));
@@ -962,6 +1175,272 @@ mod tests {
         room.reserve("p", 1);
         assert!(room.members["p"].reserved_until.is_none());
         assert!(room.members["p"].output.is_some());
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_rotation_refreshes_token_deadline_without_reusing_older_token_lifetime() {
+        let mut room = room();
+        let (out, _receiver) = output(16);
+        enter(&mut room, out, false, 1).unwrap();
+        room.members.get_mut("p").unwrap().token_deadline = Instant::now() + Duration::from_secs(1);
+        let (tx, mut rx) = oneshot::channel();
+        room.control(Control::Replace {
+            player: "p".into(),
+            generation: 2,
+            rotation: Some(Rotation::new(
+                Instant::now() + Duration::from_secs(60),
+                PlayerIdentity::Guest,
+            )),
+            reply: tx,
+        });
+        assert_eq!(
+            rx.try_recv().unwrap(),
+            Some(Instant::now() + room.config.reconnect_grace)
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn cancelled_short_grant_preparation_does_not_shorten_real_actor_reservation() {
+        let (control, controls) = mpsc::channel(16);
+        let (_inputs, input_rx) = mpsc::channel(16);
+        let (_commands, command_rx) = mpsc::channel(16);
+        let actor = tokio::spawn(run(
+            room().reference,
+            Config::default(),
+            16,
+            Box::<TestGame>::default(),
+            Arc::new(Metrics::default()),
+            Channels {
+                controls,
+                inputs: input_rx,
+                commands: command_rx,
+            },
+        ));
+        let (out, _rx) = output(16);
+        let (tx, rx) = oneshot::channel();
+        control
+            .send(Control::Enter(Admission {
+                player: "p".into(),
+                generation: 1,
+                token_deadline: Instant::now() + Duration::from_secs(60),
+                output: out,
+                request_id: "join".into(),
+                resume: false,
+                identity: PlayerIdentity::Guest,
+                reply: tx,
+            }))
+            .await
+            .unwrap_or_else(|_| panic!("enter"));
+        rx.await.unwrap().unwrap();
+        let (peer, _peer_rx) = output(16);
+        let (tx, rx) = oneshot::channel();
+        control
+            .send(Control::Enter(Admission {
+                player: "peer".into(),
+                generation: 1,
+                token_deadline: Instant::now() + Duration::from_secs(3600),
+                output: peer,
+                request_id: "peer".into(),
+                resume: false,
+                identity: PlayerIdentity::Guest,
+                reply: tx,
+            }))
+            .await
+            .unwrap_or_else(|_| panic!("peer"));
+        rx.await.unwrap().unwrap();
+        let (tx, rx) = oneshot::channel();
+        control
+            .send(Control::Disconnect {
+                player: "p".into(),
+                generation: 1,
+                reply: tx,
+            })
+            .await
+            .unwrap_or_else(|_| panic!("disconnect"));
+        rx.await.unwrap();
+        let (tx, rx) = oneshot::channel();
+        let transaction = Rotation::new(
+            Instant::now() + Duration::from_secs(1),
+            PlayerIdentity::Guest,
+        );
+        control
+            .send(Control::Replace {
+                player: "p".into(),
+                generation: 2,
+                rotation: Some(transaction.clone()),
+                reply: tx,
+            })
+            .await
+            .unwrap_or_else(|_| panic!("prepare"));
+        rx.await.unwrap();
+        // No commit follows: the requesting HTTP future was cancelled after preparation.
+        assert!(transaction.abort());
+        tokio::time::advance(Duration::from_secs(2)).await;
+        let (out, _resumed_rx) = output(16);
+        let (tx, rx) = oneshot::channel();
+        control
+            .send(Control::Enter(Admission {
+                player: "p".into(),
+                generation: 2,
+                token_deadline: Instant::now() + Duration::from_secs(58),
+                output: out,
+                request_id: "resume".into(),
+                resume: true,
+                identity: PlayerIdentity::Guest,
+                reply: tx,
+            }))
+            .await
+            .unwrap_or_else(|_| panic!("resume"));
+        assert!(
+            rx.await.unwrap().is_ok(),
+            "cancelled grant must preserve the old reservation"
+        );
+        control
+            .send(Control::Stop)
+            .await
+            .unwrap_or_else(|_| panic!("stop"));
+        actor.await.unwrap();
+    }
+    #[tokio::test(start_paused = true)]
+    async fn pending_rotation_cannot_commit_after_room_is_dropped() {
+        let mut room = room();
+        let (out, _rx) = output(16);
+        enter(&mut room, out, false, 1).unwrap();
+        let transaction = Rotation::new(
+            Instant::now() + Duration::from_secs(60),
+            PlayerIdentity::Guest,
+        );
+        let (tx, mut rx) = oneshot::channel();
+        room.control(Control::Replace {
+            player: "p".into(),
+            generation: 2,
+            rotation: Some(transaction.clone()),
+            reply: tx,
+        });
+        assert!(rx.try_recv().unwrap().is_some());
+        drop(room);
+        assert!(!transaction.commit());
+    }
+    #[tokio::test(start_paused = true)]
+    async fn prepared_rotation_keeps_old_identity_and_deadline_until_commit() {
+        let mut room = room();
+        let (out, _rx) = output(16);
+        enter(&mut room, out, false, 1).unwrap();
+        let old_deadline = room.members["p"].token_deadline;
+        let new_deadline = Instant::now() + Duration::from_secs(1);
+        let transaction = Rotation::new(
+            new_deadline,
+            PlayerIdentity::Account(crate::AccountIdentity {
+                issuer: "issuer".into(),
+                subject: "subject".into(),
+                claims: json!({"updated":"private"}),
+            }),
+        );
+        let (tx, mut rx) = oneshot::channel();
+        room.control(Control::Replace {
+            player: "p".into(),
+            generation: 2,
+            rotation: Some(transaction.clone()),
+            reply: tx,
+        });
+        assert_eq!(rx.try_recv().unwrap(), Some(new_deadline));
+        assert_eq!(room.members["p"].token_deadline, old_deadline);
+        assert_eq!(room.game.private_snapshot("p"), Some(json!({"secret":"p"})));
+        assert!(transaction.commit());
+        room.settle_rotations();
+        assert_eq!(room.members["p"].token_deadline, new_deadline);
+        assert_eq!(
+            room.game.private_snapshot("p"),
+            Some(json!({"updated":"private"}))
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn queued_old_generation_commands_are_fenced_by_control_barrier() {
+        let reference = room().reference;
+        let (control, controls) = mpsc::channel(8);
+        let (_inputs, input_rx) = mpsc::channel(8);
+        let (commands, command_rx) = mpsc::channel(8);
+        let (out, _rx) = output(16);
+        let (joined, joined_rx) = oneshot::channel();
+        control
+            .try_send(Control::Enter(Admission {
+                player: "p".into(),
+                generation: 1,
+                token_deadline: Instant::now() + Duration::from_secs(60),
+                output: out,
+                request_id: "join".into(),
+                resume: false,
+                identity: PlayerIdentity::Guest,
+                reply: joined,
+            }))
+            .unwrap_or_else(|_| panic!("admission queue"));
+        let actor = tokio::spawn(run(
+            reference,
+            Config::default(),
+            16,
+            Box::<TestGame>::default(),
+            Arc::new(Metrics::default()),
+            Channels {
+                controls,
+                inputs: input_rx,
+                commands: command_rx,
+            },
+        ));
+        joined_rx.await.unwrap().unwrap();
+        let (old_result, old_rx) = oneshot::channel();
+        commands
+            .try_send(GameCommand {
+                player: "p".into(),
+                generation: 1,
+                sequence: 1,
+                payload: json!({"n":1}),
+                request_id: "old".into(),
+                reply: old_result,
+            })
+            .unwrap_or_else(|_| panic!("command queue"));
+        let (replaced, replaced_rx) = oneshot::channel();
+        control
+            .try_send(Control::Replace {
+                player: "p".into(),
+                generation: 2,
+                rotation: None,
+                reply: replaced,
+            })
+            .unwrap_or_else(|_| panic!("control queue"));
+        replaced_rx.await.unwrap();
+        assert_eq!(old_rx.await.unwrap().unwrap_err().code, "UNAUTHENTICATED");
+        let (out, _rx) = output(16);
+        let (resumed, resumed_rx) = oneshot::channel();
+        control
+            .send(Control::Enter(Admission {
+                player: "p".into(),
+                generation: 2,
+                token_deadline: Instant::now() + Duration::from_secs(60),
+                output: out,
+                request_id: "resume".into(),
+                resume: true,
+                identity: PlayerIdentity::Guest,
+                reply: resumed,
+            }))
+            .await
+            .unwrap_or_else(|_| panic!("resume queue"));
+        resumed_rx.await.unwrap().unwrap();
+        let (new_result, new_rx) = oneshot::channel();
+        commands
+            .send(GameCommand {
+                player: "p".into(),
+                generation: 2,
+                sequence: 1,
+                payload: json!({"n":1}),
+                request_id: "new".into(),
+                reply: new_result,
+            })
+            .await
+            .unwrap_or_else(|_| panic!("new queue"));
+        assert_eq!(new_rx.await.unwrap().unwrap()["result"]["count"], 1);
+        control
+            .send(Control::Stop)
+            .await
+            .unwrap_or_else(|_| panic!("stop queue"));
+        assert_eq!(actor.await.unwrap(), "shutdown");
     }
     #[tokio::test(start_paused = true)]
     async fn newest_valid_input_is_applied_once_per_tick_and_invalid_does_not_advance_ack() {

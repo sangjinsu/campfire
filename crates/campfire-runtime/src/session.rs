@@ -1,5 +1,5 @@
 use crate::{
-    Config, ConfigError, GameContext, GameModule,
+    AccountAuthenticator, AuthError, Config, ConfigError, GameContext, GameModule, PlayerIdentity,
     metrics::{Metrics, MetricsSnapshot, inc},
     output::Output,
     protocol::{Command, Error, Request},
@@ -10,6 +10,7 @@ use axum::{
     Router,
     routing::{get, post},
 };
+use futures_util::FutureExt;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::{
@@ -27,6 +28,12 @@ use tokio::{
 };
 
 pub(crate) type TokenHash = [u8; 32];
+struct RotationGuard(Arc<room::Rotation>);
+impl Drop for RotationGuard {
+    fn drop(&mut self) {
+        self.0.abort();
+    }
+}
 pub(crate) struct Session {
     pub id: String,
     pub game_id: String,
@@ -36,6 +43,7 @@ pub(crate) struct Session {
     pub output: Option<Arc<Output>>,
     pub room: Option<RoomRef>,
     pub reservation: Option<Instant>,
+    pub identity: PlayerIdentity,
 }
 pub(crate) struct RateKey {
     pub bucket: Bucket,
@@ -55,6 +63,7 @@ pub(crate) struct Inner {
     pub connections: Arc<Semaphore>,
     pub unauthenticated: Arc<Semaphore>,
     pub shutdown: watch::Sender<bool>,
+    pub authenticator: Option<Arc<dyn AccountAuthenticator>>,
     started: AtomicBool,
     clock_origin: Instant,
     unix_origin: u64,
@@ -65,6 +74,18 @@ pub struct Campfire {
 }
 impl Campfire {
     pub fn new(config: Config) -> Result<Self, ConfigError> {
+        Self::build(config, None)
+    }
+    pub fn with_authenticator(
+        config: Config,
+        authenticator: Arc<dyn AccountAuthenticator>,
+    ) -> Result<Self, ConfigError> {
+        Self::build(config, Some(authenticator))
+    }
+    fn build(
+        config: Config,
+        authenticator: Option<Arc<dyn AccountAuthenticator>>,
+    ) -> Result<Self, ConfigError> {
         config.validate()?;
         let (shutdown, _) = watch::channel(false);
         Ok(Self {
@@ -81,6 +102,7 @@ impl Campfire {
                 modules: RwLock::new(HashMap::new()),
                 metrics: Arc::new(Metrics::default()),
                 shutdown,
+                authenticator,
                 started: AtomicBool::new(false),
                 clock_origin: Instant::now(),
                 unix_origin: unix_millis(),
@@ -119,6 +141,12 @@ impl Campfire {
         Router::new()
             .route("/health", get(crate::transport::health))
             .route("/v1/games/{game_id}/guests", post(crate::transport::guest))
+            .route(
+                "/v1/games/{game_id}/sessions",
+                post(crate::transport::account).layer(axum::extract::DefaultBodyLimit::max(
+                    self.inner.config.max_frame_bytes,
+                )),
+            )
             .route("/v1/games/{game_id}/ws", get(crate::transport::upgrade))
             .with_state(self.clone())
     }
@@ -215,6 +243,246 @@ impl Inner {
             .read()
             .is_ok_and(|modules| modules.contains_key(id))
     }
+    fn take_issue_rate(
+        &self,
+        state: &mut State,
+        source: String,
+        now: Instant,
+    ) -> Result<(), Error> {
+        state.rate_keys.retain(|_, key| {
+            now.saturating_duration_since(key.last_seen) < self.config.rate_key_ttl
+        });
+        if !state.rate_keys.contains_key(&source)
+            && state.rate_keys.len() >= self.config.max_rate_keys
+        {
+            inc(&self.metrics.admission_rejections);
+            return Err(Error::busy());
+        }
+        let key = state.rate_keys.entry(source).or_insert_with(|| RateKey {
+            bucket: Bucket::new(self.config.guest_burst),
+            last_seen: now,
+        });
+        key.last_seen = now;
+        let allowed = key.bucket.take(
+            self.config.guest_rate_per_second,
+            self.config.guest_burst,
+            now,
+        ) && state.global_rate.take(
+            self.config.global_guest_rate_per_second,
+            self.config.global_guest_burst,
+            now,
+        );
+        self.metrics
+            .rate_keys
+            .store(state.rate_keys.len() as u64, Ordering::Relaxed);
+        if allowed {
+            Ok(())
+        } else {
+            Err(Error::new("RATE_LIMITED", "session issuance rate exceeded"))
+        }
+    }
+    pub async fn issue_account(
+        &self,
+        game: &str,
+        credential: &str,
+        source: String,
+    ) -> Result<Value, Error> {
+        let began = Instant::now();
+        if *self.shutdown.borrow() {
+            return Err(Error::busy());
+        }
+        if !self.has_game(game) {
+            return Err(Error::new("GAME_NOT_FOUND", "game is not registered"));
+        }
+        let authenticator = self.authenticator.as_ref().ok_or_else(|| {
+            Error::new(
+                "ACCOUNT_AUTH_DISABLED",
+                "account authentication is not configured",
+            )
+        })?;
+        if credential.trim().is_empty() || credential.len() > self.config.max_frame_bytes {
+            return Err(Error::new(
+                "INVALID_MESSAGE",
+                "credential is missing or exceeds the configured limit",
+            ));
+        }
+        let _permit = self
+            .unauthenticated
+            .try_acquire()
+            .map_err(|_| Error::busy())?;
+        {
+            let mut state = self.state.lock().await;
+            self.take_issue_rate(&mut state, source, began)?;
+        }
+        let unavailable =
+            || Error::new("AUTH_UNAVAILABLE", "account authentication is unavailable");
+        // Both synchronous verifier construction and future polling can panic.
+        let verification = catch_unwind(AssertUnwindSafe(|| {
+            authenticator.authenticate(game, credential)
+        }))
+        .map_err(|_| unavailable())?;
+        let grant = tokio::time::timeout(
+            self.config.auth_timeout,
+            AssertUnwindSafe(verification).catch_unwind(),
+        )
+        .await
+        .map_err(|_| Error::new("AUTH_TIMEOUT", "account authentication timed out"))?
+        .map_err(|_| unavailable())?
+        .map_err(|error| match error {
+            AuthError::InvalidCredential => {
+                Error::new("UNAUTHENTICATED", "credential was rejected")
+            }
+            AuthError::Unavailable => unavailable(),
+        })?;
+        if grant.valid_for.is_zero()
+            || grant.valid_for > std::time::Duration::from_secs(366 * 24 * 3600)
+            || grant.identity.issuer.trim().is_empty()
+            || grant.identity.issuer.len() > 128
+            || grant.identity.subject.trim().is_empty()
+            || grant.identity.subject.len() > 256
+            || serde_json::to_vec(&grant.identity.claims)
+                .map_err(|_| unavailable())?
+                .len()
+                > self.config.max_frame_bytes
+        {
+            return Err(unavailable());
+        }
+        let deadline = began
+            .checked_add(grant.valid_for.min(self.config.guest_ttl))
+            .ok_or_else(unavailable)?;
+        if deadline <= Instant::now() {
+            return Err(unavailable());
+        }
+        if *self.shutdown.borrow() {
+            return Err(Error::busy());
+        }
+        let token = random_id("")?;
+        let new_key = token_hash(&token);
+        let mut state = self.state.lock().await;
+        if *self.shutdown.borrow() {
+            return Err(Error::busy());
+        }
+        if deadline <= Instant::now() {
+            return Err(unavailable());
+        }
+        let previous = state
+            .sessions
+            .iter()
+            .find_map(|(key, session)| match &session.identity {
+                PlayerIdentity::Account(identity)
+                    if session.game_id == game
+                        && identity.issuer == grant.identity.issuer
+                        && identity.subject == grant.identity.subject =>
+                {
+                    Some(*key)
+                }
+                _ => None,
+            });
+        let identity = PlayerIdentity::Account(grant.identity);
+        // Expired sessions cannot be resurrected even when periodic cleanup has not run yet.
+        if let Some(key) = previous.filter(|key| state.sessions[key].deadline <= Instant::now()) {
+            let expired = state.sessions.get(&key).expect("located expired session");
+            if let Some(output) = &expired.output {
+                output.close();
+            }
+            if let Some(reference) = &expired.room {
+                leave(&state, reference, &expired.id, None).await;
+            }
+            state.sessions.remove(&key);
+            self.metrics
+                .active_sessions
+                .store(state.sessions.len() as u64, Ordering::Relaxed);
+        }
+        // Expired-seat cleanup can await the actor; recheck before issuing a replacement session.
+        if *self.shutdown.borrow() {
+            return Err(Error::busy());
+        }
+        if deadline <= Instant::now() {
+            return Err(unavailable());
+        }
+        let previous = previous.filter(|key| state.sessions.contains_key(key));
+        let session = if let Some(key) = previous {
+            let old = &state.sessions[&key];
+            let generation = old.generation.checked_add(1).ok_or_else(Error::busy)?;
+            let player = old.id.clone();
+            let mut room = old.room.clone();
+            let mut reservation = None;
+            let rotation = RotationGuard(room::Rotation::new(deadline, identity.clone()));
+            if let Some(reference) = &room {
+                if let Some(handle) = state
+                    .rooms
+                    .get(&(reference.game_id.clone(), reference.id.clone()))
+                    .filter(|handle| &handle.reference == reference)
+                {
+                    let (tx, rx) = oneshot::channel();
+                    if handle
+                        .control
+                        .send(Control::Replace {
+                            player: player.clone(),
+                            generation,
+                            rotation: Some(rotation.0.clone()),
+                            reply: tx,
+                        })
+                        .await
+                        .is_ok()
+                    {
+                        reservation = rx.await.ok().flatten();
+                    }
+                }
+                if reservation.is_none() {
+                    room = None;
+                }
+            }
+            // Preserve the old map entry across every await; cancellation cannot orphan its seat.
+            if *self.shutdown.borrow() {
+                return Err(Error::busy());
+            }
+            if deadline <= Instant::now() {
+                return Err(unavailable());
+            }
+            if room.is_some() && !rotation.0.commit() {
+                return Err(Error::busy());
+            }
+            // No await separates the shared actor decision from this token-map swap.
+            let old = state.sessions.remove(&key).expect("rotation is serialized");
+            if let Some(output) = old.output {
+                output.close();
+            }
+            Session {
+                id: player,
+                game_id: game.into(),
+                deadline,
+                expires_at: self.deadline_millis(deadline),
+                generation,
+                output: None,
+                room,
+                reservation,
+                identity,
+            }
+        } else {
+            if state.sessions.len() >= self.config.max_sessions {
+                inc(&self.metrics.admission_rejections);
+                return Err(Error::busy());
+            }
+            Session {
+                id: random_id("a_")?,
+                game_id: game.into(),
+                deadline,
+                expires_at: self.deadline_millis(deadline),
+                generation: 0,
+                output: None,
+                room: None,
+                reservation: None,
+                identity,
+            }
+        };
+        let response = json!({"player_id":session.id,"token":token,"expires_at":session.expires_at,"game_id":game});
+        state.sessions.insert(new_key, session);
+        self.metrics
+            .active_sessions
+            .store(state.sessions.len() as u64, Ordering::Relaxed);
+        Ok(response)
+    }
     pub async fn issue(&self, game: &str, source: String) -> Result<Value, Error> {
         if *self.shutdown.borrow() {
             return Err(Error::busy());
@@ -280,6 +548,7 @@ impl Inner {
                 output: None,
                 room: None,
                 reservation: None,
+                identity: PlayerIdentity::Guest,
             },
         );
         self.metrics
@@ -338,6 +607,7 @@ impl Inner {
                     .send(Control::Replace {
                         player,
                         generation,
+                        rotation: None,
                         reply: tx,
                     })
                     .await
@@ -358,7 +628,7 @@ impl Inner {
         }
         let session = state.sessions.get_mut(&key).expect("session is serialized");
         session.output = Some(output);
-        let response = json!({"v":1,"type":"session.authenticated","request_id":request,"guest_id":session.id,
+        let response = json!({"v":1,"type":"session.authenticated","request_id":request,"guest_id":session.id,"player_id":session.id,
             "expires_at":session.expires_at,"game_id":game,"room_id":session.room.as_ref().map(|r|&r.id),
             "room_instance_id":session.room.as_ref().map(|r|&r.instance),"can_resume":session.reservation.is_some_and(|d|d>Instant::now()),
             "reservation_expires_at":session.reservation.map(|deadline|self.deadline_millis(deadline))});
@@ -438,6 +708,7 @@ impl Inner {
         }
         let player = session.id.clone();
         let deadline = session.deadline;
+        let identity = session.identity.clone();
         let membership = session.room.clone();
         match &request.command {
             Command::Authenticate { .. } => Err(Error::new(
@@ -576,9 +847,11 @@ impl Inner {
                     capacity,
                     game_state,
                     metrics,
-                    controls,
-                    input_rx,
-                    command_rx,
+                    room::Channels {
+                        controls,
+                        inputs: input_rx,
+                        commands: command_rx,
+                    },
                 ));
                 let weak = Arc::downgrade(self);
                 let supervised = reference.clone();
@@ -589,7 +862,16 @@ impl Inner {
                     }
                 });
                 let result = admit(
-                    &handle, &player, generation, deadline, output, request, false,
+                    &handle,
+                    AdmissionOptions {
+                        player: &player,
+                        generation,
+                        deadline,
+                        output,
+                        request,
+                        resume: false,
+                        identity,
+                    },
                 )
                 .await;
                 match result {
@@ -640,7 +922,16 @@ impl Inner {
                 }
                 let reference = handle.reference.clone();
                 let response = admit(
-                    handle, &player, generation, deadline, output, request, resume,
+                    handle,
+                    AdmissionOptions {
+                        player: &player,
+                        generation,
+                        deadline,
+                        output,
+                        request,
+                        resume,
+                        identity,
+                    },
                 )
                 .await?;
                 let session = state.sessions.get_mut(&key).expect("session is serialized");
@@ -721,7 +1012,7 @@ impl Inner {
                     false,
                 ))
             }
-            Command::GameCommand {
+            Command::Execute {
                 room_id,
                 room_instance_id,
                 command_seq,
@@ -830,15 +1121,25 @@ fn lookup<'a>(
     }
     Ok(handle)
 }
-async fn admit(
-    handle: &RoomHandle,
-    player: &str,
+struct AdmissionOptions<'a> {
+    player: &'a str,
     generation: u64,
     deadline: Instant,
     output: Arc<Output>,
-    request: &Request,
+    request: &'a Request,
     resume: bool,
-) -> Result<Value, Error> {
+    identity: PlayerIdentity,
+}
+async fn admit(handle: &RoomHandle, admission: AdmissionOptions<'_>) -> Result<Value, Error> {
+    let AdmissionOptions {
+        player,
+        generation,
+        deadline,
+        output,
+        request,
+        resume,
+        identity,
+    } = admission;
     let (tx, rx) = oneshot::channel();
     handle
         .control
@@ -849,7 +1150,7 @@ async fn admit(
             output,
             request_id: request.id.clone(),
             resume,
-            identity: crate::PlayerIdentity::Guest,
+            identity,
             reply: tx,
         }))
         .await
@@ -973,6 +1274,624 @@ mod tests {
             }),
             rx,
         )
+    }
+    struct AccountVerifier;
+    impl crate::AccountAuthenticator for AccountVerifier {
+        fn authenticate<'a>(
+            &'a self,
+            _: &'a str,
+            credential: &'a str,
+        ) -> std::pin::Pin<
+            Box<
+                dyn std::future::Future<Output = Result<crate::AccountGrant, crate::AuthError>>
+                    + Send
+                    + 'a,
+            >,
+        > {
+            Box::pin(async move {
+                if credential == "bad" {
+                    return Err(crate::AuthError::InvalidCredential);
+                }
+                Ok(crate::AccountGrant {
+                    identity: crate::AccountIdentity {
+                        issuer: "host".into(),
+                        subject: credential.into(),
+                        claims: json!({"role":"player"}),
+                    },
+                    valid_for: Duration::from_secs(60),
+                })
+            })
+        }
+    }
+    struct GrantVerifier {
+        grant: crate::AccountGrant,
+        delay: Duration,
+    }
+    impl AccountAuthenticator for GrantVerifier {
+        fn authenticate<'a>(
+            &'a self,
+            _: &'a str,
+            _: &'a str,
+        ) -> std::pin::Pin<
+            Box<
+                dyn std::future::Future<Output = Result<crate::AccountGrant, AuthError>>
+                    + Send
+                    + 'a,
+            >,
+        > {
+            Box::pin(async move {
+                tokio::time::sleep(self.delay).await;
+                Ok(self.grant.clone())
+            })
+        }
+    }
+    struct GatedVerifier {
+        started: Arc<tokio::sync::Notify>,
+        release: Arc<tokio::sync::Notify>,
+    }
+    impl AccountAuthenticator for GatedVerifier {
+        fn authenticate<'a>(
+            &'a self,
+            _: &'a str,
+            _: &'a str,
+        ) -> std::pin::Pin<
+            Box<
+                dyn std::future::Future<Output = Result<crate::AccountGrant, AuthError>>
+                    + Send
+                    + 'a,
+            >,
+        > {
+            Box::pin(async move {
+                self.started.notify_one();
+                self.release.notified().await;
+                Ok(grant())
+            })
+        }
+    }
+    fn grant() -> crate::AccountGrant {
+        crate::AccountGrant {
+            identity: crate::AccountIdentity {
+                issuer: "issuer".into(),
+                subject: "subject".into(),
+                claims: json!({"secret":"grant-private"}),
+            },
+            valid_for: Duration::from_secs(60),
+        }
+    }
+    fn account_runtime(config: Config, verifier: impl AccountAuthenticator) -> Campfire {
+        let runtime = Campfire::with_authenticator(config, Arc::new(verifier)).unwrap();
+        runtime
+            .register_game(
+                "a",
+                TestModule {
+                    close_on_create: None,
+                },
+            )
+            .unwrap();
+        runtime
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_invalid_grants_are_bounded_and_debug_redacts_identity() {
+        let valid = grant();
+        let debug = format!("{:?}", PlayerIdentity::Account(valid.identity.clone()));
+        assert!(!debug.contains("issuer"));
+        assert!(!debug.contains("subject"));
+        assert!(!debug.contains("grant-private"));
+        let mut invalid = Vec::new();
+        let mut zero = valid.clone();
+        zero.valid_for = Duration::ZERO;
+        invalid.push(zero);
+        let mut huge = valid.clone();
+        huge.valid_for = Duration::MAX;
+        invalid.push(huge);
+        for issuer in ["".into(), " ".into(), "x".repeat(129)] {
+            let mut bad = valid.clone();
+            bad.identity.issuer = issuer;
+            invalid.push(bad);
+        }
+        for subject in ["".into(), " ".into(), "x".repeat(257)] {
+            let mut bad = valid.clone();
+            bad.identity.subject = subject;
+            invalid.push(bad);
+        }
+        let mut claims = valid;
+        claims.identity.claims = json!({"large":"x".repeat(1024)});
+        invalid.push(claims);
+        for grant in invalid {
+            let runtime = account_runtime(
+                Config {
+                    max_frame_bytes: 512,
+                    ..Config::default()
+                },
+                GrantVerifier {
+                    grant,
+                    delay: Duration::ZERO,
+                },
+            );
+            assert_eq!(
+                runtime
+                    .inner
+                    .issue_account("a", "credential", "source".into())
+                    .await
+                    .unwrap_err()
+                    .code,
+                "AUTH_UNAVAILABLE"
+            );
+            assert_eq!(runtime.metrics().active_sessions, 0);
+            assert_eq!(runtime.inner.unauthenticated.available_permits(), 256);
+        }
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_grant_lifetime_starts_before_verification_and_is_capped_by_guest_ttl() {
+        let mut short = grant();
+        short.valid_for = Duration::from_secs(1);
+        let runtime = account_runtime(
+            Config::default(),
+            GrantVerifier {
+                grant: short,
+                delay: Duration::from_secs(2),
+            },
+        );
+        assert_eq!(
+            runtime
+                .inner
+                .issue_account("a", "credential", "source".into())
+                .await
+                .unwrap_err()
+                .code,
+            "AUTH_UNAVAILABLE"
+        );
+        let runtime = account_runtime(
+            Config {
+                guest_ttl: Duration::from_secs(10),
+                ..Config::default()
+            },
+            GrantVerifier {
+                grant: grant(),
+                delay: Duration::from_secs(2),
+            },
+        );
+        let began = Instant::now();
+        let issued = runtime
+            .inner
+            .issue_account("a", "credential", "source".into())
+            .await
+            .unwrap();
+        let key = token_hash(issued["token"].as_str().unwrap());
+        assert_eq!(
+            runtime.inner.state.lock().await.sessions[&key].deadline,
+            began + Duration::from_secs(10)
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_verification_does_not_hold_state_lock_and_cancel_releases_shared_permit() {
+        let started = Arc::new(tokio::sync::Notify::new());
+        let release = Arc::new(tokio::sync::Notify::new());
+        let runtime = account_runtime(
+            Config {
+                max_unauthenticated_connections: 1,
+                ..Config::default()
+            },
+            GatedVerifier {
+                started: started.clone(),
+                release,
+            },
+        );
+        let inner = runtime.inner.clone();
+        let pending = tokio::spawn(async move {
+            inner
+                .issue_account("a", "credential", "source".into())
+                .await
+        });
+        started.notified().await;
+        assert!(runtime.inner.state.try_lock().is_ok());
+        assert!(
+            runtime
+                .inner
+                .issue("a", "guest-source".into())
+                .await
+                .is_ok()
+        );
+        assert_eq!(
+            runtime
+                .inner
+                .issue_account("a", "other", "another".into())
+                .await
+                .unwrap_err()
+                .code,
+            "SERVER_BUSY"
+        );
+        pending.abort();
+        let _ = pending.await;
+        assert_eq!(runtime.inner.unauthenticated.available_permits(), 1);
+        assert_eq!(runtime.metrics().active_sessions, 1);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_timeout_and_shutdown_release_verification_capacity_without_session_mutation() {
+        for shutdown in [false, true] {
+            let started = Arc::new(tokio::sync::Notify::new());
+            let release = Arc::new(tokio::sync::Notify::new());
+            let runtime = account_runtime(
+                Config {
+                    max_unauthenticated_connections: 1,
+                    ..Config::default()
+                },
+                GatedVerifier {
+                    started: started.clone(),
+                    release: release.clone(),
+                },
+            );
+            let inner = runtime.inner.clone();
+            let pending = tokio::spawn(async move {
+                inner
+                    .issue_account("a", "credential", "source".into())
+                    .await
+            });
+            started.notified().await;
+            if shutdown {
+                runtime.shutdown().await;
+                release.notify_one();
+            } else {
+                tokio::time::advance(runtime.inner.config.auth_timeout).await;
+            }
+            assert_eq!(
+                pending.await.unwrap().unwrap_err().code,
+                if shutdown {
+                    "SERVER_BUSY"
+                } else {
+                    "AUTH_TIMEOUT"
+                }
+            );
+            assert_eq!(runtime.inner.unauthenticated.available_permits(), 1);
+            assert_eq!(runtime.metrics().active_sessions, 0);
+        }
+    }
+    fn stub_membership(
+        state: &mut State,
+        key: TokenHash,
+    ) -> (
+        mpsc::Receiver<Control>,
+        mpsc::Receiver<GameCommand>,
+        mpsc::Sender<GameCommand>,
+    ) {
+        let reference = RoomRef {
+            game_id: "a".into(),
+            id: "stub".into(),
+            instance: "epoch".into(),
+        };
+        let (control, controls) = mpsc::channel(8);
+        let (inputs, _input_rx) = mpsc::channel(1);
+        let (commands, command_rx) = mpsc::channel(1);
+        state.sessions.get_mut(&key).unwrap().room = Some(reference.clone());
+        state.rooms.insert(
+            ("a".into(), "stub".into()),
+            RoomHandle {
+                reference,
+                control,
+                inputs,
+                commands: commands.clone(),
+                public: true,
+                visible: true,
+                capacity: 16,
+            },
+        );
+        (controls, command_rx, commands)
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_cancelled_rotation_keeps_old_token_identity_and_deadline_before_actor_commit()
+    {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let issued = runtime
+            .inner
+            .issue_account("a", "alice", "source".into())
+            .await
+            .unwrap();
+        let token = issued["token"].as_str().unwrap().to_owned();
+        let (out, _rx) = output(16);
+        let (key, _, deadline, _) = runtime
+            .inner
+            .authenticate("a", &token, "auth", out)
+            .await
+            .unwrap();
+        let (mut controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        let identity = runtime.inner.state.lock().await.sessions[&key]
+            .identity
+            .clone();
+        let inner = runtime.inner.clone();
+        let pending =
+            tokio::spawn(async move { inner.issue_account("a", "alice", "source".into()).await });
+        let Control::Replace { reply, .. } = controls.recv().await.unwrap() else {
+            panic!("expected staged replacement")
+        };
+        pending.abort();
+        let _ = pending.await;
+        drop(reply);
+        let state = runtime.inner.state.lock().await;
+        assert_eq!(state.sessions[&key].identity, identity);
+        assert_eq!(state.sessions[&key].deadline, deadline);
+        assert_eq!(state.sessions.len(), 1);
+        drop(state);
+        assert!(controls.try_recv().is_err());
+        let inner = runtime.inner.clone();
+        let (out, _rx) = output(16);
+        let authentication =
+            tokio::spawn(async move { inner.authenticate("a", &token, "retry", out).await });
+        let Control::Replace {
+            reply, rotation, ..
+        } = controls.recv().await.unwrap()
+        else {
+            panic!("old token must authenticate")
+        };
+        assert!(rotation.is_none());
+        reply
+            .send(Some(Instant::now() + Duration::from_secs(30)))
+            .unwrap();
+        assert_eq!(authentication.await.unwrap().unwrap().0, key);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn bounded_command_queue_full_is_non_consuming_and_retry_uses_same_sequence() {
+        let runtime = Campfire::new(Config::default()).unwrap();
+        runtime
+            .register_game(
+                "a",
+                TestModule {
+                    close_on_create: None,
+                },
+            )
+            .unwrap();
+        let issued = runtime.inner.issue("a", "source".into()).await.unwrap();
+        let (out, _rx) = output(16);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", issued["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let (_controls, mut commands, sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        let (tx, _rx) = oneshot::channel();
+        sender
+            .try_send(GameCommand {
+                player: "filler".into(),
+                generation: 0,
+                sequence: 99,
+                payload: json!({}),
+                request_id: "filler".into(),
+                reply: tx,
+            })
+            .unwrap_or_else(|_| panic!("fill queue"));
+        let request=crate::protocol::parse(r#"{"v":1,"type":"game.command","request_id":"command","room_id":"stub","room_instance_id":"epoch","command_seq":1,"payload":{"buy":"key"}}"#).unwrap();
+        assert_eq!(
+            runtime
+                .inner
+                .command(key, generation, "a", out.clone(), &request)
+                .await
+                .unwrap_err()
+                .code,
+            "SERVER_BUSY"
+        );
+        assert_eq!(commands.recv().await.unwrap().sequence, 99);
+        let inner = runtime.inner.clone();
+        let retry =
+            tokio::spawn(async move { inner.command(key, generation, "a", out, &request).await });
+        let command = commands.recv().await.unwrap();
+        assert_eq!(command.sequence, 1);
+        command
+            .reply
+            .send(Ok(
+                json!({"type":"game.command.result","command_seq":1,"ok":true}),
+            ))
+            .unwrap();
+        assert_eq!(retry.await.unwrap().unwrap().0["command_seq"], 1);
+        assert_eq!(runtime.metrics().shared_queue_overloads, 1);
+        assert_eq!(runtime.metrics().abusive_inputs, 0);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_grant_expiring_while_waiting_for_commit_does_not_create_session() {
+        let started = Arc::new(tokio::sync::Notify::new());
+        let release = Arc::new(tokio::sync::Notify::new());
+        let runtime = account_runtime(
+            Config::default(),
+            GatedVerifier {
+                started: started.clone(),
+                release: release.clone(),
+            },
+        );
+        let inner = runtime.inner.clone();
+        let pending = tokio::spawn(async move {
+            inner
+                .issue_account("a", "credential", "source".into())
+                .await
+        });
+        started.notified().await;
+        let state = runtime.inner.state.lock().await;
+        release.notify_one();
+        tokio::task::yield_now().await;
+        tokio::time::advance(Duration::from_secs(60)).await;
+        drop(state);
+        assert_eq!(pending.await.unwrap().unwrap_err().code, "AUTH_UNAVAILABLE");
+        assert_eq!(runtime.metrics().active_sessions, 0);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_grant_expiring_during_expired_seat_cleanup_does_not_commit() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let issued = runtime
+            .inner
+            .issue_account("a", "alice", "source".into())
+            .await
+            .unwrap();
+        let key = token_hash(issued["token"].as_str().unwrap());
+        let (mut controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        tokio::time::advance(Duration::from_secs(60)).await;
+        let inner = runtime.inner.clone();
+        let pending =
+            tokio::spawn(async move { inner.issue_account("a", "alice", "source".into()).await });
+        let Control::Leave { reply, .. } = controls.recv().await.unwrap() else {
+            panic!("expired seat must leave")
+        };
+        tokio::time::advance(Duration::from_secs(60)).await;
+        reply.send(()).unwrap();
+        assert_eq!(pending.await.unwrap().unwrap_err().code, "AUTH_UNAVAILABLE");
+        assert!(runtime.inner.state.lock().await.sessions.is_empty());
+    }
+    #[tokio::test(start_paused = true)]
+    async fn accepted_rotation_preserves_real_actor_ledger_when_old_ttl_expires_before_next_poll() {
+        let runtime = account_runtime(
+            Config {
+                guest_ttl: Duration::from_secs(1),
+                ..Config::default()
+            },
+            AccountVerifier,
+        );
+        let issued = runtime
+            .inner
+            .issue_account("a", "alice", "source".into())
+            .await
+            .unwrap();
+        let (out, _rx) = output(32);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", issued["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let create = crate::protocol::parse(
+            r#"{"v":1,"type":"room.create","request_id":"create","settings":{}}"#,
+        )
+        .unwrap();
+        let entered = runtime
+            .inner
+            .command(key, generation, "a", out.clone(), &create)
+            .await
+            .unwrap()
+            .0;
+        let command=crate::protocol::parse(&json!({"v":1,"type":"game.command","request_id":"command","room_id":entered["room_id"],"room_instance_id":entered["room_instance_id"],"command_seq":1,"payload":{}}).to_string()).unwrap();
+        runtime
+            .inner
+            .command(key, generation, "a", out.clone(), &command)
+            .await
+            .unwrap();
+        tokio::time::advance(Duration::from_millis(500)).await;
+        let rotated = runtime
+            .inner
+            .issue_account("a", "alice", "source".into())
+            .await
+            .unwrap();
+        assert_eq!(issued["player_id"], rotated["player_id"]);
+        // The issuer swapped the map key, but the actor has not polled its commit control yet.
+        tokio::time::advance(Duration::from_millis(500)).await;
+        let (out, _rx) = output(32);
+        let (key, generation, _, auth) = runtime
+            .inner
+            .authenticate("a", rotated["token"].as_str().unwrap(), "new", out.clone())
+            .await
+            .unwrap();
+        assert_eq!(
+            auth["can_resume"], true,
+            "accepted grant must replace the old actor TTL before expiry"
+        );
+        let resume=crate::protocol::parse(&json!({"v":1,"type":"resume","request_id":"resume","room_id":entered["room_id"],"room_instance_id":entered["room_instance_id"]}).to_string()).unwrap();
+        let full = runtime
+            .inner
+            .command(key, generation, "a", out, &resume)
+            .await
+            .unwrap()
+            .0;
+        assert_eq!(full["last_processed_command_seq"], 1);
+        assert_eq!(full["command_results"].as_array().unwrap().len(), 1);
+        runtime.shutdown().await;
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_valid_grant_is_scoped_and_rotation_replaces_token_without_replacing_player() {
+        let runtime =
+            Campfire::with_authenticator(Config::default(), Arc::new(AccountVerifier)).unwrap();
+        for game in ["a", "b"] {
+            runtime
+                .register_game(
+                    game,
+                    TestModule {
+                        close_on_create: None,
+                    },
+                )
+                .unwrap();
+        }
+        let first = runtime
+            .inner
+            .issue_account("a", "alice", "source".into())
+            .await
+            .unwrap();
+        let second = runtime
+            .inner
+            .issue_account("a", "alice", "source".into())
+            .await
+            .unwrap();
+        let other_game = runtime
+            .inner
+            .issue_account("b", "alice", "source".into())
+            .await
+            .unwrap();
+        assert_eq!(first["player_id"], second["player_id"]);
+        assert_ne!(first["token"], second["token"]);
+        assert_ne!(first["player_id"], other_game["player_id"]);
+        let (out, _rx) = output(8);
+        assert_eq!(
+            runtime
+                .inner
+                .authenticate("a", first["token"].as_str().unwrap(), "old", out.clone())
+                .await
+                .unwrap_err()
+                .code,
+            "UNAUTHENTICATED"
+        );
+        let (_, _, _, authenticated) = runtime
+            .inner
+            .authenticate("a", second["token"].as_str().unwrap(), "new", out)
+            .await
+            .unwrap();
+        assert_eq!(authenticated["player_id"], second["player_id"]);
+        assert_eq!(runtime.metrics().active_sessions, 2);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn account_disabled_and_invalid_credentials_do_not_create_sessions() {
+        let runtime = Campfire::new(Config::default()).unwrap();
+        runtime
+            .register_game(
+                "a",
+                TestModule {
+                    close_on_create: None,
+                },
+            )
+            .unwrap();
+        assert_eq!(
+            runtime
+                .inner
+                .issue_account("a", "alice", "source".into())
+                .await
+                .unwrap_err()
+                .code,
+            "ACCOUNT_AUTH_DISABLED"
+        );
+        assert!(runtime.inner.issue("a", "source".into()).await.is_ok());
+        let runtime =
+            Campfire::with_authenticator(Config::default(), Arc::new(AccountVerifier)).unwrap();
+        runtime
+            .register_game(
+                "a",
+                TestModule {
+                    close_on_create: None,
+                },
+            )
+            .unwrap();
+        assert_eq!(
+            runtime
+                .inner
+                .issue_account("a", "bad", "source".into())
+                .await
+                .unwrap_err()
+                .code,
+            "UNAUTHENTICATED"
+        );
+        assert_eq!(runtime.metrics().active_sessions, 0);
     }
     #[tokio::test(start_paused = true)]
     async fn manual_clock_reclaims_session_rate_keys_room_and_reservation_before_reissue() {
