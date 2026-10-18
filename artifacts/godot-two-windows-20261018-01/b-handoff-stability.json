@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "checked_after_seconds": 0.7,
+  "files_sha256": {
+    "live.json": "1ae060e77ea3586b7da8a593bb07182165eee2b2e8dbf55405380a2aff1df67d",
+    "handoff.json": "1ae060e77ea3586b7da8a593bb07182165eee2b2e8dbf55405380a2aff1df67d",
+    "b-engine.log": "d8bc284c3abf50c11dff70dcc387156f732c53d4fd06e8ca902780808b6ca6b0"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "server": "http://127.0.0.1:3000",
+  "game": "arena",
+  "room_id": "r_6b8c7889e92f54359a0408fca89339238b361a7d1a76541e999e4a3030ae8c95",
+  "room_instance_id": "i_26906e272a6a5344b2710d58ce0bcf464a7a15b29673262b67a7db76275f7dca",
+  "expected_remote_id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+  "work": "/Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-two-windows-20261018-01"
+}

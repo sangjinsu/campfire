@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "input_method": "first GUI OS W key held800ms by CUA; second GUI received production server snapshot",
+  "before_player": {
+    "connected": true,
+    "id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+    "x": 3.3333333,
+    "y": 0.0
+  },
+  "after_player": {
+    "connected": true,
+    "id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+    "x": 3.3333333,
+    "y": 3.99999996
+  },
+  "before_snapshot_seq": 27105,
+  "after_snapshot_seq": 27540,
+  "same_room": true,
+  "same_instance": true
+}

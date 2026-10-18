@@ -1,0 +1,89 @@
+{
+	"display_driver": "macOS",
+	"elapsed_ms": 282,
+	"errors": [],
+	"frozen": false,
+	"game_id": "arena",
+	"guest_id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+	"last_processed_input_seq": 0,
+	"main_process_enabled": true,
+	"pid": 25278,
+	"players": [
+		{
+			"connected": true,
+			"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+			"x": 0.0,
+			"y": 0.0
+		},
+		{
+			"connected": true,
+			"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+			"x": 3.3333333,
+			"y": 0.0
+		}
+	],
+	"ready": true,
+	"recent_snapshots": [
+		{
+			"last_processed_input_seq": 0.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 53350.0,
+			"snapshot_seq": 26675.0
+		}
+	],
+	"room_id": "r_6b8c7889e92f54359a0408fca89339238b361a7d1a76541e999e4a3030ae8c95",
+	"room_instance_id": "i_26906e272a6a5344b2710d58ce0bcf464a7a15b29673262b67a7db76275f7dca",
+	"server_tick": 53350,
+	"snapshot": {
+		"game_id": "arena",
+		"last_processed_input_seq": 0.0,
+		"request_id": "2-3",
+		"room_id": "r_6b8c7889e92f54359a0408fca89339238b361a7d1a76541e999e4a3030ae8c95",
+		"room_instance_id": "i_26906e272a6a5344b2710d58ce0bcf464a7a15b29673262b67a7db76275f7dca",
+		"server_tick": 53350.0,
+		"snapshot_seq": 26675.0,
+		"state": {
+			"goal": {
+				"active": true,
+				"radius": 0.5,
+				"x": 5.0,
+				"y": 0.0
+			},
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"shared_score": 0.0
+		},
+		"type": "room.entered",
+		"v": 1.0
+	},
+	"snapshot_seq": 26675,
+	"status": "in_room",
+	"ui_participants": "참가자 2 / 16",
+	"ui_stats": "입력 처리 확인  0    서버 tick  53350    snapshot  26675",
+	"utc": "2026-10-18T12:03:27"
+}

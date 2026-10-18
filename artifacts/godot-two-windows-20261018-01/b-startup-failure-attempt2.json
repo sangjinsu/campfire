@@ -1,0 +1,29 @@
+{
+	"display_driver": "macOS",
+	"elapsed_ms": 8323,
+	"errors": [
+		{
+			"code": "LIVE_QA_TIMEOUT",
+			"message": "Exact room instance listed",
+			"retryable": false
+		}
+	],
+	"frozen": false,
+	"game_id": "arena",
+	"guest_id": "g_f06f29575f1aa6e9d42479210fdf955e1703a591929a1ceff31d563a894ab82a",
+	"last_processed_input_seq": 0,
+	"main_process_enabled": true,
+	"pid": 23758,
+	"players": [],
+	"ready": false,
+	"recent_snapshots": [],
+	"room_id": "",
+	"room_instance_id": "",
+	"server_tick": 0,
+	"snapshot": {},
+	"snapshot_seq": -1,
+	"status": "lobby",
+	"ui_participants": "참가자 0 / 16",
+	"ui_stats": "입력 처리 확인  —    서버 tick  —    snapshot  —",
+	"utc": "2026-10-18T12:02:54"
+}

@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "checked_at_kst": "2026-10-18T21:06:12.928839+09:00",
+  "processes": {
+    "25278": "/opt/homebrew/bin/godot --path /Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot --windowed --resolution 900x600 --position 1400,80 --audio-driver Dummy --rendering-method gl_compatibility --script res://tests/live_second_client.gd --log-file /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-two-windows-20261018-01/b-engine.log -- /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-two-windows-20261018-01/b-config.json",
+    "65028": "/Applications/Godot.app/Contents/MacOS/Godot -d --path /Users/sangjinsu/Documents/ChatGPT/campfire/examples/godot",
+    "63797": "target/debug/campfire-server --bind 127.0.0.1:3000 --game arena --capacity 16"
+  },
+  "health": {
+    "http_status": 200,
+    "body": {
+      "status": "ok"
+    }
+  },
+  "original_gui_preserved": true,
+  "original_server_preserved": true,
+  "second_native_gui_preserved": true
+}

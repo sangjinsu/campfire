@@ -1,0 +1,12 @@
+{
+	"next_cursor": null,
+	"rooms": [
+		{
+			"capacity": 16.0,
+			"game_id": "arena",
+			"members": 1.0,
+			"room_id": "r_6b8c7889e92f54359a0408fca89339238b361a7d1a76541e999e4a3030ae8c95",
+			"room_instance_id": "i_26906e272a6a5344b2710d58ce0bcf464a7a15b29673262b67a7db76275f7dca"
+		}
+	]
+}

@@ -1,0 +1,679 @@
+{
+	"capture": "b-a-os-before-01.png",
+	"capture_error": 0,
+	"display_driver": "macOS",
+	"elapsed_ms": 29779,
+	"errors": [],
+	"frozen": false,
+	"game_id": "arena",
+	"guest_id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+	"last_processed_input_seq": 510,
+	"main_process_enabled": true,
+	"pid": 25278,
+	"players": [
+		{
+			"connected": true,
+			"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+			"x": 0.0,
+			"y": 0.0
+		},
+		{
+			"connected": true,
+			"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+			"x": 3.3333333,
+			"y": 0.0
+		}
+	],
+	"ready": true,
+	"recent_snapshots": [
+		{
+			"last_processed_input_seq": 472.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54148.0,
+			"snapshot_seq": 27074.0
+		},
+		{
+			"last_processed_input_seq": 473.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54150.0,
+			"snapshot_seq": 27075.0
+		},
+		{
+			"last_processed_input_seq": 475.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54152.0,
+			"snapshot_seq": 27076.0
+		},
+		{
+			"last_processed_input_seq": 476.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54154.0,
+			"snapshot_seq": 27077.0
+		},
+		{
+			"last_processed_input_seq": 477.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54156.0,
+			"snapshot_seq": 27078.0
+		},
+		{
+			"last_processed_input_seq": 478.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54158.0,
+			"snapshot_seq": 27079.0
+		},
+		{
+			"last_processed_input_seq": 479.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54160.0,
+			"snapshot_seq": 27080.0
+		},
+		{
+			"last_processed_input_seq": 480.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54162.0,
+			"snapshot_seq": 27081.0
+		},
+		{
+			"last_processed_input_seq": 481.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54164.0,
+			"snapshot_seq": 27082.0
+		},
+		{
+			"last_processed_input_seq": 483.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54166.0,
+			"snapshot_seq": 27083.0
+		},
+		{
+			"last_processed_input_seq": 484.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54168.0,
+			"snapshot_seq": 27084.0
+		},
+		{
+			"last_processed_input_seq": 485.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54170.0,
+			"snapshot_seq": 27085.0
+		},
+		{
+			"last_processed_input_seq": 486.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54172.0,
+			"snapshot_seq": 27086.0
+		},
+		{
+			"last_processed_input_seq": 487.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54174.0,
+			"snapshot_seq": 27087.0
+		},
+		{
+			"last_processed_input_seq": 488.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54176.0,
+			"snapshot_seq": 27088.0
+		},
+		{
+			"last_processed_input_seq": 489.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54178.0,
+			"snapshot_seq": 27089.0
+		},
+		{
+			"last_processed_input_seq": 491.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54180.0,
+			"snapshot_seq": 27090.0
+		},
+		{
+			"last_processed_input_seq": 492.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54182.0,
+			"snapshot_seq": 27091.0
+		},
+		{
+			"last_processed_input_seq": 493.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54184.0,
+			"snapshot_seq": 27092.0
+		},
+		{
+			"last_processed_input_seq": 494.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54186.0,
+			"snapshot_seq": 27093.0
+		},
+		{
+			"last_processed_input_seq": 497.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54188.0,
+			"snapshot_seq": 27094.0
+		},
+		{
+			"last_processed_input_seq": 498.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54190.0,
+			"snapshot_seq": 27095.0
+		},
+		{
+			"last_processed_input_seq": 499.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54192.0,
+			"snapshot_seq": 27096.0
+		},
+		{
+			"last_processed_input_seq": 500.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54194.0,
+			"snapshot_seq": 27097.0
+		},
+		{
+			"last_processed_input_seq": 501.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54196.0,
+			"snapshot_seq": 27098.0
+		},
+		{
+			"last_processed_input_seq": 503.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54198.0,
+			"snapshot_seq": 27099.0
+		},
+		{
+			"last_processed_input_seq": 504.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54200.0,
+			"snapshot_seq": 27100.0
+		},
+		{
+			"last_processed_input_seq": 505.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54202.0,
+			"snapshot_seq": 27101.0
+		},
+		{
+			"last_processed_input_seq": 507.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54204.0,
+			"snapshot_seq": 27102.0
+		},
+		{
+			"last_processed_input_seq": 508.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54206.0,
+			"snapshot_seq": 27103.0
+		},
+		{
+			"last_processed_input_seq": 509.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54208.0,
+			"snapshot_seq": 27104.0
+		},
+		{
+			"last_processed_input_seq": 510.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"server_tick": 54210.0,
+			"snapshot_seq": 27105.0
+		}
+	],
+	"room_id": "r_6b8c7889e92f54359a0408fca89339238b361a7d1a76541e999e4a3030ae8c95",
+	"room_instance_id": "i_26906e272a6a5344b2710d58ce0bcf464a7a15b29673262b67a7db76275f7dca",
+	"server_tick": 54210,
+	"snapshot": {
+		"game_id": "arena",
+		"last_processed_input_seq": 510.0,
+		"room_id": "r_6b8c7889e92f54359a0408fca89339238b361a7d1a76541e999e4a3030ae8c95",
+		"room_instance_id": "i_26906e272a6a5344b2710d58ce0bcf464a7a15b29673262b67a7db76275f7dca",
+		"server_tick": 54210.0,
+		"snapshot_seq": 27105.0,
+		"state": {
+			"goal": {
+				"active": true,
+				"radius": 0.5,
+				"x": 5.0,
+				"y": 0.0
+			},
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 0.0
+				}
+			],
+			"shared_score": 0.0
+		},
+		"type": "snapshot",
+		"v": 1.0
+	},
+	"snapshot_seq": 27105,
+	"status": "in_room",
+	"ui_participants": "참가자 2 / 16",
+	"ui_stats": "입력 처리 확인  510    서버 tick  54210    snapshot  27105",
+	"utc": "2026-10-18T12:03:56"
+}

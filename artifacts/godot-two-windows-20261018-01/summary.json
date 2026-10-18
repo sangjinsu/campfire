@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "base_commit": "65df9b87300cfe972210c250c03474050851aa6a",
+  "helper_path": "examples/godot/tests/live_second_client.gd",
+  "helper_sha256": "19ef74beb577b8b3de849850744c26d2ddc37407c575fe3bc87325237e75e55f",
+  "joined_at_utc": "2026-10-18T12:03:27",
+  "handoff_at_utc": "2026-10-18T12:05:37",
+  "room_id": "r_6b8c7889e92f54359a0408fca89339238b361a7d1a76541e999e4a3030ae8c95",
+  "room_instance_id": "i_26906e272a6a5344b2710d58ce0bcf464a7a15b29673262b67a7db76275f7dca",
+  "final_players": [
+    {
+      "connected": true,
+      "id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+      "x": 4.33333329,
+      "y": 0.0
+    },
+    {
+      "connected": true,
+      "id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+      "x": 3.3333333,
+      "y": 3.99999996
+    }
+  ],
+  "a_to_b_input_method": "first GUI OS W key held800ms by CUA; second GUI received production server snapshot",
+  "b_to_a_input_method": "background production adapter direction; main process paused for 800ms movement, then zero and restored",
+  "handoff_files_frozen": true,
+  "production_ui_adapter_server_unchanged": true,
+  "architect_verdict": "APPROVED"
+}

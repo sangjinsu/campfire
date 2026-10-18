@@ -1,0 +1,9 @@
+{
+	"errors": [
+		{
+			"code": "LIVE_QA_TIMEOUT",
+			"message": "Exact room instance listed",
+			"retryable": false
+		}
+	]
+}

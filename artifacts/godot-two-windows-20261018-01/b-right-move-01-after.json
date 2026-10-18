@@ -1,0 +1,679 @@
+{
+	"capture": "b-right-move-01-after.png",
+	"capture_error": 0,
+	"display_driver": "macOS",
+	"elapsed_ms": 72948,
+	"errors": [],
+	"frozen": false,
+	"game_id": "arena",
+	"guest_id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+	"last_processed_input_seq": 1251,
+	"main_process_enabled": true,
+	"pid": 25278,
+	"players": [
+		{
+			"connected": true,
+			"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+			"x": 4.33333329,
+			"y": 0.0
+		},
+		{
+			"connected": true,
+			"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+			"x": 3.3333333,
+			"y": 3.99999996
+		}
+	],
+	"ready": true,
+	"recent_snapshots": [
+		{
+			"last_processed_input_seq": 1216.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55434.0,
+			"snapshot_seq": 27717.0
+		},
+		{
+			"last_processed_input_seq": 1217.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55436.0,
+			"snapshot_seq": 27718.0
+		},
+		{
+			"last_processed_input_seq": 1218.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55438.0,
+			"snapshot_seq": 27719.0
+		},
+		{
+			"last_processed_input_seq": 1219.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55440.0,
+			"snapshot_seq": 27720.0
+		},
+		{
+			"last_processed_input_seq": 1220.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55442.0,
+			"snapshot_seq": 27721.0
+		},
+		{
+			"last_processed_input_seq": 1222.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55444.0,
+			"snapshot_seq": 27722.0
+		},
+		{
+			"last_processed_input_seq": 1223.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55446.0,
+			"snapshot_seq": 27723.0
+		},
+		{
+			"last_processed_input_seq": 1224.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55448.0,
+			"snapshot_seq": 27724.0
+		},
+		{
+			"last_processed_input_seq": 1225.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55450.0,
+			"snapshot_seq": 27725.0
+		},
+		{
+			"last_processed_input_seq": 1226.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55452.0,
+			"snapshot_seq": 27726.0
+		},
+		{
+			"last_processed_input_seq": 1227.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55454.0,
+			"snapshot_seq": 27727.0
+		},
+		{
+			"last_processed_input_seq": 1228.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55456.0,
+			"snapshot_seq": 27728.0
+		},
+		{
+			"last_processed_input_seq": 1230.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55458.0,
+			"snapshot_seq": 27729.0
+		},
+		{
+			"last_processed_input_seq": 1231.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55460.0,
+			"snapshot_seq": 27730.0
+		},
+		{
+			"last_processed_input_seq": 1232.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.0,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55462.0,
+			"snapshot_seq": 27731.0
+		},
+		{
+			"last_processed_input_seq": 1233.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.166666665,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55464.0,
+			"snapshot_seq": 27732.0
+		},
+		{
+			"last_processed_input_seq": 1234.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.499999995,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55466.0,
+			"snapshot_seq": 27733.0
+		},
+		{
+			"last_processed_input_seq": 1235.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 0.833333325,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55468.0,
+			"snapshot_seq": 27734.0
+		},
+		{
+			"last_processed_input_seq": 1236.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 1.166666655,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55470.0,
+			"snapshot_seq": 27735.0
+		},
+		{
+			"last_processed_input_seq": 1237.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 1.499999985,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55472.0,
+			"snapshot_seq": 27736.0
+		},
+		{
+			"last_processed_input_seq": 1238.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 1.833333315,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55474.0,
+			"snapshot_seq": 27737.0
+		},
+		{
+			"last_processed_input_seq": 1240.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 2.166666645,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55476.0,
+			"snapshot_seq": 27738.0
+		},
+		{
+			"last_processed_input_seq": 1241.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 2.499999975,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55478.0,
+			"snapshot_seq": 27739.0
+		},
+		{
+			"last_processed_input_seq": 1242.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 2.833333305,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55480.0,
+			"snapshot_seq": 27740.0
+		},
+		{
+			"last_processed_input_seq": 1243.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 3.166666635,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55482.0,
+			"snapshot_seq": 27741.0
+		},
+		{
+			"last_processed_input_seq": 1244.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 3.499999965,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55484.0,
+			"snapshot_seq": 27742.0
+		},
+		{
+			"last_processed_input_seq": 1245.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 3.833333295,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55486.0,
+			"snapshot_seq": 27743.0
+		},
+		{
+			"last_processed_input_seq": 1246.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 4.166666625,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55488.0,
+			"snapshot_seq": 27744.0
+		},
+		{
+			"last_processed_input_seq": 1248.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 4.33333329,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55490.0,
+			"snapshot_seq": 27745.0
+		},
+		{
+			"last_processed_input_seq": 1249.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 4.33333329,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55492.0,
+			"snapshot_seq": 27746.0
+		},
+		{
+			"last_processed_input_seq": 1250.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 4.33333329,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55494.0,
+			"snapshot_seq": 27747.0
+		},
+		{
+			"last_processed_input_seq": 1251.0,
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 4.33333329,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"server_tick": 55496.0,
+			"snapshot_seq": 27748.0
+		}
+	],
+	"room_id": "r_6b8c7889e92f54359a0408fca89339238b361a7d1a76541e999e4a3030ae8c95",
+	"room_instance_id": "i_26906e272a6a5344b2710d58ce0bcf464a7a15b29673262b67a7db76275f7dca",
+	"server_tick": 55496,
+	"snapshot": {
+		"game_id": "arena",
+		"last_processed_input_seq": 1251.0,
+		"room_id": "r_6b8c7889e92f54359a0408fca89339238b361a7d1a76541e999e4a3030ae8c95",
+		"room_instance_id": "i_26906e272a6a5344b2710d58ce0bcf464a7a15b29673262b67a7db76275f7dca",
+		"server_tick": 55496.0,
+		"snapshot_seq": 27748.0,
+		"state": {
+			"goal": {
+				"active": true,
+				"radius": 0.5,
+				"x": 5.0,
+				"y": 0.0
+			},
+			"players": [
+				{
+					"connected": true,
+					"id": "g_0f2f8e53078560efaa8b886ea8dc21b757eb1fb90af35e609e84a46d501dda3e",
+					"x": 4.33333329,
+					"y": 0.0
+				},
+				{
+					"connected": true,
+					"id": "g_445911205c35d24dbbe5a78e8772b7d81fccbd69be51b332c06480d4e238633d",
+					"x": 3.3333333,
+					"y": 3.99999996
+				}
+			],
+			"shared_score": 0.0
+		},
+		"type": "snapshot",
+		"v": 1.0
+	},
+	"snapshot_seq": 27748,
+	"status": "in_room",
+	"ui_participants": "참가자 2 / 16",
+	"ui_stats": "입력 처리 확인  1251    서버 tick  55496    snapshot  27748",
+	"utc": "2026-10-18T12:04:39"
+}
