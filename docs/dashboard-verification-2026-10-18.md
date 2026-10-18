@@ -55,7 +55,7 @@ python3 tools/validate_dashboard.py --suite browser --output artifacts/dashboard
 
 ## Rust 회귀와 privacy 경계
 
-coordinator의 fresh 검사는 workspace `--all-targets` **105 passed / 4 기존 장시간 ignored**, workspace `--no-default-features` **87 passed**, strict all-targets/all-features Clippy 및 fmt 통과입니다. no-default의 실제 명령은 `cargo test --workspace --no-default-features --locked --offline`이며 standalone arena 테스트도 포함합니다. [workspace](../artifacts/dashboard-rust-20261018-2326/workspace.log), [no-default](../artifacts/dashboard-rust-20261018-2326/no-default.log), [Clippy](../artifacts/dashboard-rust-20261018-2326/clippy.log), [계정 예제 빌드](../artifacts/dashboard-rust-20261018-2326/build-account.log), [서버 빌드](../artifacts/dashboard-rust-20261018-2326/build-server.log)의 원본 로그를 보존했습니다. UI의 제어 테스트 **9개**도 마지막 측정 이후 다시 통과했고 [원본 stdout](../artifacts/dashboard-rust-20261018-2326/node-ui-control.log)을 저장했습니다. 이 Node 검사는 작은 DOM fixture이며 실제 브라우저/레이아웃 검사와 구분합니다. 독립 Architect 최종 승인은 완료됐으며 Git 결과는 coordinator의 실제 실행 후 기록합니다.
+coordinator의 fresh 검사는 workspace `--all-targets` **105 passed / 4 기존 장시간 ignored**, workspace `--no-default-features` **87 passed**, strict all-targets/all-features Clippy 및 fmt 통과입니다. no-default의 실제 명령은 `cargo test --workspace --no-default-features --locked --offline`이며 standalone arena 테스트도 포함합니다. [workspace](../artifacts/dashboard-rust-20261018-2326/workspace.log), [no-default](../artifacts/dashboard-rust-20261018-2326/no-default.log), [Clippy](../artifacts/dashboard-rust-20261018-2326/clippy.log), [계정 예제 빌드](../artifacts/dashboard-rust-20261018-2326/build-account.log), [서버 빌드](../artifacts/dashboard-rust-20261018-2326/build-server.log)의 원본 로그를 보존했습니다. UI의 제어 테스트 **9개**도 마지막 측정 이후 다시 통과했고 [원본 stdout](../artifacts/dashboard-rust-20261018-2326/node-ui-control.log)을 저장했습니다. 이 Node 검사는 작은 DOM fixture이며 실제 브라우저/레이아웃 검사와 구분합니다. 독립 Architect 최종 승인은 완료됐으며 실제 commit/main push 결과는 마지막 Git 전달 기록에 보존합니다.
 
 backend 가상 clock 검사는 count/15분 동시 이력 제한, skip/gap, boot reset과 cursor 유실, rate counter 감소, 현재 cache/actor/resource age와 과거 process age 보존을 검사합니다. OS 검사에는 첫 CPU null·idle 0·100% 초과, 첫 publish 전 종료·지연, 기존 publish 이후 stale, collector 독립 진행, 단일 worker와 shutdown/Drop 경계가 포함됩니다. [backend tests](../crates/campfire-server/src/dashboard/tests.rs)와 [실제 HTTP tests](../crates/campfire-server/tests/dashboard.rs)를 참고하세요.
 
@@ -115,3 +115,16 @@ ON16에서 단회 tick 지연 최대가 더 크게 관측됐습니다. ON8에서
 [계정 summary](../artifacts/dashboard-final-20261018-2328/account-regression/summary.json)는 Alice 45개 + Bob 41개, 총 **86개 검사 PASS**입니다. 서로 다른 native PID 43388/43389가 같은 room/instance의 public state `{players:2,total_collected:4}`를 보았고 개인 inventory 항목 수 4/2, 자신의 command 결과 수 3/1을 확인했습니다. [Alice PNG](../artifacts/dashboard-final-20261018-2328/account-regression/alice-shared.png)와 [Bob PNG](../artifacts/dashboard-final-20261018-2328/account-regression/bob-shared.png)는 실제 renderer 캡처입니다.
 
 병행 admin HTTP response **195개**에서 실제 native player ID·`alice-starter-item`/`bob-starter-item` 및 private/command/claims/credential 필드가 없음을 검사했습니다. account native 서버에서 connected 2와 reserved 1을 관측했고 poll 오류는 0입니다. 이는 private game payload가 실제 존재하는 실행에서 API에 포함되지 않음을 확인하는 근거입니다. [native 기간 admin 응답](../artifacts/dashboard-final-20261018-2328/account-dashboard-polls-2.json)을 보존했습니다.
+
+## Git 전달 기록
+
+독립 Architect 최종 승인 후 다음 commit으로 변경을 전달했습니다.
+
+| Commit | 전달 내용 |
+|---|---|
+| `c93885a` | runtime 관측 API와 수명 회귀 |
+| `6b612ff` | 대시보드 기능과 두 composition root |
+| `cbdab9c` | QA 도구와 fixture |
+| `17ba96a` | 검증 증거와 운영 문서 |
+
+첫 main push는 `origin/main`의 `f5b83a3`에서 **`17ba96a5db32facecb792a1d0c64753e2687c071`**로 정상 완료됐으며 main만 push했습니다. 이 문서의 전달 기록을 저장하는 후속 docs commit이 추가될 수 있으므로 이 SHA를 원격의 영구적인 최종 SHA로 표시하지 않습니다. 로컬 main과 원격의 최종 일치 검증은 후속 전달 기록 commit 이후 Git 담당/coordinator가 다시 수행합니다. 이 Git 전달은 외부 HTTPS 배포나 WAN·장기간 운영 성능을 검증한 결과가 아닙니다.

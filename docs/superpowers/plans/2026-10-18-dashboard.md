@@ -69,4 +69,4 @@
 - [x] 실제 8명/16명 이동·재접속 동안 dashboard polling을 수행하고 동기화/입장/부하 측정을 구분하여 기록한다.
 - [x] 코드·로그·응답의 privacy sentinel 검사와 `git diff --check`를 수행한다.
 - [x] 독립 Architect에게 최종 diff·테스트 증거를 검토받고 발견 사항을 수정/재검증한다.
-- [ ] coordinator가 승인된 Git 작업을 수행하고 commit/push 결과와 외부 TLS 미검증 범위를 보고한다.
+- [x] coordinator가 승인된 Git 작업을 수행하고 commit/push 결과와 외부 TLS 미검증 범위를 보고한다.
