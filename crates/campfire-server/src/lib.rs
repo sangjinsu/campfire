@@ -4,3 +4,4 @@ pub use campfire_arena::ArenaModule;
 pub use campfire_runtime::{Campfire, Config};
 
 pub mod cli;
+pub mod dashboard;

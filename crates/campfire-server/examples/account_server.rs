@@ -4,6 +4,7 @@ use campfire_runtime::{
     AccountAuthenticator, AccountGrant, AccountIdentity, AuthError, Campfire, Config, Game,
     GameContext, GameError, GameModule, PlayerIdentity,
 };
+use campfire_server::dashboard::{Dashboard, DashboardOptions};
 use serde_json::{Value, json};
 use std::{
     collections::BTreeMap, error::Error, future::Future, net::SocketAddr, pin::Pin, sync::Arc,
@@ -136,26 +137,47 @@ impl Game for InventoryGame {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let accounts = DevelopmentAccounts::from_environment()?;
-    let runtime = Campfire::with_authenticator(Config::default(), Arc::new(accounts))?;
-    runtime.register_game("inventory", InventoryModule)?;
+    let admin_options = DashboardOptions::from_env()?;
     let bind = std::env::var("CAMPFIRE_DEMO_BIND").unwrap_or_else(|_| "127.0.0.1:3001".into());
     let listener = tokio::net::TcpListener::bind(&bind).await?;
+    let address = listener.local_addr()?;
+    let runtime = Campfire::with_authenticator(Config::default(), Arc::new(accounts))?;
+    if let Err(error) = runtime.register_game("inventory", InventoryModule) {
+        runtime.shutdown().await;
+        return Err(error.into());
+    }
+    let mut dashboard = match admin_options {
+        Some(options) => match Dashboard::start(runtime.observer(), options) {
+            Ok(dashboard) => Some(dashboard),
+            Err(error) => {
+                runtime.shutdown().await;
+                return Err(error.into());
+            }
+        },
+        None => None,
+    };
+    let app = dashboard.as_ref().map_or_else(
+        || runtime.router(),
+        |dashboard| runtime.router().merge(dashboard.router()),
+    );
     eprintln!(
         "Campfire development inventory: http://{} (game_id=inventory)",
-        listener.local_addr()?
+        address
     );
     let shutdown = runtime.clone();
-    axum::serve(
+    let result = axum::serve(
         listener,
-        runtime
-            .router()
-            .into_make_service_with_connect_info::<SocketAddr>(),
+        app.into_make_service_with_connect_info::<SocketAddr>(),
     )
     .with_graceful_shutdown(async move {
         let _ = tokio::signal::ctrl_c().await;
         shutdown.shutdown().await;
     })
-    .await?;
+    .await;
+    if let Some(dashboard) = &mut dashboard {
+        dashboard.shutdown().await;
+    }
     runtime.shutdown().await;
+    result?;
     Ok(())
 }

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Campfire · 서버 관측</title>
+  <link rel="stylesheet" href="/admin/assets/style.css">
+  <script src="/admin/assets/app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">본문으로 이동</a>
+<header class="masthead">
+  <a class="brand" href="/admin" aria-label="Campfire 서버 관측 홈"><span class="brand-mark" aria-hidden="true">♨</span><span>Campfire<small>서버 관측</small></span></a>
+  <div class="connection"><span id="connection-dot" class="dot"></span><span id="connection-state" role="status">로그인 필요</span><span id="last-update" class="muted">조회 전용</span></div>
+  <div id="toolbar" class="toolbar" hidden>
+    <label class="auto-control"><input id="auto-refresh" type="checkbox" checked>5초 자동 갱신</label>
+    <button id="refresh" type="button">지금 갱신</button><button id="logout" class="quiet" type="button">로그아웃</button>
+  </div>
+</header>
+<main id="main" tabindex="-1">
+  <section id="login-panel" class="login-panel" aria-labelledby="login-title">
+    <div class="login-intro"><span class="campfire-glyph" aria-hidden="true">♨</span><h1 id="login-title">서버의 지금을<br>한눈에.</h1><p>연결, 룸, 처리량과 서버 자원을<br>한곳에서 확인하세요.</p></div>
+    <form id="login-form" class="login-form">
+      <h2>관리자 연결</h2><p class="muted">이 서버에 설정한 관리자 키로 접속합니다.</p>
+      <label for="admin-key">관리자 키</label><input id="admin-key" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" required aria-describedby="key-help login-error">
+      <p id="key-help" class="field-help">키는 이 탭의 메모리에서만 사용하며 로그아웃하면 지워집니다.</p>
+      <button id="login-submit" type="submit" class="primary">대시보드 열기</button><p id="login-error" class="error-message" role="alert"></p>
+      <p class="read-only-note">조회 전용 · 룸과 플레이어 상태를 변경하지 않습니다.</p>
+    </form>
+  </section>
+  <div id="dashboard" hidden>
+    <div class="page-title"><div><h1>서버 현황</h1><p id="server-description" class="muted">서버 데이터를 불러오는 중입니다.</p></div><span class="read-only-tag">조회 전용</span></div>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <section class="metrics-strip" aria-label="현재 서버 지표">
+      <article class="metric metric-lead"><h2>WebSocket 연결</h2><p id="metric-connections" class="metric-value">—</p><p id="connections-note" class="muted">현재 열린 연결</p></article>
+      <article class="metric"><h2>유효 세션</h2><p id="metric-sessions" class="metric-value">—</p><p class="muted">재접속 대기 포함</p></article>
+      <article class="metric"><h2>활성 룸</h2><p id="metric-rooms" class="metric-value">—</p><p id="rooms-note" class="muted">공개 / 비공개</p></article>
+      <article class="metric"><h2>재접속 예약석</h2><p id="metric-reserved" class="metric-value">—</p><p id="members-note" class="muted">연결 인원 —</p></article>
+      <article class="metric"><h2>프로세스 CPU</h2><p class="metric-value"><span id="metric-cpu">—</span><span class="unit">%</span></p><p id="cpu-note" class="muted">1코어 = 100%</p></article>
+      <article class="metric"><h2>메모리 RSS</h2><p class="metric-value"><span id="metric-rss">—</span><span class="unit">MiB</span></p><p id="rss-note" class="muted">실제 상주 메모리</p></article>
+    </section>
+    <section class="history-section" aria-labelledby="history-title">
+      <div class="section-heading"><h2 id="history-title">최근 15분</h2><p id="history-description" class="muted">수집된 표본만 표시합니다.</p></div>
+      <div class="chart-grid">
+        <figure class="chart-panel"><figcaption><span>WebSocket 연결</span><span id="chart-connections-value" class="chart-value">—</span></figcaption><svg id="chart-connections" class="chart" viewBox="0 0 480 140" role="img" aria-label="최근 15분 WebSocket 연결 추이"></svg><p id="chart-connections-summary" class="chart-summary">이력 수집 대기 중</p></figure>
+        <figure class="chart-panel"><figcaption><span>처리량 <small>/초</small></span><span class="chart-legend"><span class="legend-input">입력</span><span class="legend-snapshot">발행</span></span></figcaption><svg id="chart-throughput" class="chart" viewBox="0 0 480 140" role="img" aria-label="최근 15분 입력 처리와 스냅샷 발행 건수, 초당"></svg><p id="chart-throughput-summary" class="chart-summary">이력 수집 대기 중</p></figure>
+        <figure class="chart-panel"><figcaption><span>프로세스 CPU</span><span id="chart-cpu-value" class="chart-value">—</span></figcaption><svg id="chart-cpu" class="chart" viewBox="0 0 480 140" role="img" aria-label="최근 15분 프로세스 CPU 사용률, 1코어 100퍼센트"></svg><p id="chart-cpu-summary" class="chart-summary">이력 수집 대기 중</p></figure>
+        <figure class="chart-panel"><figcaption><span>메모리 RSS</span><span id="chart-rss-value" class="chart-value">—</span></figcaption><svg id="chart-rss" class="chart" viewBox="0 0 480 140" role="img" aria-label="최근 15분 프로세스 RSS 메모리, MiB"></svg><p id="chart-rss-summary" class="chart-summary">이력 수집 대기 중</p></figure>
+      </div>
+    </section>
+    <section class="rooms-section" aria-labelledby="rooms-title">
+      <div class="section-heading"><h2 id="rooms-title">룸 현황 <span id="room-count" class="count">—</span></h2><p class="muted">한 페이지에 최대 100개</p></div>
+      <form id="filters" class="filters" role="search" aria-label="룸 필터">
+        <div><label for="game-filter">게임</label><select id="game-filter"><option value="">모든 게임</option></select></div>
+        <div><label for="visibility-filter">공개 설정</label><select id="visibility-filter"><option value="all">전체</option><option value="public">공개</option><option value="private">비공개</option></select></div>
+        <div class="room-search"><label for="room-query">룸 ID</label><input id="room-query" type="search" placeholder="룸 ID 검색" autocomplete="off"></div>
+        <button type="submit">필터 적용</button><button id="reset-filters" type="button" class="quiet">초기화</button>
+      </form>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="룸 목록, 가로 스크롤 가능"><table><caption class="sr-only">게임별 룸 목록. 룸 ID를 선택하면 상세 정보를 확인합니다.</caption><thead><tr><th scope="col">게임 / 룸 ID</th><th scope="col">공개 설정</th><th scope="col" class="numeric">연결 / 정원</th><th scope="col" class="numeric">예약</th><th scope="col" class="numeric">서버 tick</th><th scope="col">최근 갱신</th><th scope="col">상태</th></tr></thead><tbody id="room-rows"></tbody></table><p id="room-empty" class="empty-state">룸 정보를 불러오는 중입니다.</p></div>
+      <div class="pagination"><p id="page-description" class="muted">첫 페이지</p><div><button id="first-page" type="button" disabled>처음</button><button id="previous-page" type="button" disabled>이전</button><button id="next-page" type="button" disabled>다음</button></div></div>
+    </section>
+    <details class="runtime-details"><summary>누적 지표와 실행 이후 최댓값</summary><p class="muted">이 프로세스가 시작된 이후의 값입니다. 재시작하면 초기화됩니다.</p><dl id="runtime-metrics" class="runtime-metrics"></dl></details>
+    <footer><span>Campfire 서버 관측</span><span id="footer-status">데이터 수집 대기 중</span></footer>
+  </div>
+</main>
+<dialog id="room-drawer" class="room-drawer" aria-labelledby="drawer-title"><div class="drawer-heading"><h2 id="drawer-title">룸 상세</h2><button id="close-drawer" type="button" aria-label="룸 상세 닫기">닫기</button></div><p class="muted">조회 전용 · 현재 페이지의 최신 표본</p><dl id="room-details"></dl></dialog>
+</body>
+</html>

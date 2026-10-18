@@ -1,6 +1,8 @@
 #[cfg(feature = "arena")]
 use campfire_server::Campfire;
 use campfire_server::cli::Options;
+#[cfg(feature = "arena")]
+use campfire_server::dashboard::{Dashboard, DashboardOptions};
 use std::error::Error;
 #[cfg(feature = "arena")]
 use std::{net::SocketAddr, time::Duration};
@@ -27,7 +29,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
     #[cfg(feature = "arena")]
     {
+        let admin_options = DashboardOptions::from_env()?;
         let listener = tokio::net::TcpListener::bind(options.bind).await?;
+        let address = listener.local_addr()?;
         let runtime = Campfire::new(options.config)?;
         for game_id in &options.games {
             if let Err(error) = runtime.register_game(game_id.clone(), campfire_server::ArenaModule)
@@ -37,7 +41,21 @@ async fn main() -> Result<(), Box<dyn Error>> {
             }
             tracing::info!(game_id, "game module registered");
         }
-        tracing::info!(bind = %listener.local_addr()?, "Campfire listening");
+        let mut dashboard = match admin_options {
+            Some(options) => match Dashboard::start(runtime.observer(), options) {
+                Ok(dashboard) => Some(dashboard),
+                Err(error) => {
+                    runtime.shutdown().await;
+                    return Err(error.into());
+                }
+            },
+            None => None,
+        };
+        let app = dashboard.as_ref().map_or_else(
+            || runtime.router(),
+            |dashboard| runtime.router().merge(dashboard.router()),
+        );
+        tracing::info!(bind = %address, "Campfire listening");
         let metrics_runtime = runtime.clone();
         let metrics_task = tokio::spawn(async move {
             let mut interval = tokio::time::interval(Duration::from_secs(10));
@@ -49,9 +67,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         let shutdown_runtime = runtime.clone();
         let result = axum::serve(
             listener,
-            runtime
-                .router()
-                .into_make_service_with_connect_info::<SocketAddr>(),
+            app.into_make_service_with_connect_info::<SocketAddr>(),
         )
         .with_graceful_shutdown(async move {
             shutdown_signal().await;
@@ -60,6 +76,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .await;
         metrics_task.abort();
         let _ = metrics_task.await;
+        if let Some(dashboard) = &mut dashboard {
+            dashboard.shutdown().await;
+        }
         runtime.shutdown().await;
         result?;
         Ok(())

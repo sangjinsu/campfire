@@ -14,6 +14,11 @@ campfire-arena = { path = "../campfire-arena", optional = true }
 axum.workspace = true
 tokio.workspace = true
 serde_json.workspace = true
+serde.workspace = true
+getrandom.workspace = true
+sha2.workspace = true
+subtle = "2.6.1"
+sysinfo = { version = "0.39.6", default-features = false, features = ["system"] }
 tracing.workspace = true
 tracing-subscriber.workspace = true
 
@@ -22,4 +27,3 @@ reqwest.workspace = true
 tokio-tungstenite.workspace = true
 futures-util.workspace = true
 serde_json.workspace = true
-sha2.workspace = true
