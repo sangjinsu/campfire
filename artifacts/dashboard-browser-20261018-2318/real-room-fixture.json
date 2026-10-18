@@ -1,0 +1,631 @@
+{
+  "room_count": 104,
+  "rooms": [
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_a8a7d65bd52ed47087334bfdd364c819106fd1d4c93af5ddbb8bd357544b454f",
+      "room_instance_id": "i_1257dbd8dda77d3f5da37da1b97bac467eb2595bd57768a4e87047487a78ff44"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_842b7978080ec043c268a2c372f3496334626e61a91411a9afdc8811668ad7c0",
+      "room_instance_id": "i_4578378952de246e2aeb38c5b29fc82fb4683dac9c86117ca635e5eed52cad8e"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_bea71fcc2e32cb69ea508ea21e57427894363029e64eda8bf16827b3d564dfe8",
+      "room_instance_id": "i_18679e7e1a1019e4ab879e4db66702ae11604e81abb954fdf17a74df152e2b35"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_63a3d2f32ec8c894baca594ebea655b3de6a87d4ac68f8739b0f588fe49d086c",
+      "room_instance_id": "i_df055da005ba5db12c25dd3dd5b0ac02c9995913fc131bbc9537bb703ecae319"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_036867069c05c72541973ceef592fbd41543d6b6b15956aba294234ae9bda159",
+      "room_instance_id": "i_ca1176747585b6a6a52e2e4e8d1666cb792b095455b58affcd0a42feb1f9140c"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_5dfb96aa5ef3476cc4267ad221d202ea2a5ad388d22802b4a990fd8b8098e262",
+      "room_instance_id": "i_4d0c3f4806b74cd457ff854577e34cfa7f163dec49288a66e1d10b7fd92544bf"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_a59bd2b5e1398f91b94acb9b55a962e443a04a3efe943eeb9fcfde3588b5f076",
+      "room_instance_id": "i_45c867633ebd4b95210af43e917c5f0939403400b2aab3c6db9b3286fc08e57c"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_3d841c3cc1bb772fbd00ed542bb5eb976c2f6c2c60bec71758c72afdcd24a535",
+      "room_instance_id": "i_274110d818d505398fc3811e947fbb7d63772b41a48300b72879812f4647cdcb"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_0382bb84f5448036e4373f6dfd27fd2bc818fb619d338e393cd701f7ae3ece55",
+      "room_instance_id": "i_2bbfe96d0d9e6ae24e9a21cf95e3bb26fb1c70d6c88f75bb90871ac77b2effb0"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_3f1df3d52a6cec1f05aec029af4d5676c68c55a28bfdfbcccc779c4f885b901d",
+      "room_instance_id": "i_99a540935f3e5f40e54b5b502511da4a3b8c3a52793d03076965ae044549c802"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_a578aa48f05eb35e8ef79a3e2cdf7949b726bbbc082738ca0dd700660ee635d5",
+      "room_instance_id": "i_bc71fcdbb762c59b914e0b0a80253ea84c70748f9c173ff908265502cccb9c51"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_730fca6a2b3c1abd47af1bd1467d3643deaa64fc318324c174e7e2951f61d018",
+      "room_instance_id": "i_196a8edce36587fee69aa191e98e28077135c0c073238c62fd6e7e21d7d30dc4"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_7dee9e38240df6bd0ccb87fab13e5aea4ec432ebfc4c2bd9f9dfd8977ddd8e71",
+      "room_instance_id": "i_da4a6dbb53faed913b336650913b213be298f2b7dba47568e462e4a9310521e5"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_f667710f4a0107f9de183023f2c3a5db79490fdbbb4a368f57b8ef2d588bb91b",
+      "room_instance_id": "i_8f5fba5390472c7b2bf9d1f57919fbb2af4d9be298b28dec1c738ed079c0c000"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_9386123856dc32d9d85728a47e0693aee442d6e11ed00d47b6a14d3aedb74ffb",
+      "room_instance_id": "i_e169f9b227a90480394263acfb718790277f6c1fa2b4d0df84226780dec39726"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_342a00ed157ef6333f05ae2df2a086e1eab15bf75ce3483a336c71b516eced21",
+      "room_instance_id": "i_dc7ae4427df187f8c77549b378aecf7225b362d68cc4602766e172ec2d3f775a"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_02abe793be5b8a1414c7ee96ca74412961391033f15f047f6662506d9e253d1c",
+      "room_instance_id": "i_46c90752e462ca859ae96788cffe9e2130bdcec4b56641959dc037dd6cf64d71"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_bb4316608f8bd348dd3f229c67ec3c82185d2052722a57ebe4786e7d3a8f19bb",
+      "room_instance_id": "i_eeb4a41aa80003f957929cf6069d4dc3a875f3ea35ef4f8f41c4b88f2f22999b"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_581a032f5892166d5fa74b140cbe109f4e8c37338709fee10e8548e543bed26a",
+      "room_instance_id": "i_5ec4353d85a46c35fb92bc3dcb7dfd736cb05e46d989d93e8599b5f6271ad7bf"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_52cd70134024bc3e5208a3e30f0fd2c07af81b9fb90db8ecf3ad2ed7c6a33721",
+      "room_instance_id": "i_62c592edf1b2e6335ce0e79ad6972d7bea926a0e8e894978fe2e67ea50fcccc7"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_83c04f4ec0bb10d1f3217d6f35e523bcb215f72cc26c92b2e1fecf8499c15ffd",
+      "room_instance_id": "i_dcfa2a8786921c374f17ad920fe31df8c4a720e6b33a78891f94a376359450f9"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_40d77a816e3e39545cd46c99a9f01bad13b617bb97a92ed0f5d7f84de654504a",
+      "room_instance_id": "i_761aa053ca47541fabc9b6d17dd8b2896635df88cb59f32992dff7b6dd29cc83"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_8a798f3d62e36f674b5824e1f069472aac793dc46f8bfbb654b540098f14fe15",
+      "room_instance_id": "i_6964c15861f0859afcf22f1b0e329c19548a43004d65c00be8fd16a8b1299b21"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_8ee6ebee37514ed24396c9ad9ba538b756fd25eb1bc1834b8231e88ecd4f92f3",
+      "room_instance_id": "i_b40334375beebb60df8a2dd30165e9130710c429f438eab46d4ae92f4c92d927"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_76f3ade7b656a09779bcb9336055037948bf01a008547aa8de10ead0d3dfcbc3",
+      "room_instance_id": "i_2d4cb3ea1d957fb03125c4205e42c62aa45bf18d2cdb18aa34141173d568c826"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_ffb0e2a40bafa9e0714297009e95cce095e0ababc6599490396a15d84055d2ad",
+      "room_instance_id": "i_4c504bcbab0652592fb22d9d486f759dcec74ee628873ec065cf0b8b86183c10"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_125fcea526be5753571ba8c967887798e4f78a4c378f7f9dee24dd45cd4a0a44",
+      "room_instance_id": "i_640662c4860dfe77d28d657522029bfd6e44be4d1296a54cd9e2fcb73da11171"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_e420aa00a45e284dbefd92dc221f07026bd316b698a34a520c4446867e0d0f73",
+      "room_instance_id": "i_3e897fb4c4be0840ae9e0127e52d48f824d6999302e6535117f156ee6bb70a2e"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_80570b2c1f124f10a423557bcf23b5945a0034ce6cf467238b5aaf907daa164b",
+      "room_instance_id": "i_54a7312c6d6fe3f818bd405e4fe50e9b3e562e653343b0440c75346a884fb0f3"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_56016bec22d54d2565513560e5f8fe44c5a27a4381df59a85d5ee062dc4e3510",
+      "room_instance_id": "i_dcd4fc91645e3559ce0777577d4de09f530b29f86f7eb29945be842b1d399ee5"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_bc3c10406f72954030160f4b86472c38389d3580be6ccd1ba321435276b7ffb5",
+      "room_instance_id": "i_03203d5ed78cd3e09961b188372125a127e6b3dbe793830c4c2377da18c74f2b"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_debdb339714286abd855676eb20fb776a89f14e8045499e7934da3353c087240",
+      "room_instance_id": "i_9813404d3d2dedd0f10a291008d3a939f8260ac85c71117bc8e130bee3181018"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_15fe363c7d773102730b94025c6d8de78b18176e83972d1d72abe54b4bba3f85",
+      "room_instance_id": "i_c7756a11d91fdcdc19dd59ea9ff0ea3386784926a1005480f2f9fc5f37c6dc03"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_19675a79052ecae5cdd74e44127105c1f5305231315cd68c3096c2b92806f47e",
+      "room_instance_id": "i_6467b3ce2c05d08060ecef1dddd803b713cee540e79ac537bc68ba3d683d77d5"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_6e1126de9eb035f9235a9ffd3a75a5debb00f0a6a4e5ef048fa9558e8c2ec72b",
+      "room_instance_id": "i_91f1280eebee1971721fff4a68c1d020737276a03d7a7c0dc7f5b5620e2c277e"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_e963ca8e84102877ccf8423e6c72a86116cf31edd6a31bb4eb604d3f3f8ebff2",
+      "room_instance_id": "i_4fd57048e79e0c1a5e3ab1951f74648ea533b8c948e7ada0effb7d2c478f4a2c"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_7014d5343bcf1deeae41e2f21042d2f355793fefa34e7a489ab302df29d64757",
+      "room_instance_id": "i_2790f86960682674ab7f8726dcd1888d6fb644f71be98ede3b38a87b2b1250a7"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_1771246beb111c15397c7fcca20c22f4b84495a209fdf91ff9b3c36cf572f0d4",
+      "room_instance_id": "i_7021c1ad3cb65207a8b468b1713d1357e212d859491bd3cf78e4e0b50e0dce9d"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_171b0e7abc84bb0bd95fbf24919bdff80c6d804653defbcb279f5a61d712c6b4",
+      "room_instance_id": "i_f977749007c1d90fb9ca15589258552492ba223d04a5ae5f33019ab6adf8090a"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_def964bb9b7376e7dc5240afe32071d4f434778e065d2f9226a89fa150674564",
+      "room_instance_id": "i_7a4437561dc4adbd8a52445d8732772be9d564a79a98df1123b673f38a761dc5"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_df74f41c5d2c5a7546ec707d89573484c7de50f718545a02e5965ef5f404f113",
+      "room_instance_id": "i_847337f286b674445bbbd3687a5260510c43150dee8f5201b35e994fafa5754e"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_8fa019c637153895b1169899a5f747e238872c8f084bd77439b4eb768800066d",
+      "room_instance_id": "i_e800366db002c9c5b028d915b9e810b150a320c8de0397d82d73151ea6773be2"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_5b445e06862a38fed43a24495ae71847b7ae0c78e830053810cc443f7954a8e1",
+      "room_instance_id": "i_fca45073587036ef1fa36ccdeac68287da1f41677926e4d25b23c96727ce234d"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_3e6d3d299bf330dbc64d989f6a6c3ef401a4de844e4458247517a7c808eedf93",
+      "room_instance_id": "i_8fad0f4ef29065390285cdbad4194b7464db1dc5d5550da249b20668801d0c97"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_1347412cf952a4d2462aa614a20a8b3b741e791b992006770f75817ded1f03ed",
+      "room_instance_id": "i_be07f1b6f98c45fc8e7c9dfdd0f6ff86fa889c405995e448af029fef94692bbf"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_713c2b38fff1ab4f21373400f4cbc8a6066b14c91c7ecb258f8d5ac95348dbf3",
+      "room_instance_id": "i_75c47d88742090c81a78b2baf7bcf9fa979d496ffb5e3fa30000fdc83ab529e0"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_89b497a02ae4b3a03c8fc1c142e4c01676834052875b94d06868060787dc87b1",
+      "room_instance_id": "i_fccc2e8eef603c45195392719620085ebc4e6f516c7f848338672ccc562a31c2"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_557c5268a1bd2ad3e27a950f6c57da6fe7bd790652a0311bdfa398df547d9419",
+      "room_instance_id": "i_191bddfa8e4310eec24cfa76623f761b1a00ac1b428b0c96240b23faba46d8ad"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_ee674a13bbd3f55bfd7675d3f93c20fc4ead31b74c084da92da0b70a85e5ca27",
+      "room_instance_id": "i_c5b6dc29cb97228c8e531dda75fe1657150c36852e9370347867b72dcddb01a4"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_c10199b051d375415a4a198069c1336cc22b372f5d6ce710d758ed608902242b",
+      "room_instance_id": "i_caef8d159687cf369bdc09c4d564f44b2fca268c5e0af838e0ab6bf6426d3c13"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_23297b5474d52ea8e0a3a3094bfb8b3ac29205f85edc771e642e8e4c0c615865",
+      "room_instance_id": "i_17f9c281b739f28231c98acbf996f67597231dec8a5e5bdf8c8498859b2b2339"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_794873271775d5a316b02b1a2307c7f1deee1378b97626c251dea6e8643d5878",
+      "room_instance_id": "i_ceafd2740e7fbceab92ce8eb38bd59b000098233448c8e4d23aa7ecd457e08f6"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_30ed9447c3235189992532783b835dc83905fb361009b90a74c2e4eca1bbd565",
+      "room_instance_id": "i_a591ba6778fab1b341dd0315443c9781c4f9e09f8488e3157e11db88560d220e"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_c4ecff7ce0ef6c752c5debd70e3de56327ef4f32ce4b5e5a571af3a0baca5e03",
+      "room_instance_id": "i_2a55c009b6136fe809c67899c64886b694f53e72d3abfd50f67290527e0c5006"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_35527e713c69947ca33d2a70023eb60ec1aede574b7b3fcc4d9fdc153a01a943",
+      "room_instance_id": "i_f518238e4791d369f3ac2c688c5145ec11ae2c44153b9e698b0a33791cc91f80"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_3e07be5d17a4bd5f0d9b7802e48ca960a06c3cc2fbfe4e4accab591dd4193cf1",
+      "room_instance_id": "i_77e216421c6c2eab39e0f733ba4bb5af14fad3f705b36b3020ee2b37f75b7f36"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_9772c22af540a5f13c958d54976819b90074cfb6dba48db23df026895d9f8d03",
+      "room_instance_id": "i_0298e550d9b3322a9c155d6e4822a72239ab9f0b0e620ff9fcf42519dfd05dd1"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_998e5b42888e9c49bc207cac11dc2b961a30908f1f53916efa7f5a886299f579",
+      "room_instance_id": "i_716f040458be37cfe65d54c4eb07c1a0f9f56633f677a6d1457b7bdd555bd131"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_1698e9f84435370166e0d21a3a4f6c50254a9f48366f3a87bf64d13698d99f5f",
+      "room_instance_id": "i_83d4142b6ba168e482218e9889b5702a4f3d04052853bd11890bf6da0c21fe66"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_455afdf69328c05cfeba2b2845de0b02539a8a211f1f34d8fa164758b1cc9a1d",
+      "room_instance_id": "i_7d5db9d3da1ca4bd49c1ead3b16b83eba8fb40a81e7e3400257376dd2355ee7d"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_7e2df8ce8edc4908123c604896c63b111301e83ab3017335742b91977bbe73f1",
+      "room_instance_id": "i_a85a116c1efbc43c5bde2a3bc98a9251119297b6ab7567e45fc1042ec877b23f"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_8b0d7c64840f23f53a948e7b61bfebf22404b8086a785515d1bddefe82f52d2d",
+      "room_instance_id": "i_234c773ab71ff28d1b4bd5eab18934d273e5dfe6bd441e353040fe814f8a78d3"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_1c6956ae9760ab2ae406093f7fe7d742f4a2a2f8426e4d0931e4a5e31782e561",
+      "room_instance_id": "i_f258eea30c99f6686eed7fd4454d77a1dc3c0e0c584df6c94dad223083b7be0f"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_5d808b1a246ecd51c47ae96718ce1268ef69adb3c032f36b317cc5218c6d468d",
+      "room_instance_id": "i_bf62e4e5e7e70c36619e613e109326f284886e55cdeec7f65c7ebef6f0254474"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_c05659168a445d9f4095708900eaf5b9acd53d6aec9987588f7fad4e0e327745",
+      "room_instance_id": "i_710414d620016cd7dc6aa84f90e7f1a5df49af3e13ce34efa37b9c5cdb725563"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_f050cc05bd5d945975f3a50354a22d01f0d54c90aa83e54dd1d7390d305984ec",
+      "room_instance_id": "i_61de3e038c94cd6b07f971d9c8f710405fb976a747721842ebac389320e0916e"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_1835d7f6744a8063226247eb6a27bba032da85baca41c517278792a8a0ed44be",
+      "room_instance_id": "i_31969f053ab2727d2aff2089a0c763df1c43c13226f378e3b72607a64c18a8a5"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_30ba5afe092b49e55a8a41590e46f3dae0c214805abce9cb7c1e6d3a4db76c8a",
+      "room_instance_id": "i_91dbd48d29a21d99237d16dcc3b51a022f2fcb4a4403445b7a4740c864e31161"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_0000394b4e6b8191c8b5494be1d074d375e9923c7eb798bda079ef9ddce58bf8",
+      "room_instance_id": "i_0c68a73a1ebbe4ae480e12a50d154841065880ab78b16d46dcefe24ea149d326"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_0451fb2dd619049c6efa5f417280fe563082aa83032b5315f99b5a55ac730751",
+      "room_instance_id": "i_673f2eb6b79663260bcc845665311a66f6a54cfe235523aaff55178bf1837c96"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_36a12d0b5154ed1158a3dfca506d4a2e6585129e45646f69550494c8a0289d54",
+      "room_instance_id": "i_c90f6eb67faa3c27cf8c2321b3ce9b50374d91a18a55ad5bcf97ac5ca23b4fce"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_6cb91d5e7cb2dab0efaa16a7e40555a115ad2d8301e2df8549f10e194f8de7da",
+      "room_instance_id": "i_29ee005fc40f7dbd6094b2d65527cd2fd8fd39f0131cd5750b3ad4df69fc7112"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_8bc34b6960e8f8e8ec4893f8c691a4d5d3e5e67e1c38aae1a8a25fa970d92cd8",
+      "room_instance_id": "i_56861c5a3b5c83551fa0d131ca5efbb74eb560ed74166461b16ce61a781dca8d"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_9621b1f7ca9001f2a0e839fecc63ce2d2f46629632702094fed8735a63cc2dc3",
+      "room_instance_id": "i_3d0ec957c0c2da899bdeeb5dbf6967486ccb418845cc9a73f1b6b0ca07b9663c"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_8e1a01ebc8e3ca4086545bd27688d969a592e094215196b0f2c695670ad56c28",
+      "room_instance_id": "i_5822621bff264db5e70bd65918672b80da5205cd5d61af5cd4b0a889f057af84"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_e440199265435ca2f53fd456d592325e617eae8f9632cf27dafad91f94661af7",
+      "room_instance_id": "i_68e29ad9b16704c417b454d518e3342a9ae257c0a014fa29a9a91d7c16e11458"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_f78999d0ab4945cb72d7e9ea0c64349c0ced1a7bb915eab15bf1d22e81e9cf7b",
+      "room_instance_id": "i_2c88ba6395c2b0114728302c8d20c19a30429566b6e9ce228bf7acf0cc678c4a"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_52cf70b9b7edcc0e2a5770386907744bbcef2e69d4fe0f330e808bf50e83e9b2",
+      "room_instance_id": "i_508bbf1cb8910d2776f5eeb0014f4193346317be30c41009a2752a45cf0ca638"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_3c4aaa9cfd3e73c741b585f636c1ab3d21c13ed853516c8eb545037fe411fdac",
+      "room_instance_id": "i_ccdafa159d2bfef06da55548652fc777f0fd97f687b29e8049007660fee653ba"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_99f6d00eea504edca9d31a0a1ac3cf736d36c8c9af6de60bfdd42ccf37bb73f7",
+      "room_instance_id": "i_f79f54bde7c2b89e905b27aecf00610a05939a5c45216f1e5a2547b676a773e8"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_0cb3e887e2e85c727f8176f9fd5edb2999b42ffbb2937ddecb8a7eb225a80e28",
+      "room_instance_id": "i_de09de879f2becb73e166220501415ae9fc2908103cd46aecb57d06ae7d13e95"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_cafd03102abaee7229bf1d3c810c67cb642c612912b432e5d6c249bf8497d02e",
+      "room_instance_id": "i_98900da406c78ce352e63f07c9220583c1f3e509b7adda9e840ab3580cffa58e"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_25ded0e872b5045a4a2b4046c5c2fd324a9cd8ebaf791d0cda5a9e446cf36d5f",
+      "room_instance_id": "i_3447d0fb32e47c0902274e38f1797fd0355a3e11a83403c9ab937cb3480aa40a"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_6e58d501d2d06c2d13ea8133eaa761e976e0ff8e750eae10b192a91c6c0d94a5",
+      "room_instance_id": "i_be4521ab3071ef8abcd34585175debbda4c4daa8f40dfac4e6fd326d54b3a626"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_f6ef92797432f1ae486b2d50a0922053f182aea6396e8ff949effdf93e56ef26",
+      "room_instance_id": "i_6b3ec460cd8e81b0d35e7ed458916b7a98ae89acea19912071ae455603a9b05e"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_02c6d77d422375b9fd57d7053014cb91c2ba71de6c9422dc7e9f0b8c34d58cab",
+      "room_instance_id": "i_af16211ba3480c3413458c9614d6ac0f4a4b0be0b4a57c71823bd6258742f6d7"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_4af929755868ca6b1a221c46dba5a5e429df336907e6fecf6565734284884304",
+      "room_instance_id": "i_c206a70159ace4acad997cb7998935244b53e5819a78d6dd325d2961aa2279dd"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_14c62a88b42c5727fe8cd9b8f508a8e7cb6332bee587a7cd194a739ba92ba37b",
+      "room_instance_id": "i_edd818a9aa574e0d25f6930c871dd7c49d80c5311780b5ee6db2872ca4d3773c"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_147ac9abc714d7ed9e2aff79dbc383087eabf0ea66107a7ad730ed0c4f864ffd",
+      "room_instance_id": "i_c5eee50217020dfcf8936e5fc4a34c3f1c7d39b9361d2b8f415bee4b3e653e1b"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_ad061510c7bd78dbe11f30e5d708eab80e918e3bbc521939ab2c26f4d036687f",
+      "room_instance_id": "i_da33eb7a3047abfa4315730ff8bbe4d409f67cbe854cfc5bd0d448ab1596a67a"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_826d7f767f82910291d5be9f35abf27afffd24851b6e4d2561f1715b7a60afd8",
+      "room_instance_id": "i_72bdaf56dc46a1e30da99f821c8a583eecbca0754eebdde95f2a2f5588c5803d"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_879273328bc84b9c65b168e2b5f23c9f6d6e0835445f084193b314320edf029c",
+      "room_instance_id": "i_0441940426d009cefc34963283440878182541313995c18cad98b5230443af40"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_532132f553adf461363f362042cedaa3f63c2445525bdb6f9a0e5376d40c2bc4",
+      "room_instance_id": "i_3fea4832f708884c4dacebd043f3894c4d41727b24aabd8f2d2e5953107e769e"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_f6f41fdb86722680255a5152ebcdb8c06536125814648ae3656ac0af00a6ccb9",
+      "room_instance_id": "i_c17eaaae2a5339daa86bbdc1dca0e06340cd5641a750bf2364f2bd68f382e079"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_128cd520fb8ac4207a08001826f31d8b33f1ff9aa0da7e06c94331ac5e13f44b",
+      "room_instance_id": "i_dd0105c0268a7f19a5fe82cef75a667425db8cb14375269dc96a9a13f710de77"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_bf9c710e9c5081af2bc12b9dbd32280fdaadbe983e1d2489ad04fa30c05abd9a",
+      "room_instance_id": "i_9e13c21a6319cdd67449dab0529135c75b4906eb6bd21bd926dbfe60e6e1a3f4"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_440befd8600c301f6d54a2def1fc6f59e546130fbc438175a47d0bea1e25dc97",
+      "room_instance_id": "i_3289c1ccb5fb06bc7ad18a365fcdfe67a95e22d79b6fa97cf2e83c0aae7daeea"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_af62e84e60d2fa412173b03323223a32dde82db4267a84ee0acd2eee47d58c3f",
+      "room_instance_id": "i_44c121087a8fd5f3a294718fb681e14d2d769ff37464332682a2545300cb8967"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_098b9e4c3281c45975eb8714d7f2f2babd161e3a6716114d02f09c052bf0a57f",
+      "room_instance_id": "i_0a486a65c124d26a96204fabbab6a8967a67af22a95f2fd9fe13574b818109ea"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_877808a65546f537ed1816ebefba35c3437687f887c08d6eb435f09517cc8807",
+      "room_instance_id": "i_5dbd2179e5b8dccd4432033a5175e74c08af777b6024c2617f6d0f6a9fc50b0c"
+    },
+    {
+      "game_id": "arena",
+      "public": true,
+      "room_id": "r_9d870d1c8bec886e27090589de8aefa7a36658920fd12e5f1eb647895f681842",
+      "room_instance_id": "i_2f6102af59aa6b00d74ec148df52aa73b4ba62a115591f3fe49a77422ee695b4"
+    },
+    {
+      "game_id": "arena",
+      "public": false,
+      "room_id": "r_5c4817c7fe8694ee88586111e70d6126120da6ec4a8ad71c4bc368ee6c6ca4a1",
+      "room_instance_id": "i_ebaf6047f43fa88fecfd5ad47f255d616533b8ddd2058fb1966f2c817f371c6b"
+    },
+    {
+      "game_id": "arena-b",
+      "public": true,
+      "room_id": "r_5e90f5413dc6c9755f38fea29a8149960eddee1a1dc84aaca6acbca278d775be",
+      "room_instance_id": "i_bef056885cd17276d65b50f09ae83368090ab783c4bdfa3026754403eafc01c1"
+    },
+    {
+      "game_id": "arena-b",
+      "public": false,
+      "room_id": "r_99e4e9941bae5ec1ad86cf57e924f527ca2939190e2658b41c5bfbefbb018548",
+      "room_instance_id": "i_5fa0270518d5d15f725ab97e15621e152faf7a3455e7560fb40f6eea6ab2a9c6"
+    }
+  ],
+  "success": true,
+  "transport": "Production CampfireClient / Godot WebSocketPeer"
+}

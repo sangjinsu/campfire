@@ -1,0 +1,294 @@
+{
+  "scope": "Real HTTP polling of immutable dashboard cache during actual client activity",
+  "samples": [
+    {
+      "elapsed_monotonic": 125627.443762875,
+      "latency_ms": 5.342749995179474,
+      "response": {
+        "boot_id": "6cc2d9c1b90cc0200a894589c6878bd6",
+        "cache_age_ms": 2,
+        "collected_at": 1792333351759,
+        "data": {
+          "games": [
+            {
+              "connected_members": 0,
+              "game_id": "inventory",
+              "private": 0,
+              "public": 0,
+              "reserved_members": 0,
+              "total": 0
+            }
+          ],
+          "metrics": {
+            "abusive_frames": 0,
+            "abusive_inputs": 0,
+            "active_connections": 0,
+            "active_rooms": 0,
+            "active_sessions": 0,
+            "admission_rejections": 0,
+            "guests_issued": 0,
+            "inputs_processed": 0,
+            "max_input_duration_micros": 0,
+            "max_input_latency_micros": 0,
+            "max_input_queue_depth": 0,
+            "max_reliable_queue_depth": 0,
+            "max_tick_delay_micros": 0,
+            "max_tick_duration_micros": 0,
+            "rate_keys": 0,
+            "reliable_queue_disconnects": 0,
+            "room_panics": 0,
+            "shared_queue_overloads": 0,
+            "snapshots": 0,
+            "ticks": 0,
+            "unauthenticated_connections": 0,
+            "write_deadline_disconnects": 0
+          },
+          "process": {
+            "age_ms": 4,
+            "collected_at": 1792333351757,
+            "cpu_percent": null,
+            "pid": 43379,
+            "rss_bytes": 8978432,
+            "state": "warming_up"
+          },
+          "rates": {
+            "admission_rejections_per_second": null,
+            "inputs_per_second": null,
+            "shared_queue_overloads_per_second": null,
+            "snapshots_per_second": null,
+            "ticks_per_second": null
+          },
+          "rooms": {
+            "connected_members": 0,
+            "private": 0,
+            "public": 0,
+            "reserved_members": 0,
+            "total": 0
+          },
+          "stopping": false,
+          "uptime_ms": 2
+        },
+        "sample_seq": 1,
+        "schema_version": 1,
+        "state": "ready"
+      }
+    },
+    {
+      "elapsed_monotonic": 125627.559159333,
+      "latency_ms": 0.8627920033177361,
+      "response": {
+        "boot_id": "6cc2d9c1b90cc0200a894589c6878bd6",
+        "cache_age_ms": 113,
+        "collected_at": 1792333351759,
+        "data": {
+          "games": [
+            {
+              "connected_members": 0,
+              "game_id": "inventory",
+              "private": 0,
+              "public": 0,
+              "reserved_members": 0,
+              "total": 0
+            }
+          ],
+          "metrics": {
+            "abusive_frames": 0,
+            "abusive_inputs": 0,
+            "active_connections": 0,
+            "active_rooms": 0,
+            "active_sessions": 0,
+            "admission_rejections": 0,
+            "guests_issued": 0,
+            "inputs_processed": 0,
+            "max_input_duration_micros": 0,
+            "max_input_latency_micros": 0,
+            "max_input_queue_depth": 0,
+            "max_reliable_queue_depth": 0,
+            "max_tick_delay_micros": 0,
+            "max_tick_duration_micros": 0,
+            "rate_keys": 0,
+            "reliable_queue_disconnects": 0,
+            "room_panics": 0,
+            "shared_queue_overloads": 0,
+            "snapshots": 0,
+            "ticks": 0,
+            "unauthenticated_connections": 0,
+            "write_deadline_disconnects": 0
+          },
+          "process": {
+            "age_ms": 115,
+            "collected_at": 1792333351757,
+            "cpu_percent": null,
+            "pid": 43379,
+            "rss_bytes": 8978432,
+            "state": "warming_up"
+          },
+          "rates": {
+            "admission_rejections_per_second": null,
+            "inputs_per_second": null,
+            "shared_queue_overloads_per_second": null,
+            "snapshots_per_second": null,
+            "ticks_per_second": null
+          },
+          "rooms": {
+            "connected_members": 0,
+            "private": 0,
+            "public": 0,
+            "reserved_members": 0,
+            "total": 0
+          },
+          "stopping": false,
+          "uptime_ms": 2
+        },
+        "sample_seq": 1,
+        "schema_version": 1,
+        "state": "ready"
+      }
+    },
+    {
+      "elapsed_monotonic": 125627.667776916,
+      "latency_ms": 0.80412499664817,
+      "response": {
+        "boot_id": "6cc2d9c1b90cc0200a894589c6878bd6",
+        "cache_age_ms": 222,
+        "collected_at": 1792333351759,
+        "data": {
+          "games": [
+            {
+              "connected_members": 0,
+              "game_id": "inventory",
+              "private": 0,
+              "public": 0,
+              "reserved_members": 0,
+              "total": 0
+            }
+          ],
+          "metrics": {
+            "abusive_frames": 0,
+            "abusive_inputs": 0,
+            "active_connections": 0,
+            "active_rooms": 0,
+            "active_sessions": 0,
+            "admission_rejections": 0,
+            "guests_issued": 0,
+            "inputs_processed": 0,
+            "max_input_duration_micros": 0,
+            "max_input_latency_micros": 0,
+            "max_input_queue_depth": 0,
+            "max_reliable_queue_depth": 0,
+            "max_tick_delay_micros": 0,
+            "max_tick_duration_micros": 0,
+            "rate_keys": 0,
+            "reliable_queue_disconnects": 0,
+            "room_panics": 0,
+            "shared_queue_overloads": 0,
+            "snapshots": 0,
+            "ticks": 0,
+            "unauthenticated_connections": 0,
+            "write_deadline_disconnects": 0
+          },
+          "process": {
+            "age_ms": 224,
+            "collected_at": 1792333351757,
+            "cpu_percent": null,
+            "pid": 43379,
+            "rss_bytes": 8978432,
+            "state": "warming_up"
+          },
+          "rates": {
+            "admission_rejections_per_second": null,
+            "inputs_per_second": null,
+            "shared_queue_overloads_per_second": null,
+            "snapshots_per_second": null,
+            "ticks_per_second": null
+          },
+          "rooms": {
+            "connected_members": 0,
+            "private": 0,
+            "public": 0,
+            "reserved_members": 0,
+            "total": 0
+          },
+          "stopping": false,
+          "uptime_ms": 2
+        },
+        "sample_seq": 1,
+        "schema_version": 1,
+        "state": "ready"
+      }
+    },
+    {
+      "elapsed_monotonic": 125627.778632125,
+      "latency_ms": 0.6729579909006134,
+      "response": {
+        "boot_id": "6cc2d9c1b90cc0200a894589c6878bd6",
+        "cache_age_ms": 333,
+        "collected_at": 1792333351759,
+        "data": {
+          "games": [
+            {
+              "connected_members": 0,
+              "game_id": "inventory",
+              "private": 0,
+              "public": 0,
+              "reserved_members": 0,
+              "total": 0
+            }
+          ],
+          "metrics": {
+            "abusive_frames": 0,
+            "abusive_inputs": 0,
+            "active_connections": 0,
+            "active_rooms": 0,
+            "active_sessions": 0,
+            "admission_rejections": 0,
+            "guests_issued": 0,
+            "inputs_processed": 0,
+            "max_input_duration_micros": 0,
+            "max_input_latency_micros": 0,
+            "max_input_queue_depth": 0,
+            "max_reliable_queue_depth": 0,
+            "max_tick_delay_micros": 0,
+            "max_tick_duration_micros": 0,
+            "rate_keys": 0,
+            "reliable_queue_disconnects": 0,
+            "room_panics": 0,
+            "shared_queue_overloads": 0,
+            "snapshots": 0,
+            "ticks": 0,
+            "unauthenticated_connections": 0,
+            "write_deadline_disconnects": 0
+          },
+          "process": {
+            "age_ms": 334,
+            "collected_at": 1792333351757,
+            "cpu_percent": null,
+            "pid": 43379,
+            "rss_bytes": 8978432,
+            "state": "warming_up"
+          },
+          "rates": {
+            "admission_rejections_per_second": null,
+            "inputs_per_second": null,
+            "shared_queue_overloads_per_second": null,
+            "snapshots_per_second": null,
+            "ticks_per_second": null
+          },
+          "rooms": {
+            "connected_members": 0,
+            "private": 0,
+            "public": 0,
+            "reserved_members": 0,
+            "total": 0
+          },
+          "stopping": false,
+          "uptime_ms": 2
+        },
+        "sample_seq": 1,
+        "schema_version": 1,
+        "state": "ready"
+      }
+    }
+  ],
+  "errors": []
+}

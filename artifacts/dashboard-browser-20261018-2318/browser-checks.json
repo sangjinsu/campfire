@@ -1,0 +1,19 @@
+{
+  "checks": [
+    "Real HTTP shell/assets/API: no-store, CSP, nosniff",
+    "Real HTTP missing/wrong Bearer, HEAD auth and read-only method",
+    "Real browser wrong-key 401 login rejection",
+    "Real browser authenticated empty runtime",
+    "Actual 104 live rooms: first 100, next four, previous page",
+    "Actual multigame/private filter, exact room search and metadata drawer",
+    "Actual browser wide/narrow layout and real sampled history chart",
+    "Live API allowlist excludes identity, credentials and game state fields",
+    "Controlled browser delayed real response: auto OFF permits completion, stops future poll",
+    "Controlled visibilitychange: hidden abort and visible refresh",
+    "Controlled late real response after logout cannot restore data",
+    "Controlled 401 response clears authenticated UI",
+    "Controlled warming-up null-data fixture displayed in actual browser"
+  ],
+  "interaction": "gstack browse DOM/Control actions; visibility and races are JavaScript-controlled. No physical OS input claimed.",
+  "base": "http://127.0.0.1:51845"
+}

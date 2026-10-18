@@ -1,0 +1,11 @@
+--- executed/tools/validate_dashboard.py
++++ final/tools/validate_dashboard.py
+@@ -371,7 +371,7 @@
+             finally:
+                 sampling_done.set()
+                 thread.join(timeout=3)
+-                dump(out / "process-os-samples.json", {"measurement": "macOS ps percent is process lifetime CPU average; RSS KiB converted to bytes. Same sampling for dashboard enabled/disabled; no equivalence to dashboard interval CPU asserted.", "samples": samples})
++                dump(out / "process-os-samples.json", {"measurement": "ps reports a platform-specific average CPU (macOS: decaying average over up to one minute), an auxiliary metric distinct from sysinfo interval CPU. RSS KiB converted to bytes. Same sampling for dashboard enabled/disabled.", "samples": samples})
+                 accounts.stop(server)
+             print(f"PASS dashboard {'enabled' if enabled else 'disabled'}: {count} real Godot clients", flush=True)
+     return results

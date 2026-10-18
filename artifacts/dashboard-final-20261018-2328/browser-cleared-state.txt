@@ -1,0 +1,1 @@
+{"localStorageCount":0,"sessionStorageCount":0,"cookie":"","inputCleared":true,"url":"http://127.0.0.1:54316/admin","rows":0}

@@ -1,0 +1,677 @@
+{
+  "boot_id": "a9ebafbeded234b1b48aabbed2664e7d",
+  "cache_age_ms": 745,
+  "collected_at": 1792333045330,
+  "data": {
+    "oldest_seq": 1,
+    "reset": true,
+    "samples": [
+      {
+        "collected_at": 1792333033330,
+        "interval_ms": null,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 0,
+          "active_rooms": 0,
+          "active_sessions": 0,
+          "admission_rejections": 0,
+          "guests_issued": 0,
+          "inputs_processed": 0,
+          "max_input_duration_micros": 0,
+          "max_input_latency_micros": 0,
+          "max_input_queue_depth": 0,
+          "max_reliable_queue_depth": 0,
+          "max_tick_delay_micros": 0,
+          "max_tick_duration_micros": 0,
+          "rate_keys": 0,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 0,
+          "ticks": 0,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 1,
+          "collected_at": 1792333033329,
+          "cpu_percent": null,
+          "pid": 33505,
+          "rss_bytes": 9945088,
+          "state": "warming_up"
+        },
+        "rates": {
+          "admission_rejections_per_second": null,
+          "inputs_per_second": null,
+          "shared_queue_overloads_per_second": null,
+          "snapshots_per_second": null,
+          "ticks_per_second": null
+        },
+        "rooms": {
+          "connected_members": 0,
+          "private": 0,
+          "public": 0,
+          "reserved_members": 0,
+          "total": 0
+        },
+        "sample_seq": 1
+      },
+      {
+        "collected_at": 1792333034331,
+        "interval_ms": 1000,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 0,
+          "active_rooms": 0,
+          "active_sessions": 0,
+          "admission_rejections": 0,
+          "guests_issued": 0,
+          "inputs_processed": 0,
+          "max_input_duration_micros": 0,
+          "max_input_latency_micros": 0,
+          "max_input_queue_depth": 0,
+          "max_reliable_queue_depth": 0,
+          "max_tick_delay_micros": 0,
+          "max_tick_duration_micros": 0,
+          "rate_keys": 0,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 0,
+          "ticks": 0,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 1002,
+          "collected_at": 1792333033329,
+          "cpu_percent": null,
+          "pid": 33505,
+          "rss_bytes": 9945088,
+          "state": "warming_up"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 0.0,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 0.0,
+          "ticks_per_second": 0.0
+        },
+        "rooms": {
+          "connected_members": 0,
+          "private": 0,
+          "public": 0,
+          "reserved_members": 0,
+          "total": 0
+        },
+        "sample_seq": 2
+      },
+      {
+        "collected_at": 1792333035330,
+        "interval_ms": 999,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 15,
+          "active_rooms": 15,
+          "active_sessions": 15,
+          "admission_rejections": 0,
+          "guests_issued": 15,
+          "inputs_processed": 71,
+          "max_input_duration_micros": 65,
+          "max_input_latency_micros": 35073,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 2251,
+          "max_tick_duration_micros": 135,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 57,
+          "ticks": 120,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 999,
+          "collected_at": 1792333034331,
+          "cpu_percent": 1.0774013996124268,
+          "pid": 33505,
+          "rss_bytes": 11010048,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 71.05850779885888,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 57.04697104978812,
+          "ticks_per_second": 120.09888642060656
+        },
+        "rooms": {
+          "connected_members": 15,
+          "private": 7,
+          "public": 8,
+          "reserved_members": 0,
+          "total": 15
+        },
+        "sample_seq": 3
+      },
+      {
+        "collected_at": 1792333036329,
+        "interval_ms": 999,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 40,
+          "active_rooms": 39,
+          "active_sessions": 40,
+          "admission_rejections": 0,
+          "guests_issued": 40,
+          "inputs_processed": 585,
+          "max_input_duration_micros": 65,
+          "max_input_latency_micros": 35073,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 2251,
+          "max_tick_duration_micros": 135,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 449,
+          "ticks": 917,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 993,
+          "collected_at": 1792333035336,
+          "cpu_percent": 3.932239055633545,
+          "pid": 33505,
+          "rss_bytes": 14761984,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 514.3907656897993,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 392.2980158568119,
+          "ticks_per_second": 797.6059148925486
+        },
+        "rooms": {
+          "connected_members": 39,
+          "private": 19,
+          "public": 20,
+          "reserved_members": 0,
+          "total": 39
+        },
+        "sample_seq": 4
+      },
+      {
+        "collected_at": 1792333037330,
+        "interval_ms": 1000,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 64,
+          "active_rooms": 64,
+          "active_sessions": 64,
+          "admission_rejections": 0,
+          "guests_issued": 64,
+          "inputs_processed": 1596,
+          "max_input_duration_micros": 404,
+          "max_input_latency_micros": 36751,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 7630,
+          "max_tick_duration_micros": 701,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 1213,
+          "ticks": 2455,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 989,
+          "collected_at": 1792333036340,
+          "cpu_percent": 15.328030586242676,
+          "pid": 33505,
+          "rss_bytes": 19939328,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 1010.6665214852371,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 763.7479944754908,
+          "ticks_per_second": 1537.4926904493518
+        },
+        "rooms": {
+          "connected_members": 64,
+          "private": 32,
+          "public": 32,
+          "reserved_members": 0,
+          "total": 64
+        },
+        "sample_seq": 5
+      },
+      {
+        "collected_at": 1792333038329,
+        "interval_ms": 999,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 85,
+          "active_rooms": 85,
+          "active_sessions": 85,
+          "admission_rejections": 0,
+          "guests_issued": 85,
+          "inputs_processed": 2953,
+          "max_input_duration_micros": 10999,
+          "max_input_latency_micros": 76786,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 47544,
+          "max_tick_duration_micros": 26604,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 2303,
+          "ticks": 4650,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 985,
+          "collected_at": 1792333037343,
+          "cpu_percent": 34.27985382080078,
+          "pid": 33505,
+          "rss_bytes": 25968640,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 1357.3232125899979,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 1090.2596180715532,
+          "ticks_per_second": 2195.522808868862
+        },
+        "rooms": {
+          "connected_members": 85,
+          "private": 42,
+          "public": 43,
+          "reserved_members": 0,
+          "total": 85
+        },
+        "sample_seq": 6
+      },
+      {
+        "collected_at": 1792333039330,
+        "interval_ms": 1000,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 104,
+          "active_rooms": 104,
+          "active_sessions": 104,
+          "admission_rejections": 0,
+          "guests_issued": 104,
+          "inputs_processed": 4868,
+          "max_input_duration_micros": 10999,
+          "max_input_latency_micros": 76786,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 47544,
+          "max_tick_duration_micros": 26604,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 3745,
+          "ticks": 7543,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 981,
+          "collected_at": 1792333038349,
+          "cpu_percent": 46.237403869628906,
+          "pid": 33505,
+          "rss_bytes": 31293440,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 1913.6888054958936,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 1441.0126671149235,
+          "ticks_per_second": 2891.019171958026
+        },
+        "rooms": {
+          "connected_members": 104,
+          "private": 52,
+          "public": 52,
+          "reserved_members": 0,
+          "total": 104
+        },
+        "sample_seq": 7
+      },
+      {
+        "collected_at": 1792333040330,
+        "interval_ms": 1000,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 104,
+          "active_rooms": 104,
+          "active_sessions": 104,
+          "admission_rejections": 0,
+          "guests_issued": 104,
+          "inputs_processed": 6947,
+          "max_input_duration_micros": 10999,
+          "max_input_latency_micros": 76786,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 47544,
+          "max_tick_duration_micros": 26604,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 5304,
+          "ticks": 10661,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 978,
+          "collected_at": 1792333039352,
+          "cpu_percent": 47.90799331665039,
+          "pid": 33505,
+          "rss_bytes": 36864000,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 2078.9401431553983,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 1558.9551145643416,
+          "ticks_per_second": 3117.910229128683
+        },
+        "rooms": {
+          "connected_members": 104,
+          "private": 52,
+          "public": 52,
+          "reserved_members": 0,
+          "total": 104
+        },
+        "sample_seq": 8
+      },
+      {
+        "collected_at": 1792333041330,
+        "interval_ms": 999,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 104,
+          "active_rooms": 104,
+          "active_sessions": 104,
+          "admission_rejections": 0,
+          "guests_issued": 104,
+          "inputs_processed": 9027,
+          "max_input_duration_micros": 10999,
+          "max_input_latency_micros": 76786,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 47544,
+          "max_tick_duration_micros": 26604,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 6863,
+          "ticks": 13780,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 977,
+          "collected_at": 1792333040353,
+          "cpu_percent": 51.037174224853516,
+          "pid": 33505,
+          "rss_bytes": 39124992,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 2080.3752476853015,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 1559.281255356435,
+          "ticks_per_second": 3119.562691120411
+        },
+        "rooms": {
+          "connected_members": 104,
+          "private": 52,
+          "public": 52,
+          "reserved_members": 0,
+          "total": 104
+        },
+        "sample_seq": 9
+      },
+      {
+        "collected_at": 1792333042329,
+        "interval_ms": 999,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 104,
+          "active_rooms": 104,
+          "active_sessions": 104,
+          "admission_rejections": 0,
+          "guests_issued": 104,
+          "inputs_processed": 11106,
+          "max_input_duration_micros": 10999,
+          "max_input_latency_micros": 76786,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 47544,
+          "max_tick_duration_micros": 26604,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 8423,
+          "ticks": 16901,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 972,
+          "collected_at": 1792333041357,
+          "cpu_percent": 55.654205322265625,
+          "pid": 33505,
+          "rss_bytes": 41140224,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 2080.003861863832,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 1560.7532585414035,
+          "ticks_per_second": 3122.5069999408465
+        },
+        "rooms": {
+          "connected_members": 104,
+          "private": 52,
+          "public": 52,
+          "reserved_members": 0,
+          "total": 104
+        },
+        "sample_seq": 10
+      },
+      {
+        "collected_at": 1792333043330,
+        "interval_ms": 1000,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 104,
+          "active_rooms": 104,
+          "active_sessions": 104,
+          "admission_rejections": 0,
+          "guests_issued": 104,
+          "inputs_processed": 13179,
+          "max_input_duration_micros": 10999,
+          "max_input_latency_micros": 76786,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 47544,
+          "max_tick_duration_micros": 26604,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 9984,
+          "ticks": 20023,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 969,
+          "collected_at": 1792333042360,
+          "cpu_percent": 52.20944595336914,
+          "pid": 33505,
+          "rss_bytes": 42909696,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 2072.609831199277,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 1560.7061970584039,
+          "ticks_per_second": 3121.4123941168077
+        },
+        "rooms": {
+          "connected_members": 104,
+          "private": 52,
+          "public": 52,
+          "reserved_members": 0,
+          "total": 104
+        },
+        "sample_seq": 11
+      },
+      {
+        "collected_at": 1792333044330,
+        "interval_ms": 1000,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 104,
+          "active_rooms": 104,
+          "active_sessions": 104,
+          "admission_rejections": 0,
+          "guests_issued": 104,
+          "inputs_processed": 15235,
+          "max_input_duration_micros": 10999,
+          "max_input_latency_micros": 76786,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 47544,
+          "max_tick_duration_micros": 26604,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 11543,
+          "ticks": 23140,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 965,
+          "collected_at": 1792333043365,
+          "cpu_percent": 51.15290832519531,
+          "pid": 33505,
+          "rss_bytes": 43941888,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 2055.8228559119743,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 1558.8656772211907,
+          "ticks_per_second": 3116.7314406019573
+        },
+        "rooms": {
+          "connected_members": 104,
+          "private": 52,
+          "public": 52,
+          "reserved_members": 0,
+          "total": 104
+        },
+        "sample_seq": 12
+      },
+      {
+        "collected_at": 1792333045330,
+        "interval_ms": 1000,
+        "metrics": {
+          "abusive_frames": 0,
+          "abusive_inputs": 0,
+          "active_connections": 104,
+          "active_rooms": 104,
+          "active_sessions": 104,
+          "admission_rejections": 0,
+          "guests_issued": 104,
+          "inputs_processed": 17301,
+          "max_input_duration_micros": 10999,
+          "max_input_latency_micros": 76786,
+          "max_input_queue_depth": 1,
+          "max_reliable_queue_depth": 1,
+          "max_tick_delay_micros": 47544,
+          "max_tick_duration_micros": 26604,
+          "rate_keys": 1,
+          "reliable_queue_disconnects": 0,
+          "room_panics": 0,
+          "shared_queue_overloads": 0,
+          "snapshots": 13105,
+          "ticks": 26262,
+          "unauthenticated_connections": 0,
+          "write_deadline_disconnects": 0
+        },
+        "process": {
+          "age_ms": 961,
+          "collected_at": 1792333044369,
+          "cpu_percent": 64.06919860839844,
+          "pid": 33505,
+          "rss_bytes": 44482560,
+          "state": "ready"
+        },
+        "rates": {
+          "admission_rejections_per_second": 0.0,
+          "inputs_per_second": 2065.2000798574686,
+          "shared_queue_overloads_per_second": 0.0,
+          "snapshots_per_second": 1561.3952201052111,
+          "ticks_per_second": 3120.7912145764844
+        },
+        "rooms": {
+          "connected_members": 104,
+          "private": 52,
+          "public": 52,
+          "reserved_members": 0,
+          "total": 104
+        },
+        "sample_seq": 13
+      }
+    ]
+  },
+  "sample_seq": 13,
+  "schema_version": 1,
+  "state": "ready"
+}

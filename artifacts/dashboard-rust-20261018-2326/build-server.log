@@ -1,0 +1,4 @@
+   Compiling campfire-runtime v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-runtime)
+   Compiling campfire-arena v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-arena)
+   Compiling campfire-server v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-server)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.93s

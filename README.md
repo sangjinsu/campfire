@@ -20,6 +20,7 @@
 - **재시도할 수 있는 단발 행동:** 이동은 최신 입력으로, 아이템 사용·선택은 별도 FIFO 명령으로 처리합니다. 살아 있는 같은 membership에서는 sequence와 결과 이력으로 재접속 후 중복 실행을 막습니다.
 - **각자에게만 보이는 상태:** 공용 snapshot과 별도로 수신자 전용 `private_state`와 자신의 명령 결과를 전달합니다.
 - **게임별 연결·방 격리:** 게스트 발급부터 인증·목록·입장·resume까지 `game_id` 경계를 검사합니다.
+- **브라우저에서 서버 관측:** 하나의 binary에 관리자 대시보드를 포함합니다. 연결·공개/비공개 룸·재접속 예약석·CPU/RSS·최근 15분 전역 이력을 조회하고 게임별로 필터링하세요. 관리자 키를 설정할 때만 활성화됩니다.
 - **교체할 수 있는 게임 모듈:** `GameModule`과 `Game`에 규칙을 구현하고 필요한 모듈만 서버에 등록합니다. 게임 callback은 Axum이나 WebSocket 타입을 받지 않습니다.
 
 ## 빠른 시작
@@ -78,6 +79,17 @@ cargo run -p campfire-server -- --game arena --game arena-b
 
 `--game`은 컴파일된 모듈의 등록 ID를 정합니다. 다른 게임 규칙은 Rust 모듈을 추가한 뒤 다시 빌드합니다.
 
+### 서버 대시보드 열기
+
+빠른 시작의 서버를 실행 중이라면 먼저 그 서버를 종료하세요. 아래 명령으로 임의 관리자 키를 메모리에 생성하고 같은 포트의 서버를 다시 시작합니다. 키를 출력하는 명령은 포함하지 않았습니다. 신뢰하는 비밀 관리 도구로 같은 키를 `/admin` 로그인 화면에 입력하세요. 게임 접속용 runtime token과 별개의 키입니다.
+
+```sh
+export CAMPFIRE_ADMIN_TOKEN="$(openssl rand -hex 32)"
+cargo run -p campfire-server -- --bind 127.0.0.1:3000 --game arena
+```
+
+브라우저에서 `http://127.0.0.1:3000/admin`을 여세요. 로컬 확인용 HTTP 주소입니다. 외부에서는 [HTTPS reverse proxy와 운영 가이드](docs/dashboard.md)를 적용하세요. 기본값은 OFF이며 키가 없거나 빈 문자열이면 모든 `/admin` 경로가 404입니다. 계정 예제 서버도 같은 환경 변수로 활성화합니다.
+
 ## 작은 구성, 분리된 역할
 
 | Crate | 역할 |
@@ -98,6 +110,7 @@ Godot 계정 UI의 실제 두 native 창 검증은 [계정 클라이언트 검�
 
 | 검증 | 확인한 범위 | 실행 기록 |
 |---|---|---|
+| 조회 전용 서버 대시보드 | 실제 104룸/100+4페이지, private metadata, 390px 화면, 8·16 Godot 이동·재접속과 병행 관측 | [대시보드 검증·원본 화면](docs/dashboard-verification-2026-10-18.md) |
 | Account Inventory native Godot 창 두 개 | Alice/Bob 86개 검사, private·결과 분리, 같은 seq 재확인, 실제 timeout/resume·계정 전환 | [계정 UI·원본 두 PNG](docs/godot-accounts-2026-10-18.md) |
 | Rust WebSocket client 8명 / 16명 | 각각 실제 60초, 입력 처리와 snapshot 수신. client별 snapshot 간격 p95 최대 약 69ms / 71ms | [서버 검증](docs/verification-results.md) |
 | 실제 Godot 프로세스 8개 / 16개 | 계정 UI 추가 후 각각 약 20초, 전원의 동일 snapshot 상태·원격 이동·동일 게스트 resume | [기존 Arena 회귀](docs/godot-accounts-2026-10-18.md#단위ui-및-기존-arena-회귀) |
@@ -117,5 +130,6 @@ Godot 계정 UI의 실제 두 native 창 검증은 [계정 클라이언트 검�
 - [Godot 예제](examples/godot/README.md) — 실행, 조작, 재접속, 테스트
 - [JSON 프로토콜](docs/protocol.md) — guest·account·room·input·command·private state·resume 계약과 오류
 - [설정](docs/configuration.md) — CLI·환경 변수·기본값·상한
+- [관리자 대시보드](docs/dashboard.md) — 키 설정, 지표 해석, API, HTTPS reverse proxy
 - [설계 사양](docs/specification.md) — runtime과 게임 모듈의 책임
 - [서버 검증](docs/verification-results.md) · [Godot 검증](docs/godot-verification.md) — 실행 명령, 측정값, 원본 증거

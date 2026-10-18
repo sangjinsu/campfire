@@ -1,0 +1,93 @@
+{
+  "success": true,
+  "environment": {
+    "RUST_LOG": "info",
+    "transport": "TCP loopback",
+    "order": "OFF8, OFF16, ON8, ON16",
+    "duration_per_scenario_seconds": 20,
+    "admin_poll_interval_seconds": 0.1,
+    "cpu_definition": "macOS ps decaying average over up to one minute; auxiliary metric distinct from sysinfo interval CPU",
+    "rss_definition": "ps KiB multiplied by 1024, bytes",
+    "tick_delay_scope": "Maximum of actual server lifetime max_tick_delay_micros sampled by the default ten-second INFO metrics log; not a per-tick percentile. Three log samples include startup.",
+    "limitations": "One sequential run per condition on one local host. No statistical latency/throughput guarantee and no WAN/TLS deployment claim."
+  },
+  "cases": [
+    {
+      "count": 8,
+      "dashboard_enabled": false,
+      "matching_public_states": 18,
+      "snapshot_gap_ms_p95_max_client": 70,
+      "metrics_log_samples": 3,
+      "max_tick_delay_micros_logged": 39050,
+      "max_tick_duration_micros_logged": 7237,
+      "ps_cpu_percent_median": 4.8,
+      "ps_rss_bytes_max": 14188544,
+      "os_samples": 84,
+      "admin_polls": null
+    },
+    {
+      "count": 16,
+      "dashboard_enabled": false,
+      "matching_public_states": 18,
+      "snapshot_gap_ms_p95_max_client": 70,
+      "metrics_log_samples": 3,
+      "max_tick_delay_micros_logged": 28700,
+      "max_tick_duration_micros_logged": 4351,
+      "ps_cpu_percent_median": 12.149999999999999,
+      "ps_rss_bytes_max": 16711680,
+      "os_samples": 86,
+      "admin_polls": null
+    },
+    {
+      "count": 8,
+      "dashboard_enabled": true,
+      "matching_public_states": 18,
+      "snapshot_gap_ms_p95_max_client": 70,
+      "metrics_log_samples": 3,
+      "max_tick_delay_micros_logged": 21730,
+      "max_tick_duration_micros_logged": 4618,
+      "ps_cpu_percent_median": 6.0,
+      "ps_rss_bytes_max": 15728640,
+      "os_samples": 83,
+      "admin_polls": {
+        "polls": 202,
+        "errors": [],
+        "latency_ms_median": 1.0375830097473226,
+        "latency_ms_max": 42.49024999444373,
+        "max_connected": 8,
+        "max_reserved": 1,
+        "cpu_percent_median": 6.445907115936279,
+        "rss_bytes_max": 15728640,
+        "max_tick_delay_micros": 21730,
+        "connected_recovered_after_reservation": true
+      }
+    },
+    {
+      "count": 16,
+      "dashboard_enabled": true,
+      "matching_public_states": 18,
+      "snapshot_gap_ms_p95_max_client": 70,
+      "metrics_log_samples": 3,
+      "max_tick_delay_micros_logged": 81225,
+      "max_tick_duration_micros_logged": 21654,
+      "ps_cpu_percent_median": 12.5,
+      "ps_rss_bytes_max": 18677760,
+      "os_samples": 87,
+      "admin_polls": {
+        "polls": 209,
+        "errors": [],
+        "latency_ms_median": 1.0205839935224503,
+        "latency_ms_max": 99.29704200476408,
+        "max_connected": 16,
+        "max_reserved": 1,
+        "cpu_percent_median": 13.499671936035156,
+        "rss_bytes_max": 18661376,
+        "max_tick_delay_micros": 81225,
+        "connected_recovered_after_reservation": true
+      }
+    }
+  ],
+  "source_unchanged_during_execution": true,
+  "binary_unchanged_during_execution": true,
+  "metadata_errata": "metadata-errata.json"
+}

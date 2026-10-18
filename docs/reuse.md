@@ -92,6 +92,12 @@ Campfire는 `/health`, `/v1/games/{game_id}/guests`, `/v1/games/{game_id}/sessio
 
 예제처럼 root에 `merge`하면 기본 Godot 클라이언트와 바로 연결됩니다. 현재 Godot adapter는 URL의 path prefix를 지원하지 않으므로 `/campfire` 아래에 `nest`하는 구성에는 별도 client 또는 proxy 설정이 필요합니다.
 
+## 같은 프로세스의 대시보드 합성
+
+`campfire-server::dashboard::{Dashboard, DashboardOptions}`가 env 검증·수집 task·정적 화면·인증 API를 제공합니다. `DashboardOptions::from_env()?`가 `Some(options)`일 때 `Dashboard::start(campfire.observer(), options)?`를 생성하고 기존 `campfire.router()`에 `dashboard.router()`를 merge합니다. handle은 serve 전체 기간 보유하고 serve의 정상·오류 종료 뒤 `dashboard.shutdown().await`를 호출한 다음 runtime을 정리하세요. OFF일 때는 runtime router만 사용합니다. 실행 가능한 전체 composition은 [기본 서버](../crates/campfire-server/src/main.rs)와 [계정 예제](../crates/campfire-server/examples/account_server.rs)에 있습니다.
+
+관측 전용 `RuntimeObserver`는 runtime의 수명을 연장하지 않습니다. `snapshot()`은 보관된 룸 summary와 atomic metrics를 읽으며 게임 snapshot/private hook을 호출하지 않습니다. 별도 프로세스로 실행한 dashboard는 그 프로세스만 관측하므로 기존 게임 프로세스에 합성해야 합니다. [환경 변수·HTTP·HTTPS 운영 계약](dashboard.md)을 함께 적용하세요.
+
 ## 자신의 게임 모듈 만들기
 
 공개 계약은 [`game.rs`](../crates/campfire-runtime/src/game.rs)에 있고, 전체 구현 예제는 [`ArenaModule`](../crates/campfire-arena/src/lib.rs)입니다.

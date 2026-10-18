@@ -46,7 +46,13 @@ WebSocket writer는 `write_buffer_size(0)`와 유한한 `max_write_buffer_size(1
 
 발급 빈도의 주체는 서버가 받은 실제 peer IP(`ConnectInfo`)다. client의 forwarded header는 신뢰하지 않는다. 신뢰하는 reverse proxy 뒤에서는 운영자가 검증한 peer 정보 adapter를 구성해야 하며, 그렇지 않으면 여러 사용자가 같은 proxy 주체의 발급 한도를 공유할 수 있다.
 
-`Campfire::metrics()`는 현재 세션/연결/룸/rate-key 수, 입력 및 snapshot 수, 개인 위반과 공유 queue 과부하, queue 깊이 최댓값, tick 지연/처리 시간, 입력 대기/처리 시간 최댓값을 제공한다. 바이너리는 약 10초마다 이 값을 로그에 기록한다. 별도 metrics HTTP endpoint는 제공하지 않는다.
+`Campfire::metrics()`는 현재 세션/연결/룸/rate-key 수, 입력 및 snapshot 수, 개인 위반과 공유 queue 과부하, queue 깊이 최댓값, tick 지연/처리 시간, 입력 대기/처리 시간 최댓값을 제공한다. 바이너리는 약 10초마다 이 값을 로그에 기록한다. 관리자 키를 설정하면 [대시보드](dashboard.md)의 인증된 cache 조회 API로도 확인할 수 있다.
+
+## 관리자 대시보드
+
+`CAMPFIRE_ADMIN_TOKEN`은 CLI 옵션이 없는 env-only secret이다. 미설정·빈 문자열은 OFF이며 `/admin`과 하위 경로가 모두 404다. nonempty 값은 32–256바이트 ASCII graphic 문자(`!`–`~`)여야 한다. 공백·제어 문자·Unicode·잘못된 길이는 서버 시작 전에 거부하며 자동 trim하지 않는다. `openssl rand -hex 32`는 유효한 64자 값을 만든다. 값을 terminal 출력·명령 인자·URL·로그에 넣지 말고 비밀 관리 도구를 통해 서버 환경과 로그인 입력에 공급한다.
+
+기본 서버와 `--no-default-features --example account_server` 모두 이 변수를 읽는다. binary는 dashboard HTML/CSS/JS를 포함하므로 별도 정적 파일 서버가 필요하지 않다. 정적 shell은 공개하고 `/admin/api/status`, `/rooms`, `/history`는 정확한 Bearer 관리자 키를 요구한다. 게임 runtime token·계정 credential·cookie·query는 관리자 인증이 아니다. 서버를 재시작하면 키 변경이 반영되고 이력·boot ID가 초기화된다. [전체 운영 지침](dashboard.md)을 참고한다.
 
 ## 계정·명령·비공개 상태의 제한
 

@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "final_source_sha256": "f73cbfbbe5ffa0aeb232570c1170ba90e4d673dc37bfb843390d0c1ca0ff1bd7",
+  "source_files": 65,
+  "driver_sha256": "e008929d1d6698fc14d2d309f7f8c16aca333e44526d7be88bec39247652cea7",
+  "server_binary_sha256": "c38b242934bd09b9a330bbce383481bfaf6618728b9baa4934bfc593e78c8249",
+  "account_binary_sha256": "7917758129c63cb6f007626cc9a29836af2da8769afc974fce93c0c371cb5b8b",
+  "diff_check": "passed",
+  "production_source_difference_from_executed_manifest": false,
+  "metadata_only_difference": "tools/validate_dashboard.py description string; see metadata-errata.json"
+}

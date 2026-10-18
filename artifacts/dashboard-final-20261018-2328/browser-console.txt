@@ -1,0 +1,3 @@
+--- BEGIN UNTRUSTED EXTERNAL CONTENT (source: http://127.0.0.1:54316/admin) ---
+[2026-10-18T14:20:42.985Z] [error] Failed to load resource: the server responded with a status of 401 (Unauthorized)
+--- END UNTRUSTED EXTERNAL CONTENT ---

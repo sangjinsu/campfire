@@ -1,0 +1,12 @@
+     %cpu      The CPU utilization of the process; this is a decaying average
+	       over up to a minute of previous (real) time.  Because the time
+	       base over which this is computed varies (some processes may be
+	       very young), it is possible for the sum of all %cpu fields to
+	       exceed 100%.
+
+     rss       the real memory (resident set) size of the process (in 1024
+	       byte units).
+
+     start     The time the command started.  If the command started less than
+	       24 hours ago, the start time is displayed using the "%l:ps.1p"
+	       format described in strftime(3).  If the command started less

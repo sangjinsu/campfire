@@ -1,0 +1,15 @@
+{
+  "scope": "Read-only full-width process table after every QA suite. Only owned Popen processes were signalled by runners.",
+  "original_processes_observed": [
+    {
+      "pid": 65028,
+      "command_name": "/Applications/Godot.app/Contents/MacOS/Godot"
+    },
+    {
+      "pid": 63797,
+      "command_name": "target/debug/campfire-server"
+    }
+  ],
+  "remaining_qa_godot_processes": [],
+  "success": true
+}
