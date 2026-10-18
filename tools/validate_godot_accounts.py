@@ -33,9 +33,12 @@ def sha256(path: Path) -> str:
 def sources() -> dict[str, str]:
     paths = [ROOT / "Cargo.toml", ROOT / "Cargo.lock", PROJECT / "project.godot", Path(__file__)]
     paths += list((ROOT / "crates").rglob("*.rs")) + list((ROOT / "crates").rglob("Cargo.toml"))
+    paths += list((ROOT / "crates/campfire-server/src/dashboard/assets").glob("*"))
+    paths += list((ROOT / "tools").glob("*dashboard*"))
+    paths += list((ROOT / "tools/tests").glob("dashboard*"))
     for suffix in ("*.gd", "*.gd.uid", "*.tscn"):
         paths += list(PROJECT.rglob(suffix))
-    return {str(path.relative_to(ROOT)): sha256(path) for path in sorted(set(paths))}
+    return {str(path.relative_to(ROOT)): sha256(path) for path in sorted(set(paths)) if path.is_file()}
 
 
 def source_digest(manifest: dict[str, str]) -> str:

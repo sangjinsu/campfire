@@ -47,8 +47,11 @@ def source_hash():
     paths = [ROOT / "Cargo.toml", ROOT / "Cargo.lock"]
     paths += list((ROOT / "crates").rglob("*.rs"))
     paths += list((ROOT / "crates").rglob("Cargo.toml"))
-    paths += list(PROJECT.rglob("*.gd")) + list(PROJECT.rglob("*.tscn")) + [PROJECT / "project.godot", Path(__file__)]
-    for path in sorted(paths):
+    paths += list((ROOT / "crates/campfire-server/src/dashboard/assets").glob("*"))
+    paths += list((ROOT / "tools").glob("*dashboard*"))
+    paths += list((ROOT / "tools/tests").glob("dashboard*"))
+    paths += list(PROJECT.rglob("*.gd")) + list(PROJECT.rglob("*.gd.uid")) + list(PROJECT.rglob("*.tscn")) + [PROJECT / "project.godot", Path(__file__)]
+    for path in sorted(path for path in paths if path.is_file()):
         digest.update(str(path.relative_to(ROOT)).encode() + b"\0" + path.read_bytes())
     return digest.hexdigest()
 
