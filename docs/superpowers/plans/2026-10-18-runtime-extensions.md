@@ -42,7 +42,7 @@
 
 생산 구현 순서는 Task 2(private state)와 Task 3(commands)의 기본 경로를 먼저 완성하고 Task 1(auth/rotation)을 연결하는 것이다. Task 번호는 기능별 참조 번호다. 모두 같은 worker가 소유하며 auth 연동 경합 테스트는 Task 1 완료 뒤 실행한다. 외부 테스트 담당은 이 문서의 public signatures가 동결되면 fake Game/verifier와 harness를 작성할 수 있다. docs/example은 통합 worker가 API를 공개한 뒤 검증한다. 코드가 커져도 무관한 대규모 파일 이동은 하지 않는다. `codex/runtime-extensions`에서 검증·commit한 후 main을 fast-forward하고 `origin main`에 normal push한다. Git 작업은 coordinator가 지정한 담당만 수행하고 force push하지 않는다. 실행 증거는 [공개 검증 보고서](../../runtime-extensions-2026-10-18.md)와 링크한 원본 artifact에 기록한다.
 
-Stage 1 command/private core는 Architect 승인과 runtime 22 / headless 18 pass를 거쳐 `93d51a7`로 commit했다. 이후 account·rotation 경합 수정과 canonical fingerprint 변경을 포함한 runtime은 기본/`serde_json/preserve_order` 각각 39 pass를 확인했다. 두 rotation 경합은 실제 actor·paused-clock에서 RED→GREEN으로 재현했고 actor Drop 후 늦은 commit 거부도 검증했다. 최종 root 검사는 workspace 79 / no-default 61 / preserve-order 39 pass, ignored 장기 4 pass, 실제 Godot 8명·16명 및 native UI 28 checks pass다. 최종 Architect는 Spec·Quality·Security 모두 APPROVED, Critical/Important 0으로 판정했다. [원본과 출처](../../runtime-extensions-2026-10-18.md)를 참조한다. 아래 구현·최종 검증 항목은 실제 근거로 완료 처리하고 Git 전달은 실제 push 이후 기록한다. 초기 RED 실행은 최종 GREEN 결과에서 소급 추정하지 않는다.
+Stage 1 command/private core는 Architect 승인과 runtime 22 / headless 18 pass를 거쳐 `93d51a7`로 commit했다. 이후 account·rotation 경합 수정과 canonical fingerprint 변경을 포함한 runtime은 기본/`serde_json/preserve_order` 각각 39 pass를 확인했다. 두 rotation 경합은 실제 actor·paused-clock에서 RED→GREEN으로 재현했고 actor Drop 후 늦은 commit 거부도 검증했다. 최종 root 검사는 workspace 79 / no-default 61 / preserve-order 39 pass, ignored 장기 4 pass, 실제 Godot 8명·16명 및 native UI 28 checks pass다. 최종 Architect는 Spec·Quality·Security 모두 APPROVED, Critical/Important 0으로 판정했다. [원본과 출처](../../runtime-extensions-2026-10-18.md)를 참조한다. 아래 구현·최종 검증 항목은 실제 근거로 완료 처리하고 Git 전달도 실제 main fast-forward·normal push 및 remote SHA 일치를 확인한 후 완료 처리했다. 초기 RED 실행은 최종 GREEN 결과에서 소급 추정하지 않는다.
 
 ### Task 1: 계정 인증과 세션 rotation
 
@@ -130,8 +130,10 @@ Stage 1 command/private core는 Architect 승인과 runtime 22 / headless 18 pas
 - [x] **Step 2: 전체 검사 실행.** `cargo fmt --all --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`를 실행해 exit code 0과 실패 0을 확인한다. 기존 ignored tests는 성공으로 세지 않는다.
 - [x] **Step 3: Architect에게 fresh diff와 명령 결과로 검증 요청.** rotation atomicity, replay boundaries, private projection, backward compatibility를 독립 확인받는다. 발견 사항은 수정 후 해당 regression과 최종 검사를 재실행한다.
 - [x] **Step 4: 실제 반영 상태에 맞게 문서 정리.** plan/spec/API 문서가 최종 구현과 일치하고 검증하지 않은 production/IdP/Godot 성능을 완료로 쓰지 않는지 확인한다.
-- [ ] **Step 5: coordinator가 commit 및 push.** 파일을 검토 후 stage하고 feature branch에서 `git commit -m "feat: add account sessions commands and private state"`한 뒤 검증된 branch를 main에 fast-forward하고 `git push origin main`을 실행한다. push가 실패하면 원인을 해결하거나 정확한 차단 상태를 보고하며 성공으로 주장하지 않는다.
-- [ ] **Step 6: 사용자에게 증거 전달.** 지원 API, 세 기능의 검증 결과, commit SHA 및 push 상태, 단일 노드/in-memory 한계를 간결히 보고한다.
+- [x] **Step 5: coordinator가 commit 및 push.** 파일을 검토 후 stage하고 feature branch에서 `git commit -m "feat: add account sessions commands and private state"`한 뒤 검증된 branch를 main에 fast-forward하고 `git push origin main`을 실행한다. push가 실패하면 원인을 해결하거나 정확한 차단 상태를 보고하며 성공으로 주장하지 않는다.
+- [x] **Step 6: 사용자에게 증거 전달.** 지원 API, 세 기능의 검증 결과, commit SHA 및 push 상태, 단일 노드/in-memory 한계를 간결히 보고한다.
+
+최종 Git 실행은 `93d51a7`(명령·private), `63df83`(계정·rotation), `8b93dfa`(8/16 계정 테스트), `784e9ba`(문서·증거) 순서의 atomic commit이다. 마지막 검증 branch의 tree와 main의 tree가 같음을 확인하고 `git push -u origin main`을 성공시켰으며 원격/로컬 SHA와 clean 상태를 확인했다. 지원 API·검증 결과·단일 노드/in-memory 한계와 보고서 경로는 coordinator에게 전달했다. 이 체크 상태는 실제 push 이후의 문서 기록이며 최신 전달 커밋은 원격 main 이력을 따른다.
 
 ## 자체 검토 결과
 

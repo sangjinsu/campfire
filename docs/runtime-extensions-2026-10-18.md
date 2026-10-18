@@ -1,6 +1,6 @@
 # 계정·단발 명령·전용 상태 검증 — 2026-10-18
 
-이번 변경의 계정 인증 연결, token rotation, FIFO 단발 명령, 수신자 전용 상태를 Rust 단위·실제 HTTP/WebSocket 테스트로 검증했다. 기존 Godot 게스트 클라이언트도 실제 8명·16명과 native UI에서 회귀 검증했다. 아래 실행 검사는 모두 통과했고 최종 Architect의 Spec·Quality·Security 판정은 **APPROVED**다. Critical/Important finding은 0개다. 문서 작성 시점의 Git 전달 절차는 아래 최종 검토 기록과 원격 이력으로 구분한다.
+이번 변경의 계정 인증 연결, token rotation, FIFO 단발 명령, 수신자 전용 상태를 Rust 단위·실제 HTTP/WebSocket 테스트로 검증했다. 기존 Godot 게스트 클라이언트도 실제 8명·16명과 native UI에서 회귀 검증했다. 아래 실행 검사는 모두 통과했고 최종 Architect의 Spec·Quality·Security 판정은 **APPROVED**다. Critical/Important finding은 0개다. 검증된 branch의 main fast-forward 및 normal push도 성공했으며 아래 Git 전달 기록과 원격 이력으로 확인할 수 있다.
 
 ## 대상과 증거
 
@@ -83,4 +83,4 @@ launcher가 `cargo build -p campfire-server --locked --offline`을 직렬 수행
 
 이번 실행은 기존 플레이 서버나 창을 stop/kill/restart하는 명령을 사용하지 않았다. 완료 뒤 원래 서버 PID `63797`과 Godot PID `65028` 및 3000 포트 health HTTP 200을 확인했다. 이전 두 번째 Godot PID `25278`은 완료 시점 조회에서 보이지 않았고 coordinator도 원래 GUI `65028`만 관측했다. 종료 원인은 추정하지 않았으며 두 창이 계속 살아 있다고 기록하지 않는다.
 
-최종 Architect는 원본 fast/장기/Godot 결과, 디스크 binary hash, source provenance와 문서의 no-default 설명 정정을 직접 검토해 **APPROVED**했다. Spec·Quality·Security 모두 승인됐고 미해결 Critical/Important finding은 0개다. 최종 문서·증거 커밋과 main fast-forward/normal push는 이 승인 후 진행한다. Godot summary의 `8b93dfa`는 실제 검증 시점의 소스 커밋이며 이후 문서·증거 커밋과 달라도 검증한 source bytes는 같다. 최종 Git 반영 결과는 이 보고서의 전달 기록과 저장소 원격 이력에서 확인한다.
+최종 Architect는 원본 fast/장기/Godot 결과, 디스크 binary hash, source provenance와 문서의 no-default 설명 정정을 직접 검토해 **APPROVED**했다. Spec·Quality·Security 모두 승인됐고 미해결 Critical/Important finding은 0개다. 최종 문서·증거 커밋 `784e9ba9a2c92d71aae1e53914d02a8937d9f6b0`을 만든 뒤 원격 main이 기존 `b94c427` 그대로임을 fetch로 확인했다. 검증 branch와 완전히 같은 tree로 main을 fast-forward하고 `git push -u origin main`을 성공시켰다. 이어 `git ls-remote origin refs/heads/main`의 SHA가 로컬 HEAD·origin/main과 모두 `784e9ba`로 일치하고 upstream `origin/main`, working tree clean임을 확인했다. 이 문단은 그 실제 push 이후 기록하는 문서 상태 정합화이며 최신 문서 커밋은 [원격 main 이력](https://github.com/sangjinsu/campfire/commits/main/)에 표시된다. Godot summary의 `8b93dfa`는 실제 검증 시점의 소스 커밋이며 이후 문서·증거 커밋과 달라도 검증한 source bytes는 같다. 최종 Git 반영 결과는 이 보고서의 전달 기록과 저장소 원격 이력에서 확인한다.
