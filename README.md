@@ -63,3 +63,14 @@ cargo test -p campfire-server --test headless --all-features --locked --offline 
 검증은 실제 실행한 테스트와 측정 환경에 한정된다. 8명 실행은 60.00435초에 입력 4,800개를 처리하고 client별 snapshot 간격 p95 최대가 68.81ms였다. 16명 실행은 60.00999초에 입력 9,600개, p95 최대 71.01ms였다. 느린 reader 1명은 종료되고 정상 15명은 유지됐으며 정상 p95는 baseline 87.80ms 대비 78.55ms(0.895배)로 2배 기준을 통과했다. 상세 실행 명령·설정·source hash·측정값은 검증 보고서에 있다. 처음 느린 reader fixture의 setup에서 정상 reader도 읽기를 멈춘 문제가 드러나 fixture의 읽기 시작/barrier/종료 절차를 수정하고 재검증했다. production 소스는 이 수정 전후 동일하며 8명/16명 측정과 최종 slow-reader의 전체 테스트 소스 hash는 구분해 보존했다.
 
 현재 설계는 단일 프로세스/노드의 인메모리 runtime이다. 재시작하면 세션과 룸이 사라지고 신뢰하는 Rust 모듈의 OOM, process abort, 무한 동기 계산을 격리하지 못한다. 서버는 지연을 관측하지만 실행 중인 game callback을 강제 중단하지 않는다. 대규모 CCU, 실제 인터넷 지연, 장기간 운영, public deployment, Redis/DB/분산 directory와 전용 FPS 판정은 별도 범위다.
+
+## Godot 플레이 클라이언트
+
+[Godot 예제](examples/godot/README.md)는 실제 Rust arena에 게스트로 접속해 공개 방 생성·목록·입장, 최대 8명/16명 이동과 같은 게스트 재접속을 시험하는 한국어 플레이 화면이다. Godot 4.7.2에서 프로젝트를 열어 F5를 누르거나 다음 명령으로 실행한다. 두 창을 실행한 뒤 한 창에서 방을 만들고 다른 창에서 목록의 방을 선택하면 함께 움직일 수 있다.
+
+```sh
+cargo run -p campfire-server -- --bind 127.0.0.1:3000 --game arena --capacity 16
+godot --path examples/godot
+```
+
+WASD/방향키로 움직이며 서버가 보낸 위치·공동 점수·입력 처리 ack를 표시한다. **연결 끊기 (시험) → 같은 게스트 재접속**은 예약된 같은 자리와 최신 full sync를 복구한다. GUI와 실제 8명/16명 Godot 프로세스 검증은 같은 adapter를 사용한다. 실행·조작·검증 명령과 재접속 제한은 [예제 README](examples/godot/README.md), 실행 증거는 [Godot 검증 기록](docs/godot-verification.md)에 있다.

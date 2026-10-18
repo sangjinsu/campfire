@@ -3,3 +3,6 @@
 .gstack/
 .remember/
 .superpowers/
+/examples/godot/.godot/
+__pycache__/
+*.py[cod]

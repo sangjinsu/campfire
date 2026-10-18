@@ -1,0 +1,21 @@
+; Campfire playable sample. Open scenes/main.tscn and press F6, or press F5.
+config_version=5
+
+[application]
+config/name="Campfire · 파티 테스트 코트"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=800
+window/size/window_width_override=1280
+window/size/window_height_override=800
+window/size/min_width=900
+window/size/min_height=600
+window/stretch/mode="disabled"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.098, 0.188, 0.208, 1)
