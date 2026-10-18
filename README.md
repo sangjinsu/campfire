@@ -1,76 +1,112 @@
 # Campfire
 
-Campfire(캠프파이어)는 여러 협동·파티 게임이 게스트 인증, 연결, 룸 운영과 실시간 상태 전송을 공유하는 Rust 서버 프레임워크다. 게임 규칙은 정적 Rust 모듈로 분리하며 한 바이너리에 선택한 모듈만 포함할 수 있다. 첫 예제는 서버가 위치와 공동 점수를 계산하는 2D arena다.
+**협동·파티 게임을 위한 Rust 실시간 룸 서버.**
 
-구현 요구의 원문은 [사양서](docs/specification.md), wire contract는 [protocol](docs/protocol.md), CLI와 기본값은 [설정](docs/configuration.md), 라이브러리 API 근거는 [공식 API 조사](docs/api-research.md)에 있다. 원문 사양의 상태 문구는 제공된 문서를 그대로 보존한 것이다. 실행한 검증의 범위와 측정 결과는 [검증 결과](docs/verification-results.md)와 [요구별 검증 추적표](docs/verification-coverage.md)에 기록한다. [최종 Architect 검토](docs/architect-review.md)는 blocking finding 없이 승인됐다.
+게스트 연결, 방 만들기와 참여, 상태 동기화, 재접속까지 공통으로 처리하고 게임 규칙은 Rust 모듈로 작성하세요. Campfire는 여러 게임이 하나의 서버 기반을 공유하면서도 `game_id`별로 세션과 방을 격리하는 서버 프레임워크입니다. 바로 플레이할 수 있는 Godot 2D arena 예제를 함께 제공합니다.
 
-```mermaid
-flowchart LR
-    C[Headless / Game client] --> T[HTTP / WebSocket transport]
-    T --> S[Session manager\n게스트별 명령 직렬화]
-    S --> D[game_id + room_id directory]
-    D --> R[Room task\n멤버십 / tick / input ack]
-    R --> G[Game module\n방향 검증 / 위치 / 점수]
-    R --> Q[연결별 reliable queue\n+ 최신 snapshot 1 슬롯]
-    Q --> C
-```
+[빠른 시작](#빠른-시작) · [다른 Rust 서버에서 사용하기](#다른-rust-서버에서-사용하기) · [검증 결과](#확인한-동작) · [개발자 문서](#개발자-문서)
 
-각 룸 task만 자신의 게임 상태와 자리를 수정한다. 세션 manager는 한 게스트의 중복 인증·입장·퇴장을 직렬화하고, transport는 프레임 제한과 단일 writer를 맡는다. `Game`은 Axum이나 WebSocket 타입을 받지 않는 동기 callback 계약이다. 새 게임을 추가할 때 [game.rs](crates/campfire-runtime/src/game.rs)의 `GameModule`/`Game`을 구현하고 composition root에서 `runtime.register_game("my-game", MyModule)?`로 등록한다.
+![실제 Godot arena 클라이언트에서 같은 방의 참가자 두 명과 서버 입력 처리 상태를 표시하는 화면](docs/assets/campfire-arena.png)
 
-Rust 1.96 이상과 Cargo가 필요하다(`edition = "2024"`, workspace `rust-version = "1.96"`). 현재 검증 toolchain은 Rust 1.96.1이다.
+*실제 native Godot 클라이언트 화면입니다. 두 창이 같은 서버·방에 연결된 상태에서 이동 동기화를 확인했습니다. [두 창 실행 기록과 원본 증거](docs/godot-two-windows-2026-10-18.md)*
+
+## 게임 규칙에 집중하세요
+
+룸 기반 협동·파티 게임을 만들 때마다 연결과 재접속 흐름을 다시 구현하고 싶지 않은 Rust 개발자를 위한 출발점입니다.
+
+- **게스트에서 같은 방까지:** HTTP 게스트 발급과 JSON WebSocket, 공개 방 생성·목록·입장을 제공합니다.
+- **서버가 계산하는 상태:** arena 예제는 방향 입력을 검증하고 위치·공동 점수를 계산합니다. 기본 30Hz tick과 15Hz full snapshot으로 상태와 입력 처리 번호를 전송합니다.
+- **끊겨도 같은 자리로:** 기본 30초 동안 자리를 예약하고, 같은 게스트가 재접속하면 최신 full sync로 복구합니다. arena 예제는 예약 중 캐릭터를 정지시킵니다.
+- **게임별 연결·방 격리:** 게스트 발급부터 인증·목록·입장·resume까지 `game_id` 경계를 검사합니다.
+- **교체할 수 있는 게임 모듈:** `GameModule`과 `Game`에 규칙을 구현하고 필요한 모듈만 서버에 등록합니다. 게임 callback은 Axum이나 WebSocket 타입을 받지 않습니다.
+
+## 빠른 시작
+
+Git, **Rust 1.96 이상**, **Godot 4.7.2**가 필요합니다. 아래 명령은 `godot`가 PATH에 있는 환경 기준입니다.
+
+### 1. 서버 실행
 
 ```sh
+git clone https://github.com/sangjinsu/campfire.git
+cd campfire
 cargo run -p campfire-server -- --bind 127.0.0.1:3000 --game arena --capacity 16
 ```
 
-다른 terminal에서 실행 가능한 [headless 예제](crates/campfire-server/examples/headless.rs)를 실행한다. 예제는 HTTP 게스트 발급 → WS 인증 → 생성/자동 입장 → 방향 입력/처리 snapshot → 단절 → 새 연결 인증 → resume full sync → 퇴장 → 로그아웃까지 같은 게스트로 이어간다. token은 출력하지 않는다.
+### 2. Godot 창 두 개 열기
+
+저장소 루트의 다른 terminal에서 실행하세요. 두 번째 창은 또 다른 terminal에서 같은 명령으로 실행합니다.
+
+```sh
+godot --path examples/godot
+```
+
+Godot 편집기로 `examples/godot/project.godot`를 열고 F5로 실행해도 됩니다.
+
+### 3. 같은 방에 참여하기
+
+첫 창에서 **게스트로 연결 → 방 만들고 입장**, 두 번째 창에서 **게스트로 연결 → 새로고침 → 방 선택 → 선택한 방 입장**을 누르세요. 기본 Server URL은 `http://127.0.0.1:3000`, Game ID는 `arena`입니다.
+
+코트를 클릭한 뒤 **WASD / 방향키**로 이동합니다. 금빛 목표에 먼저 닿으면 공동 점수가 증가합니다. **연결 끊기 (시험) → 같은 게스트 재접속**으로 복구도 확인할 수 있습니다. 자세한 조작과 재접속 조건은 [Godot 예제 안내](examples/godot/README.md)에 있습니다.
+
+Godot 없이 HTTP → WebSocket → 입력 → 재접속 전체 흐름을 확인하려면 서버를 켠 상태에서 다음 예제를 실행하세요.
 
 ```sh
 cargo run -p campfire-server --example headless -- http://127.0.0.1:3000 arena
 ```
 
-다른 클라이언트의 룸 입장은 `room.list`(`cursor:null`, `limit:20`)로 받은 `room_id`와 `room_instance_id`를 `room.join`에 전달한다. 생성과 입장의 full sync에 포함된 instance를 이후 입력·퇴장·resume에도 그대로 사용한다. 각 command에 고유한 request_id를 넣고, `game.input.accepted`가 아닌 snapshot의 `last_processed_input_seq`를 처리 확인으로 사용한다. 전체 JSON 예제는 protocol 문서에 있다.
+## 다른 Rust 서버에서 사용하기
 
-기본은 16명, 30Hz tick과 15Hz full snapshot이다. arena는 tick마다 최신 유효 방향 하나로 `direction * speed * fixed_dt`를 한 번 적용하고 대각선을 정규화한다. 기본 경계는 ±10, speed 5, 목표는 (5,0)이며 반경 0.5 안에 먼저 도착하면 공유 점수가 한 번 증가한다. 단절하면 보관 방향을 0으로 바꾸고 예약 만료 전까지 정지한다. 클라이언트의 위치·점수나 알 수 없는 입력 필드는 거부한다.
+**가능합니다.** `campfire-runtime`은 실행 바이너리와 분리된 library crate입니다. 현재 저장소의 crate를 path dependency로 사용해 아래 방식으로 적용할 수 있습니다.
 
-게임 ID는 token 발급부터 접속·목록·입장·resume까지 격리한다. 같은 arena factory를 두 독립 namespace에 등록하는 실행 예시는 다음과 같다.
+| 만들고 있는 것 | 활용 방법 |
+|---|---|
+| 새로운 Rust 게임 | `GameModule`/`Game`을 구현하고 `Campfire::register_game()`으로 등록합니다. arena가 구현 예제입니다. |
+| 기존 Axum 0.8 서버 | `Campfire::router()`를 기존 router와 합성합니다. Campfire의 게스트·룸 프로토콜은 그대로 사용합니다. |
+| 다른 Rust 웹 프레임워크 | Campfire를 별도 서비스로 실행하고 HTTP/JSON WebSocket 프로토콜로 연동할 수 있습니다. 해당 프레임워크 전용 내장 adapter는 제공하지 않습니다. |
+
+현재 게임 계약은 플레이어별로 tick 사이의 최신 유효 입력 하나를 적용하고, 전원에게 같은 공개 게임 상태를 전송합니다. 개별 행동을 모두 처리하려면 별도 명령 처리 설계가 필요하며, 플레이어별 비공개 view는 공개 API 확장이 필요합니다. 기존 로그인·DB 연결과 내부 룸 actor를 직접 제어하는 transport도 별도 통합 범위입니다. [의존성 설정과 Axum 합성 예제](docs/reuse.md)에서 연결 방법을 확인하세요.
+
+같은 arena 모듈을 두 게임으로 등록해 격리된 방 목록을 사용할 수도 있습니다.
 
 ```sh
 cargo run -p campfire-server -- --game arena --game arena-b
-CAMPFIRE_CAPACITY=8 CAMPFIRE_GAMES=arena cargo run -p campfire-server
-cargo run -p campfire-server -- --help
 ```
 
-`arena` Cargo feature가 기본 활성화되어 있다. `--game`은 컴파일된 factory의 등록 ID를 선택한다. 전용 바이너리는 불필요한 모듈 의존성/feature를 제외하고 필요한 factory만 등록한다. 이 workspace에서 다음 명령으로 arena 제외 및 명시적 포함 빌드를 확인할 수 있다. 제외 빌드는 등록 게임이 없으므로 실행 시 설명과 함께 종료한다.
+`--game`은 컴파일된 모듈의 등록 ID를 정합니다. 다른 게임 규칙은 Rust 모듈을 추가한 뒤 다시 빌드합니다.
 
-```sh
-cargo build -p campfire-server --no-default-features
-cargo build -p campfire-server --no-default-features --features arena
-```
+## 작은 구성, 분리된 역할
 
-상한은 모두 유한하며 CLI/env 또는 `Config`로 조절한다. 외부 HTTP는 게스트 발급, WS와 `/health`만 제공한다. bearer token은 URL/log에 넣지 않고 외부 환경에서는 HTTPS/WSS로 전달한다. 로그는 game/room 식별자와 처리 지연·queue/수용량 지표를 기록하며 raw command와 token을 출력하지 않는다. Ctrl+C/SIGTERM은 runtime 종료 신호를 전달하고 룸 종료 및 connection permit 반환을 기다린다. tick 처리 예산을 넘으면 game/room 식별자와 경고를 기록하고, 입력 처리 시간은 `max_input_duration_micros`로 관측한다. 이 측정은 신뢰 코드의 실행을 강제 중단하지 않는다.
+| Crate | 역할 |
+|---|---|
+| [`campfire-runtime`](crates/campfire-runtime) | 게스트 세션, 룸 task, tick·snapshot, 재접속, 자원 상한, Axum transport |
+| [`campfire-arena`](crates/campfire-arena) | 서버가 위치와 공동 점수를 계산하는 2D 게임 모듈 |
+| [`campfire-server`](crates/campfire-server) | 모듈 등록, CLI·환경 변수, 실행과 종료를 묶는 예제 바이너리 |
 
-```sh
-cargo fmt --all -- --check
-cargo check --workspace --all-targets --all-features --locked --offline
-cargo clippy --workspace --all-targets --all-features --locked --offline -- -D warnings
-cargo test --workspace --all-features --locked --offline
-cargo test -p campfire-server --test headless --all-features --locked --offline -- --ignored --nocapture --test-threads=1
-```
+`arena`는 기본 Cargo feature입니다. 전용 서버는 필요한 게임 crate만 포함해 구성할 수 있습니다. Godot 플레이 화면과 공용 client adapter는 [`examples/godot`](examples/godot)에 있습니다.
 
-의존성이 아직 로컬에 없으면 먼저 `cargo fetch --locked`로 가져온 뒤 `--offline` 검증을 실행한다. 현재 root의 독립 실행에서 formatting, all-target/all-feature clippy, 빠른 테스트 44개 및 arena 포함/제외 빌드가 통과했다. 실제 8명/16명 각 60초, 31초 재접속 경계와 느린 reader 격리 검증도 통과했다. 실행 바이너리의 `/health`와 headless 전체 흐름은 root가 새로 확인했다.
+## 확인한 동작
 
-검증은 실제 실행한 테스트와 측정 환경에 한정된다. 8명 실행은 60.00435초에 입력 4,800개를 처리하고 client별 snapshot 간격 p95 최대가 68.81ms였다. 16명 실행은 60.00999초에 입력 9,600개, p95 최대 71.01ms였다. 느린 reader 1명은 종료되고 정상 15명은 유지됐으며 정상 p95는 baseline 87.80ms 대비 78.55ms(0.895배)로 2배 기준을 통과했다. 상세 실행 명령·설정·source hash·측정값은 검증 보고서에 있다. 처음 느린 reader fixture의 setup에서 정상 reader도 읽기를 멈춘 문제가 드러나 fixture의 읽기 시작/barrier/종료 절차를 수정하고 재검증했다. production 소스는 이 수정 전후 동일하며 8명/16명 측정과 최종 slow-reader의 전체 테스트 소스 hash는 구분해 보존했다.
+아래 결과는 **macOS arm64의 TCP loopback 환경**에서 실행한 기록입니다. 서버·클라이언트 검증과 실제 플레이 화면 확인을 각각 남겼습니다.
 
-현재 설계는 단일 프로세스/노드의 인메모리 runtime이다. 재시작하면 세션과 룸이 사라지고 신뢰하는 Rust 모듈의 OOM, process abort, 무한 동기 계산을 격리하지 못한다. 서버는 지연을 관측하지만 실행 중인 game callback을 강제 중단하지 않는다. 대규모 CCU, 실제 인터넷 지연, 장기간 운영, public deployment, Redis/DB/분산 directory와 전용 FPS 판정은 별도 범위다.
+| 검증 | 확인한 범위 | 실행 기록 |
+|---|---|---|
+| Rust WebSocket client 8명 / 16명 | 각각 실제 60초, 입력 처리와 snapshot 수신. client별 snapshot 간격 p95 최대 약 69ms / 71ms | [서버 검증](docs/verification-results.md) |
+| 실제 Godot 프로세스 8개 / 16개 | 각각 약 20초, 전원의 동일 snapshot 상태·원격 이동·동일 게스트 resume | [Godot 자동 검증](docs/godot-autotest-2026-10-18.md) |
+| Native Godot UI | 실제 scene의 연결·생성·입장·이동·재접속 등을 포함한 28개 검증 | [UI 검증과 캡처](docs/godot-autotest-2026-10-18.md#실제-godot-실행-결과) |
+| Native Godot 창 두 개 | 같은 방의 참가자 2명, 양방향 이동 반영과 연결 유지 | [두 창 확인](docs/godot-two-windows-2026-10-18.md) |
+| 서버 회귀·경계 조건 | 빠른 테스트 44개, 기본 30초 재접속 경계, 느린 reader 격리, 게임 간 입장 차단 | [요구별 검증 추적표](docs/verification-coverage.md) |
 
-## Godot 플레이 클라이언트
+인터넷 환경의 지연, 대규모 CCU, 장기간 운영 성능은 이 결과에 포함되지 않습니다. 재현 명령과 원본 JSON·로그는 각 문서에 연결되어 있습니다.
 
-[Godot 예제](examples/godot/README.md)는 실제 Rust arena에 게스트로 접속해 공개 방 생성·목록·입장, 최대 8명/16명 이동과 같은 게스트 재접속을 시험하는 한국어 플레이 화면이다. Godot 4.7.2에서 프로젝트를 열어 F5를 누르거나 다음 명령으로 실행한다. 두 창을 실행한 뒤 한 창에서 방을 만들고 다른 창에서 목록의 방을 선택하면 함께 움직일 수 있다.
+## 운영 범위
 
-```sh
-cargo run -p campfire-server -- --bind 127.0.0.1:3000 --game arena --capacity 16
-godot --path examples/godot
-```
+현재는 **단일 노드·인메모리 runtime**입니다. 서버 재시작 시 세션과 방이 초기화됩니다. queue·연결·세션·룸 상한과 처리 지표를 제공하며, 외부 공개 시 TLS 종료 계층(reverse proxy 등)이 필요합니다. 영속 DB, 분산 룸 directory와 기존 계정 시스템은 별도 통합 범위입니다. 게임 callback은 신뢰하는 동기 Rust 코드이므로 blocking I/O나 무한 계산을 피해야 합니다.
 
-WASD/방향키로 움직이며 서버가 보낸 위치·공동 점수·입력 처리 ack를 표시한다. **연결 끊기 (시험) → 같은 게스트 재접속**은 예약된 같은 자리와 최신 full sync를 복구한다. GUI와 실제 8명/16명 Godot 프로세스 검증은 같은 adapter를 사용한다. 실행·조작·검증 명령과 재접속 제한은 [예제 README](examples/godot/README.md), 실행 증거는 [Godot 검증 기록](docs/godot-verification.md)에 있다.
+## 개발자 문서
+
+- [게임·서버 재사용 가이드](docs/reuse.md) — Rust API, Axum 합성, 다른 프레임워크 적용 범위
+- [Godot 예제](examples/godot/README.md) — 실행, 조작, 재접속, 테스트
+- [JSON 프로토콜](docs/protocol.md) — guest·room·input·resume 메시지와 오류
+- [설정](docs/configuration.md) — CLI·환경 변수·기본값·상한
+- [설계 사양](docs/specification.md) — runtime과 게임 모듈의 책임
+- [서버 검증](docs/verification-results.md) · [Godot 검증](docs/godot-verification.md) — 실행 명령, 측정값, 원본 증거
