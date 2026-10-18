@@ -240,13 +240,14 @@ async fn connection_task(
                     break;
                 }
             }
-            if matches!(request.command, Command::Input { .. })
-                && !rate.take(
-                    reader_config.input_rate_per_second,
-                    reader_config.input_burst,
-                    Instant::now(),
-                )
-            {
+            if matches!(
+                request.command,
+                Command::Input { .. } | Command::GameCommand { .. }
+            ) && !rate.take(
+                reader_config.input_rate_per_second,
+                reader_config.input_burst,
+                Instant::now(),
+            ) {
                 inc(&reader_output.metrics.abusive_inputs);
                 violations += 1;
                 reader_output.send(
@@ -282,8 +283,10 @@ async fn connection_task(
         };
         match cache.get(&request) {
             Ok(Some(response)) => {
-                output.send(response);
-                continue;
+                if !matches!(request.command, Command::GameCommand { .. }) {
+                    output.send(response);
+                    continue;
+                }
             }
             Err(error) => {
                 output.send(error.value(Some(&request.id)));

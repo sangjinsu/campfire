@@ -4,7 +4,7 @@ use crate::{
     output::Output,
     protocol::{Command, Error, Request},
     rate::Bucket,
-    room::{self, Admission, Control, Input, RoomHandle, RoomRef},
+    room::{self, Admission, Control, GameCommand, Input, RoomHandle, RoomRef},
 };
 use axum::{
     Router,
@@ -552,10 +552,12 @@ impl Inner {
                 };
                 let (control, controls) = mpsc::channel(64);
                 let (inputs, input_rx) = mpsc::channel(self.config.room_input_capacity);
+                let (commands, command_rx) = mpsc::channel(self.config.room_input_capacity);
                 let handle = RoomHandle {
                     reference: reference.clone(),
                     control,
                     inputs,
+                    commands,
                     public,
                     visible: false,
                     capacity,
@@ -576,6 +578,7 @@ impl Inner {
                     metrics,
                     controls,
                     input_rx,
+                    command_rx,
                 ));
                 let weak = Arc::downgrade(self);
                 let supervised = reference.clone();
@@ -718,6 +721,45 @@ impl Inner {
                     false,
                 ))
             }
+            Command::GameCommand {
+                room_id,
+                room_instance_id,
+                command_seq,
+                payload,
+            } => {
+                let handle = lookup(&state, game, room_id, room_instance_id)?;
+                if membership.as_ref() != Some(&handle.reference) {
+                    return Err(Error::new(
+                        "ROOM_NOT_FOUND",
+                        "session is not a member of this room",
+                    ));
+                }
+                let (tx, rx) = oneshot::channel();
+                let command = GameCommand {
+                    player,
+                    generation,
+                    sequence: *command_seq,
+                    payload: payload.clone(),
+                    request_id: request.id.clone(),
+                    reply: tx,
+                };
+                match handle.commands.try_send(command) {
+                    Ok(()) => {}
+                    Err(mpsc::error::TrySendError::Full(_)) => {
+                        inc(&self.metrics.shared_queue_overloads);
+                        return Err(Error::busy());
+                    }
+                    Err(mpsc::error::TrySendError::Closed(_)) => {
+                        return Err(Error::new("ROOM_NOT_FOUND", "room task has ended"));
+                    }
+                }
+                drop(state);
+                Ok((
+                    rx.await
+                        .map_err(|_| Error::new("ROOM_NOT_FOUND", "room task has ended"))??,
+                    false,
+                ))
+            }
         }
     }
     async fn closed(
@@ -807,6 +849,7 @@ async fn admit(
             output,
             request_id: request.id.clone(),
             resume,
+            identity: crate::PlayerIdentity::Guest,
             reply: tx,
         }))
         .await

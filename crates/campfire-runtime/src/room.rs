@@ -1,11 +1,15 @@
 use crate::{
-    Config, Game,
+    Config, Game, PlayerIdentity,
     metrics::{Metrics, inc, max},
     output::Output,
-    protocol::Error,
+    protocol::{Error, fingerprint},
 };
 use serde_json::{Value, json};
-use std::{collections::BTreeMap, sync::Arc, time::Duration};
+use std::{
+    collections::{BTreeMap, VecDeque},
+    sync::Arc,
+    time::Duration,
+};
 use tokio::{
     sync::{mpsc, oneshot},
     time::{Instant, MissedTickBehavior},
@@ -22,6 +26,7 @@ pub(crate) struct RoomHandle {
     pub reference: RoomRef,
     pub control: mpsc::Sender<Control>,
     pub inputs: mpsc::Sender<Input>,
+    pub commands: mpsc::Sender<GameCommand>,
     pub public: bool,
     pub visible: bool,
     pub capacity: usize,
@@ -33,6 +38,7 @@ pub(crate) struct Admission {
     pub output: Arc<Output>,
     pub request_id: String,
     pub resume: bool,
+    pub identity: PlayerIdentity,
     pub reply: oneshot::Sender<Result<Value, Error>>,
 }
 pub(crate) struct Input {
@@ -42,6 +48,14 @@ pub(crate) struct Input {
     pub payload: Value,
     pub received: Instant,
     pub reply: oneshot::Sender<Result<(), Error>>,
+}
+pub(crate) struct GameCommand {
+    pub player: String,
+    pub generation: u64,
+    pub sequence: u64,
+    pub payload: Value,
+    pub request_id: String,
+    pub reply: oneshot::Sender<Result<Value, Error>>,
 }
 pub(crate) enum Control {
     Enter(Admission),
@@ -79,6 +93,8 @@ struct Member {
     highest_received: u64,
     processed: u64,
     pending: Option<Pending>,
+    command_processed: u64,
+    command_results: VecDeque<(u64, [u8; 32], Value)>,
 }
 struct Room {
     reference: RoomRef,
@@ -100,6 +116,7 @@ pub(crate) async fn run(
     metrics: Arc<Metrics>,
     mut controls: mpsc::Receiver<Control>,
     mut inputs: mpsc::Receiver<Input>,
+    mut commands: mpsc::Receiver<GameCommand>,
 ) -> &'static str {
     let mut room = Room {
         reference,
@@ -142,6 +159,7 @@ pub(crate) async fn run(
                 let began=std::time::Instant::now();room.input(input);
                 max(&room.metrics.max_input_duration_micros,began.elapsed().as_micros() as u64);
             } }
+            command=commands.recv()=> {if let Some(command)=command {room.command(command);} }
         }
         if room.ever_joined && room.members.is_empty() {
             return "empty";
@@ -219,6 +237,7 @@ impl Room {
             output,
             request_id,
             resume,
+            identity,
             reply,
         } = admission;
         if !output.is_alive() || reply.is_closed() {
@@ -269,7 +288,7 @@ impl Room {
             member.pending = None;
             self.game.player_connection_changed(&player, true);
         } else {
-            self.game.player_joined(&player);
+            self.game.player_joined_with_identity(&player, &identity);
             self.members.insert(
                 player.clone(),
                 Member {
@@ -280,6 +299,8 @@ impl Room {
                     highest_received: 0,
                     processed: 0,
                     pending: None,
+                    command_processed: 0,
+                    command_results: VecDeque::new(),
                 },
             );
             self.ever_joined = true;
@@ -344,6 +365,79 @@ impl Room {
         })();
         let _ = input.reply.send(outcome);
     }
+    fn command(&mut self, command: GameCommand) {
+        let outcome = (|| {
+            let member = self
+                .members
+                .get_mut(&command.player)
+                .ok_or_else(|| Error::new("ROOM_NOT_FOUND", "player has no room membership"))?;
+            if member.generation != command.generation
+                || member.reserved_until.is_some()
+                || !member
+                    .output
+                    .as_ref()
+                    .is_some_and(|output| output.is_alive())
+                || member.token_deadline <= Instant::now()
+            {
+                return Err(Error::new(
+                    "UNAUTHENTICATED",
+                    "connection cannot control this seat",
+                ));
+            }
+            let body = fingerprint(&command.payload);
+            if command.sequence <= member.command_processed {
+                if let Some((_, previous, response)) = member
+                    .command_results
+                    .iter()
+                    .find(|(sequence, _, _)| *sequence == command.sequence)
+                {
+                    if *previous != body {
+                        return Err(Error::new(
+                            "COMMAND_SEQUENCE_CONFLICT",
+                            "command_seq already identifies another payload",
+                        ));
+                    }
+                    let mut response = response.clone();
+                    response["request_id"] = json!(command.request_id);
+                    return Ok(response);
+                }
+                return Err(Error::new(
+                    "STALE_COMMAND",
+                    "command result is no longer retained",
+                ));
+            }
+            if member.command_processed.checked_add(1) != Some(command.sequence) {
+                return Err(Error::new(
+                    "COMMAND_SEQUENCE_GAP",
+                    "command_seq must be the next contiguous sequence",
+                ));
+            }
+            // Validation and mutation share the room actor's serialization boundary.
+            let applied = self
+                .game
+                .validate_command(&command.player, &command.payload)
+                .and_then(|()| self.game.apply_command(&command.player, &command.payload));
+            let mut response = json!({"v":1,"type":"game.command.result","request_id":command.request_id,
+                "game_id":self.reference.game_id,"room_id":self.reference.id,"room_instance_id":self.reference.instance,
+                "command_seq":command.sequence,"ok":applied.is_ok()});
+            match applied {
+                Ok(result) => response["result"] = result,
+                Err(error) => {
+                    response["error"] =
+                        json!({"code":error.code,"message":error.message,"retryable":false})
+                }
+            }
+            member.command_processed = command.sequence;
+            if member.command_results.len() == self.config.request_cache_capacity {
+                member.command_results.pop_front();
+            }
+            member
+                .command_results
+                .push_back((command.sequence, body, response.clone()));
+            Ok(response)
+        })();
+        let _ = command.reply.send(outcome);
+    }
     fn expire(&mut self) {
         let now = Instant::now();
         let expired: Vec<_> = self
@@ -403,9 +497,25 @@ impl Room {
     fn sync(&self, kind: &str, request: Option<&str>, player: &str) -> Value {
         let mut value = json!({"v":1,"type":kind,"game_id":self.reference.game_id,"room_id":self.reference.id,
             "room_instance_id":self.reference.instance,"server_tick":self.tick,"snapshot_seq":self.snapshot_seq,
-            "last_processed_input_seq":self.members.get(player).map_or(0,|m|m.processed),"state":self.game.snapshot()});
+            "last_processed_input_seq":self.members.get(player).map_or(0,|m|m.processed),
+            "last_processed_command_seq":self.members.get(player).map_or(0,|m|m.command_processed),"state":self.game.snapshot()});
+        if let Some(private) = self.game.private_snapshot(player) {
+            value["private_state"] = private;
+        }
         if let Some(request) = request {
             value["request_id"] = json!(request);
+            value["command_results"] = json!(
+                self.members
+                    .get(player)
+                    .map(|member| {
+                        member
+                            .command_results
+                            .iter()
+                            .map(|(_, _, response)| response)
+                            .collect::<Vec<_>>()
+                    })
+                    .unwrap_or_default()
+            );
         }
         value
     }
@@ -413,11 +523,21 @@ impl Room {
         self.snapshot_seq += 1;
         inc(&self.metrics.snapshots);
         let state = self.game.snapshot();
-        for member in self.members.values() {
+        for (player, member) in &self.members {
             if let Some(output) = &member.output {
-                output.latest.send_replace(Some(json!({"v":1,"type":"snapshot","game_id":self.reference.game_id,"room_id":self.reference.id,
+                if !output.is_alive()
+                    || member.token_deadline <= Instant::now()
+                    || member.reserved_until.is_some()
+                {
+                    continue;
+                }
+                let mut value = json!({"v":1,"type":"snapshot","game_id":self.reference.game_id,"room_id":self.reference.id,
                     "room_instance_id":self.reference.instance,"server_tick":self.tick,"snapshot_seq":self.snapshot_seq,
-                    "last_processed_input_seq":member.processed,"state":state})));
+                    "last_processed_input_seq":member.processed,"last_processed_command_seq":member.command_processed,"state":state});
+                if let Some(private) = self.game.private_snapshot(player) {
+                    value["private_state"] = private;
+                }
+                output.latest.send_replace(Some(value));
             }
         }
     }
@@ -433,6 +553,7 @@ mod tests {
     struct TestGame {
         players: BTreeMap<String, (bool, i64)>,
         applied: Vec<u64>,
+        commands: Vec<Value>,
     }
     impl Game for TestGame {
         fn player_joined(&mut self, id: &str) {
@@ -462,8 +583,25 @@ mod tests {
             self.applied.push(payload["n"].as_u64().unwrap_or(0));
         }
         fn tick(&mut self, _: Duration) {}
+        fn validate_command(&self, _: &str, payload: &Value) -> Result<(), crate::GameError> {
+            if payload["reject"] == true {
+                Err(crate::GameError::new("REJECTED", "rejected by validation"))
+            } else {
+                Ok(())
+            }
+        }
+        fn apply_command(&mut self, _: &str, payload: &Value) -> Result<Value, crate::GameError> {
+            if payload["fail"] == true {
+                return Err(crate::GameError::new("APPLY_FAILED", "application failed"));
+            }
+            self.commands.push(payload.clone());
+            Ok(json!({"count":self.commands.len()}))
+        }
+        fn private_snapshot(&self, player: &str) -> Option<Value> {
+            Some(json!({"secret":player}))
+        }
         fn snapshot(&self) -> Value {
-            json!({"players":self.players,"applied":self.applied})
+            json!({"players":self.players,"applied":self.applied,"commands":self.commands})
         }
     }
     fn room() -> Room {
@@ -512,6 +650,7 @@ mod tests {
             output,
             request_id: "join".into(),
             resume,
+            identity: PlayerIdentity::Guest,
             reply: tx,
         });
         rx.try_recv().unwrap()
@@ -527,6 +666,197 @@ mod tests {
             reply: tx,
         });
         rx.try_recv().unwrap()
+    }
+    fn command(
+        room: &mut Room,
+        generation: u64,
+        sequence: u64,
+        payload: Value,
+        request_id: &str,
+    ) -> Result<Value, Error> {
+        let (tx, mut rx) = oneshot::channel();
+        room.command(GameCommand {
+            player: "p".into(),
+            generation,
+            sequence,
+            payload,
+            request_id: request_id.into(),
+            reply: tx,
+        });
+        rx.try_recv().unwrap()
+    }
+    #[tokio::test(start_paused = true)]
+    async fn commands_are_fifo_while_inputs_coalesce_and_terminal_errors_consume_sequence() {
+        let mut room = room();
+        let (out, _receiver) = output(16);
+        enter(&mut room, out, false, 1).unwrap();
+        input(&mut room, 1, 1, 1).unwrap();
+        assert!(
+            command(&mut room, 1, 1, json!({"n":1}), "1").unwrap()["ok"]
+                .as_bool()
+                .unwrap()
+        );
+        input(&mut room, 1, 2, -1).unwrap();
+        assert_eq!(
+            command(&mut room, 1, 2, json!({"reject":true}), "2").unwrap()["error"]["code"],
+            "REJECTED"
+        );
+        assert_eq!(
+            command(&mut room, 1, 3, json!({"fail":true}), "3").unwrap()["error"]["code"],
+            "APPLY_FAILED"
+        );
+        command(&mut room, 1, 4, json!({"n":4}), "4").unwrap();
+        room.step(Duration::from_millis(33));
+        assert_eq!(room.game.snapshot()["applied"], json!([2]));
+        assert_eq!(room.game.snapshot()["commands"], json!([{"n":1},{"n":4}]));
+        assert_eq!(room.members["p"].command_processed, 4);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn command_replay_conflict_gap_eviction_and_generation_fences_never_reexecute() {
+        let mut room = room();
+        room.config.request_cache_capacity = 2;
+        let (out, _receiver) = output(16);
+        enter(&mut room, out, false, 1).unwrap();
+        assert_eq!(
+            command(&mut room, 1, 0, json!({}), "zero")
+                .unwrap_err()
+                .code,
+            "STALE_COMMAND"
+        );
+        assert_eq!(
+            command(&mut room, 1, 2, json!({}), "gap").unwrap_err().code,
+            "COMMAND_SEQUENCE_GAP"
+        );
+        let first = command(&mut room, 1, 1, json!({"n":1}), "old").unwrap();
+        let replay = command(&mut room, 1, 1, json!({"n":1}), "new").unwrap();
+        assert_eq!(first["result"], replay["result"]);
+        assert_eq!(replay["request_id"], "new");
+        assert_eq!(
+            command(&mut room, 1, 1, json!({"n":9}), "conflict")
+                .unwrap_err()
+                .code,
+            "COMMAND_SEQUENCE_CONFLICT"
+        );
+        command(&mut room, 1, 2, json!({"n":2}), "two").unwrap();
+        command(&mut room, 1, 3, json!({"n":3}), "three").unwrap();
+        assert_eq!(
+            command(&mut room, 1, 1, json!({"n":1}), "evicted")
+                .unwrap_err()
+                .code,
+            "STALE_COMMAND"
+        );
+        let (tx, _rx) = oneshot::channel();
+        room.control(Control::Replace {
+            player: "p".into(),
+            generation: 2,
+            reply: tx,
+        });
+        assert_eq!(
+            command(&mut room, 1, 4, json!({"n":4}), "stale")
+                .unwrap_err()
+                .code,
+            "UNAUTHENTICATED"
+        );
+        let (out, _receiver) = output(16);
+        let full = enter(&mut room, out, true, 2).unwrap();
+        assert_eq!(full["last_processed_command_seq"], 3);
+        assert_eq!(full["command_results"].as_array().unwrap().len(), 2);
+        assert_eq!(
+            command(&mut room, 2, 3, json!({"n":3}), "resume").unwrap()["result"]["count"],
+            3
+        );
+        assert_eq!(
+            room.game.snapshot()["commands"].as_array().unwrap().len(),
+            3
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn command_result_survives_reply_loss_and_expiry_prevents_replay() {
+        let mut room = room();
+        let (out, _receiver) = output(16);
+        enter(&mut room, out, false, 1).unwrap();
+        let (tx, rx) = oneshot::channel();
+        drop(rx);
+        room.command(GameCommand {
+            player: "p".into(),
+            generation: 1,
+            sequence: 1,
+            payload: json!({"n":1}),
+            request_id: "lost".into(),
+            reply: tx,
+        });
+        assert_eq!(
+            command(&mut room, 1, 1, json!({"n":1}), "retry").unwrap()["result"]["count"],
+            1
+        );
+        room.members.get_mut("p").unwrap().token_deadline = Instant::now();
+        assert_eq!(
+            command(&mut room, 1, 1, json!({"n":1}), "expired")
+                .unwrap_err()
+                .code,
+            "UNAUTHENTICATED"
+        );
+        assert_eq!(
+            room.game.snapshot()["commands"].as_array().unwrap().len(),
+            1
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn private_state_is_recipient_scoped_for_initial_periodic_and_resume() {
+        let mut room = room();
+        let (out, _receiver) = output(16);
+        let first = enter(&mut room, out.clone(), false, 1).unwrap();
+        let (peer, _peer_receiver) = output(16);
+        let (tx, mut rx) = oneshot::channel();
+        room.enter(Admission {
+            player: "peer".into(),
+            generation: 1,
+            token_deadline: Instant::now() + Duration::from_secs(60),
+            output: peer.clone(),
+            request_id: "peer".into(),
+            resume: false,
+            identity: PlayerIdentity::Guest,
+            reply: tx,
+        });
+        let second = rx.try_recv().unwrap().unwrap();
+        assert_eq!(first["private_state"], json!({"secret":"p"}));
+        assert_eq!(second["private_state"], json!({"secret":"peer"}));
+        room.publish();
+        assert_eq!(
+            out.latest.borrow().as_ref().unwrap()["private_state"],
+            first["private_state"]
+        );
+        assert_eq!(
+            peer.latest.borrow().as_ref().unwrap()["private_state"],
+            second["private_state"]
+        );
+        assert!(
+            out.latest
+                .borrow()
+                .as_ref()
+                .unwrap()
+                .get("command_results")
+                .is_none()
+        );
+        room.reserve("p", 1);
+        let (resumed, _receiver) = output(16);
+        assert_eq!(
+            enter(&mut room, resumed, true, 1).unwrap()["private_state"],
+            first["private_state"]
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn full_sync_and_snapshot_include_independent_command_ack() {
+        let mut room = room();
+        let (out, _receiver) = output(8);
+        let sync = enter(&mut room, out.clone(), false, 1).unwrap();
+        assert_eq!(sync["last_processed_command_seq"], 0);
+        assert_eq!(sync["command_results"], json!([]));
+        room.publish();
+        assert_eq!(
+            out.latest.borrow().as_ref().unwrap()["last_processed_command_seq"],
+            0
+        );
     }
     #[tokio::test(start_paused = true)]
     async fn cancellation_before_admission_has_no_membership_or_game_side_effect() {
@@ -550,6 +880,7 @@ mod tests {
             output: out,
             request_id: "cancel".into(),
             resume: false,
+            identity: PlayerIdentity::Guest,
             reply: tx,
         });
         assert!(room.members.is_empty());

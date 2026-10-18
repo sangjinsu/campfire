@@ -1,7 +1,9 @@
 mod config;
 mod game;
 pub use config::{Config, ConfigError};
-pub use game::{Game, GameContext, GameError, GameModule, PlayerId};
+pub use game::{
+    AccountIdentity, Game, GameContext, GameError, GameModule, PlayerId, PlayerIdentity,
+};
 
 mod metrics;
 mod output;

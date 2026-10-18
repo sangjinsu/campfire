@@ -3,6 +3,20 @@ use std::{fmt, time::Duration};
 
 pub type PlayerId = String;
 
+/// Account data is supplied only to trusted game callbacks, never to protocol snapshots.
+#[derive(Clone, Debug, PartialEq)]
+pub struct AccountIdentity {
+    pub issuer: String,
+    pub subject: String,
+    pub claims: Value,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum PlayerIdentity {
+    Guest,
+    Account(AccountIdentity),
+}
+
 #[derive(Clone, Debug)]
 pub struct GameContext {
     pub capacity: usize,
@@ -37,10 +51,29 @@ pub trait GameModule: Send + Sync + 'static {
 /// Pure game state transitions; transport and session policy remain in the runtime.
 pub trait Game: Send + 'static {
     fn player_joined(&mut self, player_id: &str);
+    fn player_joined_with_identity(&mut self, player_id: &str, _identity: &PlayerIdentity) {
+        self.player_joined(player_id);
+    }
+    fn player_identity_changed(&mut self, _player_id: &str, _identity: &PlayerIdentity) {}
     fn player_left(&mut self, player_id: &str);
     fn player_connection_changed(&mut self, player_id: &str, connected: bool);
     fn validate_input(&self, player_id: &str, payload: &Value) -> Result<(), GameError>;
     fn apply_input(&mut self, player_id: &str, payload: &Value);
+    fn validate_command(&self, _player_id: &str, _payload: &Value) -> Result<(), GameError> {
+        Err(GameError::new(
+            "COMMAND_UNSUPPORTED",
+            "game commands are not supported",
+        ))
+    }
+    fn apply_command(&mut self, _player_id: &str, _payload: &Value) -> Result<Value, GameError> {
+        Err(GameError::new(
+            "COMMAND_UNSUPPORTED",
+            "game commands are not supported",
+        ))
+    }
+    fn private_snapshot(&self, _player_id: &str) -> Option<Value> {
+        None
+    }
     fn tick(&mut self, dt: Duration);
     fn snapshot(&self) -> Value;
 }

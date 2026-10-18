@@ -36,6 +36,13 @@ pub(crate) enum Command {
         input_seq: u64,
         payload: Value,
     },
+    #[serde(rename = "game.command")]
+    GameCommand {
+        room_id: String,
+        room_instance_id: String,
+        command_seq: u64,
+        payload: Value,
+    },
 }
 #[derive(Clone, Debug)]
 pub(crate) struct Request {
@@ -141,13 +148,17 @@ impl ResponseCache {
     }
 }
 
-fn fingerprint(body: &Value) -> [u8; 32] {
+pub(crate) fn fingerprint(body: &Value) -> [u8; 32] {
     Sha256::digest(body.to_string().as_bytes()).into()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn parses_ordered_game_commands() {
+        assert!(parse(r#"{"v":1,"type":"game.command","request_id":"cmd","room_id":"r","room_instance_id":"i","command_seq":1,"payload":{"buy":"shield"}}"#).is_ok());
+    }
     #[test]
     fn requires_explicit_version_type_request_id_and_fields() {
         assert!(
