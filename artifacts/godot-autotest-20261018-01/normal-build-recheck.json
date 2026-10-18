@@ -1,0 +1,20 @@
+{
+  "started_at_kst": "2026-10-18T20:36:52.008527+09:00",
+  "command": [
+    "cargo",
+    "build",
+    "-p",
+    "campfire-server",
+    "--locked",
+    "--offline"
+  ],
+  "binary_path": "target/debug/campfire-server",
+  "full_run_recorded_sha256": "a8cbcc9964b1be2b009a42edfe77267a3161480b2ae6bde0f948ba8223359081",
+  "before_sha256": "5bd418812f1510bbb411a316ff6e6d2ad0194558cbc0e657ac81cdc89fc90112",
+  "source_commit": "874c068a0412409107ad9616788737e85c4ed0bf",
+  "exit_code": 0,
+  "after_sha256": "a8cbcc9964b1be2b009a42edfe77267a3161480b2ae6bde0f948ba8223359081",
+  "finished_at_kst": "2026-10-18T20:36:52.282386+09:00",
+  "source_changes": "",
+  "matches_full_run_binary": true
+}

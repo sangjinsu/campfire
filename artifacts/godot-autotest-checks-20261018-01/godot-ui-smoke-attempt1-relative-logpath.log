@@ -1,0 +1,5 @@
+ERROR: Failed to open log file for writing: artifacts/godot-autotest-checks-20261018-01/godot-ui-smoke-engine.log
+   at: rotate_file (core/io/logger.cpp:169)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+UI_SMOKE_PASS

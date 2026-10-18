@@ -1,0 +1,68 @@
+{
+  "checked_at_utc": "2026-10-18T11:35:52.373401+00:00",
+  "success": true,
+  "jobs": [
+    {
+      "id": "cargo-fmt",
+      "command": "cargo fmt --all -- --check > artifacts/godot-autotest-checks-20261018-01/cargo-fmt.log 2>&1",
+      "exit_code": 0
+    },
+    {
+      "id": "cargo-clippy",
+      "command": "cargo clippy --workspace --all-targets -- -D warnings > artifacts/godot-autotest-checks-20261018-01/cargo-clippy.log 2>&1",
+      "exit_code": 0
+    },
+    {
+      "id": "cargo-test-workspace",
+      "command": "cargo test --workspace > artifacts/godot-autotest-checks-20261018-01/cargo-test-workspace.log 2>&1",
+      "exit_code": 0
+    },
+    {
+      "id": "godot-client-unit",
+      "command": "/opt/homebrew/bin/godot --headless --path examples/godot --script tests/client_unit.gd --log-file /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-autotest-checks-20261018-01/godot-client-unit-engine.log > /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-autotest-checks-20261018-01/godot-client-unit.log 2>&1",
+      "exit_code": 0
+    },
+    {
+      "id": "godot-ui-smoke",
+      "command": "/opt/homebrew/bin/godot --headless --path examples/godot --script tests/ui_smoke.gd --log-file /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-autotest-checks-20261018-01/godot-ui-smoke-engine.log > /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-autotest-checks-20261018-01/godot-ui-smoke.log 2>&1",
+      "exit_code": 0
+    },
+    {
+      "id": "godot-client-transport",
+      "command": "/opt/homebrew/bin/godot --headless --path examples/godot --script tests/client_unit_transport.gd --log-file /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-autotest-checks-20261018-01/godot-client-transport-engine.log -- http://127.0.0.1:3000 > /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/godot-autotest-checks-20261018-01/godot-client-transport.log 2>&1",
+      "exit_code": 0
+    }
+  ],
+  "rust_tests": {
+    "passed": 44,
+    "failed": 0,
+    "ignored": 4
+  },
+  "godot_tests": {
+    "client_unit": true,
+    "ui_smoke": true,
+    "actual_transport": true
+  },
+  "final_log_error_markers": [],
+  "credential_pattern_audit": {
+    "log_files_checked": 12,
+    "matched_patterns": [],
+    "patterns_checked": [
+      "serialized_token_or_authorization_value",
+      "bearer_value",
+      "long_hex_value"
+    ]
+  },
+  "preserved_runtime": {
+    "server_url": "http://127.0.0.1:3000",
+    "health_status": 200,
+    "health_body": "{\"status\":\"ok\"}",
+    "pids_alive": {
+      "63797": true,
+      "65028": true
+    }
+  },
+  "first_attempt_note": "First Godot commands passed test assertions but reported failed log-file open because of relative engine-log paths. Those stdout logs are retained as *-attempt1-relative-logpath.log. The final Godot commands above use absolute paths and were rerun.",
+  "source_changes_performed": false,
+  "ignored_tests_rerun": false
+}
