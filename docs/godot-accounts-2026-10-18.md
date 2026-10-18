@@ -48,7 +48,7 @@ python3 -u tools/validate_godot_accounts.py --godot /opt/homebrew/bin/godot \
 
 다시 실행할 때는 존재하지 않는 새 output 디렉터리를 지정한다. runner는 stdlib만 사용하며 기본 실행은 두 서버를 순차 빌드한다. `--skip-build`는 이미 빌드한 binary를 그대로 검증할 때 쓴다.
 
-검증한 worktree의 기준 commit은 `a5396690da80db4fbfc129e36d70c25d17b79a0c`이며 미커밋 구현을 source manifest로 고정했다. 실행 전후 SHA가 모두 같았다. 최종 Git 전달은 coordinator의 commit·remote SHA 확인으로 별도 증명한다.
+검증한 worktree의 기준 commit은 `a5396690da80db4fbfc129e36d70c25d17b79a0c`이며 당시 미커밋 구현을 source manifest로 고정했다. 실행 전후 SHA가 모두 같았고, 아래 Git 전달 뒤에도 검증한 source와 동일함을 재확인했다.
 
 | 대상 | SHA-256 |
 |---|---|
@@ -79,5 +79,11 @@ python3 -u tools/validate_godot.py --godot /opt/homebrew/bin/godot \
 | 16개 | 20.652초 | 19개 sequence | 70ms | 382–431 |
 
 기존 [native Arena UI 검사](../artifacts/godot-accounts-20261018-02/legacy/integration.json)는 28개 검사를 4.943초에 통과했고 예상하지 않은 오류는 없었다. 다른 game의 방 입장 오류 `GAME_MISMATCH`는 의도한 거부 검사다. legacy runner의 별도 source digest는 `91e623c7af3d2761a312124098dc8a5565d607bb4c3ada5f18dabbbcc591087e`이며 두 runner가 사용하는 manifest 범위·digest 방식은 다르다. 사용한 arena binary는 위 표와 같은 SHA였다. `cargo fmt --all --check`와 `cargo clippy -p campfire-server --example account_server --no-default-features --locked --offline -- -D warnings`도 exit 0이었다.
+
+## Git 전달
+
+독립 Architect의 Spec·Quality·Security 최종 검토는 모두 `APPROVED`였다. 기능 commit은 `cdaae1048ef6f2c66b5632f9f5bed0d5d45146a3`, 문서·검증 증거 commit은 `0cd4e8f7ce02dc0f4525d98a0d696cd04f4d9412`다. main을 fast-forward한 뒤 `git push origin main`을 normal push하여 exit 0을 확인했다.
+
+당시 `git ls-remote origin refs/heads/main`의 원격 SHA와 로컬 `HEAD`·`main`·`origin/main`은 모두 `0cd4e8f7ce02dc0f4525d98a0d696cd04f4d9412`로 같았고 worktree는 clean이었다. 전달 뒤 재계산한 native·legacy source digest는 각각 이 보고서의 검증값과 일치했다. 이 단락은 해당 시점의 실제 전달 SHA를 기록한다.
 
 이 실행은 개발용 verifier, 두 native 계정, loopback UI/transport의 근거다. 외부 IdP 연동, WAN·TLS·서버 재시작 후 영속 복구, 명령 이력 퇴출 이후의 durable exactly-once를 증명하는 실행은 아니다.

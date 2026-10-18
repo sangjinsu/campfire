@@ -77,7 +77,7 @@
 
 **Interfaces:** Tasks 1–3의 소스·검사·두 GUI 증거를 독립 Architect가 읽고 승인 또는 구체적 수정을 요청한다.
 
-- [ ] `git diff --check`와 변경 범위에 맞는 최종 검사를 실행하고 source 동결 여부를 확인한다.
-- [ ] 독립 Architect에게 인증 binding, private 폐기, 명령 복구 및 실제 두 창 증거를 검토받는다. 지적 수정 시 해당 검사만 다시 실행한다.
-- [ ] 승인 뒤 변경을 커밋하고 `git push origin main`으로 normal push한다. `git ls-remote origin refs/heads/main`과 로컬 HEAD 일치를 확인한다.
-- [ ] 검증한 동작, 원본 증거 경로, commit SHA, 외부 IdP 미연동 한계를 한국어로 보고한다.
+- [x] `git diff --check`와 변경 범위에 맞는 최종 검사를 실행하고 source 동결 여부를 확인한다.
+- [x] 독립 Architect에게 인증 binding, private 폐기, 명령 복구 및 실제 두 창 증거를 검토받는다. 지적 수정 시 해당 검사만 다시 실행한다.
+- [x] 승인 뒤 변경을 커밋하고 `git push origin main`으로 normal push한다. `git ls-remote origin refs/heads/main`과 로컬 HEAD 일치를 확인한다.
+- [x] 검증한 동작, 원본 증거 경로, commit SHA, 외부 IdP 미연동 한계를 한국어로 보고한다.
