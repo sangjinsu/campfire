@@ -1,0 +1,25 @@
+{
+  "production_source_sha256": "08466360cfcdbb1771e48fd9e4c738717ad9333dbfb86b63b756d4f93344fa95",
+  "scope": "Cargo.toml, Cargo.lock, crates/*/Cargo.toml, crates/*/src/**/*.rs; sorted relative path+NUL+content; excludes tests/examples/docs",
+  "files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/campfire-arena/Cargo.toml",
+    "crates/campfire-arena/src/lib.rs",
+    "crates/campfire-runtime/Cargo.toml",
+    "crates/campfire-runtime/src/config.rs",
+    "crates/campfire-runtime/src/game.rs",
+    "crates/campfire-runtime/src/lib.rs",
+    "crates/campfire-runtime/src/metrics.rs",
+    "crates/campfire-runtime/src/output.rs",
+    "crates/campfire-runtime/src/protocol.rs",
+    "crates/campfire-runtime/src/rate.rs",
+    "crates/campfire-runtime/src/room.rs",
+    "crates/campfire-runtime/src/session.rs",
+    "crates/campfire-runtime/src/transport.rs",
+    "crates/campfire-server/Cargo.toml",
+    "crates/campfire-server/src/cli.rs",
+    "crates/campfire-server/src/lib.rs",
+    "crates/campfire-server/src/main.rs"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "command": "RUST_BACKTRACE=1 cargo test -p campfire-server --test headless repeated_authentication_does_not_extend_reservation --offline -- --nocapture",
+  "source_sha256_before": "99645f3b66237b825e6d1472f4c35bda20d816c3fcdd2659658aa380fa355c6d",
+  "source_sha256_after": "99645f3b66237b825e6d1472f4c35bda20d816c3fcdd2659658aa380fa355c6d",
+  "iterations": [
+    {
+      "iteration": 1,
+      "exit_code": 0,
+      "duration_seconds": 1.1349026249954477
+    },
+    {
+      "iteration": 2,
+      "exit_code": 0,
+      "duration_seconds": 0.8543122919945745
+    },
+    {
+      "iteration": 3,
+      "exit_code": 0,
+      "duration_seconds": 0.780059666998568
+    },
+    {
+      "iteration": 4,
+      "exit_code": 0,
+      "duration_seconds": 0.7720917090045987
+    },
+    {
+      "iteration": 5,
+      "exit_code": 0,
+      "duration_seconds": 1.191464207993704
+    },
+    {
+      "iteration": 6,
+      "exit_code": 0,
+      "duration_seconds": 0.828579584005638
+    },
+    {
+      "iteration": 7,
+      "exit_code": 0,
+      "duration_seconds": 0.8292789580009412
+    },
+    {
+      "iteration": 8,
+      "exit_code": 0,
+      "duration_seconds": 0.8005581660108874
+    },
+    {
+      "iteration": 9,
+      "exit_code": 0,
+      "duration_seconds": 0.8163605839945376
+    },
+    {
+      "iteration": 10,
+      "exit_code": 0,
+      "duration_seconds": 0.8120211659988854
+    },
+    {
+      "iteration": 11,
+      "exit_code": 0,
+      "duration_seconds": 0.7546540000039386
+    },
+    {
+      "iteration": 12,
+      "exit_code": 0,
+      "duration_seconds": 0.7595780419942457
+    },
+    {
+      "iteration": 13,
+      "exit_code": 0,
+      "duration_seconds": 0.780652999994345
+    },
+    {
+      "iteration": 14,
+      "exit_code": 0,
+      "duration_seconds": 0.7707417500059819
+    },
+    {
+      "iteration": 15,
+      "exit_code": 0,
+      "duration_seconds": 0.7721222919935826
+    },
+    {
+      "iteration": 16,
+      "exit_code": 0,
+      "duration_seconds": 0.7688884579984006
+    },
+    {
+      "iteration": 17,
+      "exit_code": 0,
+      "duration_seconds": 0.7783321250026347
+    },
+    {
+      "iteration": 18,
+      "exit_code": 0,
+      "duration_seconds": 0.7832916249899426
+    },
+    {
+      "iteration": 19,
+      "exit_code": 0,
+      "duration_seconds": 0.8529846249875845
+    },
+    {
+      "iteration": 20,
+      "exit_code": 0,
+      "duration_seconds": 0.8424382919911295,
+      "log": "artifacts/repeated-auth-final-20.log"
+    }
+  ]
+}

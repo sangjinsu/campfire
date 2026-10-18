@@ -1,0 +1,20 @@
+# 공식 API 조사 (2026-10-18)
+
+사용 버전은 Cargo.lock으로 최종 확인한다. 조회 당시 latest는 Tokio 1.53.3, Axum 0.8.9이나 로컬에 공식 배포 소스로 확인한 버전은 Tokio 1.52.3, Axum 0.7.4, getrandom 0.3.4, sha2 0.10.9이다. Axum 0.7.4는 tokio-tungstenite ^0.21을 사용한다. 아래 계약은 version-specific 문서와 로컬 crate의 rustdoc/소스를 확인했다.
+
+- [Tokio bounded mpsc](https://docs.rs/tokio/1.52.3/tokio/sync/mpsc/fn.channel.html): capacity는 1 이상이어야 한다. `Sender::try_send`의 `TrySendError::Full`과 `Closed`를 구분한다. 공유 입력 포화는 사용자 위반으로 계산하지 않는다. `send().await`는 여유 공간을 기다리므로 룸 출력 경로에 사용하면 느린 연결이 tick을 막을 수 있다.
+- [Tokio watch](https://docs.rs/tokio/1.52.3/tokio/sync/watch/index.html): 최신 값 하나만 유지한다. `send_replace`는 receiver가 없어도 새 값을 저장한다. `Receiver::changed`와 `borrow_and_update`를 사용하고 borrowed `Ref`는 await 전에 clone/drop한다. full sync와 reliable event는 별도 bounded mpsc로 보낸다.
+- [Tokio JoinSet](https://docs.rs/tokio/1.52.3/tokio/task/struct.JoinSet.html#method.join_next_with_id): `join_next_with_id`는 `Option<Result<(Id,T),JoinError>>`; 오류 task ID는 `JoinError::id()`로 조회한다. `is_panic()`으로 unwind를 식별하고 task ID→room instance 매핑으로 directory/session을 정리한다. `join_all`은 panic을 다시 전파하므로 개별 룸 panic 감독에 사용하지 않는다. `abort_all()` 뒤에도 join을 drain해야 한다.
+- [Tokio pause](https://docs.rs/tokio/1.52.3/tokio/time/fn.pause.html), [advance](https://docs.rs/tokio/1.52.3/tokio/time/fn.advance.html): `test-util` feature와 current-thread runtime이 필요하다. 만료와 tick은 `tokio::time::Instant`로 계산한다. paused runtime은 idle 상태에서 시간을 자동 진행하므로 TCP I/O 통합 검증은 실제 시계, 결정성/만료 단위 검증은 manual clock으로 나눈다. `advance` 후 깨어난 task들이 완료됐다고 가정하지 않고 yield/확인한다.
+- [Axum 0.7.4 WebSocketUpgrade](https://docs.rs/axum/0.7.4/axum/extract/ws/struct.WebSocketUpgrade.html): HTTP/1.1 GET route 및 `ws` feature. `max_message_size(16384)`와 `max_frame_size(16384)`를 함께 지정해 fragmentation 우회를 막는다. 기본 message/frame 제한은 각각 64MiB/16MiB로 사양보다 크다. `.write_buffer_size(0)`와 유한한 `.max_write_buffer_size(...)`를 사용할 수 있으며 max는 write buffer+최대 message보다 커야 한다. `on_failed_upgrade`에서 실패 전 connection permit을 회수해야 한다. `on_upgrade` callback과 future는 Send+'static이다. `Message::Text`는 0.7 계열에서 String이며 최신 0.8과 혼동하지 않는다.
+- [Tungstenite 0.21 WebSocket](https://docs.rs/tungstenite/0.21.0/tungstenite/protocol/struct.WebSocket.html): Ping/Close에 대한 자동 응답은 다음 read/write/flush에서 진행된다. 수동 Pong 중복 전송을 피하고 Close handshake는 flush/read로 완료한다. `WriteBufferFull`은 반환된 메시지를 포함하며 연결별 overload 처리 대상이다. WebSocket 최대 frame 단계의 Capacity 오류 뒤 연결을 계속 쓸 수 있다고 가정하지 않는다. 따라서 초과 frame은 transport가 즉시 종료할 수 있고 반복 초과를 같은 연결에서 세는 정책에는 앱 상한과 더 큰 transport 안전 상한 구분이 필요하다.
+- [getrandom 0.3.4 fill](https://docs.rs/getrandom/0.3.4/getrandom/fn.fill.html): `getrandom::fill(&mut [u8;32]) -> Result<(),Error>`가 OS 난수를 채운다. 실패/부분 읽기는 오류이며 실패한 버퍼를 토큰으로 쓰지 않는다. base64url/hex로 인코딩하고 plaintext를 저장하거나 로그하지 않는다.
+- [sha2 0.10.9](https://docs.rs/sha2/0.10.9/sha2/): `use sha2::{Digest,Sha256}; let digest=Sha256::digest(token.as_bytes());` 공식 예제 확인. 256-bit 고엔트로피 토큰의 검증용 해시를 저장한다. 사용자 비밀번호 저장과는 다른 용도다.
+
+근거 경로: `~/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/{tokio-1.52.3,getrandom-0.3.4,sha2-0.10.9}/src/`, `~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/axum-0.7.4/src/extract/ws.rs`. gstack browse는 sandbox localhost bind EPERM으로 최초 실패했고 승인된 escalation으로 공개 docs.rs 문서 HTTP 200 조회에 성공했다. 이 수치/프로토콜은 라이브러리의 규약이 아니라 Campfire 사양이다.
+
+## 실제 선택 버전 추가 확인
+
+Cargo.lock 생성 결과는 **Tokio 1.53.3, Axum 0.8.9, 서버 내부 tokio-tungstenite/tungstenite 0.29.0, headless client 0.28.0**이다. 구버전 조사 결과는 비교 기록이며 실제 구현은 이 버전에 맞춘다.
+
+[Axum 0.8.9 Message](https://docs.rs/axum/0.8.9/axum/extract/ws/enum.Message.html)에서 `Text(Utf8Bytes)`, `Binary/Ping/Pong(Bytes)`, `Close(Option<CloseFrame>)`를 확인했다. 생성은 `Message::Text(string.into())` 또는 `Message::text(string)`. [Router](https://docs.rs/axum/0.8.9/axum/struct.Router.html) 경로 capture는 `/v1/games/{game_id}/guests` 형태이며 이전 `:game_id`는 사용하지 않는다. [WebSocketUpgrade 0.8.9](https://docs.rs/axum/0.8.9/axum/extract/ws/struct.WebSocketUpgrade.html) 제한 설정 메서드는 동일하고 HTTP/1.1 GET/이후 CONNECT 지원 시 `any` route를 권한다. 이번 HTTP/1.1 클라이언트에는 GET 경로를 사용한다.

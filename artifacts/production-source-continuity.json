@@ -1,0 +1,32 @@
+{
+  "production_source_sha256": "08466360cfcdbb1771e48fd9e4c738717ad9333dbfb86b63b756d4f93344fa95",
+  "scope": "Cargo.toml, Cargo.lock, crates/*/Cargo.toml, crates/*/src/**/*.rs; sorted relative path+NUL+content; excludes tests/examples/docs",
+  "files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/campfire-arena/Cargo.toml",
+    "crates/campfire-arena/src/lib.rs",
+    "crates/campfire-runtime/Cargo.toml",
+    "crates/campfire-runtime/src/config.rs",
+    "crates/campfire-runtime/src/game.rs",
+    "crates/campfire-runtime/src/lib.rs",
+    "crates/campfire-runtime/src/metrics.rs",
+    "crates/campfire-runtime/src/output.rs",
+    "crates/campfire-runtime/src/protocol.rs",
+    "crates/campfire-runtime/src/rate.rs",
+    "crates/campfire-runtime/src/room.rs",
+    "crates/campfire-runtime/src/session.rs",
+    "crates/campfire-runtime/src/transport.rs",
+    "crates/campfire-server/Cargo.toml",
+    "crates/campfire-server/src/cli.rs",
+    "crates/campfire-server/src/lib.rs",
+    "crates/campfire-server/src/main.rs"
+  ],
+  "production_source_sha256_after_fixture_fix": "08466360cfcdbb1771e48fd9e4c738717ad9333dbfb86b63b756d4f93344fa95",
+  "production_unchanged": true,
+  "soak_function_unchanged": true,
+  "final_full_source_sha256": "3eb02c2f975952d962ab184e5bfb08d1ccf0ae7f1ec6b2c85a9f286fc3e63e0d",
+  "soak_full_source_sha256": "99645f3b66237b825e6d1472f4c35bda20d816c3fcdd2659658aa380fa355c6d",
+  "slow_fixture_change": "Only large_snapshot_run test fixture lifecycle and whitespace changed. Production code and soak function unchanged.",
+  "final_production_source_sha256": "08466360cfcdbb1771e48fd9e4c738717ad9333dbfb86b63b756d4f93344fa95"
+}

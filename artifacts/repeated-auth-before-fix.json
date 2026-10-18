@@ -1,0 +1,108 @@
+{
+  "command": "RUST_BACKTRACE=1 cargo test -p campfire-server --test headless repeated_authentication_does_not_extend_reservation --offline -- --nocapture",
+  "iterations": [
+    {
+      "iteration": 1,
+      "exit_code": 101,
+      "duration_seconds": 3.524891207998735,
+      "log": "artifacts/repeated-auth-run-01.log"
+    },
+    {
+      "iteration": 2,
+      "exit_code": 0,
+      "duration_seconds": 0.76351324999996
+    },
+    {
+      "iteration": 3,
+      "exit_code": 101,
+      "duration_seconds": 0.4568764169962378
+    },
+    {
+      "iteration": 4,
+      "exit_code": 0,
+      "duration_seconds": 0.7495917500054929
+    },
+    {
+      "iteration": 5,
+      "exit_code": 0,
+      "duration_seconds": 0.7676144169963663
+    },
+    {
+      "iteration": 6,
+      "exit_code": 101,
+      "duration_seconds": 0.4444371669960674
+    },
+    {
+      "iteration": 7,
+      "exit_code": 101,
+      "duration_seconds": 0.4561141250014771
+    },
+    {
+      "iteration": 8,
+      "exit_code": 0,
+      "duration_seconds": 5.565995750002912
+    },
+    {
+      "iteration": 9,
+      "exit_code": 0,
+      "duration_seconds": 0.8028699580027023
+    },
+    {
+      "iteration": 10,
+      "exit_code": 0,
+      "duration_seconds": 0.784828917006962
+    },
+    {
+      "iteration": 11,
+      "exit_code": 0,
+      "duration_seconds": 0.7580539159971522
+    },
+    {
+      "iteration": 12,
+      "exit_code": 0,
+      "duration_seconds": 0.777656875012326
+    },
+    {
+      "iteration": 13,
+      "exit_code": 0,
+      "duration_seconds": 0.7594752089935355
+    },
+    {
+      "iteration": 14,
+      "exit_code": 0,
+      "duration_seconds": 1.0655196250008885
+    },
+    {
+      "iteration": 15,
+      "exit_code": 0,
+      "duration_seconds": 1.1449673750030342
+    },
+    {
+      "iteration": 16,
+      "exit_code": 0,
+      "duration_seconds": 0.7827319170028204
+    },
+    {
+      "iteration": 17,
+      "exit_code": 0,
+      "duration_seconds": 0.7992917920055334
+    },
+    {
+      "iteration": 18,
+      "exit_code": 0,
+      "duration_seconds": 0.7893615840002894
+    },
+    {
+      "iteration": 19,
+      "exit_code": 0,
+      "duration_seconds": 0.7931922919960925
+    },
+    {
+      "iteration": 20,
+      "exit_code": 0,
+      "duration_seconds": 0.7773342089931248
+    }
+  ],
+  "note": "Diagnostic run spanned concurrent runtime correction: iterations 1,3,6,7 failed +1ms expiry display drift. Iteration8 recompiled fixed origin runtime. Not a single-build failure-rate estimate.",
+  "representative_failure": "artifacts/repeated-auth-run-01.log"
+}

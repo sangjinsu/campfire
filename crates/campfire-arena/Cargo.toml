@@ -1,0 +1,10 @@
+[package]
+name = "campfire-arena"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+campfire-runtime = { path = "../campfire-runtime" }
+serde.workspace = true
+serde_json.workspace = true

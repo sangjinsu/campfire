@@ -1,0 +1,63 @@
+   Compiling campfire-runtime v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-runtime)
+   Compiling campfire-arena v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-arena)
+   Compiling campfire-server v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-server)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.70s
+     Running tests/headless.rs (target/debug/deps/headless-2af092e44d3e1158)
+
+running 1 test
+
+thread 'repeated_authentication_does_not_extend_reservation' (7093542) panicked at crates/campfire-server/tests/headless.rs:933:5:
+assertion `left == right` failed: replacement extended grace
+  left: Number(1792312985864)
+ right: Number(1792312985865)
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd/library/core/src/panicking.rs:80:14
+   2: core::panicking::assert_failed_inner
+   3: core::panicking::assert_failed
+             at /Users/sangjinsu/.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/panicking.rs:394:5
+   4: headless::repeated_authentication_does_not_extend_reservation::{{closure}}
+             at ./tests/headless.rs:933:5
+   5: <core::pin::Pin<P> as core::future::future::Future>::poll
+             at /Users/sangjinsu/.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/future/future.rs:133:9
+   6: tokio::runtime::park::CachedParkThread::block_on::{{closure}}
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/runtime/park.rs:284:71
+   7: tokio::task::coop::with_budget
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/task/coop/mod.rs:167:5
+   8: tokio::task::coop::budget
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/task/coop/mod.rs:133:5
+   9: tokio::runtime::park::CachedParkThread::block_on
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/runtime/park.rs:284:31
+  10: tokio::runtime::context::blocking::BlockingRegionGuard::block_on
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/runtime/context/blocking.rs:66:14
+  11: tokio::runtime::scheduler::multi_thread::MultiThread::block_on::{{closure}}
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/runtime/scheduler/multi_thread/mod.rs:92:22
+  12: tokio::runtime::context::runtime::enter_runtime
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/runtime/context/runtime.rs:65:16
+  13: tokio::runtime::scheduler::multi_thread::MultiThread::block_on
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/runtime/scheduler/multi_thread/mod.rs:91:9
+  14: tokio::runtime::runtime::Runtime::block_on_inner
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/runtime/runtime.rs:376:50
+  15: tokio::runtime::runtime::Runtime::block_on
+             at /Users/sangjinsu/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/runtime/runtime.rs:343:18
+  16: headless::repeated_authentication_does_not_extend_reservation
+             at ./tests/headless.rs:938:77
+  17: headless::repeated_authentication_does_not_extend_reservation::{{closure}}
+             at ./tests/headless.rs:902:63
+  18: core::ops::function::FnOnce::call_once
+             at /Users/sangjinsu/.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/ops/function.rs:250:5
+  19: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+test repeated_authentication_does_not_extend_reservation ... FAILED
+
+failures:
+
+failures:
+    repeated_authentication_does_not_extend_reservation
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 21 filtered out; finished in 0.34s
+
+error: test failed, to rerun pass `-p campfire-server --test headless`

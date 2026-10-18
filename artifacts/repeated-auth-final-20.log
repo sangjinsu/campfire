@@ -1,0 +1,9 @@
+    Blocking waiting for file lock on build directory
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running tests/headless.rs (target/debug/deps/headless-2af092e44d3e1158)
+
+running 1 test
+test repeated_authentication_does_not_extend_reservation ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 0.64s
+
