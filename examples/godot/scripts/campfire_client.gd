@@ -7,6 +7,9 @@ signal rooms_received(rooms: Array, next_cursor: Variant)
 signal room_entered(full_sync: Dictionary)
 signal room_resumed(full_sync: Dictionary)
 signal snapshot_received(value: Dictionary)
+signal private_state_changed(value: Dictionary)
+signal command_result_received(result: Dictionary)
+signal command_pending_changed(pending: bool)
 signal room_left()
 signal room_closed(reason: String)
 signal error_received(code: String, message: String, retryable: bool)
@@ -26,6 +29,8 @@ var can_resume: bool = false
 var base_url: String = ""
 var game_id: String = ""
 var guest_id: String = ""
+var player_id: String = ""
+var game_profile: String = "arena"
 var room_id: String = ""
 var room_instance_id: String = ""
 var expires_at: int = 0
@@ -34,14 +39,21 @@ var snapshot: Dictionary = {}
 var snapshot_seq: int = -1
 var server_tick: int = 0
 var last_processed_input_seq: int = 0
+var private_state: Dictionary = {}
+var command_results: Array[Dictionary] = []
+var last_processed_command_seq: int = 0
+var pending_command_seq: int = 0
 var last_error_command: String = ""
 
 # Credentials stay only in this Node's memory and are bound to their issuing origin/game.
 var _token: String = ""
 var _credential_base_url: String = ""
 var _credential_game_id: String = ""
+var _credential_profile: String = ""
+var _credential_player_id: String = ""
 var _peer: WebSocketPeer = null
 var _http: HTTPRequest = null
+var _http_request_binding: Dictionary = {}
 var _connection_epoch: int = 0
 var _request_counter: int = 0
 var _pending: Dictionary = {}
@@ -51,31 +63,71 @@ var _logout_requested: bool = false
 var _direction: Vector2 = Vector2.ZERO
 var _input_accumulator: float = 0.0
 var _next_input_seq: int = 1
+var _next_command_seq: int = 1
+var _pending_game_command: Dictionary = {}
+var _last_emitted_command_seq: int = 0
+var _snapshot_command_results: Array[Dictionary] = []
+var _command_result_unavailable: bool = false
 
 
 func connect_guest(url: String, game: String) -> bool:
+	return _begin_session_request(url, game, false)
+
+
+func connect_account(url: String, game: String, credential: String) -> bool:
+	if credential.strip_edges().is_empty() or credential.to_utf8_buffer().size() > MAX_MESSAGE_BYTES:
+		return _client_error("INVALID_CREDENTIAL", "계정 credential을 입력하세요.")
+	return _begin_session_request(url, game, true, credential)
+
+
+func set_game_profile(profile: String) -> bool:
+	if profile not in ["arena", "inventory"]:
+		return _client_error("UNKNOWN_GAME_PROFILE", "지원하는 게임 profile을 선택하세요.")
 	if status != "disconnected":
-		return _client_error("CLIENT_BUSY", "연결을 끊은 뒤 새 게스트로 접속하세요.")
+		return _client_error("CLIENT_BUSY", "연결을 끊은 뒤 게임 profile을 바꾸세요.")
+	if profile != game_profile:
+		_stop_transport()
+		_clear_credentials()
+		_clear_room()
+		game_profile = profile
+	return true
+
+
+func _begin_session_request(url: String, game: String, account: bool, credential: String = "") -> bool:
+	if status != "disconnected":
+		return _client_error("CLIENT_BUSY", "연결을 끊은 뒤 새 세션으로 접속하세요.")
 	var normalized: String = url.strip_edges().trim_suffix("/")
 	if not _valid_endpoint(normalized) or not _valid_game_id(game):
 		return _client_error("INVALID_ENDPOINT", "HTTP(S) 서버 주소와 1~64자의 영문 게임 ID를 확인하세요.")
+	if game_profile not in ["arena", "inventory"]:
+		return _client_error("UNKNOWN_GAME_PROFILE", "지원하는 게임 profile을 선택하세요.")
+	var body: String = JSON.stringify({"credential": credential}) if account else ""
+	if body.to_utf8_buffer().size() > MAX_MESSAGE_BYTES:
+		return _client_error("INVALID_CREDENTIAL", "계정 요청 크기 제한을 넘었습니다.")
+	var preserve_membership: bool = account and has_credentials() and normalized == _credential_base_url and game == _credential_game_id and game_profile == _credential_profile
 	_stop_transport()
-	_clear_credentials()
-	_clear_room()
+	if not preserve_membership:
+		_clear_credentials()
+		_clear_room()
 	base_url = normalized
 	game_id = game
 	_connection_epoch += 1
+	_http_request_binding = {"base_url": base_url, "game_id": game_id, "game_profile": game_profile}
 	_http = HTTPRequest.new()
 	_http.timeout = 10.0
 	_http.body_size_limit = MAX_MESSAGE_BYTES
 	_http.max_redirects = 0
 	add_child(_http)
-	_http.request_completed.connect(_on_guest_completed.bind(_connection_epoch))
-	_set_status("requesting_guest")
-	var result: Error = _http.request(base_url + "/v1/games/" + game_id + "/guests", PackedStringArray(), HTTPClient.METHOD_POST)
+	if account:
+		_http.request_completed.connect(_on_account_completed.bind(_connection_epoch))
+	else:
+		_http.request_completed.connect(_on_guest_completed.bind(_connection_epoch))
+	_set_status("requesting_account" if account else "requesting_guest")
+	var headers: PackedStringArray = PackedStringArray(["Content-Type: application/json"]) if account else PackedStringArray()
+	var result: Error = _http.request(base_url + "/v1/games/" + game_id + ("/sessions" if account else "/guests"), headers, HTTPClient.METHOD_POST, body)
 	if result != OK:
 		_lose_connection()
-		return _client_error("HTTP_START_FAILED", "게스트 발급 요청을 시작하지 못했습니다: " + error_string(result))
+		return _client_error("HTTP_START_FAILED", "세션 발급 요청을 시작하지 못했습니다: " + error_string(result))
 	return true
 
 
@@ -84,7 +136,7 @@ func reconnect() -> bool:
 		return _client_error("CLIENT_BUSY", "현재 연결을 먼저 끊으세요.")
 	if not has_credentials():
 		return _client_error("NO_SESSION", "재접속할 게스트가 없습니다. 새 게스트로 접속하세요.")
-	if base_url != _credential_base_url or game_id != _credential_game_id:
+	if not _session_binding_matches():
 		_clear_credentials()
 		_clear_room()
 		return _client_error("SESSION_BINDING_CHANGED", "서버나 게임이 바뀌었습니다. 새 게스트로 접속하세요.")
@@ -94,6 +146,19 @@ func reconnect() -> bool:
 
 func has_credentials() -> bool:
 	return not _token.is_empty()
+
+
+func _session_binding_matches() -> bool:
+	return base_url == _credential_base_url and game_id == _credential_game_id and game_profile == _credential_profile and player_id == _credential_player_id and guest_id == player_id
+
+
+func _require_session_binding() -> bool:
+	if not has_credentials() or _session_binding_matches():
+		return true
+	_clear_credentials()
+	_clear_room()
+	_lose_connection()
+	return _client_error("SESSION_BINDING_CHANGED", "서버, 게임, profile 또는 플레이어가 바뀌었습니다. 새 세션으로 접속하세요.")
 
 
 func request_rooms(cursor: Variant = null) -> bool:
@@ -148,13 +213,63 @@ func disconnect_for_test() -> bool:
 
 
 func send_direction(direction: Vector2) -> bool:
+	if not _require_session_binding():
+		return false
 	if not is_finite(direction.x) or not is_finite(direction.y):
 		return _client_error("INVALID_DIRECTION", "이동 방향은 유한한 좌표여야 합니다.")
-	if not is_in_room or _has_pending("room.leave") or _has_pending("session.logout"):
+	if game_profile != "arena" or not is_in_room or _has_pending("room.leave") or _has_pending("session.logout"):
 		_direction = Vector2.ZERO
 		return false
 	_direction = direction.limit_length(1.0)
 	return true
+
+
+func has_pending_game_command() -> bool:
+	return not _pending_game_command.is_empty()
+
+
+func can_retry_pending_command() -> bool:
+	return has_pending_game_command() and not _command_result_unavailable and is_authenticated and is_in_room and not _has_pending("game.command") and not _room_request_pending() and not _has_pending("session.logout") and _command_binding_matches(_pending_game_command)
+
+
+func send_game_command(payload: Dictionary) -> bool:
+	if not _require_session_binding():
+		return false
+	if not is_authenticated or not is_in_room or _room_request_pending() or _has_pending("session.logout"):
+		return _client_error("NOT_IN_ROOM", "방에 입장한 뒤 단발 명령을 보내세요.", false, "game.command")
+	if has_pending_game_command():
+		return _client_error("COMMAND_PENDING", "이전 단발 명령의 결과를 먼저 확인하거나 재시도하세요.", true, "game.command")
+	if _next_command_seq > MAX_SAFE_INTEGER:
+		return _client_error("SEQUENCE_LIMIT", "안전한 명령 번호 범위를 넘었습니다. 방에서 나간 뒤 다시 입장하세요.", false, "game.command")
+	if not _valid_json_value(payload) or JSON.stringify(payload).to_utf8_buffer().size() > MAX_MESSAGE_BYTES - 1024:
+		return _client_error("INVALID_COMMAND", "명령은 크기 제한 안의 유효한 JSON이어야 합니다.", false, "game.command")
+	_pending_game_command = {
+		"command_seq": _next_command_seq, "payload": payload.duplicate(true),
+		"base_url": base_url, "game_id": game_id, "game_profile": game_profile,
+		"player_id": player_id, "room_id": room_id, "room_instance_id": room_instance_id
+	}
+	pending_command_seq = _next_command_seq
+	_command_result_unavailable = false
+	command_pending_changed.emit(true)
+	return _transmit_game_command()
+
+
+func retry_pending_command() -> bool:
+	if not can_retry_pending_command():
+		return _client_error("COMMAND_RETRY_UNAVAILABLE", "방 상태를 복구하고 응답을 기다린 뒤 같은 명령을 재시도하세요.", true, "game.command")
+	return _transmit_game_command()
+
+
+func _transmit_game_command() -> bool:
+	return _send_command("game.command", {
+		"room_id": room_id, "room_instance_id": room_instance_id,
+		"command_seq": _pending_game_command["command_seq"],
+		"payload": _pending_game_command["payload"].duplicate(true)
+	})
+
+
+func _command_binding_matches(entry: Dictionary) -> bool:
+	return entry.get("base_url") == base_url and entry.get("game_id") == game_id and entry.get("game_profile") == game_profile and entry.get("player_id") == player_id and entry.get("room_id") == room_id and entry.get("room_instance_id") == room_instance_id
 
 
 func _process(delta: float) -> void:
@@ -188,7 +303,7 @@ func _process(delta: float) -> void:
 		_client_error("CONNECTION_TIMEOUT", "서버 연결 시간이 초과되었습니다.", true)
 		return
 	_check_timeouts(now)
-	if not is_in_room or _peer == null:
+	if game_profile != "arena" or not is_in_room or _peer == null:
 		_input_accumulator = 0.0
 		return
 	# A stalled frame sends at most one input; old directions are never replayed in a burst.
@@ -202,29 +317,55 @@ func _exit_tree() -> void:
 	_stop_transport()
 
 
-func _on_guest_completed(result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray, epoch: int) -> void:
-	if epoch != _connection_epoch or status != "requesting_guest":
+func _on_guest_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray, epoch: int) -> void:
+	_on_session_completed(result, response_code, headers, body, epoch, false)
+
+
+func _on_account_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray, epoch: int) -> void:
+	_on_session_completed(result, response_code, headers, body, epoch, true)
+
+
+func _on_session_completed(result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray, epoch: int, account: bool) -> void:
+	if epoch != _connection_epoch or status != ("requesting_account" if account else "requesting_guest"):
 		return
+	if not _http_request_binding.is_empty() and (_http_request_binding["base_url"] != base_url or _http_request_binding["game_id"] != game_id or _http_request_binding["game_profile"] != game_profile):
+		_clear_credentials()
+		_clear_room()
+		_lose_connection()
+		_client_error("SESSION_BINDING_CHANGED", "세션 발급 중 서버, 게임 또는 profile이 바뀌었습니다.", false, "session.account" if account else "session.guest")
+		return
+	_http_request_binding.clear()
 	if _http != null:
 		_http.queue_free()
 		_http = null
 	if result != HTTPRequest.RESULT_SUCCESS or response_code != 201:
+		var code: String = "ACCOUNT_REQUEST_FAILED" if account else "GUEST_REQUEST_FAILED"
+		if result == HTTPRequest.RESULT_SUCCESS:
+			var failure: Variant = _parse_json(body.get_string_from_utf8())
+			if typeof(failure) == TYPE_DICTIONARY and failure.get("type") == "error" and failure.get("code") in ["GAME_NOT_FOUND", "ACCOUNT_AUTH_DISABLED", "INVALID_MESSAGE", "FRAME_TOO_LARGE", "UNAUTHENTICATED", "AUTH_TIMEOUT", "AUTH_UNAVAILABLE", "RATE_LIMITED", "SERVER_BUSY"]:
+				code = failure["code"]
 		_lose_connection()
-		_client_error("GUEST_REQUEST_FAILED", "게스트 발급 실패 (HTTP %d, result %d). 서버 주소와 발급 제한을 확인하세요." % [response_code, result], response_code == 429 or response_code == 503)
+		_client_error(code, "세션 발급 실패 (HTTP %d, result %d). 서버 설정과 credential을 확인하세요." % [response_code, result], response_code in [429, 503, 504], "session.account" if account else "session.guest")
 		return
 	var parsed: Variant = _parse_json(body.get_string_from_utf8())
 	if typeof(parsed) != TYPE_DICTIONARY:
 		_protocol_failure()
 		return
 	var data: Dictionary = parsed
-	if not _identifier(data.get("guest_id")) or not _identifier(data.get("token"), 4096) or data.get("game_id") != game_id or not _uint(data.get("expires_at")):
+	var identity: Variant = data.get("player_id" if account else "guest_id")
+	if not _identifier(identity) or not _identifier(data.get("token"), 4096) or data.get("game_id") != game_id or not _uint(data.get("expires_at")):
 		_protocol_failure()
 		return
-	guest_id = data["guest_id"]
+	if not player_id.is_empty() and player_id != identity:
+		_clear_room()
+	player_id = identity
+	guest_id = identity
 	_token = data["token"]
 	expires_at = int(data["expires_at"])
 	_credential_base_url = base_url
 	_credential_game_id = game_id
+	_credential_profile = game_profile
+	_credential_player_id = player_id
 	_open_socket()
 
 
@@ -248,6 +389,8 @@ func _open_socket() -> bool:
 
 
 func _send_command(kind: String, fields: Dictionary) -> bool:
+	if not _require_session_binding():
+		return false
 	if _peer == null or _peer.get_ready_state() != WebSocketPeer.STATE_OPEN:
 		return _client_error("NOT_CONNECTED", "서버에 먼저 연결하세요.")
 	if kind != "session.authenticate" and not is_authenticated:
@@ -266,7 +409,7 @@ func _send_command(kind: String, fields: Dictionary) -> bool:
 	_pending[request_id] = {
 		"type": kind, "deadline": Time.get_ticks_msec() + (5000 if kind == "session.authenticate" else REQUEST_TIMEOUT_MS),
 		"room_id": fields.get("room_id", ""), "room_instance_id": fields.get("room_instance_id", ""),
-		"input_seq": fields.get("input_seq", 0)
+		"input_seq": fields.get("input_seq", 0), "command_seq": fields.get("command_seq", 0)
 	}
 	if kind == "session.logout":
 		_logout_requested = true
@@ -274,7 +417,7 @@ func _send_command(kind: String, fields: Dictionary) -> bool:
 
 
 func _send_input() -> void:
-	if not is_in_room or _has_pending("room.leave") or _has_pending("session.logout"):
+	if game_profile != "arena" or not is_in_room or _has_pending("room.leave") or _has_pending("session.logout"):
 		return
 	if _next_input_seq > MAX_SAFE_INTEGER:
 		_lose_connection()
@@ -296,6 +439,8 @@ func _receive_text(raw: String) -> bool:
 
 
 func _receive_message(message: Dictionary) -> bool:
+	if not _require_session_binding():
+		return false
 	if not _uint(message.get("v")) or int(message["v"]) != 1 or typeof(message.get("type")) != TYPE_STRING:
 		_protocol_failure()
 		return false
@@ -327,6 +472,9 @@ func _receive_message(message: Dictionary) -> bool:
 			expires_at = int(message["expires_at"])
 			can_resume = message["can_resume"]
 			if can_resume:
+				if not room_id.is_empty() and (room_id != message["room_id"] or room_instance_id != message["room_instance_id"]):
+					_clear_room()
+				can_resume = true
 				room_id = message["room_id"]
 				room_instance_id = message["room_instance_id"]
 				reservation_expires_at = int(message["reservation_expires_at"])
@@ -359,6 +507,13 @@ func _receive_message(message: Dictionary) -> bool:
 			else:
 				room_resumed.emit(snapshot.duplicate(true))
 			snapshot_received.emit(snapshot.duplicate(true))
+			_publish_recipient_state()
+			return true
+		"game.command.result":
+			if pending["type"] != "game.command" or not _valid_command_result(message) or int(message["command_seq"]) != pending.get("command_seq"):
+				return false
+			_pending.erase(request_id)
+			_record_command_result(message)
 			return true
 		"room.left":
 			if pending["type"] != "room.leave" or message.get("room_id") != pending["room_id"] or message.get("room_instance_id") != pending["room_instance_id"]:
@@ -386,16 +541,35 @@ func _receive_message(message: Dictionary) -> bool:
 
 
 func _apply_snapshot(message: Dictionary, full_sync: bool) -> bool:
+	if not _require_session_binding():
+		return false
+	if game_profile not in ["arena", "inventory"]:
+		_protocol_failure()
+		return false
 	if message.get("game_id") != game_id or not _identifier(message.get("room_id")) or not _identifier(message.get("room_instance_id")):
 		return false
-	if not _uint(message.get("snapshot_seq")) or not _uint(message.get("server_tick")) or not _uint(message.get("last_processed_input_seq"), MAX_SAFE_INTEGER - 1) or not _valid_arena_state(message.get("state")):
+	if not _uint(message.get("snapshot_seq")) or not _uint(message.get("server_tick")) or not _uint(message.get("last_processed_input_seq"), MAX_SAFE_INTEGER - 1) or not _valid_public_state(message.get("state")):
 		return false
+	if game_profile == "inventory" and (not message.has("last_processed_command_seq") or (full_sync and not message.has("command_results"))):
+		return false
+	var command_ack: Variant = message.get("last_processed_command_seq", 0)
+	if not _uint(command_ack) or (message.has("private_state") and not _valid_private_state(message["private_state"])):
+		return false
+	var retained: Variant = message.get("command_results", [])
+	if full_sync:
+		if typeof(retained) != TYPE_ARRAY or retained.size() > MAX_PENDING:
+			return false
+		var previous: int = 0
+		for result: Variant in retained:
+			if typeof(result) != TYPE_DICTIONARY or not _valid_command_result(result, message["room_id"], message["room_instance_id"]) or int(result["command_seq"]) <= previous or int(result["command_seq"]) > int(command_ack):
+				return false
+			previous = int(result["command_seq"])
 	if not room_id.is_empty() and (message["room_id"] != room_id or message["room_instance_id"] != room_instance_id):
 		return false
 	var sequence: int = int(message["snapshot_seq"])
 	var tick: int = int(message["server_tick"])
 	var ack: int = int(message["last_processed_input_seq"])
-	if not full_sync and (not is_in_room or sequence <= snapshot_seq or tick < server_tick or ack < last_processed_input_seq):
+	if not full_sync and (not is_in_room or sequence <= snapshot_seq or tick < server_tick or ack < last_processed_input_seq or int(command_ack) < last_processed_command_seq):
 		return false
 	if full_sync:
 		room_id = message["room_id"]
@@ -407,19 +581,95 @@ func _apply_snapshot(message: Dictionary, full_sync: bool) -> bool:
 		_direction = Vector2.ZERO
 		_input_accumulator = 0.0
 		_clear_pending_inputs()
+		_clear_pending_command_requests()
+		if has_pending_game_command() and not _command_binding_matches(_pending_game_command):
+			_clear_game_commands()
+		_next_command_seq = int(command_ack) + 1
+		for result: Dictionary in retained:
+			_record_command_result(result, true)
 	snapshot_seq = sequence
 	server_tick = tick
 	last_processed_input_seq = ack
+	last_processed_command_seq = int(command_ack)
+	_next_command_seq = maxi(_next_command_seq, last_processed_command_seq + 1)
+	private_state = message.get("private_state", {}).duplicate(true)
 	snapshot = message.duplicate(true)
+	snapshot.erase("private_state")
+	snapshot.erase("command_results")
 	if full_sync:
 		_set_status("in_room")
+		if has_pending_game_command() and int(_pending_game_command["command_seq"]) <= last_processed_command_seq:
+			_command_result_unavailable = true
+			_client_error("COMMAND_RESULT_UNAVAILABLE", "명령 처리 번호는 확인했지만 결과 이력이 없습니다. 방에서 나간 뒤 다시 입장하세요.", false, "game.command")
 	else:
 		snapshot_received.emit(snapshot.duplicate(true))
+		_publish_recipient_state()
 	return true
 
 
+func _publish_recipient_state() -> void:
+	private_state_changed.emit(private_state.duplicate(true))
+	for result: Dictionary in _snapshot_command_results:
+		command_result_received.emit(result.duplicate(true))
+	_snapshot_command_results.clear()
+
+
+func _valid_public_state(state: Variant) -> bool:
+	if game_profile == "arena":
+		return _valid_arena_state(state)
+	return typeof(state) == TYPE_DICTIONARY and _uint(state.get("total_collected")) and _uint(state.get("players"), 4096) and int(state["players"]) >= 1
+
+
+func _valid_private_state(value: Variant) -> bool:
+	if game_profile == "arena":
+		return false
+	if typeof(value) != TYPE_DICTIONARY or typeof(value.get("inventory")) != TYPE_ARRAY or value["inventory"].size() > 32:
+		return false
+	for item: Variant in value["inventory"]:
+		if not _identifier(item, 256):
+			return false
+	return true
+
+
+func _valid_command_result(value: Dictionary, expected_room: String = "", expected_instance: String = "") -> bool:
+	if expected_room.is_empty():
+		expected_room = room_id
+	if expected_instance.is_empty():
+		expected_instance = room_instance_id
+	if not _uint(value.get("v")) or int(value["v"]) != 1 or value.get("type") != "game.command.result" or not _identifier(value.get("request_id")) or value.get("game_id") != game_id or value.get("room_id") != expected_room or value.get("room_instance_id") != expected_instance or not _uint(value.get("command_seq")) or int(value["command_seq"]) < 1 or typeof(value.get("ok")) != TYPE_BOOL:
+		return false
+	if value["ok"]:
+		if value.has("error") or not value.has("result") or not _valid_json_value(value["result"]):
+			return false
+		return game_profile != "inventory" or (typeof(value["result"]) == TYPE_DICTIONARY and _uint(value["result"].get("inventory_count"), 32))
+	var failure: Variant = value.get("error")
+	return not value.has("result") and typeof(failure) == TYPE_DICTIONARY and _identifier(failure.get("code")) and typeof(failure.get("message")) == TYPE_STRING and typeof(failure.get("retryable")) == TYPE_BOOL
+
+
+func _record_command_result(value: Dictionary, defer_signal: bool = false) -> void:
+	var sequence: int = int(value["command_seq"])
+	if has_pending_game_command() and int(_pending_game_command["command_seq"]) == sequence:
+		_pending_game_command.clear()
+		_command_result_unavailable = false
+		pending_command_seq = 0
+		_clear_pending_command_requests()
+		command_pending_changed.emit(false)
+	last_processed_command_seq = maxi(last_processed_command_seq, sequence)
+	_next_command_seq = maxi(_next_command_seq, sequence + 1)
+	if sequence <= _last_emitted_command_seq:
+		return
+	_last_emitted_command_seq = sequence
+	command_results.append(value.duplicate(true))
+	if command_results.size() > MAX_PENDING:
+		command_results.pop_front()
+	if defer_signal:
+		_snapshot_command_results.append(value.duplicate(true))
+	else:
+		command_result_received.emit(value.duplicate(true))
+
+
 func _valid_authentication(message: Dictionary) -> bool:
-	if message.get("game_id") != game_id or message.get("guest_id") != guest_id or not _uint(message.get("expires_at")) or typeof(message.get("can_resume")) != TYPE_BOOL:
+	if message.get("game_id") != game_id or (message.get("guest_id") != guest_id or message.get("player_id") != guest_id or (not player_id.is_empty() and message.get("player_id") != player_id)) or not _uint(message.get("expires_at")) or typeof(message.get("can_resume")) != TYPE_BOOL:
 		return false
 	if message["can_resume"]:
 		return _identifier(message.get("room_id")) and _identifier(message.get("room_instance_id")) and _uint(message.get("reservation_expires_at"))
@@ -480,9 +730,11 @@ func _receive_error(message: Dictionary) -> bool:
 		_lose_connection()
 	elif pending_type == "resume" and code not in ["ROOM_NOT_FOUND", "STALE_INSTANCE", "RESUME_EXPIRED"]:
 		_lose_connection()
-	elif pending_type == "resume" or (pending_type == "game.input" and code in ["ROOM_NOT_FOUND", "STALE_INSTANCE", "RESUME_EXPIRED"]):
+	elif pending_type == "resume" or (pending_type in ["game.input", "game.command"] and code in ["ROOM_NOT_FOUND", "STALE_INSTANCE", "RESUME_EXPIRED"]):
 		_clear_room()
 		_set_status("lobby" if is_authenticated else "disconnected")
+	if pending_type == "game.command":
+		command_pending_changed.emit(has_pending_game_command())
 	last_error_command = pending_type
 	error_received.emit(code, message["message"], message["retryable"])
 	return true
@@ -532,12 +784,16 @@ func _lose_connection() -> void:
 	is_in_room = false
 	_direction = Vector2.ZERO
 	_input_accumulator = 0.0
+	private_state.clear()
+	_snapshot_command_results.clear()
+	private_state_changed.emit({})
 	can_resume = not room_id.is_empty() and has_credentials()
 	_set_status("disconnected")
 
 
 func _stop_transport() -> void:
 	_connection_epoch += 1
+	_http_request_binding.clear()
 	if _http != null:
 		_http.cancel_request()
 		_http.queue_free()
@@ -564,12 +820,37 @@ func _clear_room() -> void:
 	_direction = Vector2.ZERO
 	_input_accumulator = 0.0
 	_clear_pending_inputs()
+	_clear_game_commands()
+	private_state.clear()
+	private_state_changed.emit({})
+
+
+func _clear_game_commands() -> void:
+	_pending_game_command.clear()
+	_command_result_unavailable = false
+	pending_command_seq = 0
+	_next_command_seq = 1
+	last_processed_command_seq = 0
+	_last_emitted_command_seq = 0
+	command_results.clear()
+	_snapshot_command_results.clear()
+	_clear_pending_command_requests()
+	command_pending_changed.emit(false)
+
+
+func _clear_pending_command_requests() -> void:
+	for request: Variant in _pending.keys():
+		if _pending[request]["type"] == "game.command":
+			_pending.erase(request)
 
 
 func _clear_credentials() -> void:
 	_token = ""
 	_credential_base_url = ""
 	_credential_game_id = ""
+	_credential_profile = ""
+	_credential_player_id = ""
+	player_id = ""
 	guest_id = ""
 	expires_at = 0
 	is_authenticated = false
@@ -577,7 +858,7 @@ func _clear_credentials() -> void:
 
 func _set_status(value: String) -> void:
 	status = value
-	is_connecting = value in ["requesting_guest", "connecting", "authenticating", "resuming"]
+	is_connecting = value in ["requesting_guest", "requesting_account", "connecting", "authenticating", "resuming"]
 	status_changed.emit(value)
 
 
@@ -639,3 +920,24 @@ static func _valid_endpoint(value: String) -> bool:
 		if authority.contains(forbidden):
 			return false
 	return true
+
+
+static func _valid_json_value(value: Variant, depth: int = 0) -> bool:
+	if depth > 32:
+		return false
+	match typeof(value):
+		TYPE_NIL, TYPE_BOOL, TYPE_STRING:
+			return true
+		TYPE_INT, TYPE_FLOAT:
+			return _finite_number(value) and absf(float(value)) <= float(MAX_SAFE_INTEGER)
+		TYPE_ARRAY:
+			for child: Variant in value:
+				if not _valid_json_value(child, depth + 1):
+					return false
+			return true
+		TYPE_DICTIONARY:
+			for key: Variant in value:
+				if typeof(key) != TYPE_STRING or not _valid_json_value(value[key], depth + 1):
+					return false
+			return true
+	return false

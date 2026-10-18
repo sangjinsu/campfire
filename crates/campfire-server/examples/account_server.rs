@@ -138,8 +138,12 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let accounts = DevelopmentAccounts::from_environment()?;
     let runtime = Campfire::with_authenticator(Config::default(), Arc::new(accounts))?;
     runtime.register_game("inventory", InventoryModule)?;
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3001").await?;
-    eprintln!("Campfire development inventory: http://127.0.0.1:3001 (game_id=inventory)");
+    let bind = std::env::var("CAMPFIRE_DEMO_BIND").unwrap_or_else(|_| "127.0.0.1:3001".into());
+    let listener = tokio::net::TcpListener::bind(&bind).await?;
+    eprintln!(
+        "Campfire development inventory: http://{} (game_id=inventory)",
+        listener.local_addr()?
+    );
     let shutdown = runtime.clone();
     axum::serve(
         listener,
