@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "op": "verify",
+  "result": {
+    "before": {
+      "url": "http://127.0.0.1:3000/admin",
+      "visibility": "visible",
+      "ready": true,
+      "fieldCleared": true,
+      "localStorageCount": 0,
+      "sessionStorageCount": 0,
+      "cookieEmpty": true,
+      "autoRefresh": true,
+      "rooms": "0",
+      "footer": "서버 표본 225 · cache 1초 미만 · 자원 1초 미만",
+      "connection": "연결됨"
+    },
+    "after": {
+      "url": "http://127.0.0.1:3000/admin",
+      "visibility": "visible",
+      "ready": true,
+      "fieldCleared": true,
+      "localStorageCount": 0,
+      "sessionStorageCount": 0,
+      "cookieEmpty": true,
+      "autoRefresh": true,
+      "rooms": "0",
+      "footer": "서버 표본 230 · cache 1초 미만 · 자원 1초 미만",
+      "connection": "연결됨"
+    },
+    "sampleSeq": [
+      225,
+      230
+    ],
+    "capture": "/tmp/campfire-dashboard-visible-Qvhtk1/dashboard-ui-visible-a0851f3c4a.png"
+  },
+  "timestamp_kst": "2026-10-23 07:43:19 KST"
+}

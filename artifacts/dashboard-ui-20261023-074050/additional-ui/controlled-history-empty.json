@@ -1,0 +1,43 @@
+{
+  "description": "첫 이력 표본을 수집하는 중입니다.",
+  "connectionSummary": "이력 수집 대기 중",
+  "cpuValue": "—",
+  "charts": [
+    {
+      "id": "chart-connections",
+      "aria": "연결 · 수집 대기",
+      "text": [
+        "수집 대기"
+      ],
+      "paths": [],
+      "points": 0
+    },
+    {
+      "id": "chart-throughput",
+      "aria": "입력, 발행 · 수집 대기",
+      "text": [
+        "수집 대기"
+      ],
+      "paths": [],
+      "points": 0
+    },
+    {
+      "id": "chart-cpu",
+      "aria": "CPU · 수집 대기",
+      "text": [
+        "수집 대기"
+      ],
+      "paths": [],
+      "points": 0
+    },
+    {
+      "id": "chart-rss",
+      "aria": "RSS · 수집 대기",
+      "text": [
+        "수집 대기"
+      ],
+      "paths": [],
+      "points": 0
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "success": true,
+  "files_checked": 4,
+  "unexpected_errors": [],
+  "note": "Intentional browser wrong-key 401 is in browser-console.txt, distinct from unexpected runtime/server logs."
+}

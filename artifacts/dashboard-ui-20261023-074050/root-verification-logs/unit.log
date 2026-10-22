@@ -1,0 +1,22 @@
+   Compiling campfire-runtime v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-runtime)
+   Compiling campfire-arena v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-arena)
+   Compiling campfire-server v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-server)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.75s
+     Running unittests src/lib.rs (target/debug/deps/campfire_server-118adb2969aa2d4b)
+
+running 12 tests
+test dashboard::tests::failed_initial_refresh_cannot_initialize_the_cpu_baseline ... ok
+test dashboard::tests::drop_does_not_join_a_blocked_os_call ... ok
+test dashboard::tests::rate_counter_decrease_is_unknown_and_maxima_remain_lifetime_values ... ok
+test dashboard::tests::resource_warmup_failure_and_multicore_values_are_explicit ... ok
+test dashboard::tests::collector_warms_up_and_skips_missed_ticks_and_restarts_with_a_new_boot ... ok
+test dashboard::tests::room_keyset_cursor_is_bound_to_boot_and_filters_and_private_metadata_is_visible ... ok
+test dashboard::tests::frozen_cache_and_actor_resource_ages_become_stale_at_response_time ... ok
+test dashboard::tests::terminated_worker_before_first_publish_becomes_unavailable ... ok
+test dashboard::tests::history_bounds_count_and_monotonic_age_without_filling_skipped_intervals ... ok
+test dashboard::tests::history_restart_and_evicted_cursor_reset_without_synthetic_points ... ok
+test dashboard::tests::stalled_worker_after_a_successful_publish_becomes_stale ... ok
+test dashboard::tests::blocked_os_worker_does_not_stop_collection_and_shutdown_has_a_deadline ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 5.11s
+

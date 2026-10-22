@@ -1,0 +1,39 @@
+{
+  "timestamp_kst": "2026-10-23 07:42:17 KST",
+  "existing": [
+    {
+      "name": "node",
+      "artifact": "root-verification-logs/node.log",
+      "bytes": 163,
+      "sha256": "0f6b4f0582e12419256cb7d26973c1bdd29e5028d08026e26d2a2ba9701d09aa"
+    },
+    {
+      "name": "unit",
+      "artifact": "root-verification-logs/unit.log",
+      "bytes": 1713,
+      "sha256": "28a19c28c3d5d4edd2d1918e4ebe653b93b212ee6899da70fe45c4e58534cf75"
+    },
+    {
+      "name": "node-20261023",
+      "artifact": "root-verification-logs/node-20261023.log",
+      "bytes": 163,
+      "sha256": "0f6b4f0582e12419256cb7d26973c1bdd29e5028d08026e26d2a2ba9701d09aa",
+      "provenance": "Coordinator independently reran current Node14 on 2026-10-23, exit0."
+    }
+  ],
+  "missing": [
+    {
+      "name": "http",
+      "original_path": "/private/tmp/campfire-dashboard-ui-http.log"
+    },
+    {
+      "name": "build-account",
+      "original_path": "/private/tmp/campfire-dashboard-ui-build-account.log"
+    },
+    {
+      "name": "build-server",
+      "original_path": "/private/tmp/campfire-dashboard-ui-build-server.log"
+    }
+  ],
+  "note": "Existing node/unit raw logs are preserved. HTTP/build-account/build-server outcomes are only available from prior coordinator tool outputs; missing raw logs were not reconstructed."
+}

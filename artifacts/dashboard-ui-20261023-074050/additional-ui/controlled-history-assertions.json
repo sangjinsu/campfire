@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "scope": "Assertions on actual SVG DOM output saved from synthetic history fetch cases in a real browser; not elapsed 15-minute collection.",
+  "checks": {
+    "empty-no-measured-path": true,
+    "one-visible-point-no-implied-line": true,
+    "eleven-spans-readable-axis": true,
+    "fifteen-spans-readable-axis": true,
+    "null-breaks-cpu-line": true,
+    "cpu-zero-plotted-at-baseline": true,
+    "cpu-above-100-preserved": true,
+    "real-missing-interval-not-joined": true
+  }
+}

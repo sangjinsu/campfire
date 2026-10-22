@@ -1,0 +1,76 @@
+{
+  "boot_id": "8dcb6a8b9ddedf4c4f6162f18573708f",
+  "cache_age_ms": 226,
+  "collected_at": 1792708819398,
+  "data": {
+    "games": [
+      {
+        "connected_members": 102,
+        "game_id": "arena",
+        "private": 51,
+        "public": 51,
+        "reserved_members": 0,
+        "total": 102
+      },
+      {
+        "connected_members": 2,
+        "game_id": "arena-b",
+        "private": 1,
+        "public": 1,
+        "reserved_members": 0,
+        "total": 2
+      }
+    ],
+    "metrics": {
+      "abusive_frames": 0,
+      "abusive_inputs": 0,
+      "active_connections": 104,
+      "active_rooms": 104,
+      "active_sessions": 104,
+      "admission_rejections": 0,
+      "guests_issued": 104,
+      "inputs_processed": 18043,
+      "max_input_duration_micros": 480,
+      "max_input_latency_micros": 35031,
+      "max_input_queue_depth": 1,
+      "max_reliable_queue_depth": 1,
+      "max_tick_delay_micros": 4535,
+      "max_tick_duration_micros": 1035,
+      "rate_keys": 1,
+      "reliable_queue_disconnects": 0,
+      "room_panics": 0,
+      "shared_queue_overloads": 0,
+      "snapshots": 13598,
+      "ticks": 27248,
+      "unauthenticated_connections": 0,
+      "write_deadline_disconnects": 0
+    },
+    "process": {
+      "age_ms": 1188,
+      "collected_at": 1792708818436,
+      "cpu_percent": 68.72980499267578,
+      "pid": 72760,
+      "rss_bytes": 44646400,
+      "state": "ready"
+    },
+    "rates": {
+      "admission_rejections_per_second": 0.0,
+      "inputs_per_second": 2067.6666261426694,
+      "shared_queue_overloads_per_second": 0.0,
+      "snapshots_per_second": 1562.2592465676219,
+      "ticks_per_second": 3122.516879750788
+    },
+    "rooms": {
+      "connected_members": 104,
+      "private": 52,
+      "public": 52,
+      "reserved_members": 0,
+      "total": 104
+    },
+    "stopping": false,
+    "uptime_ms": 13000
+  },
+  "sample_seq": 14,
+  "schema_version": 1,
+  "state": "ready"
+}

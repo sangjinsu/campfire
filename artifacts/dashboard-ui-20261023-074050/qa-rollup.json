@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "timestamp_kst": "2026-10-23 07:44:09 KST",
+  "production": {
+    "url": "http://127.0.0.1:3000/admin",
+    "server_pid": 69169,
+    "manager_pid": 68561,
+    "browser_pid": 69199,
+    "rooms": 0,
+    "sample_seq": [
+      225,
+      230
+    ],
+    "kept_running": true,
+    "capture": "production-visible-zero-rooms-final.png",
+    "state_file": "/tmp/campfire-dashboard-visible-Qvhtk1/manager-state.json",
+    "key_state": "Detached manager RAM/server env/browser RAM only; no key-return verb exists"
+  },
+  "isolated_tests": {
+    "base_browser_groups": 14,
+    "additional_layout_and_history_checks": 20,
+    "controlled_svg_assertions": 8,
+    "fake_rooms": 104,
+    "fake_rooms_created_on_production": false,
+    "physical_os_input_claimed": false,
+    "scope": "Real loopback HTTP, production Godot fixture and gstack browser DOM controls/geometry; history boundaries and null/multicore values use explicit synthetic fetch fixtures."
+  },
+  "source_sha256": "c76f4a4b7b1e359ecaaf580c85d49ab0dec03a0009dfdae91243ec216648c5fe",
+  "source_files": 65,
+  "source_unchanged": true,
+  "binary_sha256": {
+    "server": "b1338640176776557099605aeaf7046fbd25979b9fea6ffc20551f6459ed34f7",
+    "account_server": "49573e8a53f3d0a08af1fe170ec701eee43ef66813d7f77930c109b24425a9ff",
+    "godot": "c7cccbf8fb143e34e02fd6521e09be2c2b974f0d5db080b19071c9c570718ccf"
+  },
+  "served_assets_match_source": true,
+  "secret_scans": {
+    "baseline_files": 27,
+    "additional_files": 21,
+    "production_files": 242,
+    "all_leaks": 0
+  },
+  "owned_test_process_cleanup_complete": true,
+  "unexpected_runtime_log_errors": 0,
+  "log_provenance": "Fresh 2026-10-23 Node14 raw log plus original implementation Node/unit logs copied. HTTP/build-account/build-server raw logs are absent and not reconstructed.",
+  "artifacts": {
+    "baseline": "summary.json",
+    "additional": "additional-ui/summary.json",
+    "svg_cases": "additional-ui/controlled-history-assertions.json",
+    "root_log_index": "root-verification-log-index.json"
+  }
+}

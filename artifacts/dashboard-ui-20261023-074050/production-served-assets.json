@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "op": "assets",
+  "result": {
+    "index.html": {
+      "served": "d0d129a76943aed7b26ce343f07aa38077c4045810c8515fb67cba8a8c2ba624",
+      "source": "d0d129a76943aed7b26ce343f07aa38077c4045810c8515fb67cba8a8c2ba624",
+      "same": true
+    },
+    "app.js": {
+      "served": "b4dd2e1f154a06f97e10678eaa890ef6352684c863b346df6c8022b212c1c22f",
+      "source": "b4dd2e1f154a06f97e10678eaa890ef6352684c863b346df6c8022b212c1c22f",
+      "same": true
+    },
+    "style.css": {
+      "served": "5949e144a64e94bd1d394cba98b162492905bb565dbac82995ab9ba50c19bdff",
+      "source": "5949e144a64e94bd1d394cba98b162492905bb565dbac82995ab9ba50c19bdff",
+      "same": true
+    }
+  },
+  "timestamp_kst": "2026-10-23 07:39:37 KST"
+}
