@@ -5,6 +5,7 @@
   const svgNS = 'http://www.w3.org/2000/svg';
   const numberFormat = new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 1 });
   const integerFormat = new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 0 });
+  const axisFormat = new Intl.NumberFormat('ko-KR', { notation: 'compact', maximumFractionDigits: 1 });
   const timeFormat = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
   let adminKey = '';
   let generation = 0;
@@ -78,6 +79,7 @@
     $('visibility-filter').value = 'all';
     $('room-query').value = '';
     $('room-rows').replaceChildren();
+    $('room-table-scroll').scrollTop = 0;
     $('runtime-metrics').replaceChildren();
     $('room-details').replaceChildren();
     if ($('room-drawer').open) $('room-drawer').close();
@@ -96,6 +98,7 @@
     text('room-empty', '룸 정보를 불러오는 중입니다.');
     $('room-empty').hidden = false;
     text('page-description', '첫 페이지');
+    text('filter-description', '모든 게임 · 전체 공개 설정');
     text('footer-status', '데이터 수집 대기 중');
     for (const id of ['first-page', 'previous-page', 'next-page']) $(id).disabled = true;
     notice('');
@@ -207,6 +210,7 @@
       }
       if (newBoot) {
         history = [];
+        $('room-table-scroll').scrollTop = 0;
         pageIndex = 0;
         pageCursors = [null];
         selectedRoom = null;
@@ -329,6 +333,9 @@
 
   function renderRooms(envelope) {
     const data = envelope.data;
+    const scroll = $('room-table-scroll');
+    const scrollTop = scroll.scrollTop;
+    const focusedRoom = lastRooms.find((room, index) => $('room-rows').children[index]?.children[0]?.children[1] === document.activeElement);
     lastRooms = data?.rooms || [];
     nextCursor = data?.next_cursor || null;
     text('room-count', data ? `${num(data.total_filtered, true)}개` : '—');
@@ -351,6 +358,12 @@
       return row;
     });
     $('room-rows').replaceChildren(...rows);
+    if (focusedRoom) {
+      const index = lastRooms.findIndex((room) => roomKey(room) === roomKey(focusedRoom));
+      if (index >= 0) rows[index].children[0].children[1].focus({ preventScroll: true });
+      else scroll.focus({ preventScroll: true });
+    }
+    scroll.scrollTop = scrollTop;
     $('room-empty').hidden = rows.length > 0;
     if (!rows.length) {
       let message = '현재 활성 룸이 없습니다. 게임에서 룸을 생성하면 여기에 표시됩니다.';
@@ -360,6 +373,9 @@
       text('room-empty', message);
     }
     text('page-description', `${pageIndex + 1}페이지 · ${num(rows.length, true)}개 표시`);
+    const filterLabels = [filters.game || '모든 게임', { all: '전체 공개 설정', public: '공개 룸', private: '비공개 룸' }[filters.visibility]];
+    if (filters.query) filterLabels.push(`룸 ID: ${filters.query}`);
+    text('filter-description', filterLabels.join(' · '));
     $('first-page').disabled = pageIndex === 0;
     $('previous-page').disabled = pageIndex === 0;
     $('next-page').disabled = !nextCursor;
@@ -396,28 +412,40 @@
     return element;
   }
 
+  function historyRange() {
+    const end = history[history.length - 1].collected_at;
+    const observed = Math.max(0, end - history[0].collected_at);
+    const span = Math.min(900000, Math.max(10000, observed));
+    const seconds = Math.floor(observed / 1000);
+    const duration = seconds < 60 ? `${num(seconds, true)}초` : `${Math.floor(seconds / 60)}분 ${seconds % 60}초`;
+    return { start: end - span, end, span, description: observed ? `관측 ${duration}` : '관측 시작' };
+  }
+
   function chart(name, series, unit) {
     const target = $(`chart-${name}`);
     target.replaceChildren();
+    target.setAttribute('aria-describedby', `chart-${name}-summary`);
     const valid = series.flatMap((line) => history.map((sample) => line.get(sample))).filter(finite);
     const summaryId = `chart-${name}-summary`;
     if (!history.length || !valid.length) {
       const unavailable = history.length && ['cpu', 'rss'].includes(name);
       text(summaryId, unavailable ? '자원 측정 표본 없음 · 수집 상태를 확인하세요.' : '이력 수집 대기 중');
+      target.setAttribute('aria-label', `${series.map((line) => line.label).join(', ')} · ${unavailable ? '측정값 없음' : '수집 대기'}`);
       target.append(svgElement('text', { x: 240, y: 75, 'text-anchor': 'middle', class: 'chart-label' }, unavailable ? '측정값 없음' : '수집 대기'));
       return;
     }
-    const end = history[history.length - 1].collected_at;
-    const start = end - 900000;
+    const { start, end, span, description } = historyRange();
+    target.setAttribute('aria-label', `${series.map((line) => line.label).join(', ')} · ${history.length}개 표본 · ${description} · ${timeFormat.format(start)}부터 ${timeFormat.format(end)}까지`);
     const max = Math.max(1, ...valid) * 1.1;
-    const x = (timestamp) => 35 + (timestamp - start) / 900000 * 432;
+    const x = (timestamp) => 58 + (timestamp - start) / span * 408;
     const y = (value) => 105 - value / max * 90;
     for (const value of [0, max / 2, max]) {
-      target.append(svgElement('line', { x1: 35, y1: y(value), x2: 467, y2: y(value), class: 'chart-gridline' }));
-      target.append(svgElement('text', { x: 29, y: y(value) + 4, 'text-anchor': 'end', class: 'chart-label' }, num(value)));
+      target.append(svgElement('line', { x1: 58, y1: y(value), x2: 466, y2: y(value), class: 'chart-gridline' }));
+      target.append(svgElement('text', { x: 49, y: y(value) + 4, 'text-anchor': 'end', class: 'chart-label' }, axisFormat.format(value)));
     }
-    target.append(svgElement('text', { x: 35, y: 133, class: 'chart-label' }, '15분 전'));
-    target.append(svgElement('text', { x: 467, y: 133, 'text-anchor': 'end', class: 'chart-label' }, '최신 표본'));
+    for (const [timestamp, anchor] of [[start, 'start'], [start + span / 2, 'middle'], [end, 'end']]) {
+      target.append(svgElement('text', { x: x(timestamp), y: 133, 'text-anchor': anchor, class: 'chart-label chart-time' }, timeFormat.format(timestamp)));
+    }
     series.forEach((line, index) => {
       let path = '';
       let previous = null;
@@ -452,12 +480,13 @@
     text('chart-connections-value', last ? `${num(last.metrics?.active_connections, true)}개` : '—');
     text('chart-cpu-value', last ? `${num(last.process?.cpu_percent)}%` : '—');
     text('chart-rss-value', last ? `${num(finite(last.process?.rss_bytes) ? last.process.rss_bytes / 1048576 : null)} MiB` : '—');
-    text('history-description', history.length ? `${num(history.length, true)}개 표본 · 빈 구간은 연결하지 않습니다.` : '첫 이력 표본을 수집하는 중입니다.');
+    text('history-description', history.length ? `${num(history.length, true)}개 표본 · ${historyRange().description} · 빈 구간은 연결하지 않습니다.` : '첫 이력 표본을 수집하는 중입니다.');
   }
 
   function changePage(index, cursor) {
     if (cursor !== undefined) pageCursors[index] = cursor;
     pageIndex = index;
+    $('room-table-scroll').scrollTop = 0;
     invalidate();
     refresh();
   }
