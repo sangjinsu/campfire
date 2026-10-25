@@ -1138,49 +1138,88 @@ async fn room_cap_refunds_rejected_and_disconnected_creation() {
     first.enter(None).await;
 }
 
-async fn guest_request(server: &Server) -> reqwest::Response {
-    reqwest::Client::new()
+async fn guest_request(server: &Server, client: &reqwest::Client) -> (reqwest::StatusCode, Value) {
+    let response = client
         .post(format!("http://{}/v1/games/a/guests", server.address))
         .send()
         .await
-        .unwrap()
+        .unwrap();
+    let status = response.status();
+    // Consume the body so the shared client can reuse its connection.
+    (status, response.json().await.unwrap())
 }
 
-#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+#[tokio::test(start_paused = true)]
 async fn issuer_and_global_guest_rate_limits_recover() {
-    let issuer = Server::exact(Config {
-        guest_burst: 2,
-        guest_rate_per_second: 10,
-        global_guest_burst: 100,
-        ..Config::default()
-    })
-    .await;
-    assert!(guest_request(&issuer).await.status().is_success());
-    assert!(guest_request(&issuer).await.status().is_success());
-    let limited = guest_request(&issuer).await;
-    assert_eq!(limited.status(), reqwest::StatusCode::TOO_MANY_REQUESTS);
-    assert_eq!(
-        limited.json::<Value>().await.unwrap()["code"],
-        "RATE_LIMITED"
-    );
-    sleep(Duration::from_millis(120)).await;
-    assert!(guest_request(&issuer).await.status().is_success());
-    let global = Server::exact(Config {
-        guest_burst: 100,
-        global_guest_burst: 2,
-        global_guest_rate_per_second: 10,
-        ..Config::default()
-    })
-    .await;
-    assert!(guest_request(&global).await.status().is_success());
-    assert!(guest_request(&global).await.status().is_success());
-    let limited = guest_request(&global).await;
-    assert_eq!(limited.status(), reqwest::StatusCode::TOO_MANY_REQUESTS);
-    let error = limited.json::<Value>().await.unwrap();
-    assert_eq!(error["code"], "RATE_LIMITED");
-    assert!(error["message"].as_str().unwrap().contains("global"));
-    sleep(Duration::from_millis(120)).await;
-    assert!(guest_request(&global).await.status().is_success());
+    // A live blocking task inhibits Tokio's automatic clock advance during HTTP I/O.
+    // Dropping the sender also releases the task if an assertion panics.
+    let (hold_clock, release_clock) = std::sync::mpsc::channel::<()>();
+    let clock_guard = tokio::task::spawn_blocking(move || {
+        let _ = release_clock.recv();
+    });
+    let client = reqwest::Client::new();
+    for (config, scope) in [
+        (
+            Config {
+                guest_burst: 2,
+                guest_rate_per_second: 10,
+                global_guest_burst: 100,
+                ..Config::default()
+            },
+            "source",
+        ),
+        (
+            Config {
+                guest_burst: 100,
+                global_guest_burst: 2,
+                global_guest_rate_per_second: 10,
+                ..Config::default()
+            },
+            "global",
+        ),
+    ] {
+        let server = Server::exact(config).await;
+        let started = tokio::time::Instant::now();
+        for _ in 0..2 {
+            assert_eq!(
+                guest_request(&server, &client).await.0,
+                reqwest::StatusCode::CREATED,
+                "{scope}: initial burst"
+            );
+        }
+
+        // Reproduce a slow CI request gap exceeding the 100 ms refill period.
+        // Wall-clock I/O latency must not refill the controlled rate-limit clock.
+        tokio::task::spawn_blocking(|| std::thread::sleep(Duration::from_millis(120)))
+            .await
+            .unwrap();
+        assert_eq!(started.elapsed(), Duration::ZERO);
+        let (status, error) = guest_request(&server, &client).await;
+        assert_eq!(status, reqwest::StatusCode::TOO_MANY_REQUESTS, "{scope}");
+        assert_eq!(error["code"], "RATE_LIMITED");
+        assert!(error["message"].as_str().unwrap().contains(scope));
+
+        tokio::time::advance(Duration::from_millis(99)).await;
+        assert_eq!(
+            guest_request(&server, &client).await.0,
+            reqwest::StatusCode::TOO_MANY_REQUESTS,
+            "{scope}: a partial token must not admit a request"
+        );
+        tokio::time::advance(Duration::from_millis(1)).await;
+        assert_eq!(
+            guest_request(&server, &client).await.0,
+            reqwest::StatusCode::CREATED,
+            "{scope}: one token must recover at 100 ms"
+        );
+        assert_eq!(
+            guest_request(&server, &client).await.0,
+            reqwest::StatusCode::TOO_MANY_REQUESTS,
+            "{scope}: recovery must grant exactly one token"
+        );
+        assert_eq!(started.elapsed(), Duration::from_millis(100));
+    }
+    drop(hold_clock);
+    clock_guard.await.unwrap();
 }
 
 async fn guest_with_trusted_source(server: &Server, octet: u8) -> reqwest::Response {
