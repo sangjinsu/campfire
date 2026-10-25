@@ -1,0 +1,13 @@
+{
+  "campfire-rate-clippy.log": "086d313dd3c16de9235218541968287221187106da729883f32aa484fc1a1749",
+  "campfire-rate-fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "campfire-rate-green.log": "508825ffa6d0c3247b19671da3dbce1c4e86000e4952988722fd3210602c6ced",
+  "campfire-rate-headless.log": "cb7b7dbd0616c486d8c0ac68306ff53801bf7060bf20bdb7038b1015cf73a51a",
+  "campfire-rate-red.log": "f019b43a247a48192b6b29fca1111b0c46f9b2ea45a68cf3dc5530aa0a53be23",
+  "ci-rate-test-fix-report.md": "a7d0a9a65e2b203d5bfa0a182d1f269e00569735552e597bc4cef3df890cea45",
+  "final-build-verification.json": "d733eeb1600fd201ab595cb2e080b3099b3bd6699aa068dcd37ea5a8fba52a3c",
+  "root-ci-fix-build.log": "3c978146bf00ef4f1a28d8d2ddb57aa5c1f7d31219987904aabe64ce3f5f415e",
+  "root-ci-fix-workspace-tests.log": "94fb12fda0b659c29fa800a527928404dc062743fa2ea06010ef6db194aba2cb",
+  "source-equivalence-84af2ab.json": "0f1e5ab2ff2f9a20a23b96399f765f81993fc2dc66bdb0fdaaf31d57ad069024",
+  "verification.json": "067dfe6c3319d85178f7d7f5b4b18bed763113c35ebd5d5d73c5ce9edbc948ec"
+}

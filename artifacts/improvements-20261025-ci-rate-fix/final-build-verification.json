@@ -1,0 +1,7 @@
+{
+  "build_command": "cargo build --workspace --bins --examples --locked --offline",
+  "exit_code": 0,
+  "server_sha256": "780bafe9477df946ab9328ac1f6be24511554c7840f930ca6a29553ddafd0319",
+  "matches_previously_live_tested_binary": false,
+  "note": "A later workspace test/build produced a different server binary SHA. The cause of the cross-build byte difference was not established. The earlier live suite remains bound to its recorded binary, source manifest and Git commit; no claim is made that this later binary was used in that suite. The original running server binary is unchanged."
+}

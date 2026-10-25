@@ -1,0 +1,115 @@
+........{
+  "status": "failed",
+  "version": "0.1.0",
+  "msrv": "pending",
+  "target_dir": "/tmp/campfire-package-smoke-5ikd058n/target",
+  "target_source": "temporary",
+  "archive_mode": "runtime verified; arena/server archive without lockfile, then compiled from extracted archive",
+  "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+  "checkout_consumer": "pending",
+  "archive_consumer": "pending",
+  "server_archive_check": "pending",
+  "archives": {},
+  "metadata": {},
+  "consumer_lockfiles": {},
+  "repository_lockfile": {
+    "before_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "after_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "unchanged": true
+  },
+  "lockfile_exclusion_reason": "unpublished internal crate versions are absent from crates.io; root Cargo.lock stays unchanged",
+  "verification_limits": [
+    "arena/server archives omit Cargo.lock; reproducible packaged resolution and cargo install --locked are unverified",
+    "crates.io publication and public registry download are unverified"
+  ],
+  "registry_publish": "not attempted",
+  "error": "dry run"
+}
+{
+  "status": "passed",
+  "version": "0.1.0",
+  "msrv": "verified 1.96 in all normalized package manifests",
+  "target_dir": "/tmp/tmpnphncg0s/target",
+  "target_source": "argument",
+  "archive_mode": "runtime verified; arena/server archive without lockfile, then compiled from extracted archive",
+  "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+  "checkout_consumer": "passed",
+  "archive_consumer": "passed",
+  "server_archive_check": "passed",
+  "archives": {
+    "campfire-runtime": {
+      "sha256": "67c72aad2a1f35650a4a91788121d3558f0ed76ec5ef8639c23ad0d18fc5de9e",
+      "files": 3,
+      "lockfile_included": true
+    },
+    "campfire-arena": {
+      "sha256": "823219faa15ee4cb7a1d6f9b037ca1dde25b95ee0bc7c4edea5810025716ebc9",
+      "files": 2,
+      "lockfile_included": false
+    },
+    "campfire-server": {
+      "sha256": "1e9658b9920a6dbed9f2faa01efc896794e237e0bb105866ef1ed8d936230eca",
+      "files": 2,
+      "lockfile_included": false
+    }
+  },
+  "metadata": {
+    "campfire-runtime": {
+      "name": "campfire-runtime",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Package test"
+    },
+    "campfire-arena": {
+      "name": "campfire-arena",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Package test"
+    },
+    "campfire-server": {
+      "name": "campfire-server",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Package test"
+    }
+  },
+  "consumer_lockfiles": {
+    "checkout": {
+      "file": "lockfiles/checkout.Cargo.lock",
+      "sha256": "9e254674fc385c9d5bb286300cddda4829dcd462aa391fa05709dde31e417750"
+    },
+    "archive": {
+      "file": "lockfiles/archive.Cargo.lock",
+      "sha256": "9e254674fc385c9d5bb286300cddda4829dcd462aa391fa05709dde31e417750"
+    },
+    "server_archive": {
+      "file": "lockfiles/server-archive.Cargo.lock",
+      "sha256": "9e254674fc385c9d5bb286300cddda4829dcd462aa391fa05709dde31e417750"
+    }
+  },
+  "repository_lockfile": {
+    "before_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "after_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "unchanged": true
+  },
+  "lockfile_exclusion_reason": "unpublished internal crate versions are absent from crates.io; root Cargo.lock stays unchanged",
+  "verification_limits": [
+    "arena/server archives omit Cargo.lock; reproducible packaged resolution and cargo install --locked are unverified",
+    "crates.io publication and public registry download are unverified"
+  ],
+  "registry_publish": "not attempted"
+}
+{"success": false, "failure": "browse stop unconfirmed (RuntimeError)", "artifact": "/tmp/tmpz4em1xwb/result"}
+..{"success": false, "failure": "browse stop unconfirmed (TimeoutExpired)", "artifact": "/tmp/tmpknnk11sy/result"}
+....{"success": true, "failure": null, "artifact": "/tmp/tmp84djx067/result"}
+...
+----------------------------------------------------------------------
+Ran 17 tests in 0.085s
+
+OK

@@ -1,0 +1,35 @@
+cwd: /home/runner/work/campfire/campfire
+command: cargo package -p campfire-runtime --allow-dirty --locked --offline
+
+[1m[92m   Packaging[0m campfire-runtime v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-runtime)
+[1m[92m    Packaged[0m 20 files, 338.7KiB (63.4KiB compressed)
+[1m[92m   Verifying[0m campfire-runtime v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-runtime)
+[1m[92m   Compiling[0m syn v3.0.9
+[1m[92m   Compiling[0m log v0.4.34
+[1m[92m   Compiling[0m syn v2.0.119
+[1m[92m   Compiling[0m tracing-core v0.1.36
+[1m[92m   Compiling[0m slab v0.4.12
+[1m[92m   Compiling[0m futures-sink v0.3.34
+[1m[92m   Compiling[0m sync_wrapper v1.0.2
+[1m[92m   Compiling[0m tokio-macros v2.7.2
+[1m[92m   Compiling[0m thiserror-impl v2.0.21
+[1m[92m   Compiling[0m futures-macro v0.3.34
+[1m[92m   Compiling[0m tokio v1.53.3
+[1m[92m   Compiling[0m futures-util v0.3.34
+[1m[92m   Compiling[0m thiserror v2.0.21
+[1m[92m   Compiling[0m serde_derive v1.0.229
+[1m[92m   Compiling[0m tracing-attributes v0.1.31
+[1m[92m   Compiling[0m tungstenite v0.29.0
+[1m[92m   Compiling[0m tracing v0.1.44
+[1m[92m   Compiling[0m axum-core v0.5.6
+[1m[92m   Compiling[0m serde v1.0.229
+[1m[92m   Compiling[0m hyper v1.12.0
+[1m[92m   Compiling[0m serde_urlencoded v0.7.1
+[1m[92m   Compiling[0m tower v0.5.3
+[1m[92m   Compiling[0m tokio-tungstenite v0.29.0
+[1m[92m   Compiling[0m hyper-util v0.1.21
+[1m[92m   Compiling[0m axum v0.8.9
+[1m[92m   Compiling[0m campfire-runtime v0.1.0 (/tmp/campfire-improvements-20261025-target/package/campfire-runtime-0.1.0)
+[1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 13.38s
+
+exit_code: 0

@@ -1,6 +1,6 @@
 # Campfire 검증 결과
 
-2026-10-25 `codex/project-improvements` 개선은 로컬 Rust 145개, Node 23개 시나리오, 최종 Python 17개 테스트, 별도 Godot·browser 통합 실행과 package smoke를 통과했다. GitHub CI는 아직 실행되지 않았다. 명령·해시·범위와 미검증 사항은 [별도 검증 기록](project-improvements-2026-10-25.md)에 있다. 아래는 이전 런타임 검증 기록이며 두 실행의 소스 식별자와 측정치를 합산하지 않는다.
+2026-10-25 `codex/project-improvements` 개선은 로컬 Rust 145개, Node 23개 시나리오, 최종 Python 17개 테스트, 별도 Godot·browser 통합 실행과 package smoke를 통과했다. GitHub [runtime validation 성공](https://github.com/sangjinsu/campfire/actions/runs/40158222582) 뒤, 첫 [quick CI는 테스트 한 건에서 실패](https://github.com/sangjinsu/campfire/actions/runs/40158205928)했고 테스트 수정 후 [새 quick CI가 성공](https://github.com/sangjinsu/campfire/actions/runs/40159325035)했다. Runtime 성공과 새 quick 성공은 서로 다른 commit에서 얻은 증거다. run별 명령·해시·범위와 미검증 사항은 [별도 검증 기록](project-improvements-2026-10-25.md)에 있다. 아래는 이전 런타임 검증 기록이며 두 실행의 소스 식별자와 측정치를 합산하지 않는다.
 
 검증 환경: macOS/Darwin arm64, Rust 1.96.1, TCP loopback, 실제 monotonic clock. 소스 식별은 unborn Git 저장소의 HEAD 대신 Cargo.toml/Cargo.lock 및 crates의 Rust/manifest 파일을 정렬해 path+NUL+content SHA256으로 계산한다. 단위 테스트의 manual clock과 실제 TCP 시간 측정은 구분한다.
 

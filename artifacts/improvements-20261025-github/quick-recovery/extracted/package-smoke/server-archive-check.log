@@ -1,0 +1,27 @@
+cwd: /tmp/campfire-package-smoke-91gd3kxz/extracted/campfire-server-0.1.0
+command: cargo check --manifest-path /tmp/campfire-package-smoke-91gd3kxz/extracted/campfire-server-0.1.0/Cargo.toml --locked --offline
+
+[1m[92m    Checking[0m tokio v1.53.3
+[1m[92m    Checking[0m serde v1.0.229
+[1m[92m    Checking[0m tracing v0.1.44
+[1m[92m    Checking[0m futures-sink v0.3.34
+[1m[92m    Checking[0m slab v0.4.12
+[1m[92m    Checking[0m futures-util v0.3.34
+[1m[92m    Checking[0m thiserror v2.0.21
+[1m[92m    Checking[0m sync_wrapper v1.0.2
+[1m[92m    Checking[0m tungstenite v0.29.0
+[1m[92m    Checking[0m axum-core v0.5.6
+[1m[92m    Checking[0m serde_urlencoded v0.7.1
+[1m[92m    Checking[0m tracing-serde v0.2.0
+[1m[92m    Checking[0m tracing-subscriber v0.3.23
+[1m[92m    Checking[0m hyper v1.12.0
+[1m[92m    Checking[0m tokio-tungstenite v0.29.0
+[1m[92m    Checking[0m tower v0.5.3
+[1m[92m    Checking[0m hyper-util v0.1.21
+[1m[92m    Checking[0m axum v0.8.9
+[1m[92m    Checking[0m campfire-runtime v0.1.0 (/tmp/campfire-package-smoke-91gd3kxz/extracted/campfire-runtime-0.1.0)
+[1m[92m    Checking[0m campfire-arena v0.1.0 (/tmp/campfire-package-smoke-91gd3kxz/extracted/campfire-arena-0.1.0)
+[1m[92m    Checking[0m campfire-server v0.1.0 (/tmp/campfire-package-smoke-91gd3kxz/extracted/campfire-server-0.1.0)
+[1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 6.63s
+
+exit_code: 0

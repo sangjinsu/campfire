@@ -1,0 +1,108 @@
+{
+  "boot_id": "6e47e5b3f4c6f0c72e76759b127a3255",
+  "cache_age_ms": 77,
+  "collected_at": 1792899052824,
+  "data": {
+    "games": [
+      {
+        "connected_members": 102,
+        "game_id": "arena",
+        "private": 51,
+        "public": 51,
+        "reserved_members": 0,
+        "total": 102
+      },
+      {
+        "connected_members": 2,
+        "game_id": "arena-b",
+        "private": 1,
+        "public": 1,
+        "reserved_members": 0,
+        "total": 2
+      }
+    ],
+    "metrics": {
+      "abusive_frames": 0,
+      "abusive_inputs": 0,
+      "active_connections": 104,
+      "active_rooms": 104,
+      "active_sessions": 104,
+      "admission_rejections": 0,
+      "command_replays": 0,
+      "commands_failed": 0,
+      "commands_processed": 0,
+      "guests_issued": 104,
+      "inputs_processed": 49961,
+      "max_command_duration_micros": 0,
+      "max_input_duration_micros": 6602,
+      "max_input_latency_micros": 50264,
+      "max_input_queue_depth": 1,
+      "max_reliable_queue_depth": 1,
+      "max_tick_delay_micros": 27008,
+      "max_tick_duration_micros": 12629,
+      "rate_keys": 1,
+      "recent": {
+        "command_duration": {
+          "p95_micros": null,
+          "p99_micros": null,
+          "sample_count": 0
+        },
+        "input_duration": {
+          "p95_micros": 13,
+          "p99_micros": 37,
+          "sample_count": 512
+        },
+        "input_latency": {
+          "p95_micros": 34393,
+          "p99_micros": 38599,
+          "sample_count": 512
+        },
+        "tick_delay": {
+          "p95_micros": 10467,
+          "p99_micros": 17126,
+          "sample_count": 512
+        },
+        "tick_duration": {
+          "p95_micros": 130,
+          "p99_micros": 1723,
+          "sample_count": 512
+        },
+        "window_ms": 60000
+      },
+      "reliable_queue_disconnects": 0,
+      "room_panics": 0,
+      "shared_queue_overloads": 0,
+      "snapshots": 49968,
+      "ticks": 99991,
+      "unauthenticated_connections": 0,
+      "write_deadline_disconnects": 0
+    },
+    "process": {
+      "age_ms": 1066,
+      "collected_at": 1792899051835,
+      "cpu_percent": 113.7055892944336,
+      "pid": 8651,
+      "rss_bytes": 45903872,
+      "state": "ready"
+    },
+    "rates": {
+      "admission_rejections_per_second": 0.0,
+      "inputs_per_second": 1587.8314525381566,
+      "shared_queue_overloads_per_second": 0.0,
+      "snapshots_per_second": 1553.8778239933154,
+      "ticks_per_second": 3110.7515563876464
+    },
+    "rooms": {
+      "connected_members": 104,
+      "private": 52,
+      "public": 52,
+      "reserved_members": 0,
+      "total": 104
+    },
+    "stopping": false,
+    "uptime_ms": 63004
+  },
+  "sample_seq": 64,
+  "schema_version": 1,
+  "state": "ready"
+}

@@ -1,0 +1,1274 @@
+fast	Set up job	﻿2026-10-25T03:44:34.0590730Z Current runner version: '2.338.0'
+fast	Set up job	2026-10-25T03:44:34.0627639Z ##[group]Runner Image Provisioner
+fast	Set up job	2026-10-25T03:44:34.0629948Z Hosted Compute Agent
+fast	Set up job	2026-10-25T03:44:34.0631407Z Version: 20261021.618
+fast	Set up job	2026-10-25T03:44:34.0632680Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+fast	Set up job	2026-10-25T03:44:34.0634038Z Build Date: 2026-10-21T00:45:21Z
+fast	Set up job	2026-10-25T03:44:34.0635292Z Worker ID: {3f0b3f90-334b-44ea-ad24-483dcc7bba64}
+fast	Set up job	2026-10-25T03:44:34.0636700Z Region: eastus2
+fast	Set up job	2026-10-25T03:44:34.0637756Z Cloud: Azure
+fast	Set up job	2026-10-25T03:44:34.0638747Z ##[endgroup]
+fast	Set up job	2026-10-25T03:44:34.0641504Z ##[group]Operating System
+fast	Set up job	2026-10-25T03:44:34.0642687Z Ubuntu
+fast	Set up job	2026-10-25T03:44:34.0643809Z 24.04.5
+fast	Set up job	2026-10-25T03:44:34.0644738Z LTS
+fast	Set up job	2026-10-25T03:44:34.0645678Z ##[endgroup]
+fast	Set up job	2026-10-25T03:44:34.0646726Z ##[group]Runner Image
+fast	Set up job	2026-10-25T03:44:34.0647771Z Image: ubuntu-24.04
+fast	Set up job	2026-10-25T03:44:34.0648828Z Version: 20261012.334.1
+fast	Set up job	2026-10-25T03:44:34.0650731Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+fast	Set up job	2026-10-25T03:44:34.0654227Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+fast	Set up job	2026-10-25T03:44:34.0656059Z ##[endgroup]
+fast	Set up job	2026-10-25T03:44:34.0658373Z ##[group]GITHUB_TOKEN Permissions
+fast	Set up job	2026-10-25T03:44:34.0661546Z Contents: read
+fast	Set up job	2026-10-25T03:44:34.0662632Z Metadata: read
+fast	Set up job	2026-10-25T03:44:34.0663614Z ##[endgroup]
+fast	Set up job	2026-10-25T03:44:34.0666968Z Secret source: Actions
+fast	Set up job	2026-10-25T03:44:34.0668576Z Cache mode: write
+fast	Set up job	2026-10-25T03:44:34.0669828Z Prepare workflow directory
+fast	Set up job	2026-10-25T03:44:34.1240473Z Prepare all required actions
+fast	Set up job	2026-10-25T03:44:34.1312865Z Getting action download info
+fast	Set up job	2026-10-25T03:44:34.3309416Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+fast	Set up job	2026-10-25T03:44:34.4277547Z Download action repository 'actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+fast	Set up job	2026-10-25T03:44:34.6539946Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+fast	Set up job	2026-10-25T03:44:34.9812286Z Complete job name: fast
+fast	Checkout	﻿2026-10-25T03:44:35.0855056Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+fast	Checkout	2026-10-25T03:44:35.0857684Z with:
+fast	Checkout	2026-10-25T03:44:35.0858676Z   persist-credentials: false
+fast	Checkout	2026-10-25T03:44:35.0859894Z   repository: sangjinsu/campfire
+fast	Checkout	2026-10-25T03:44:35.0874306Z   token: ***
+fast	Checkout	2026-10-25T03:44:35.0875279Z   ssh-strict: true
+fast	Checkout	2026-10-25T03:44:35.0876212Z   ssh-user: git
+fast	Checkout	2026-10-25T03:44:35.0877111Z   clean: true
+fast	Checkout	2026-10-25T03:44:35.0878081Z   sparse-checkout-cone-mode: true
+fast	Checkout	2026-10-25T03:44:35.0879350Z   fetch-depth: 1
+fast	Checkout	2026-10-25T03:44:35.0880344Z   fetch-tags: false
+fast	Checkout	2026-10-25T03:44:35.0881676Z   show-progress: true
+fast	Checkout	2026-10-25T03:44:35.0882679Z   lfs: false
+fast	Checkout	2026-10-25T03:44:35.0883561Z   submodules: false
+fast	Checkout	2026-10-25T03:44:35.0884587Z   set-safe-directory: true
+fast	Checkout	2026-10-25T03:44:35.0885808Z   allow-unsafe-pr-checkout: false
+fast	Checkout	2026-10-25T03:44:35.0887510Z env:
+fast	Checkout	2026-10-25T03:44:35.0888805Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Checkout	2026-10-25T03:44:35.0890598Z   CARGO_BUILD_JOBS: 4
+fast	Checkout	2026-10-25T03:44:35.0891990Z   CARGO_TERM_COLOR: always
+fast	Checkout	2026-10-25T03:44:35.0893047Z ##[endgroup]
+fast	Checkout	2026-10-25T03:44:35.2058160Z Syncing repository: sangjinsu/campfire
+fast	Checkout	2026-10-25T03:44:35.2060786Z ##[group]Getting Git version info
+fast	Checkout	2026-10-25T03:44:35.2062314Z Working directory is '/home/runner/work/campfire/campfire'
+fast	Checkout	2026-10-25T03:44:35.2064070Z [command]/usr/bin/git version
+fast	Checkout	2026-10-25T03:44:35.2146182Z git version 2.55.0
+fast	Checkout	2026-10-25T03:44:35.2171414Z ##[endgroup]
+fast	Checkout	2026-10-25T03:44:35.2183080Z Temporarily overriding HOME='/home/runner/work/_temp/dcc2e804-65a1-4f32-a023-2b7015ba33e3' before making global git config changes
+fast	Checkout	2026-10-25T03:44:35.2188232Z Adding repository directory to the temporary git global config as a safe directory
+fast	Checkout	2026-10-25T03:44:35.2194314Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/campfire/campfire
+fast	Checkout	2026-10-25T03:44:35.2269040Z Deleting the contents of '/home/runner/work/campfire/campfire'
+fast	Checkout	2026-10-25T03:44:35.2273299Z ##[group]Determining repository object format
+fast	Checkout	2026-10-25T03:44:35.2275974Z ##[endgroup]
+fast	Checkout	2026-10-25T03:44:35.2278156Z ##[group]Initializing the repository
+fast	Checkout	2026-10-25T03:44:35.2280653Z [command]/usr/bin/git init /home/runner/work/campfire/campfire
+fast	Checkout	2026-10-25T03:44:35.2411703Z hint: Using 'master' as the name for the initial branch. This default branch name
+fast	Checkout	2026-10-25T03:44:35.2414367Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+fast	Checkout	2026-10-25T03:44:35.2416045Z hint: to use in all of your new repositories, which will suppress this warning,
+fast	Checkout	2026-10-25T03:44:35.2417356Z hint: call:
+fast	Checkout	2026-10-25T03:44:35.2417931Z hint:
+fast	Checkout	2026-10-25T03:44:35.2418756Z hint: 	git config --global init.defaultBranch <name>
+fast	Checkout	2026-10-25T03:44:35.2419814Z hint:
+fast	Checkout	2026-10-25T03:44:35.2420693Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+fast	Checkout	2026-10-25T03:44:35.2423614Z hint: 'development'. The just-created branch can be renamed via this command:
+fast	Checkout	2026-10-25T03:44:35.2425760Z hint:
+fast	Checkout	2026-10-25T03:44:35.2426848Z hint: 	git branch -m <name>
+fast	Checkout	2026-10-25T03:44:35.2428313Z hint:
+fast	Checkout	2026-10-25T03:44:35.2430196Z hint: Disable this message with "git config set advice.defaultBranchName false"
+fast	Checkout	2026-10-25T03:44:35.2433628Z Initialized empty Git repository in /home/runner/work/campfire/campfire/.git/
+fast	Checkout	2026-10-25T03:44:35.2442019Z [command]/usr/bin/git remote add origin https://github.com/sangjinsu/campfire
+fast	Checkout	2026-10-25T03:44:35.2498073Z ##[endgroup]
+fast	Checkout	2026-10-25T03:44:35.2499323Z ##[group]Disabling automatic garbage collection
+fast	Checkout	2026-10-25T03:44:35.2501880Z [command]/usr/bin/git config --local gc.auto 0
+fast	Checkout	2026-10-25T03:44:35.2538941Z ##[endgroup]
+fast	Checkout	2026-10-25T03:44:35.2540117Z ##[group]Setting up auth
+fast	Checkout	2026-10-25T03:44:35.2540892Z Removing SSH command configuration
+fast	Checkout	2026-10-25T03:44:35.2544863Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+fast	Checkout	2026-10-25T03:44:35.2584735Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+fast	Checkout	2026-10-25T03:44:35.2979424Z Removing HTTP extra header
+fast	Checkout	2026-10-25T03:44:35.2985756Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+fast	Checkout	2026-10-25T03:44:35.3027016Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+fast	Checkout	2026-10-25T03:44:35.3316382Z Removing includeIf entries pointing to credentials config files
+fast	Checkout	2026-10-25T03:44:35.3334825Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+fast	Checkout	2026-10-25T03:44:35.3368222Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+fast	Checkout	2026-10-25T03:44:35.3621923Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+fast	Checkout	2026-10-25T03:44:35.3666093Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/campfire/campfire/.git.path /home/runner/work/_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config
+fast	Checkout	2026-10-25T03:44:35.3701987Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/campfire/campfire/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config
+fast	Checkout	2026-10-25T03:44:35.3741584Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config
+fast	Checkout	2026-10-25T03:44:35.3779573Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config
+fast	Checkout	2026-10-25T03:44:35.3814759Z ##[endgroup]
+fast	Checkout	2026-10-25T03:44:35.3816505Z ##[group]Fetching the repository
+fast	Checkout	2026-10-25T03:44:35.3822136Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +84af2abec020a722ac660fac479717dca17ff51f:refs/remotes/origin/main
+fast	Checkout	2026-10-25T03:44:36.2653910Z From https://github.com/sangjinsu/campfire
+fast	Checkout	2026-10-25T03:44:36.2656637Z  * [new ref]         84af2abec020a722ac660fac479717dca17ff51f -> origin/main
+fast	Checkout	2026-10-25T03:44:36.2664398Z [command]/usr/bin/git branch --list --remote origin/main
+fast	Checkout	2026-10-25T03:44:36.2694348Z   origin/main
+fast	Checkout	2026-10-25T03:44:36.2701867Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+fast	Checkout	2026-10-25T03:44:36.2729135Z 84af2abec020a722ac660fac479717dca17ff51f
+fast	Checkout	2026-10-25T03:44:36.2734653Z ##[endgroup]
+fast	Checkout	2026-10-25T03:44:36.2736126Z ##[group]Determining the checkout info
+fast	Checkout	2026-10-25T03:44:36.2738388Z ##[endgroup]
+fast	Checkout	2026-10-25T03:44:36.2739761Z [command]/usr/bin/git sparse-checkout disable
+fast	Checkout	2026-10-25T03:44:36.2794525Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+fast	Checkout	2026-10-25T03:44:36.2829691Z ##[group]Checking out the ref
+fast	Checkout	2026-10-25T03:44:36.2833395Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+fast	Checkout	2026-10-25T03:44:36.3982815Z Switched to a new branch 'main'
+fast	Checkout	2026-10-25T03:44:36.3989110Z branch 'main' set up to track 'origin/main'.
+fast	Checkout	2026-10-25T03:44:36.4043184Z ##[endgroup]
+fast	Checkout	2026-10-25T03:44:36.4046507Z [command]/usr/bin/git log -1 --format=%H
+fast	Checkout	2026-10-25T03:44:36.4075991Z 84af2abec020a722ac660fac479717dca17ff51f
+fast	Checkout	2026-10-25T03:44:36.4086058Z ##[group]Removing auth
+fast	Checkout	2026-10-25T03:44:36.4087661Z Removing SSH command configuration
+fast	Checkout	2026-10-25T03:44:36.4089814Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+fast	Checkout	2026-10-25T03:44:36.4183550Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+fast	Checkout	2026-10-25T03:44:36.4362466Z Removing HTTP extra header
+fast	Checkout	2026-10-25T03:44:36.4365327Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+fast	Checkout	2026-10-25T03:44:36.4400610Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+fast	Checkout	2026-10-25T03:44:36.4625028Z Removing includeIf entries pointing to credentials config files
+fast	Checkout	2026-10-25T03:44:36.4638840Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+fast	Checkout	2026-10-25T03:44:36.4670165Z includeif.gitdir:/home/runner/work/campfire/campfire/.git.path
+fast	Checkout	2026-10-25T03:44:36.4673277Z includeif.gitdir:/home/runner/work/campfire/campfire/.git/worktrees/*.path
+fast	Checkout	2026-10-25T03:44:36.4675614Z includeif.gitdir:/github/workspace/.git.path
+fast	Checkout	2026-10-25T03:44:36.4677203Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+fast	Checkout	2026-10-25T03:44:36.4681453Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/campfire/campfire/.git.path
+fast	Checkout	2026-10-25T03:44:36.4707464Z /home/runner/work/_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config
+fast	Checkout	2026-10-25T03:44:36.4717730Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/campfire/campfire/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-4b468471\-5ee5\-40b7\-b397\-a7cf00889238\.config
+fast	Checkout	2026-10-25T03:44:36.4756857Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/campfire/campfire/.git/worktrees/*.path
+fast	Checkout	2026-10-25T03:44:36.4820026Z /home/runner/work/_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config
+fast	Checkout	2026-10-25T03:44:36.4830290Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/campfire/campfire/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-4b468471\-5ee5\-40b7\-b397\-a7cf00889238\.config
+fast	Checkout	2026-10-25T03:44:36.4871515Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+fast	Checkout	2026-10-25T03:44:36.4898797Z /github/runner_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config
+fast	Checkout	2026-10-25T03:44:36.4907716Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-4b468471\-5ee5\-40b7\-b397\-a7cf00889238\.config
+fast	Checkout	2026-10-25T03:44:36.4944795Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+fast	Checkout	2026-10-25T03:44:36.4970278Z /github/runner_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config
+fast	Checkout	2026-10-25T03:44:36.4979773Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-4b468471\-5ee5\-40b7\-b397\-a7cf00889238\.config
+fast	Checkout	2026-10-25T03:44:36.5015079Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+fast	Checkout	2026-10-25T03:44:36.5236765Z Removing credentials config '/home/runner/work/_temp/git-credentials-4b468471-5ee5-40b7-b397-a7cf00889238.config'
+fast	Checkout	2026-10-25T03:44:36.5245295Z ##[endgroup]
+fast	Prepare evidence directory	﻿2026-10-25T03:44:36.5477305Z ##[group]Run mkdir -p artifacts/ci
+fast	Prepare evidence directory	2026-10-25T03:44:36.5478551Z ^[[36;1mmkdir -p artifacts/ci^[[0m
+fast	Prepare evidence directory	2026-10-25T03:44:36.5781279Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Prepare evidence directory	2026-10-25T03:44:36.5782624Z env:
+fast	Prepare evidence directory	2026-10-25T03:44:36.5783684Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Prepare evidence directory	2026-10-25T03:44:36.5784990Z   CARGO_BUILD_JOBS: 4
+fast	Prepare evidence directory	2026-10-25T03:44:36.5785915Z   CARGO_TERM_COLOR: always
+fast	Prepare evidence directory	2026-10-25T03:44:36.5786867Z ##[endgroup]
+fast	Set up Node.js	﻿2026-10-25T03:44:36.6102182Z ##[group]Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+fast	Set up Node.js	2026-10-25T03:44:36.6103614Z with:
+fast	Set up Node.js	2026-10-25T03:44:36.6104490Z   node-version: 24.22.1
+fast	Set up Node.js	2026-10-25T03:44:36.6105408Z   check-latest: false
+fast	Set up Node.js	2026-10-25T03:44:36.6112768Z   token: ***
+fast	Set up Node.js	2026-10-25T03:44:36.6113695Z   package-manager-cache: true
+fast	Set up Node.js	2026-10-25T03:44:36.6114678Z env:
+fast	Set up Node.js	2026-10-25T03:44:36.6115749Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Set up Node.js	2026-10-25T03:44:36.6117027Z   CARGO_BUILD_JOBS: 4
+fast	Set up Node.js	2026-10-25T03:44:36.6117946Z   CARGO_TERM_COLOR: always
+fast	Set up Node.js	2026-10-25T03:44:36.6118885Z ##[endgroup]
+fast	Set up Node.js	2026-10-25T03:44:36.7371430Z Attempting to download 24.22.1...
+fast	Set up Node.js	2026-10-25T03:44:37.3675167Z Acquiring 24.22.1 - x64 from https://github.com/actions/node-versions/releases/download/24.22.1-39619001896/node-24.22.1-linux-x64.tar.gz
+fast	Set up Node.js	2026-10-25T03:44:37.8232861Z Extracting ...
+fast	Set up Node.js	2026-10-25T03:44:37.8368074Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/01c16c1d-02d1-4748-93ff-fd44c181e44a -f /home/runner/work/_temp/6c3da820-6981-40f0-9993-167ba636474a
+fast	Set up Node.js	2026-10-25T03:44:39.0653288Z Adding to the cache ...
+fast	Set up Node.js	2026-10-25T03:44:41.1637608Z ##[group]Environment details
+fast	Set up Node.js	2026-10-25T03:44:41.3949199Z node: v24.22.1
+fast	Set up Node.js	2026-10-25T03:44:41.3949654Z npm: 11.19.1
+fast	Set up Node.js	2026-10-25T03:44:41.3950002Z yarn: 1.22.22
+fast	Set up Node.js	2026-10-25T03:44:41.3950674Z ##[endgroup]
+fast	Set up Rust 1.96	﻿2026-10-25T03:44:41.4160433Z ##[group]Run set -o pipefail
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4160779Z ^[[36;1mset -o pipefail^[[0m
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4161728Z ^[[36;1mrustup toolchain install 1.96.0 --profile minimal --component rustfmt,clippy 2>&1 | tee artifacts/ci/rust-install.log^[[0m
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4162417Z ^[[36;1mrustup default 1.96.0 2>&1 | tee -a artifacts/ci/rust-install.log^[[0m
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4162872Z ^[[36;1mrustc --version | tee -a artifacts/ci/rust-install.log^[[0m
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4163276Z ^[[36;1mcargo --version | tee -a artifacts/ci/rust-install.log^[[0m
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4227374Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4227725Z env:
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4228010Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4228357Z   CARGO_BUILD_JOBS: 4
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4228588Z   CARGO_TERM_COLOR: always
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4228807Z ##[endgroup]
+fast	Set up Rust 1.96	2026-10-25T03:44:41.4848385Z info: syncing channel updates for 1.96.0-x86_64-unknown-linux-gnu
+fast	Set up Rust 1.96	2026-10-25T03:44:41.6439707Z info: latest update on 2026-05-28 for version 1.96.0 (ac68faa20 2026-05-25)
+fast	Set up Rust 1.96	2026-10-25T03:44:41.6440246Z info: downloading 5 components
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6241330Z 
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6314499Z   1.96.0-x86_64-unknown-linux-gnu installed - rustc 1.96.0 (ac68faa20 2026-05-25)
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6314914Z 
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6422951Z info: using existing install for 1.96.0-x86_64-unknown-linux-gnu
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6428944Z info: default toolchain set to 1.96.0-x86_64-unknown-linux-gnu
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6429364Z 
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6493588Z   1.96.0-x86_64-unknown-linux-gnu unchanged - rustc 1.96.0 (ac68faa20 2026-05-25)
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6493968Z 
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6613241Z rustc 1.96.0 (ac68faa20 2026-05-25)
+fast	Set up Rust 1.96	2026-10-25T03:44:49.6702553Z cargo 1.96.0 (30a34c682 2026-05-25)
+fast	Tool and source manifest	﻿2026-10-25T03:44:49.6756535Z ##[group]Run {
+fast	Tool and source manifest	2026-10-25T03:44:49.6756955Z ^[[36;1m{^[[0m
+fast	Tool and source manifest	2026-10-25T03:44:49.6757304Z ^[[36;1m  git rev-parse HEAD^[[0m
+fast	Tool and source manifest	2026-10-25T03:44:49.6757747Z ^[[36;1m  git rev-parse 'HEAD^{tree}'^[[0m
+fast	Tool and source manifest	2026-10-25T03:44:49.6758250Z ^[[36;1m  sha256sum Cargo.lock^[[0m
+fast	Tool and source manifest	2026-10-25T03:44:49.6758694Z ^[[36;1m  rustc --version^[[0m
+fast	Tool and source manifest	2026-10-25T03:44:49.6759109Z ^[[36;1m  cargo --version^[[0m
+fast	Tool and source manifest	2026-10-25T03:44:49.6759516Z ^[[36;1m  node --version^[[0m
+fast	Tool and source manifest	2026-10-25T03:44:49.6759919Z ^[[36;1m  python3 --version^[[0m
+fast	Tool and source manifest	2026-10-25T03:44:49.6760265Z ^[[36;1m} > artifacts/ci/manifest.txt^[[0m
+fast	Tool and source manifest	2026-10-25T03:44:49.6822569Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Tool and source manifest	2026-10-25T03:44:49.6822914Z env:
+fast	Tool and source manifest	2026-10-25T03:44:49.6823191Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Tool and source manifest	2026-10-25T03:44:49.6823532Z   CARGO_BUILD_JOBS: 4
+fast	Tool and source manifest	2026-10-25T03:44:49.6823747Z   CARGO_TERM_COLOR: always
+fast	Tool and source manifest	2026-10-25T03:44:49.6823968Z ##[endgroup]
+fast	Download locked Rust dependencies	﻿2026-10-25T03:44:49.7225391Z ##[group]Run set -o pipefail
+fast	Download locked Rust dependencies	2026-10-25T03:44:49.7225707Z ^[[36;1mset -o pipefail^[[0m
+fast	Download locked Rust dependencies	2026-10-25T03:44:49.7226036Z ^[[36;1mcargo fetch --locked 2>&1 | tee artifacts/ci/cargo-fetch.log^[[0m
+fast	Download locked Rust dependencies	2026-10-25T03:44:49.7287172Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Download locked Rust dependencies	2026-10-25T03:44:49.7287542Z env:
+fast	Download locked Rust dependencies	2026-10-25T03:44:49.7287817Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Download locked Rust dependencies	2026-10-25T03:44:49.7288157Z   CARGO_BUILD_JOBS: 4
+fast	Download locked Rust dependencies	2026-10-25T03:44:49.7288382Z   CARGO_TERM_COLOR: always
+fast	Download locked Rust dependencies	2026-10-25T03:44:49.7288601Z ##[endgroup]
+fast	Download locked Rust dependencies	2026-10-25T03:44:49.7562973Z ^[[1m^[[92m    Updating^[[0m crates.io index
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.2728918Z ^[[1m^[[92m Downloading^[[0m crates ...
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3353068Z ^[[1m^[[92m  Downloaded^[[0m tracing-serde v0.2.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3462417Z ^[[1m^[[92m  Downloaded^[[0m valuable v0.1.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3490849Z ^[[1m^[[92m  Downloaded^[[0m generic-array v0.14.7
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3512313Z ^[[1m^[[92m  Downloaded^[[0m once_cell v1.21.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3547063Z ^[[1m^[[92m  Downloaded^[[0m wasm-bindgen-shared v0.2.129
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3567206Z ^[[1m^[[92m  Downloaded^[[0m wasm-bindgen-macro v0.2.129
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3580886Z ^[[1m^[[92m  Downloaded^[[0m nu-ansi-term v0.50.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3622283Z ^[[1m^[[92m  Downloaded^[[0m httparse v1.10.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3654659Z ^[[1m^[[92m  Downloaded^[[0m tracing-core v0.1.36
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3697691Z ^[[1m^[[92m  Downloaded^[[0m lazy_static v1.5.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3721941Z ^[[1m^[[92m  Downloaded^[[0m thread_local v1.1.10
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3748090Z ^[[1m^[[92m  Downloaded^[[0m windows-link v0.2.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3765024Z ^[[1m^[[92m  Downloaded^[[0m windows-collections v0.3.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3783318Z ^[[1m^[[92m  Downloaded^[[0m tracing-attributes v0.1.31
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3827448Z ^[[1m^[[92m  Downloaded^[[0m subtle v2.6.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3847141Z ^[[1m^[[92m  Downloaded^[[0m tracing-log v0.2.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3865857Z ^[[1m^[[92m  Downloaded^[[0m futures-core v0.3.34
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3896619Z ^[[1m^[[92m  Downloaded^[[0m windows-interface v0.59.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3911940Z ^[[1m^[[92m  Downloaded^[[0m wasm-bindgen-futures v0.4.79
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.3925589Z ^[[1m^[[92m  Downloaded^[[0m thiserror v2.0.21
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4015890Z ^[[1m^[[92m  Downloaded^[[0m windows-targets v0.52.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4028746Z ^[[1m^[[92m  Downloaded^[[0m wasm-bindgen v0.2.129
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4068679Z ^[[1m^[[92m  Downloaded^[[0m tower-service v0.3.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4080366Z ^[[1m^[[92m  Downloaded^[[0m windows-implement v0.60.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4095021Z ^[[1m^[[92m  Downloaded^[[0m redox_syscall v0.5.18
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4126058Z ^[[1m^[[92m  Downloaded^[[0m form_urlencoded v1.2.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4137929Z ^[[1m^[[92m  Downloaded^[[0m thiserror-impl v2.0.21
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4156026Z ^[[1m^[[92m  Downloaded^[[0m quote v1.0.47
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4193809Z ^[[1m^[[92m  Downloaded^[[0m tower-layer v0.3.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4219110Z ^[[1m^[[92m  Downloaded^[[0m percent-encoding v2.3.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4231893Z ^[[1m^[[92m  Downloaded^[[0m slab v0.4.12
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4248948Z ^[[1m^[[92m  Downloaded^[[0m wasi v0.11.1+wasi-snapshot-preview1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4280384Z ^[[1m^[[92m  Downloaded^[[0m want v0.3.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4295004Z ^[[1m^[[92m  Downloaded^[[0m zerofrom-derive v0.1.8
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4309881Z ^[[1m^[[92m  Downloaded^[[0m foreign-types-shared v0.1.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4327187Z ^[[1m^[[92m  Downloaded^[[0m multiversion_no_op v1.0.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4339877Z ^[[1m^[[92m  Downloaded^[[0m log v0.4.34
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4388184Z ^[[1m^[[92m  Downloaded^[[0m simdutf8 v0.1.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4416128Z ^[[1m^[[92m  Downloaded^[[0m parking_lot v0.12.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4464081Z ^[[1m^[[92m  Downloaded^[[0m core_detect v1.0.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4484205Z ^[[1m^[[92m  Downloaded^[[0m getrandom v0.2.17
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4535829Z ^[[1m^[[92m  Downloaded^[[0m hyper-tls v0.6.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4552749Z ^[[1m^[[92m  Downloaded^[[0m bytes v1.12.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4608509Z ^[[1m^[[92m  Downloaded^[[0m axum-core v0.5.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4635442Z ^[[1m^[[92m  Downloaded^[[0m memchr v2.8.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4711711Z ^[[1m^[[92m  Downloaded^[[0m matchit v0.8.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4736892Z ^[[1m^[[92m  Downloaded^[[0m http v1.5.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4794882Z ^[[1m^[[92m  Downloaded^[[0m tungstenite v0.29.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4845850Z ^[[1m^[[92m  Downloaded^[[0m ntapi v0.4.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4909145Z ^[[1m^[[92m  Downloaded^[[0m system-configuration v0.7.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4931157Z ^[[1m^[[92m  Downloaded^[[0m displaydoc v0.2.7
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4967718Z ^[[1m^[[92m  Downloaded^[[0m untrusted v0.9.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.4993143Z ^[[1m^[[92m  Downloaded^[[0m litemap v0.8.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5031931Z ^[[1m^[[92m  Downloaded^[[0m rustls-pki-types v1.15.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5067595Z ^[[1m^[[92m  Downloaded^[[0m axum v0.8.9
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5166537Z ^[[1m^[[92m  Downloaded^[[0m futures-channel v0.3.34
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5199017Z ^[[1m^[[92m  Downloaded^[[0m ipnet v2.12.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5227015Z ^[[1m^[[92m  Downloaded^[[0m icu_provider v2.3.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5261157Z ^[[1m^[[92m  Downloaded^[[0m objc2-io-kit v0.3.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5337503Z ^[[1m^[[92m  Downloaded^[[0m ryu v1.0.23
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5376736Z ^[[1m^[[92m  Downloaded^[[0m tempfile v3.27.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5412856Z ^[[1m^[[92m  Downloaded^[[0m zerocopy v0.8.63
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5707437Z ^[[1m^[[92m  Downloaded^[[0m getrandom v0.4.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5751196Z ^[[1m^[[92m  Downloaded^[[0m openssl-sys v0.9.117
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5824518Z ^[[1m^[[92m  Downloaded^[[0m rustls-webpki v0.103.15
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5863497Z ^[[1m^[[92m  Downloaded^[[0m windows_aarch64_gnullvm v0.52.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.5956589Z ^[[1m^[[92m  Downloaded^[[0m hyper-util v0.1.21
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.6033342Z ^[[1m^[[92m  Downloaded^[[0m tokio-util v0.7.20
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.6124028Z ^[[1m^[[92m  Downloaded^[[0m windows_i686_gnullvm v0.52.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.6223338Z ^[[1m^[[92m  Downloaded^[[0m h2 v0.4.20
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.6297711Z ^[[1m^[[92m  Downloaded^[[0m hashbrown v0.17.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.6362355Z ^[[1m^[[92m  Downloaded^[[0m icu_properties_data v2.3.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.6480790Z ^[[1m^[[92m  Downloaded^[[0m vcpkg v0.2.15
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7050290Z ^[[1m^[[92m  Downloaded^[[0m encoding_rs v0.8.42
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7152940Z ^[[1m^[[92m  Downloaded^[[0m regex-automata v0.4.18
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7304116Z ^[[1m^[[92m  Downloaded^[[0m hyper v1.12.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7379711Z ^[[1m^[[92m  Downloaded^[[0m openssl v0.10.81
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7485832Z ^[[1m^[[92m  Downloaded^[[0m tower-http v0.6.11
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7587819Z ^[[1m^[[92m  Downloaded^[[0m idna v1.1.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7627263Z ^[[1m^[[92m  Downloaded^[[0m cc v1.8.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7675956Z ^[[1m^[[92m  Downloaded^[[0m zerovec v0.11.8
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7746174Z ^[[1m^[[92m  Downloaded^[[0m rustls v0.23.46
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.7874296Z ^[[1m^[[92m  Downloaded^[[0m rustix v1.1.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8161051Z ^[[1m^[[92m  Downloaded^[[0m js-sys v0.3.106
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8197927Z ^[[1m^[[92m  Downloaded^[[0m wasm-bindgen-macro-support v0.2.129
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8229948Z ^[[1m^[[92m  Downloaded^[[0m windows_x86_64_gnullvm v0.52.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8317126Z ^[[1m^[[92m  Downloaded^[[0m indexmap v2.14.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8371299Z ^[[1m^[[92m  Downloaded^[[0m icu_collections v2.3.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8442971Z ^[[1m^[[92m  Downloaded^[[0m windows_x86_64_gnu v0.52.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8632405Z ^[[1m^[[92m  Downloaded^[[0m windows_i686_msvc v0.52.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8759948Z ^[[1m^[[92m  Downloaded^[[0m windows_x86_64_msvc v0.52.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8878812Z ^[[1m^[[92m  Downloaded^[[0m icu_normalizer v2.3.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.8977018Z ^[[1m^[[92m  Downloaded^[[0m tokio v1.53.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:50.9443130Z ^[[1m^[[92m  Downloaded^[[0m web-sys v0.3.106
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.0636832Z ^[[1m^[[92m  Downloaded^[[0m libc v0.2.191
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1132624Z ^[[1m^[[92m  Downloaded^[[0m base64 v0.23.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1175310Z ^[[1m^[[92m  Downloaded^[[0m r-efi v6.0.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1229795Z ^[[1m^[[92m  Downloaded^[[0m icu_normalizer_data v2.3.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1254414Z ^[[1m^[[92m  Downloaded^[[0m icu_properties v2.3.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1294795Z ^[[1m^[[92m  Downloaded^[[0m bumpalo v3.20.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1324421Z ^[[1m^[[92m  Downloaded^[[0m security-framework v3.7.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1371489Z ^[[1m^[[92m  Downloaded^[[0m icu_locale_core v2.3.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1449316Z ^[[1m^[[92m  Downloaded^[[0m zerotrie v0.2.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1490894Z ^[[1m^[[92m  Downloaded^[[0m url v2.5.8
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1519896Z ^[[1m^[[92m  Downloaded^[[0m windows_aarch64_msvc v0.52.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.1638590Z ^[[1m^[[92m  Downloaded^[[0m winapi v0.3.9
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2042008Z ^[[1m^[[92m  Downloaded^[[0m windows_i686_gnu v0.52.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2231401Z ^[[1m^[[92m  Downloaded^[[0m reqwest v0.12.28
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2287882Z ^[[1m^[[92m  Downloaded^[[0m tracing v0.1.44
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2446792Z ^[[1m^[[92m  Downloaded^[[0m syn v3.0.9
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2557803Z ^[[1m^[[92m  Downloaded^[[0m regex-syntax v0.8.11
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2627323Z ^[[1m^[[92m  Downloaded^[[0m syn v2.0.119
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2736644Z ^[[1m^[[92m  Downloaded^[[0m yoke v0.8.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2756550Z ^[[1m^[[92m  Downloaded^[[0m schannel v0.1.30
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2777282Z ^[[1m^[[92m  Downloaded^[[0m core-foundation-sys v0.8.7
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2811982Z ^[[1m^[[92m  Downloaded^[[0m sysinfo v0.39.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2943726Z ^[[1m^[[92m  Downloaded^[[0m native-tls v0.2.18
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.2961498Z ^[[1m^[[92m  Downloaded^[[0m tower v0.5.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3070320Z ^[[1m^[[92m  Downloaded^[[0m tokio-rustls v0.26.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3088879Z ^[[1m^[[92m  Downloaded^[[0m hyper-rustls v0.27.10
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3106939Z ^[[1m^[[92m  Downloaded^[[0m http-body-util v0.1.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3130189Z ^[[1m^[[92m  Downloaded^[[0m core-foundation v0.9.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3154699Z ^[[1m^[[92m  Downloaded^[[0m find-msvc-tools v0.1.14
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3175280Z ^[[1m^[[92m  Downloaded^[[0m tokio-native-tls v0.3.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3196723Z ^[[1m^[[92m  Downloaded^[[0m synstructure v0.14.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3210270Z ^[[1m^[[92m  Downloaded^[[0m objc2-core-foundation v0.3.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3290242Z ^[[1m^[[92m  Downloaded^[[0m futures-util v0.3.34
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3429463Z ^[[1m^[[92m  Downloaded^[[0m zeroize v1.9.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3447208Z ^[[1m^[[92m  Downloaded^[[0m core-foundation v0.10.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3471057Z ^[[1m^[[92m  Downloaded^[[0m fastrand v2.5.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3488006Z ^[[1m^[[92m  Downloaded^[[0m tinystr v0.8.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3511873Z ^[[1m^[[92m  Downloaded^[[0m zerocopy-derive v0.8.63
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3644501Z ^[[1m^[[92m  Downloaded^[[0m wasip2 v1.0.4+wasi-0.2.12
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3686723Z ^[[1m^[[92m  Downloaded^[[0m tracing-subscriber v0.3.23
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3775120Z ^[[1m^[[92m  Downloaded^[[0m aho-corasick v1.1.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3831203Z ^[[1m^[[92m  Downloaded^[[0m base64 v0.22.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3871780Z ^[[1m^[[92m  Downloaded^[[0m shlex v2.0.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3887104Z ^[[1m^[[92m  Downloaded^[[0m pkg-config v0.3.34
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3904066Z ^[[1m^[[92m  Downloaded^[[0m security-framework-sys v2.17.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3930138Z ^[[1m^[[92m  Downloaded^[[0m writeable v0.6.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3952616Z ^[[1m^[[92m  Downloaded^[[0m rand v0.9.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.3996307Z ^[[1m^[[92m  Downloaded^[[0m ring v0.17.14
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4423807Z ^[[1m^[[92m  Downloaded^[[0m fnv v1.0.7
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4434618Z ^[[1m^[[92m  Downloaded^[[0m windows-registry v0.6.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4450861Z ^[[1m^[[92m  Downloaded^[[0m mio v1.2.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4517239Z ^[[1m^[[92m  Downloaded^[[0m typenum v1.20.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4556042Z ^[[1m^[[92m  Downloaded^[[0m serde_json v1.0.154
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4636373Z ^[[1m^[[92m  Downloaded^[[0m serde_core v1.0.229
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4665772Z ^[[1m^[[92m  Downloaded^[[0m serde_path_to_error v0.1.20
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4684241Z ^[[1m^[[92m  Downloaded^[[0m tokio-tungstenite v0.29.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4707391Z ^[[1m^[[92m  Downloaded^[[0m stable_deref_trait v1.2.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4718854Z ^[[1m^[[92m  Downloaded^[[0m r-efi v5.3.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4785177Z ^[[1m^[[92m  Downloaded^[[0m getrandom v0.3.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4820609Z ^[[1m^[[92m  Downloaded^[[0m tungstenite v0.28.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4859848Z ^[[1m^[[92m  Downloaded^[[0m wit-bindgen v0.57.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4907385Z ^[[1m^[[92m  Downloaded^[[0m equivalent v1.0.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4919688Z ^[[1m^[[92m  Downloaded^[[0m try-lock v0.2.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4930482Z ^[[1m^[[92m  Downloaded^[[0m serde_urlencoded v0.7.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4950020Z ^[[1m^[[92m  Downloaded^[[0m zerovec-derive v0.11.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.4970350Z ^[[1m^[[92m  Downloaded^[[0m rustversion v1.0.23
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5002200Z ^[[1m^[[92m  Downloaded^[[0m bitflags v2.13.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5049494Z ^[[1m^[[92m  Downloaded^[[0m socket2 v0.6.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5068707Z ^[[1m^[[92m  Downloaded^[[0m rand_chacha v0.9.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5081795Z ^[[1m^[[92m  Downloaded^[[0m sharded-slab v0.1.7
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5117274Z ^[[1m^[[92m  Downloaded^[[0m proc-macro2 v1.0.107
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5158278Z ^[[1m^[[92m  Downloaded^[[0m serde_derive v1.0.229
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5208721Z ^[[1m^[[92m  Downloaded^[[0m atomic-waker v1.1.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5227924Z ^[[1m^[[92m  Downloaded^[[0m httpdate v1.0.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5247489Z ^[[1m^[[92m  Downloaded^[[0m mime v0.3.17
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5269698Z ^[[1m^[[92m  Downloaded^[[0m foreign-types v0.3.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5282408Z ^[[1m^[[92m  Downloaded^[[0m openssl-macros v0.1.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5295079Z ^[[1m^[[92m  Downloaded^[[0m windows-core v0.62.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5351460Z ^[[1m^[[92m  Downloaded^[[0m parking_lot_core v0.9.12
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5373971Z ^[[1m^[[92m  Downloaded^[[0m unicode-ident v1.0.27
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5406738Z ^[[1m^[[92m  Downloaded^[[0m system-configuration-sys v0.6.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.5420174Z ^[[1m^[[92m  Downloaded^[[0m windows-sys v0.61.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6082605Z ^[[1m^[[92m  Downloaded^[[0m http-body v1.1.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6094512Z ^[[1m^[[92m  Downloaded^[[0m sync_wrapper v1.0.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6104256Z ^[[1m^[[92m  Downloaded^[[0m zerofrom v0.1.8
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6114881Z ^[[1m^[[92m  Downloaded^[[0m idna_adapter v1.2.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6125761Z ^[[1m^[[92m  Downloaded^[[0m openssl-probe v0.2.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6138609Z ^[[1m^[[92m  Downloaded^[[0m tokio-tungstenite v0.28.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6160875Z ^[[1m^[[92m  Downloaded^[[0m sha2 v0.10.9
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6189465Z ^[[1m^[[92m  Downloaded^[[0m windows-future v0.3.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6207177Z ^[[1m^[[92m  Downloaded^[[0m windows-strings v0.5.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6225243Z ^[[1m^[[92m  Downloaded^[[0m ppv-lite86 v0.2.21
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6239288Z ^[[1m^[[92m  Downloaded^[[0m lock_api v0.4.14
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6253915Z ^[[1m^[[92m  Downloaded^[[0m signal-hook-registry v1.4.8
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6268209Z ^[[1m^[[92m  Downloaded^[[0m data-encoding v2.11.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6279328Z ^[[1m^[[92m  Downloaded^[[0m rand_core v0.9.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6294005Z ^[[1m^[[92m  Downloaded^[[0m digest v0.10.7
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6315049Z ^[[1m^[[92m  Downloaded^[[0m zmij v1.0.23
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6336066Z ^[[1m^[[92m  Downloaded^[[0m smallvec v1.16.3
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.6351358Z ^[[1m^[[92m  Downloaded^[[0m windows-sys v0.52.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.7002757Z ^[[1m^[[92m  Downloaded^[[0m cfg-if v1.0.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.7017655Z ^[[1m^[[92m  Downloaded^[[0m pin-project-lite v0.2.17
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.7080944Z ^[[1m^[[92m  Downloaded^[[0m winapi-i686-pc-windows-gnu v0.4.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.8478413Z ^[[1m^[[92m  Downloaded^[[0m potential_utf v0.1.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.8489920Z ^[[1m^[[92m  Downloaded^[[0m yoke-derive v0.8.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.8502766Z ^[[1m^[[92m  Downloaded^[[0m utf8_iter v1.0.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.8516958Z ^[[1m^[[92m  Downloaded^[[0m winapi-x86_64-pc-windows-gnu v0.4.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.9943614Z ^[[1m^[[92m  Downloaded^[[0m windows-threading v0.2.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.9954266Z ^[[1m^[[92m  Downloaded^[[0m futures-task v0.3.34
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.9966913Z ^[[1m^[[92m  Downloaded^[[0m scopeguard v1.2.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.9979620Z ^[[1m^[[92m  Downloaded^[[0m errno v0.3.14
+fast	Download locked Rust dependencies	2026-10-25T03:44:51.9995884Z ^[[1m^[[92m  Downloaded^[[0m cpufeatures v0.2.17
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0012181Z ^[[1m^[[92m  Downloaded^[[0m block-buffer v0.10.4
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0022823Z ^[[1m^[[92m  Downloaded^[[0m version_check v0.9.5
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0035750Z ^[[1m^[[92m  Downloaded^[[0m sha1 v0.10.7
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0051628Z ^[[1m^[[92m  Downloaded^[[0m serde v1.0.229
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0088538Z ^[[1m^[[92m  Downloaded^[[0m windows-result v0.4.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0101935Z ^[[1m^[[92m  Downloaded^[[0m windows-numerics v0.3.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0114415Z ^[[1m^[[92m  Downloaded^[[0m futures-macro v0.3.34
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0126017Z ^[[1m^[[92m  Downloaded^[[0m futures-sink v0.3.34
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0135434Z ^[[1m^[[92m  Downloaded^[[0m tokio-macros v2.7.2
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0146500Z ^[[1m^[[92m  Downloaded^[[0m crypto-common v0.1.7
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0156177Z ^[[1m^[[92m  Downloaded^[[0m utf-8 v0.7.6
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0168618Z ^[[1m^[[92m  Downloaded^[[0m matchers v0.2.0
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0180066Z ^[[1m^[[92m  Downloaded^[[0m itoa v1.0.18
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.0198483Z ^[[1m^[[92m  Downloaded^[[0m linux-raw-sys v0.12.1
+fast	Download locked Rust dependencies	2026-10-25T03:44:52.1044992Z ^[[1m^[[92m  Downloaded^[[0m windows v0.62.2
+fast	Rust formatting	﻿2026-10-25T03:44:52.4100588Z ##[group]Run set -o pipefail
+fast	Rust formatting	2026-10-25T03:44:52.4100918Z ^[[36;1mset -o pipefail^[[0m
+fast	Rust formatting	2026-10-25T03:44:52.4101606Z ^[[36;1mcargo fmt --all -- --check 2>&1 | tee artifacts/ci/fmt.log^[[0m
+fast	Rust formatting	2026-10-25T03:44:52.4163988Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Rust formatting	2026-10-25T03:44:52.4164332Z env:
+fast	Rust formatting	2026-10-25T03:44:52.4164615Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Rust formatting	2026-10-25T03:44:52.4164984Z   CARGO_BUILD_JOBS: 4
+fast	Rust formatting	2026-10-25T03:44:52.4165204Z   CARGO_TERM_COLOR: always
+fast	Rust formatting	2026-10-25T03:44:52.4165423Z ##[endgroup]
+fast	Rust lint	﻿2026-10-25T03:44:52.6235812Z ##[group]Run set -o pipefail
+fast	Rust lint	2026-10-25T03:44:52.6236139Z ^[[36;1mset -o pipefail^[[0m
+fast	Rust lint	2026-10-25T03:44:52.6236676Z ^[[36;1mcargo clippy --workspace --all-targets --locked --offline -- -D warnings 2>&1 | tee artifacts/ci/clippy.log^[[0m
+fast	Rust lint	2026-10-25T03:44:52.6299061Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Rust lint	2026-10-25T03:44:52.6299404Z env:
+fast	Rust lint	2026-10-25T03:44:52.6299678Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Rust lint	2026-10-25T03:44:52.6300027Z   CARGO_BUILD_JOBS: 4
+fast	Rust lint	2026-10-25T03:44:52.6300254Z   CARGO_TERM_COLOR: always
+fast	Rust lint	2026-10-25T03:44:52.6300472Z ##[endgroup]
+fast	Rust lint	2026-10-25T03:44:52.8342577Z ^[[1m^[[92m   Compiling^[[0m proc-macro2 v1.0.107
+fast	Rust lint	2026-10-25T03:44:52.8344023Z ^[[1m^[[92m   Compiling^[[0m quote v1.0.47
+fast	Rust lint	2026-10-25T03:44:52.8345201Z ^[[1m^[[92m   Compiling^[[0m unicode-ident v1.0.27
+fast	Rust lint	2026-10-25T03:44:52.8346179Z ^[[1m^[[92m   Compiling^[[0m libc v0.2.191
+fast	Rust lint	2026-10-25T03:44:52.8898258Z ^[[1m^[[92m    Checking^[[0m cfg-if v1.0.5
+fast	Rust lint	2026-10-25T03:44:52.9127652Z ^[[1m^[[92m    Checking^[[0m smallvec v1.16.3
+fast	Rust lint	2026-10-25T03:44:53.0022529Z ^[[1m^[[92m    Checking^[[0m itoa v1.0.18
+fast	Rust lint	2026-10-25T03:44:53.0455925Z ^[[1m^[[92m    Checking^[[0m bytes v1.12.1
+fast	Rust lint	2026-10-25T03:44:53.0804290Z ^[[1m^[[92m    Checking^[[0m log v0.4.34
+fast	Rust lint	2026-10-25T03:44:53.2047115Z ^[[1m^[[92m    Checking^[[0m pin-project-lite v0.2.17
+fast	Rust lint	2026-10-25T03:44:53.2341885Z ^[[1m^[[92m   Compiling^[[0m parking_lot_core v0.9.12
+fast	Rust lint	2026-10-25T03:44:53.3543244Z ^[[1m^[[92m    Checking^[[0m futures-core v0.3.34
+fast	Rust lint	2026-10-25T03:44:53.4633279Z ^[[1m^[[92m    Checking^[[0m scopeguard v1.2.0
+fast	Rust lint	2026-10-25T03:44:53.5032790Z ^[[1m^[[92m    Checking^[[0m lock_api v0.4.14
+fast	Rust lint	2026-10-25T03:44:53.6559108Z ^[[1m^[[92m   Compiling^[[0m syn v3.0.9
+fast	Rust lint	2026-10-25T03:44:53.6999722Z ^[[1m^[[92m   Compiling^[[0m syn v2.0.119
+fast	Rust lint	2026-10-25T03:44:53.7052118Z ^[[1m^[[92m    Checking^[[0m http v1.5.0
+fast	Rust lint	2026-10-25T03:44:54.0884554Z ^[[1m^[[92m    Checking^[[0m errno v0.3.14
+fast	Rust lint	2026-10-25T03:44:54.2572642Z ^[[1m^[[92m    Checking^[[0m once_cell v1.21.4
+fast	Rust lint	2026-10-25T03:44:54.2683902Z ^[[1m^[[92m    Checking^[[0m parking_lot v0.12.5
+fast	Rust lint	2026-10-25T03:44:54.3632408Z ^[[1m^[[92m    Checking^[[0m tracing-core v0.1.36
+fast	Rust lint	2026-10-25T03:44:54.3973163Z ^[[1m^[[92m    Checking^[[0m signal-hook-registry v1.4.8
+fast	Rust lint	2026-10-25T03:44:54.4932595Z ^[[1m^[[92m    Checking^[[0m socket2 v0.6.5
+fast	Rust lint	2026-10-25T03:44:54.6271377Z ^[[1m^[[92m    Checking^[[0m mio v1.2.4
+fast	Rust lint	2026-10-25T03:44:54.7230495Z ^[[1m^[[92m   Compiling^[[0m version_check v0.9.5
+fast	Rust lint	2026-10-25T03:44:54.8692864Z ^[[1m^[[92m    Checking^[[0m futures-sink v0.3.34
+fast	Rust lint	2026-10-25T03:44:54.9082609Z ^[[1m^[[92m    Checking^[[0m slab v0.4.12
+fast	Rust lint	2026-10-25T03:44:54.9468974Z ^[[1m^[[92m   Compiling^[[0m generic-array v0.14.7
+fast	Rust lint	2026-10-25T03:44:54.9907008Z ^[[1m^[[92m   Compiling^[[0m httparse v1.10.1
+fast	Rust lint	2026-10-25T03:44:55.0503206Z ^[[1m^[[92m    Checking^[[0m typenum v1.20.1
+fast	Rust lint	2026-10-25T03:44:55.2062746Z ^[[1m^[[92m    Checking^[[0m stable_deref_trait v1.2.1
+fast	Rust lint	2026-10-25T03:44:55.2312492Z ^[[1m^[[92m   Compiling^[[0m zerocopy v0.8.63
+fast	Rust lint	2026-10-25T03:44:55.4672679Z ^[[1m^[[92m   Compiling^[[0m getrandom v0.3.4
+fast	Rust lint	2026-10-25T03:44:55.6448795Z ^[[1m^[[92m   Compiling^[[0m serde_core v1.0.229
+fast	Rust lint	2026-10-25T03:44:56.0002506Z ^[[1m^[[92m    Checking^[[0m futures-task v0.3.34
+fast	Rust lint	2026-10-25T03:44:56.1592440Z ^[[1m^[[92m    Checking^[[0m block-buffer v0.10.4
+fast	Rust lint	2026-10-25T03:44:56.2192616Z ^[[1m^[[92m    Checking^[[0m crypto-common v0.1.7
+fast	Rust lint	2026-10-25T03:44:58.1982688Z ^[[1m^[[92m   Compiling^[[0m synstructure v0.14.0
+fast	Rust lint	2026-10-25T03:44:58.3412475Z ^[[1m^[[92m   Compiling^[[0m tracing-attributes v0.1.31
+fast	Rust lint	2026-10-25T03:44:58.6408209Z ^[[1m^[[92m   Compiling^[[0m tokio-macros v2.7.2
+fast	Rust lint	2026-10-25T03:44:58.6883383Z ^[[1m^[[92m   Compiling^[[0m zerofrom-derive v0.1.8
+fast	Rust lint	2026-10-25T03:44:59.2394026Z ^[[1m^[[92m    Checking^[[0m tokio v1.53.3
+fast	Rust lint	2026-10-25T03:44:59.4463165Z ^[[1m^[[92m    Checking^[[0m tracing v0.1.44
+fast	Rust lint	2026-10-25T03:44:59.5882921Z ^[[1m^[[92m   Compiling^[[0m yoke-derive v0.8.4
+fast	Rust lint	2026-10-25T03:44:59.6953639Z ^[[1m^[[92m   Compiling^[[0m futures-macro v0.3.34
+fast	Rust lint	2026-10-25T03:44:59.9752444Z ^[[1m^[[92m    Checking^[[0m zerofrom v0.1.8
+fast	Rust lint	2026-10-25T03:45:00.0542846Z ^[[1m^[[92m   Compiling^[[0m zerovec-derive v0.11.6
+fast	Rust lint	2026-10-25T03:45:00.3852924Z ^[[1m^[[92m    Checking^[[0m futures-util v0.3.34
+fast	Rust lint	2026-10-25T03:45:00.5782675Z ^[[1m^[[92m    Checking^[[0m yoke v0.8.3
+fast	Rust lint	2026-10-25T03:45:00.6885231Z ^[[1m^[[92m    Checking^[[0m http-body v1.1.0
+fast	Rust lint	2026-10-25T03:45:00.7579048Z ^[[1m^[[92m    Checking^[[0m percent-encoding v2.3.2
+fast	Rust lint	2026-10-25T03:45:00.8406094Z ^[[1m^[[92m    Checking^[[0m ppv-lite86 v0.2.21
+fast	Rust lint	2026-10-25T03:45:01.0595279Z ^[[1m^[[92m    Checking^[[0m zerovec v0.11.8
+fast	Rust lint	2026-10-25T03:45:01.1192466Z ^[[1m^[[92m   Compiling^[[0m displaydoc v0.2.7
+fast	Rust lint	2026-10-25T03:45:01.4972522Z ^[[1m^[[92m    Checking^[[0m rand_core v0.9.5
+fast	Rust lint	2026-10-25T03:45:01.6062556Z ^[[1m^[[92m    Checking^[[0m digest v0.10.7
+fast	Rust lint	2026-10-25T03:45:01.7060918Z ^[[1m^[[92m   Compiling^[[0m thiserror v2.0.21
+fast	Rust lint	2026-10-25T03:45:01.7192576Z ^[[1m^[[92m    Checking^[[0m tower-service v0.3.3
+fast	Rust lint	2026-10-25T03:45:01.7452549Z ^[[1m^[[92m    Checking^[[0m equivalent v1.0.3
+fast	Rust lint	2026-10-25T03:45:01.7685779Z ^[[1m^[[92m    Checking^[[0m hashbrown v0.17.1
+fast	Rust lint	2026-10-25T03:45:01.9162457Z ^[[1m^[[92m   Compiling^[[0m serde v1.0.229
+fast	Rust lint	2026-10-25T03:45:02.0933057Z ^[[1m^[[92m    Checking^[[0m cpufeatures v0.2.17
+fast	Rust lint	2026-10-25T03:45:02.1582706Z ^[[1m^[[92m    Checking^[[0m rand_chacha v0.9.0
+fast	Rust lint	2026-10-25T03:45:02.2325513Z ^[[1m^[[92m    Checking^[[0m indexmap v2.14.2
+fast	Rust lint	2026-10-25T03:45:02.2882476Z ^[[1m^[[92m   Compiling^[[0m thiserror-impl v2.0.21
+fast	Rust lint	2026-10-25T03:45:02.3603491Z ^[[1m^[[92m   Compiling^[[0m serde_derive v1.0.229
+fast	Rust lint	2026-10-25T03:45:02.7453112Z ^[[1m^[[92m    Checking^[[0m tokio-util v0.7.20
+fast	Rust lint	2026-10-25T03:45:02.7702526Z ^[[1m^[[92m   Compiling^[[0m find-msvc-tools v0.1.14
+fast	Rust lint	2026-10-25T03:45:02.9312844Z ^[[1m^[[92m    Checking^[[0m try-lock v0.2.5
+fast	Rust lint	2026-10-25T03:45:02.9612618Z ^[[1m^[[92m   Compiling^[[0m zmij v1.0.23
+fast	Rust lint	2026-10-25T03:45:03.0972726Z ^[[1m^[[92m    Checking^[[0m atomic-waker v1.1.2
+fast	Rust lint	2026-10-25T03:45:03.1293720Z ^[[1m^[[92m   Compiling^[[0m shlex v2.0.1
+fast	Rust lint	2026-10-25T03:45:03.1732593Z ^[[1m^[[92m    Checking^[[0m fnv v1.0.7
+fast	Rust lint	2026-10-25T03:45:03.2112726Z ^[[1m^[[92m    Checking^[[0m h2 v0.4.20
+fast	Rust lint	2026-10-25T03:45:03.2316989Z ^[[1m^[[92m   Compiling^[[0m cc v1.8.0
+fast	Rust lint	2026-10-25T03:45:03.5052441Z ^[[1m^[[92m    Checking^[[0m want v0.3.2
+fast	Rust lint	2026-10-25T03:45:03.5502453Z ^[[1m^[[92m    Checking^[[0m rand v0.9.5
+fast	Rust lint	2026-10-25T03:45:03.9442593Z ^[[1m^[[92m    Checking^[[0m sha1 v0.10.7
+fast	Rust lint	2026-10-25T03:45:04.0342522Z ^[[1m^[[92m    Checking^[[0m form_urlencoded v1.2.2
+fast	Rust lint	2026-10-25T03:45:04.0963177Z ^[[1m^[[92m    Checking^[[0m futures-channel v0.3.34
+fast	Rust lint	2026-10-25T03:45:04.2208918Z ^[[1m^[[92m    Checking^[[0m sync_wrapper v1.0.2
+fast	Rust lint	2026-10-25T03:45:04.2612630Z ^[[1m^[[92m    Checking^[[0m httpdate v1.0.3
+fast	Rust lint	2026-10-25T03:45:04.3442648Z ^[[1m^[[92m   Compiling^[[0m serde_json v1.0.154
+fast	Rust lint	2026-10-25T03:45:04.4322923Z ^[[1m^[[92m    Checking^[[0m memchr v2.8.3
+fast	Rust lint	2026-10-25T03:45:04.7842761Z ^[[1m^[[92m   Compiling^[[0m pkg-config v0.3.34
+fast	Rust lint	2026-10-25T03:45:04.9155747Z ^[[1m^[[92m    Checking^[[0m tower-layer v0.3.3
+fast	Rust lint	2026-10-25T03:45:05.0165514Z ^[[1m^[[92m    Checking^[[0m data-encoding v2.11.1
+fast	Rust lint	2026-10-25T03:45:05.2304706Z ^[[1m^[[92m   Compiling^[[0m vcpkg v0.2.15
+fast	Rust lint	2026-10-25T03:45:05.5058392Z ^[[1m^[[92m    Checking^[[0m tinystr v0.8.4
+fast	Rust lint	2026-10-25T03:45:05.6143301Z ^[[1m^[[92m    Checking^[[0m http-body-util v0.1.5
+fast	Rust lint	2026-10-25T03:45:05.7642555Z ^[[1m^[[92m    Checking^[[0m litemap v0.8.3
+fast	Rust lint	2026-10-25T03:45:05.8253217Z ^[[1m^[[92m    Checking^[[0m ipnet v2.12.2
+fast	Rust lint	2026-10-25T03:45:05.8810037Z ^[[1m^[[92m   Compiling^[[0m openssl-sys v0.9.117
+fast	Rust lint	2026-10-25T03:45:05.8895115Z ^[[1m^[[92m    Checking^[[0m writeable v0.6.4
+fast	Rust lint	2026-10-25T03:45:06.0038409Z ^[[1m^[[92m    Checking^[[0m base64 v0.23.1
+fast	Rust lint	2026-10-25T03:45:06.0122394Z ^[[1m^[[92m    Checking^[[0m icu_locale_core v2.3.0
+fast	Rust lint	2026-10-25T03:45:06.3795352Z ^[[1m^[[92m    Checking^[[0m hyper v1.12.0
+fast	Rust lint	2026-10-25T03:45:06.4290721Z ^[[1m^[[92m    Checking^[[0m tower v0.5.3
+fast	Rust lint	2026-10-25T03:45:06.6392577Z ^[[1m^[[92m    Checking^[[0m zerotrie v0.2.5
+fast	Rust lint	2026-10-25T03:45:06.8002998Z ^[[1m^[[92m    Checking^[[0m potential_utf v0.1.6
+fast	Rust lint	2026-10-25T03:45:06.8152591Z ^[[1m^[[92m    Checking^[[0m ryu v1.0.23
+fast	Rust lint	2026-10-25T03:45:06.8482612Z ^[[1m^[[92m   Compiling^[[0m icu_properties_data v2.3.0
+fast	Rust lint	2026-10-25T03:45:06.8769116Z ^[[1m^[[92m    Checking^[[0m mime v0.3.17
+fast	Rust lint	2026-10-25T03:45:06.9339615Z ^[[1m^[[92m    Checking^[[0m utf8_iter v1.0.4
+fast	Rust lint	2026-10-25T03:45:06.9523164Z ^[[1m^[[92m   Compiling^[[0m icu_normalizer_data v2.3.0
+fast	Rust lint	2026-10-25T03:45:06.9942787Z ^[[1m^[[92m    Checking^[[0m serde_urlencoded v0.7.1
+fast	Rust lint	2026-10-25T03:45:06.9972214Z ^[[1m^[[92m    Checking^[[0m icu_collections v2.3.0
+fast	Rust lint	2026-10-25T03:45:07.0392475Z ^[[1m^[[92m    Checking^[[0m icu_provider v2.3.1
+fast	Rust lint	2026-10-25T03:45:07.1522008Z ^[[1m^[[92m    Checking^[[0m tungstenite v0.29.0
+fast	Rust lint	2026-10-25T03:45:07.2082830Z ^[[1m^[[92m    Checking^[[0m base64 v0.22.1
+fast	Rust lint	2026-10-25T03:45:07.3422682Z ^[[1m^[[92m    Checking^[[0m axum-core v0.5.6
+fast	Rust lint	2026-10-25T03:45:07.3732879Z ^[[1m^[[92m    Checking^[[0m hyper-util v0.1.21
+fast	Rust lint	2026-10-25T03:45:07.3793998Z ^[[1m^[[92m    Checking^[[0m serde_path_to_error v0.1.20
+fast	Rust lint	2026-10-25T03:45:07.5414314Z ^[[1m^[[92m    Checking^[[0m tokio-tungstenite v0.29.0
+fast	Rust lint	2026-10-25T03:45:07.6299660Z ^[[1m^[[92m   Compiling^[[0m openssl v0.10.81
+fast	Rust lint	2026-10-25T03:45:07.7063551Z ^[[1m^[[92m   Compiling^[[0m rustversion v1.0.23
+fast	Rust lint	2026-10-25T03:45:07.7542433Z ^[[1m^[[92m    Checking^[[0m bitflags v2.13.2
+fast	Rust lint	2026-10-25T03:45:07.8260181Z ^[[1m^[[92m    Checking^[[0m foreign-types-shared v0.1.1
+fast	Rust lint	2026-10-25T03:45:07.8524250Z ^[[1m^[[92m    Checking^[[0m matchit v0.8.4
+fast	Rust lint	2026-10-25T03:45:07.9452978Z ^[[1m^[[92m    Checking^[[0m foreign-types v0.3.2
+fast	Rust lint	2026-10-25T03:45:07.9722545Z ^[[1m^[[92m    Checking^[[0m icu_properties v2.3.0
+fast	Rust lint	2026-10-25T03:45:07.9932499Z ^[[1m^[[92m    Checking^[[0m icu_normalizer v2.3.0
+fast	Rust lint	2026-10-25T03:45:08.5718621Z ^[[1m^[[92m    Checking^[[0m sha2 v0.10.9
+fast	Rust lint	2026-10-25T03:45:08.6042666Z ^[[1m^[[92m   Compiling^[[0m openssl-macros v0.1.1
+fast	Rust lint	2026-10-25T03:45:08.6250786Z ^[[1m^[[92m    Checking^[[0m axum v0.8.9
+fast	Rust lint	2026-10-25T03:45:08.7712559Z ^[[1m^[[92m   Compiling^[[0m native-tls v0.2.18
+fast	Rust lint	2026-10-25T03:45:08.9302436Z ^[[1m^[[92m    Checking^[[0m idna_adapter v1.2.2
+fast	Rust lint	2026-10-25T03:45:08.9712626Z ^[[1m^[[92m    Checking^[[0m openssl-probe v0.2.1
+fast	Rust lint	2026-10-25T03:45:09.0132452Z ^[[1m^[[92m    Checking^[[0m idna v1.1.0
+fast	Rust lint	2026-10-25T03:45:09.1869738Z ^[[1m^[[92m    Checking^[[0m url v2.5.8
+fast	Rust lint	2026-10-25T03:45:09.2882517Z ^[[1m^[[92m   Compiling^[[0m encoding_rs v0.8.42
+fast	Rust lint	2026-10-25T03:45:09.3816250Z ^[[1m^[[92m   Compiling^[[0m multiversion_no_op v1.0.0
+fast	Rust lint	2026-10-25T03:45:09.5142551Z ^[[1m^[[92m    Checking^[[0m zeroize v1.9.1
+fast	Rust lint	2026-10-25T03:45:09.5419654Z ^[[1m^[[92m    Checking^[[0m core_detect v1.0.0
+fast	Rust lint	2026-10-25T03:45:09.5882538Z ^[[1m^[[92m    Checking^[[0m simdutf8 v0.1.5
+fast	Rust lint	2026-10-25T03:45:09.5992448Z ^[[1m^[[92m    Checking^[[0m utf-8 v0.7.6
+fast	Rust lint	2026-10-25T03:45:09.6552371Z ^[[1m^[[92m    Checking^[[0m regex-syntax v0.8.11
+fast	Rust lint	2026-10-25T03:45:10.3992911Z ^[[1m^[[92m    Checking^[[0m regex-automata v0.4.18
+fast	Rust lint	2026-10-25T03:45:10.6112341Z ^[[1m^[[92m    Checking^[[0m tungstenite v0.28.0
+fast	Rust lint	2026-10-25T03:45:10.9773530Z ^[[1m^[[92m    Checking^[[0m rustls-pki-types v1.15.1
+fast	Rust lint	2026-10-25T03:45:11.2093188Z ^[[1m^[[92m    Checking^[[0m tower-http v0.6.11
+fast	Rust lint	2026-10-25T03:45:11.4262539Z ^[[1m^[[92m    Checking^[[0m lazy_static v1.5.1
+fast	Rust lint	2026-10-25T03:45:11.4391296Z ^[[1m^[[92m    Checking^[[0m tokio-native-tls v0.3.1
+fast	Rust lint	2026-10-25T03:45:11.4589707Z ^[[1m^[[92m    Checking^[[0m sharded-slab v0.1.7
+fast	Rust lint	2026-10-25T03:45:11.5175085Z ^[[1m^[[92m    Checking^[[0m hyper-tls v0.6.0
+fast	Rust lint	2026-10-25T03:45:11.6052923Z ^[[1m^[[92m    Checking^[[0m reqwest v0.12.28
+fast	Rust lint	2026-10-25T03:45:11.7283699Z ^[[1m^[[92m    Checking^[[0m matchers v0.2.0
+fast	Rust lint	2026-10-25T03:45:11.7892614Z ^[[1m^[[92m    Checking^[[0m tokio-tungstenite v0.28.0
+fast	Rust lint	2026-10-25T03:45:11.8400939Z ^[[1m^[[92m    Checking^[[0m tracing-serde v0.2.0
+fast	Rust lint	2026-10-25T03:45:11.9213137Z ^[[1m^[[92m    Checking^[[0m tracing-log v0.2.0
+fast	Rust lint	2026-10-25T03:45:11.9663479Z ^[[1m^[[92m    Checking^[[0m thread_local v1.1.10
+fast	Rust lint	2026-10-25T03:45:11.9973001Z ^[[1m^[[92m    Checking^[[0m nu-ansi-term v0.50.3
+fast	Rust lint	2026-10-25T03:45:12.0552447Z ^[[1m^[[92m    Checking^[[0m sysinfo v0.39.6
+fast	Rust lint	2026-10-25T03:45:12.0802725Z ^[[1m^[[92m    Checking^[[0m campfire-runtime v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-runtime)
+fast	Rust lint	2026-10-25T03:45:12.1453177Z ^[[1m^[[92m    Checking^[[0m tracing-subscriber v0.3.23
+fast	Rust lint	2026-10-25T03:45:12.1822787Z ^[[1m^[[92m    Checking^[[0m subtle v2.6.1
+fast	Rust lint	2026-10-25T03:45:13.3000624Z ^[[1m^[[92m    Checking^[[0m campfire-arena v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-arena)
+fast	Rust lint	2026-10-25T03:45:13.4553277Z ^[[1m^[[92m    Checking^[[0m campfire-server v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-server)
+fast	Rust lint	2026-10-25T03:45:15.4998174Z ^[[1m^[[92m    Finished^[[0m `dev` profile [unoptimized + debuginfo] target(s) in 22.83s
+fast	Rust tests	﻿2026-10-25T03:45:15.5194672Z ##[group]Run set -o pipefail
+fast	Rust tests	2026-10-25T03:45:15.5195000Z ^[[36;1mset -o pipefail^[[0m
+fast	Rust tests	2026-10-25T03:45:15.5195456Z ^[[36;1mcargo test --workspace --all-targets --locked --offline 2>&1 | tee artifacts/ci/rust-tests.log^[[0m
+fast	Rust tests	2026-10-25T03:45:15.5256346Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Rust tests	2026-10-25T03:45:15.5256692Z env:
+fast	Rust tests	2026-10-25T03:45:15.5256971Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Rust tests	2026-10-25T03:45:15.5257316Z   CARGO_BUILD_JOBS: 4
+fast	Rust tests	2026-10-25T03:45:15.5257547Z   CARGO_TERM_COLOR: always
+fast	Rust tests	2026-10-25T03:45:15.5257765Z ##[endgroup]
+fast	Rust tests	2026-10-25T03:45:15.6875698Z ^[[1m^[[92m   Compiling^[[0m cfg-if v1.0.5
+fast	Rust tests	2026-10-25T03:45:15.6876455Z ^[[1m^[[92m   Compiling^[[0m libc v0.2.191
+fast	Rust tests	2026-10-25T03:45:15.6877018Z ^[[1m^[[92m   Compiling^[[0m smallvec v1.16.3
+fast	Rust tests	2026-10-25T03:45:15.6903491Z ^[[1m^[[92m   Compiling^[[0m itoa v1.0.18
+fast	Rust tests	2026-10-25T03:45:15.7193296Z ^[[1m^[[92m   Compiling^[[0m bytes v1.12.1
+fast	Rust tests	2026-10-25T03:45:15.8100576Z ^[[1m^[[92m   Compiling^[[0m pin-project-lite v0.2.17
+fast	Rust tests	2026-10-25T03:45:15.8387714Z ^[[1m^[[92m   Compiling^[[0m log v0.4.34
+fast	Rust tests	2026-10-25T03:45:15.8559120Z ^[[1m^[[92m   Compiling^[[0m futures-core v0.3.34
+fast	Rust tests	2026-10-25T03:45:15.9312754Z ^[[1m^[[92m   Compiling^[[0m scopeguard v1.2.0
+fast	Rust tests	2026-10-25T03:45:15.9693001Z ^[[1m^[[92m   Compiling^[[0m lock_api v0.4.14
+fast	Rust tests	2026-10-25T03:45:15.9848471Z ^[[1m^[[92m   Compiling^[[0m once_cell v1.21.4
+fast	Rust tests	2026-10-25T03:45:16.1348876Z ^[[1m^[[92m   Compiling^[[0m tracing-core v0.1.36
+fast	Rust tests	2026-10-25T03:45:16.1583302Z ^[[1m^[[92m   Compiling^[[0m futures-sink v0.3.34
+fast	Rust tests	2026-10-25T03:45:16.2012732Z ^[[1m^[[92m   Compiling^[[0m http v1.5.0
+fast	Rust tests	2026-10-25T03:45:16.3562525Z ^[[1m^[[92m   Compiling^[[0m slab v0.4.12
+fast	Rust tests	2026-10-25T03:45:16.4658433Z ^[[1m^[[92m   Compiling^[[0m typenum v1.20.1
+fast	Rust tests	2026-10-25T03:45:16.7082646Z ^[[1m^[[92m   Compiling^[[0m tracing v0.1.44
+fast	Rust tests	2026-10-25T03:45:16.7410473Z ^[[1m^[[92m   Compiling^[[0m errno v0.3.14
+fast	Rust tests	2026-10-25T03:45:16.8162653Z ^[[1m^[[92m   Compiling^[[0m parking_lot_core v0.9.12
+fast	Rust tests	2026-10-25T03:45:16.9062796Z ^[[1m^[[92m   Compiling^[[0m signal-hook-registry v1.4.8
+fast	Rust tests	2026-10-25T03:45:17.0030379Z ^[[1m^[[92m   Compiling^[[0m parking_lot v0.12.5
+fast	Rust tests	2026-10-25T03:45:17.1410162Z ^[[1m^[[92m   Compiling^[[0m mio v1.2.4
+fast	Rust tests	2026-10-25T03:45:17.1442468Z ^[[1m^[[92m   Compiling^[[0m socket2 v0.6.5
+fast	Rust tests	2026-10-25T03:45:17.2932715Z ^[[1m^[[92m   Compiling^[[0m generic-array v0.14.7
+fast	Rust tests	2026-10-25T03:45:17.4113203Z ^[[1m^[[92m   Compiling^[[0m zerofrom v0.1.8
+fast	Rust tests	2026-10-25T03:45:17.4881282Z ^[[1m^[[92m   Compiling^[[0m tokio v1.53.3
+fast	Rust tests	2026-10-25T03:45:17.6241259Z ^[[1m^[[92m   Compiling^[[0m stable_deref_trait v1.2.1
+fast	Rust tests	2026-10-25T03:45:17.6532976Z ^[[1m^[[92m   Compiling^[[0m yoke v0.8.3
+fast	Rust tests	2026-10-25T03:45:17.6538538Z ^[[1m^[[92m   Compiling^[[0m httparse v1.10.1
+fast	Rust tests	2026-10-25T03:45:17.7812814Z ^[[1m^[[92m   Compiling^[[0m futures-task v0.3.34
+fast	Rust tests	2026-10-25T03:45:17.8502744Z ^[[1m^[[92m   Compiling^[[0m crypto-common v0.1.7
+fast	Rust tests	2026-10-25T03:45:17.8779045Z ^[[1m^[[92m   Compiling^[[0m futures-util v0.3.34
+fast	Rust tests	2026-10-25T03:45:17.8952606Z ^[[1m^[[92m   Compiling^[[0m block-buffer v0.10.4
+fast	Rust tests	2026-10-25T03:45:17.9076183Z ^[[1m^[[92m   Compiling^[[0m getrandom v0.3.4
+fast	Rust tests	2026-10-25T03:45:17.9611925Z ^[[1m^[[92m   Compiling^[[0m serde_core v1.0.229
+fast	Rust tests	2026-10-25T03:45:18.0512635Z ^[[1m^[[92m   Compiling^[[0m zerocopy v0.8.63
+fast	Rust tests	2026-10-25T03:45:20.1002704Z ^[[1m^[[92m   Compiling^[[0m http-body v1.1.0
+fast	Rust tests	2026-10-25T03:45:20.1822850Z ^[[1m^[[92m   Compiling^[[0m percent-encoding v2.3.2
+fast	Rust tests	2026-10-25T03:45:20.1978679Z ^[[1m^[[92m   Compiling^[[0m zerovec v0.11.8
+fast	Rust tests	2026-10-25T03:45:20.2962934Z ^[[1m^[[92m   Compiling^[[0m rand_core v0.9.5
+fast	Rust tests	2026-10-25T03:45:20.4402599Z ^[[1m^[[92m   Compiling^[[0m digest v0.10.7
+fast	Rust tests	2026-10-25T03:45:20.5722726Z ^[[1m^[[92m   Compiling^[[0m tower-service v0.3.3
+fast	Rust tests	2026-10-25T03:45:20.6072607Z ^[[1m^[[92m   Compiling^[[0m equivalent v1.0.3
+fast	Rust tests	2026-10-25T03:45:20.6342566Z ^[[1m^[[92m   Compiling^[[0m hashbrown v0.17.1
+fast	Rust tests	2026-10-25T03:45:20.7172483Z ^[[1m^[[92m   Compiling^[[0m cpufeatures v0.2.17
+fast	Rust tests	2026-10-25T03:45:20.7447599Z ^[[1m^[[92m   Compiling^[[0m fnv v1.0.7
+fast	Rust tests	2026-10-25T03:45:20.7785706Z ^[[1m^[[92m   Compiling^[[0m atomic-waker v1.1.2
+fast	Rust tests	2026-10-25T03:45:20.8342678Z ^[[1m^[[92m   Compiling^[[0m try-lock v0.2.5
+fast	Rust tests	2026-10-25T03:45:20.8792548Z ^[[1m^[[92m   Compiling^[[0m want v0.3.2
+fast	Rust tests	2026-10-25T03:45:20.9712609Z ^[[1m^[[92m   Compiling^[[0m serde v1.0.229
+fast	Rust tests	2026-10-25T03:45:21.1652793Z ^[[1m^[[92m   Compiling^[[0m indexmap v2.14.2
+fast	Rust tests	2026-10-25T03:45:21.4962464Z ^[[1m^[[92m   Compiling^[[0m thiserror v2.0.21
+fast	Rust tests	2026-10-25T03:45:21.5378436Z ^[[1m^[[92m   Compiling^[[0m sha1 v0.10.7
+fast	Rust tests	2026-10-25T03:45:21.6842834Z ^[[1m^[[92m   Compiling^[[0m ppv-lite86 v0.2.21
+fast	Rust tests	2026-10-25T03:45:21.7312494Z ^[[1m^[[92m   Compiling^[[0m tokio-util v0.7.20
+fast	Rust tests	2026-10-25T03:45:21.8073408Z ^[[1m^[[92m   Compiling^[[0m form_urlencoded v1.2.2
+fast	Rust tests	2026-10-25T03:45:21.9112575Z ^[[1m^[[92m   Compiling^[[0m futures-channel v0.3.34
+fast	Rust tests	2026-10-25T03:45:21.9792962Z ^[[1m^[[92m   Compiling^[[0m rand_chacha v0.9.0
+fast	Rust tests	2026-10-25T03:45:22.0662517Z ^[[1m^[[92m   Compiling^[[0m sync_wrapper v1.0.2
+fast	Rust tests	2026-10-25T03:45:22.1092486Z ^[[1m^[[92m   Compiling^[[0m tower-layer v0.3.3
+fast	Rust tests	2026-10-25T03:45:22.2160787Z ^[[1m^[[92m   Compiling^[[0m h2 v0.4.20
+fast	Rust tests	2026-10-25T03:45:22.3954073Z ^[[1m^[[92m   Compiling^[[0m rand v0.9.5
+fast	Rust tests	2026-10-25T03:45:22.4151813Z ^[[1m^[[92m   Compiling^[[0m data-encoding v2.11.1
+fast	Rust tests	2026-10-25T03:45:22.9412639Z ^[[1m^[[92m   Compiling^[[0m memchr v2.8.3
+fast	Rust tests	2026-10-25T03:45:23.2808683Z ^[[1m^[[92m   Compiling^[[0m httpdate v1.0.3
+fast	Rust tests	2026-10-25T03:45:23.4492567Z ^[[1m^[[92m   Compiling^[[0m zmij v1.0.23
+fast	Rust tests	2026-10-25T03:45:23.6562984Z ^[[1m^[[92m   Compiling^[[0m tinystr v0.8.4
+fast	Rust tests	2026-10-25T03:45:23.7543341Z ^[[1m^[[92m   Compiling^[[0m http-body-util v0.1.5
+fast	Rust tests	2026-10-25T03:45:23.7862654Z ^[[1m^[[92m   Compiling^[[0m ipnet v2.12.2
+fast	Rust tests	2026-10-25T03:45:23.9582253Z ^[[1m^[[92m   Compiling^[[0m writeable v0.6.4
+fast	Rust tests	2026-10-25T03:45:24.1302483Z ^[[1m^[[92m   Compiling^[[0m litemap v0.8.3
+fast	Rust tests	2026-10-25T03:45:24.2662533Z ^[[1m^[[92m   Compiling^[[0m base64 v0.23.1
+fast	Rust tests	2026-10-25T03:45:24.2955453Z ^[[1m^[[92m   Compiling^[[0m icu_locale_core v2.3.0
+fast	Rust tests	2026-10-25T03:45:24.6492515Z ^[[1m^[[92m   Compiling^[[0m serde_json v1.0.154
+fast	Rust tests	2026-10-25T03:45:24.6545995Z ^[[1m^[[92m   Compiling^[[0m tower v0.5.3
+fast	Rust tests	2026-10-25T03:45:25.1043991Z ^[[1m^[[92m   Compiling^[[0m potential_utf v0.1.6
+fast	Rust tests	2026-10-25T03:45:25.1893020Z ^[[1m^[[92m   Compiling^[[0m zerotrie v0.2.5
+fast	Rust tests	2026-10-25T03:45:25.4202622Z ^[[1m^[[92m   Compiling^[[0m utf8_iter v1.0.4
+fast	Rust tests	2026-10-25T03:45:25.5002743Z ^[[1m^[[92m   Compiling^[[0m ryu v1.0.23
+fast	Rust tests	2026-10-25T03:45:25.5320797Z ^[[1m^[[92m   Compiling^[[0m mime v0.3.17
+fast	Rust tests	2026-10-25T03:45:25.6153132Z ^[[1m^[[92m   Compiling^[[0m serde_urlencoded v0.7.1
+fast	Rust tests	2026-10-25T03:45:25.7452662Z ^[[1m^[[92m   Compiling^[[0m icu_collections v2.3.0
+fast	Rust tests	2026-10-25T03:45:25.7943370Z ^[[1m^[[92m   Compiling^[[0m icu_provider v2.3.1
+fast	Rust tests	2026-10-25T03:45:26.0412484Z ^[[1m^[[92m   Compiling^[[0m hyper v1.12.0
+fast	Rust tests	2026-10-25T03:45:26.0752625Z ^[[1m^[[92m   Compiling^[[0m tungstenite v0.29.0
+fast	Rust tests	2026-10-25T03:45:26.2352818Z ^[[1m^[[92m   Compiling^[[0m base64 v0.22.1
+fast	Rust tests	2026-10-25T03:45:26.5072964Z ^[[1m^[[92m   Compiling^[[0m icu_properties_data v2.3.0
+fast	Rust tests	2026-10-25T03:45:26.5952684Z ^[[1m^[[92m   Compiling^[[0m tokio-tungstenite v0.29.0
+fast	Rust tests	2026-10-25T03:45:26.7920885Z ^[[1m^[[92m   Compiling^[[0m icu_normalizer_data v2.3.0
+fast	Rust tests	2026-10-25T03:45:26.8279921Z ^[[1m^[[92m   Compiling^[[0m axum-core v0.5.6
+fast	Rust tests	2026-10-25T03:45:27.1757684Z ^[[1m^[[92m   Compiling^[[0m serde_path_to_error v0.1.20
+fast	Rust tests	2026-10-25T03:45:27.4994092Z ^[[1m^[[92m   Compiling^[[0m hyper-util v0.1.21
+fast	Rust tests	2026-10-25T03:45:27.5722368Z ^[[1m^[[92m   Compiling^[[0m bitflags v2.13.2
+fast	Rust tests	2026-10-25T03:45:27.7182205Z ^[[1m^[[92m   Compiling^[[0m matchit v0.8.4
+fast	Rust tests	2026-10-25T03:45:27.9282775Z ^[[1m^[[92m   Compiling^[[0m foreign-types-shared v0.1.1
+fast	Rust tests	2026-10-25T03:45:27.9672952Z ^[[1m^[[92m   Compiling^[[0m foreign-types v0.3.2
+fast	Rust tests	2026-10-25T03:45:27.9912647Z ^[[1m^[[92m   Compiling^[[0m icu_normalizer v2.3.0
+fast	Rust tests	2026-10-25T03:45:28.0342079Z ^[[1m^[[92m   Compiling^[[0m icu_properties v2.3.0
+fast	Rust tests	2026-10-25T03:45:28.4042707Z ^[[1m^[[92m   Compiling^[[0m openssl-sys v0.9.117
+fast	Rust tests	2026-10-25T03:45:28.5845751Z ^[[1m^[[92m   Compiling^[[0m sha2 v0.10.9
+fast	Rust tests	2026-10-25T03:45:28.7845489Z ^[[1m^[[92m   Compiling^[[0m openssl v0.10.81
+fast	Rust tests	2026-10-25T03:45:28.9203002Z ^[[1m^[[92m   Compiling^[[0m axum v0.8.9
+fast	Rust tests	2026-10-25T03:45:29.4092729Z ^[[1m^[[92m   Compiling^[[0m idna_adapter v1.2.2
+fast	Rust tests	2026-10-25T03:45:29.4412549Z ^[[1m^[[92m   Compiling^[[0m openssl-probe v0.2.1
+fast	Rust tests	2026-10-25T03:45:29.4722383Z ^[[1m^[[92m   Compiling^[[0m idna v1.1.0
+fast	Rust tests	2026-10-25T03:45:29.5462728Z ^[[1m^[[92m   Compiling^[[0m zeroize v1.9.1
+fast	Rust tests	2026-10-25T03:45:29.6454876Z ^[[1m^[[92m   Compiling^[[0m utf-8 v0.7.6
+fast	Rust tests	2026-10-25T03:45:29.7442471Z ^[[1m^[[92m   Compiling^[[0m url v2.5.8
+fast	Rust tests	2026-10-25T03:45:30.3250103Z ^[[1m^[[92m   Compiling^[[0m regex-syntax v0.8.11
+fast	Rust tests	2026-10-25T03:45:30.5732391Z ^[[1m^[[92m   Compiling^[[0m core_detect v1.0.0
+fast	Rust tests	2026-10-25T03:45:30.6565645Z ^[[1m^[[92m   Compiling^[[0m simdutf8 v0.1.5
+fast	Rust tests	2026-10-25T03:45:30.7934401Z ^[[1m^[[92m   Compiling^[[0m encoding_rs v0.8.42
+fast	Rust tests	2026-10-25T03:45:32.6743249Z ^[[1m^[[92m   Compiling^[[0m campfire-runtime v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-runtime)
+fast	Rust tests	2026-10-25T03:45:32.7512582Z ^[[1m^[[92m   Compiling^[[0m native-tls v0.2.18
+fast	Rust tests	2026-10-25T03:45:32.8002369Z ^[[1m^[[92m   Compiling^[[0m regex-automata v0.4.18
+fast	Rust tests	2026-10-25T03:45:33.0302566Z ^[[1m^[[92m   Compiling^[[0m tokio-native-tls v0.3.1
+fast	Rust tests	2026-10-25T03:45:33.1201579Z ^[[1m^[[92m   Compiling^[[0m hyper-tls v0.6.0
+fast	Rust tests	2026-10-25T03:45:33.2572672Z ^[[1m^[[92m   Compiling^[[0m tower-http v0.6.11
+fast	Rust tests	2026-10-25T03:45:33.5958903Z ^[[1m^[[92m   Compiling^[[0m tungstenite v0.28.0
+fast	Rust tests	2026-10-25T03:45:33.5977076Z ^[[1m^[[92m   Compiling^[[0m rustls-pki-types v1.15.1
+fast	Rust tests	2026-10-25T03:45:34.0472865Z ^[[1m^[[92m   Compiling^[[0m lazy_static v1.5.1
+fast	Rust tests	2026-10-25T03:45:34.0851330Z ^[[1m^[[92m   Compiling^[[0m sharded-slab v0.1.7
+fast	Rust tests	2026-10-25T03:45:34.5582637Z ^[[1m^[[92m   Compiling^[[0m tokio-tungstenite v0.28.0
+fast	Rust tests	2026-10-25T03:45:34.7445548Z ^[[1m^[[92m   Compiling^[[0m matchers v0.2.0
+fast	Rust tests	2026-10-25T03:45:34.7742584Z ^[[1m^[[92m   Compiling^[[0m reqwest v0.12.28
+fast	Rust tests	2026-10-25T03:45:34.8127008Z ^[[1m^[[92m   Compiling^[[0m tracing-serde v0.2.0
+fast	Rust tests	2026-10-25T03:45:34.9032470Z ^[[1m^[[92m   Compiling^[[0m tracing-log v0.2.0
+fast	Rust tests	2026-10-25T03:45:35.0612705Z ^[[1m^[[92m   Compiling^[[0m thread_local v1.1.10
+fast	Rust tests	2026-10-25T03:45:35.2232632Z ^[[1m^[[92m   Compiling^[[0m nu-ansi-term v0.50.3
+fast	Rust tests	2026-10-25T03:45:35.4822735Z ^[[1m^[[92m   Compiling^[[0m tracing-subscriber v0.3.23
+fast	Rust tests	2026-10-25T03:45:36.6048822Z ^[[1m^[[92m   Compiling^[[0m campfire-arena v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-arena)
+fast	Rust tests	2026-10-25T03:45:37.2050125Z ^[[1m^[[92m   Compiling^[[0m sysinfo v0.39.6
+fast	Rust tests	2026-10-25T03:45:38.0990241Z ^[[1m^[[92m   Compiling^[[0m subtle v2.6.1
+fast	Rust tests	2026-10-25T03:45:38.1913763Z ^[[1m^[[92m   Compiling^[[0m campfire-server v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-server)
+fast	Rust tests	2026-10-25T03:45:53.7727437Z ^[[1m^[[92m    Finished^[[0m `test` profile [unoptimized + debuginfo] target(s) in 38.23s
+fast	Rust tests	2026-10-25T03:45:53.9715060Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (/tmp/campfire-improvements-20261025-target/debug/deps/campfire_arena-3a674e8ed37df6b4)
+fast	Rust tests	2026-10-25T03:45:53.9726227Z 
+fast	Rust tests	2026-10-25T03:45:53.9726477Z running 7 tests
+fast	Rust tests	2026-10-25T03:45:53.9731937Z test tests::diagonals_are_normalized_and_boundaries_clamped ... ok
+fast	Rust tests	2026-10-25T03:45:53.9733029Z test tests::disconnect_stops_direction_and_reconnect_does_not_replay_it ... ok
+fast	Rust tests	2026-10-25T03:45:53.9734968Z test tests::invalid_settings_are_rejected ... ok
+fast	Rust tests	2026-10-25T03:45:53.9736047Z test tests::rejects_client_authority_invalid_components_and_unknown_fields ... ok
+fast	Rust tests	2026-10-25T03:45:53.9737147Z test tests::input_messages_do_not_move_until_tick_and_speed_is_fixed ... ok
+fast	Rust tests	2026-10-25T03:45:53.9738127Z test tests::replay_is_deterministic_and_departure_removes_player ... ok
+fast	Rust tests	2026-10-25T03:45:53.9739054Z test tests::simultaneous_goal_acquisition_scores_exactly_once ... ok
+fast	Rust tests	2026-10-25T03:45:53.9739519Z 
+fast	Rust tests	2026-10-25T03:45:53.9740119Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+fast	Rust tests	2026-10-25T03:45:53.9740714Z 
+fast	Rust tests	2026-10-25T03:45:53.9742177Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (/tmp/campfire-improvements-20261025-target/debug/deps/campfire_runtime-e880b8b2770728c6)
+fast	Rust tests	2026-10-25T03:45:53.9749620Z 
+fast	Rust tests	2026-10-25T03:45:53.9749780Z running 71 tests
+fast	Rust tests	2026-10-25T03:45:53.9758986Z test connection_limits::tests::defaults_and_finite_validation ... ok
+fast	Rust tests	2026-10-25T03:45:53.9760102Z test connection_limits::tests::control_bucket_refills_on_manual_clock ... ok
+fast	Rust tests	2026-10-25T03:45:53.9762136Z test observation::tests::directory_ages_cached_summaries_and_omits_closed_publishers_before_supervision ... ok
+fast	Rust tests	2026-10-25T03:45:53.9763662Z test protocol::tests::fingerprints_canonicalize_nested_object_keys_but_preserve_array_order ... ok
+fast	Rust tests	2026-10-25T03:45:53.9764828Z test protocol::tests::parses_ordered_game_commands ... ok
+fast	Rust tests	2026-10-25T03:45:53.9765883Z test protocol::tests::requires_explicit_version_type_request_id_and_fields ... ok
+fast	Rust tests	2026-10-25T03:45:53.9767124Z test protocol::tests::response_cache_is_bounded_and_conflicting_request_body_is_rejected ... ok
+fast	Rust tests	2026-10-25T03:45:53.9768959Z test observation::tests::directory_late_old_close_preserves_replacement_and_prunes_closed_admissions ... ok
+fast	Rust tests	2026-10-25T03:45:53.9770522Z test room::tests::account_rotation_refreshes_token_deadline_without_reusing_older_token_lifetime ... ok
+fast	Rust tests	2026-10-25T03:45:53.9772278Z test room::tests::admission_full_sync_is_reliable_before_latest_snapshot_and_expiry_releases_seat ... ok
+fast	Rust tests	2026-10-25T03:45:53.9774221Z test room::tests::cancellation_before_admission_has_no_membership_or_game_side_effect ... ok
+fast	Rust tests	2026-10-25T03:45:53.9778748Z test room::tests::command_result_survives_reply_loss_and_expiry_prevents_replay ... ok
+fast	Rust tests	2026-10-25T03:45:53.9780329Z test room::tests::commands_are_fifo_while_inputs_coalesce_and_terminal_errors_consume_sequence ... ok
+fast	Rust tests	2026-10-25T03:45:53.9782983Z test room::tests::cancelled_short_grant_preparation_does_not_shorten_real_actor_reservation ... ok
+fast	Rust tests	2026-10-25T03:45:53.9788300Z test room::tests::failed_command_is_counted_once ... ok
+fast	Rust tests	2026-10-25T03:45:53.9789484Z test room::tests::command_replay_conflict_gap_eviction_and_generation_fences_never_reexecute ... ok
+fast	Rust tests	2026-10-25T03:45:53.9790754Z test room::tests::full_sync_and_snapshot_include_independent_command_ack ... ok
+fast	Rust tests	2026-10-25T03:45:53.9792080Z test room::tests::command_replay_does_not_increment_processed ... ok
+fast	Rust tests	2026-10-25T03:45:53.9792842Z test room::tests::hardening_late_leave_cannot_remove_replacement ... ok
+fast	Rust tests	2026-10-25T03:45:53.9796109Z test room::tests::hardening_stop_already_true_before_actor_starts ... ok
+fast	Rust tests	2026-10-25T03:45:53.9797111Z test room::tests::newest_valid_input_is_applied_once_per_tick_and_invalid_does_not_advance_ack ... ok
+fast	Rust tests	2026-10-25T03:45:53.9797947Z test room::tests::observation_keeps_expired_unprocessed_seats_without_callbacks_or_sequence_changes ... ok
+fast	Rust tests	2026-10-25T03:45:53.9799001Z test room::tests::pending_rotation_cannot_commit_after_room_is_dropped ... ok
+fast	Rust tests	2026-10-25T03:45:53.9800080Z test room::tests::prepared_rotation_keeps_old_identity_and_deadline_until_commit ... ok
+fast	Rust tests	2026-10-25T03:45:53.9801872Z test room::tests::private_state_is_recipient_scoped_for_initial_periodic_and_resume ... ok
+fast	Rust tests	2026-10-25T03:45:53.9803139Z test room::tests::queued_old_generation_commands_are_fenced_by_control_barrier ... ok
+fast	Rust tests	2026-10-25T03:45:53.9812076Z test room::tests::replacement_discards_unprocessed_old_generation_and_reuses_processed_sequence ... ok
+fast	Rust tests	2026-10-25T03:45:53.9814332Z test room::tests::recent_nearest_rank_percentiles_include_zero ... ok
+fast	Rust tests	2026-10-25T03:45:53.9817788Z test room::tests::response_failure_after_commit_preserves_resumable_reservation ... ok
+fast	Rust tests	2026-10-25T03:45:53.9823503Z test room::tests::replacement_does_not_extend_existing_grace_and_old_close_cannot_disconnect_resume ... ok
+fast	Rust tests	2026-10-25T03:45:53.9829007Z test room::tests::same_manual_clock_trace_replays_tick_ack_expiry_and_state_deterministically ... ok
+fast	Rust tests	2026-10-25T03:45:53.9853276Z test session::tests::account_cancelled_rotation_keeps_old_token_identity_and_deadline_before_actor_commit ... ok
+fast	Rust tests	2026-10-25T03:45:53.9855115Z test session::tests::accepted_rotation_preserves_real_actor_ledger_when_old_ttl_expires_before_next_poll ... ok
+fast	Rust tests	2026-10-25T03:45:53.9860470Z test session::tests::account_disabled_and_invalid_credentials_do_not_create_sessions ... ok
+fast	Rust tests	2026-10-25T03:45:53.9862766Z test session::tests::account_grant_expiring_during_expired_seat_cleanup_does_not_commit ... ok
+fast	Rust tests	2026-10-25T03:45:53.9864573Z test session::tests::account_grant_expiring_while_waiting_for_commit_does_not_create_session ... ok
+fast	Rust tests	2026-10-25T03:45:53.9866632Z test session::tests::account_grant_lifetime_starts_before_verification_and_is_capped_by_guest_ttl ... ok
+fast	Rust tests	2026-10-25T03:45:53.9871739Z test session::tests::account_timeout_and_shutdown_release_verification_capacity_without_session_mutation ... ok
+fast	Rust tests	2026-10-25T03:45:53.9873243Z test session::tests::account_invalid_grants_are_bounded_and_debug_redacts_identity ... ok
+fast	Rust tests	2026-10-25T03:45:53.9882260Z test session::tests::account_verification_does_not_hold_state_lock_and_cancel_releases_shared_permit ... ok
+fast	Rust tests	2026-10-25T03:45:53.9884176Z test session::tests::account_valid_grant_is_scoped_and_rotation_replaces_token_without_replacing_player ... ok
+fast	Rust tests	2026-10-25T03:45:53.9890865Z test session::tests::bounded_command_queue_full_is_non_consuming_and_retry_uses_same_sequence ... ok
+fast	Rust tests	2026-10-25T03:45:53.9893178Z test session::tests::hardening_cached_pagination_skips_closed_private_and_uncommitted_rooms ... ok
+fast	Rust tests	2026-10-25T03:45:53.9894930Z test session::tests::hardening_cancellation_before_enter_enqueue_has_no_admission ... ok
+fast	Rust tests	2026-10-25T03:45:53.9914822Z test session::tests::hardening_cancelled_enter_reconciles_seat ... ok
+fast	Rust tests	2026-10-25T03:45:53.9952400Z test session::tests::hardening_cancelled_enter_after_real_actor_commit_preserves_one_reserved_seat ... ok
+fast	Rust tests	2026-10-25T03:45:53.9972156Z test session::tests::hardening_cancelled_short_rotation_preserves_actor_reservation_deadline ... ok
+fast	Rust tests	2026-10-25T03:45:53.9983735Z test session::tests::hardening_disconnect_uses_actor_deadline_instead_of_late_ack_time ... ok
+fast	Rust tests	2026-10-25T03:45:53.9987709Z test session::tests::hardening_create_cancel_releases_slot ... ok
+fast	Rust tests	2026-10-25T03:45:53.9989116Z test room::tests::hardening_saturated_tick_and_controls_allow_data ... ok
+fast	Rust tests	2026-10-25T03:45:53.9990432Z test session::tests::hardening_list_uses_cached_summary ... ok
+fast	Rust tests	2026-10-25T03:45:53.9992290Z test session::tests::hardening_factory_runs_without_state_lock_and_reserves_room_capacity ... ok
+fast	Rust tests	2026-10-25T03:45:53.9994013Z test session::tests::hardening_removed_sessions_do_not_release_operation_capacity_early ... ok
+fast	Rust tests	2026-10-25T03:45:53.9995647Z test session::tests::hardening_parallel_rotation_and_expiry ... ok
+fast	Rust tests	2026-10-25T03:45:53.9997171Z test session::tests::hardening_shutdown_releases_callers_waiting_for_session_gate ... ok
+fast	Rust tests	2026-10-25T03:45:53.9999719Z test session::tests::hardening_identity_gate_registry_is_bounded ... ok
+fast	Rust tests	2026-10-25T03:45:54.0001533Z test session::tests::hardening_slow_room_does_not_block_other_session ... ok
+fast	Rust tests	2026-10-25T03:45:54.0012117Z test session::tests::hardening_stop_bypasses_full_control_queue ... ok
+fast	Rust tests	2026-10-25T03:45:54.0013644Z test session::tests::late_old_instance_close_keeps_replacement_room_and_decrements_only_old_actor ... ok
+fast	Rust tests	2026-10-25T03:45:54.0015345Z test session::tests::manual_clock_reclaims_session_rate_keys_room_and_reservation_before_reissue ... ok
+fast	Rust tests	2026-10-25T03:45:54.0016735Z test session::tests::observer_does_not_keep_runtime_alive ... ok
+fast	Rust tests	2026-10-25T03:45:54.0018177Z test session::tests::observer_omits_panicked_actor_and_supervision_refunds_active_room_once ... ok
+fast	Rust tests	2026-10-25T03:45:54.0042007Z test room::tests::recent_window_expires_and_caps_512 ... ok
+fast	Rust tests	2026-10-25T03:45:54.0045220Z test session::tests::observer_reports_empty_registered_games_without_manager_or_module_locks ... ok
+fast	Rust tests	2026-10-25T03:45:54.0067848Z test session::tests::observer_tracks_actual_actor_seats_through_join_disconnect_resume_expiry_and_close ... ok
+fast	Rust tests	2026-10-25T03:45:54.0077266Z test session::tests::reservation_expiry_timestamp_is_stable_across_manual_clock_reauthentication ... ok
+fast	Rust tests	2026-10-25T03:45:54.0085971Z test session::tests::shutdown_delivers_stop_even_when_control_queue_is_full ... ok
+fast	Rust tests	2026-10-25T03:45:54.0088567Z test transport::tests::reliable_send_survives_first_deadline_without_dropping_full_sync ... ok
+fast	Rust tests	2026-10-25T03:45:54.0096409Z test session::tests::observer_only_serializes_allowlisted_summary_without_game_callbacks_or_mutations ... ok
+fast	Rust tests	2026-10-25T03:45:54.0529134Z test session::tests::hardening_shutdown_reports_blocked_callback_until_released ... ok
+fast	Rust tests	2026-10-25T03:45:54.0718094Z test session::tests::hardening_shutdown_reports_pending_without_claiming_completion ... ok
+fast	Rust tests	2026-10-25T03:45:54.0718752Z 
+fast	Rust tests	2026-10-25T03:45:54.0719413Z test result: ok. 71 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+fast	Rust tests	2026-10-25T03:45:54.0720050Z 
+fast	Rust tests	2026-10-25T03:45:54.0723495Z ^[[1m^[[92m     Running^[[0m tests/connection_limits.rs (/tmp/campfire-improvements-20261025-target/debug/deps/connection_limits-87f843909d648993)
+fast	Rust tests	2026-10-25T03:45:54.0744035Z 
+fast	Rust tests	2026-10-25T03:45:54.0744195Z running 8 tests
+fast	Rust tests	2026-10-25T03:45:54.1907804Z test hardening_malformed_frames_close_within_violation_limit ... ok
+fast	Rust tests	2026-10-25T03:45:54.1909970Z test hardening_invalid_budget_counts_binary_and_closes_early ... ok
+fast	Rust tests	2026-10-25T03:45:54.1914379Z test hardening_options_reject_zero_and_overflow_without_changing_legacy_config ... ok
+fast	Rust tests	2026-10-25T03:45:54.1924776Z test hardening_control_flood_is_limited ... ok
+fast	Rust tests	2026-10-25T03:45:54.2904035Z test hardening_input_and_control_budgets_are_independent ... ok
+fast	Rust tests	2026-10-25T03:45:54.2945237Z test hardening_replay_consumes_control_budget ... ok
+fast	Rust tests	2026-10-25T03:45:54.2955433Z test hardening_normal_create_and_cached_list_remain_available ... ok
+fast	Rust tests	2026-10-25T03:45:54.3411375Z test hardening_resume_after_disconnect_uses_control_budget ... ok
+fast	Rust tests	2026-10-25T03:45:54.3412029Z 
+fast	Rust tests	2026-10-25T03:45:54.3412557Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
+fast	Rust tests	2026-10-25T03:45:54.3412949Z 
+fast	Rust tests	2026-10-25T03:45:54.3423224Z ^[[1m^[[92m     Running^[[0m tests/invariants.rs (/tmp/campfire-improvements-20261025-target/debug/deps/invariants-a1470ae077a778ef)
+fast	Rust tests	2026-10-25T03:45:54.3432648Z 
+fast	Rust tests	2026-10-25T03:45:54.3432839Z running 2 tests
+fast	Rust tests	2026-10-25T03:45:54.3435611Z test config_rejects_unbounded_or_invalid_timing ... ok
+fast	Rust tests	2026-10-25T03:45:54.3436450Z test config_rejects_values_that_overflow_clocks_or_channel_allocations ... ok
+fast	Rust tests	2026-10-25T03:45:54.3436920Z 
+fast	Rust tests	2026-10-25T03:45:54.3437503Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+fast	Rust tests	2026-10-25T03:45:54.3438100Z 
+fast	Rust tests	2026-10-25T03:45:54.3438841Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (/tmp/campfire-improvements-20261025-target/debug/deps/campfire_server-3549b5ac027a4c2a)
+fast	Rust tests	2026-10-25T03:45:54.3448241Z 
+fast	Rust tests	2026-10-25T03:45:54.3448443Z running 18 tests
+fast	Rust tests	2026-10-25T03:45:54.3454749Z test connection_limits::tests::defaults_and_exact_environment_keys ... ok
+fast	Rust tests	2026-10-25T03:45:54.3456115Z test cli::tests::cli_overrides_environment_without_global_env_mutation ... ok
+fast	Rust tests	2026-10-25T03:45:54.3457416Z test cli::tests::defaults_and_explicit_module_selection ... ok
+fast	Rust tests	2026-10-25T03:45:54.3458554Z test connection_limits::tests::overrides_and_rejects_invalid_values ... ok
+fast	Rust tests	2026-10-25T03:45:54.3459869Z test cli::tests::rejects_invalid_unknown_duplicate_and_overflow_values ... ok
+fast	Rust tests	2026-10-25T03:45:54.3461670Z test dashboard::tests::failed_initial_refresh_cannot_initialize_the_cpu_baseline ... ok
+fast	Rust tests	2026-10-25T03:45:54.3481911Z test dashboard::tests::drop_does_not_join_a_blocked_os_call ... ok
+fast	Rust tests	2026-10-25T03:45:54.3482901Z test dashboard::tests::frozen_cache_and_actor_resource_ages_become_stale_at_response_time ... ok
+fast	Rust tests	2026-10-25T03:45:54.3497333Z test dashboard::tests::history_bounds_count_and_monotonic_age_without_filling_skipped_intervals ... ok
+fast	Rust tests	2026-10-25T03:45:54.3501996Z test dashboard::tests::metrics_projection_includes_only_operational_fields_and_recent_latency ... ok
+fast	Rust tests	2026-10-25T03:45:54.3505374Z test dashboard::tests::rate_counter_decrease_is_unknown_and_maxima_remain_lifetime_values ... ok
+fast	Rust tests	2026-10-25T03:45:54.3508316Z test dashboard::tests::resource_warmup_failure_and_multicore_values_are_explicit ... ok
+fast	Rust tests	2026-10-25T03:45:54.3519193Z test dashboard::tests::collector_warms_up_and_skips_missed_ticks_and_restarts_with_a_new_boot ... ok
+fast	Rust tests	2026-10-25T03:45:54.3521383Z test dashboard::tests::room_keyset_cursor_is_bound_to_boot_and_filters_and_private_metadata_is_visible ... ok
+fast	Rust tests	2026-10-25T03:45:54.3526004Z test dashboard::tests::terminated_worker_before_first_publish_becomes_unavailable ... ok
+fast	Rust tests	2026-10-25T03:45:54.9541307Z test dashboard::tests::history_restart_and_evicted_cursor_reset_without_synthetic_points ... ok
+fast	Rust tests	2026-10-25T03:45:55.3528782Z test dashboard::tests::stalled_worker_after_a_successful_publish_becomes_stale ... ok
+fast	Rust tests	2026-10-25T03:45:59.4523227Z test dashboard::tests::blocked_os_worker_does_not_stop_collection_and_shutdown_has_a_deadline ... ok
+fast	Rust tests	2026-10-25T03:45:59.4523972Z 
+fast	Rust tests	2026-10-25T03:45:59.4524602Z test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.11s
+fast	Rust tests	2026-10-25T03:45:59.4525036Z 
+fast	Rust tests	2026-10-25T03:45:59.4527626Z ^[[1m^[[92m     Running^[[0m unittests src/main.rs (/tmp/campfire-improvements-20261025-target/debug/deps/campfire_server-380d3cbaf1e7d595)
+fast	Rust tests	2026-10-25T03:45:59.4537887Z 
+fast	Rust tests	2026-10-25T03:45:59.4538111Z running 0 tests
+fast	Rust tests	2026-10-25T03:45:59.4538602Z 
+fast	Rust tests	2026-10-25T03:45:59.4539252Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+fast	Rust tests	2026-10-25T03:45:59.4539781Z 
+fast	Rust tests	2026-10-25T03:45:59.4541761Z ^[[1m^[[92m     Running^[[0m tests/dashboard.rs (/tmp/campfire-improvements-20261025-target/debug/deps/dashboard-7cb3935ad54ad58b)
+fast	Rust tests	2026-10-25T03:45:59.4561453Z 
+fast	Rust tests	2026-10-25T03:45:59.4561723Z running 5 tests
+fast	Rust tests	2026-10-25T03:45:59.4575949Z test environment_requires_untrimmed_graphic_secret_and_never_echoes_it ... ok
+fast	Rust tests	2026-10-25T03:45:59.4609673Z test invalid_unicode_environment_is_rejected_without_printing_its_bytes ... ok
+fast	Rust tests	2026-10-25T03:45:59.5361590Z test admin_data_requires_an_independent_bearer_key ... ok
+fast	Rust tests	2026-10-25T03:45:59.5566742Z test disabled_routes_are_missing_and_enabled_shell_contains_no_secret ... ok
+fast	Rust tests	2026-10-25T03:46:01.8010471Z test real_process_sampler_and_incremental_history_progress_independently ... ok
+fast	Rust tests	2026-10-25T03:46:01.8011219Z 
+fast	Rust tests	2026-10-25T03:46:01.8011683Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.34s
+fast	Rust tests	2026-10-25T03:46:01.8012047Z 
+fast	Rust tests	2026-10-25T03:46:01.8021159Z ^[[1m^[[92m     Running^[[0m tests/extensions.rs (/tmp/campfire-improvements-20261025-target/debug/deps/extensions-c67ba33c0dd93278)
+fast	Rust tests	2026-10-25T03:46:01.8050228Z 
+fast	Rust tests	2026-10-25T03:46:01.8057174Z running 12 tests
+fast	Rust tests	2026-10-25T03:46:02.0442260Z test account_endpoint_preserves_media_type_status_without_echoing_credentials ... ok
+fast	Rust tests	2026-10-25T03:46:02.1034521Z test account_keys_are_scoped_by_game_and_issuer_and_tokens_cannot_cross_games ... ok
+fast	Rust tests	2026-10-25T03:46:02.2132424Z test bounded_command_history_rejects_evicted_sequences_without_reapplying ... ok
+fast	Rust tests	2026-10-25T03:46:02.2665525Z test account_rotation_closes_old_socket_preserves_room_and_private_state_stays_recipient_local ... ok
+fast	Rust tests	2026-10-25T03:46:02.4270608Z test command_request_cache_and_stale_instance_cannot_bypass_membership_validation ... ok
+fast	Rust tests	2026-10-25T03:46:02.4758205Z test account_endpoint_rejects_disabled_invalid_expired_and_client_identity ... ok
+fast	Rust tests	2026-10-25T03:46:02.5345740Z test concurrent_account_logins_leave_only_the_last_issued_token_valid ... ok
+fast	Rust tests	2026-10-25T03:46:02.7328216Z test pending_host_verification_does_not_block_health_or_guest_issuance ... ok
+fast	Rust tests	2026-10-25T03:46:02.7329769Z test account_verification_timeout_returns_permit_and_cannot_issue_a_session ... ok
+fast	Rust tests	2026-10-25T03:46:03.2015652Z test eight_accounts_share_fifo_state_without_private_data_leaks ... ok
+fast	Rust tests	2026-10-25T03:46:03.7022770Z test sixteen_accounts_share_fifo_state_without_private_data_leaks ... ok
+fast	Rust tests	2026-10-25T03:46:04.2815436Z test command_fifo_replay_conflict_gap_failures_and_resume_preserve_exact_mutations ... ok
+fast	Rust tests	2026-10-25T03:46:04.2816405Z 
+fast	Rust tests	2026-10-25T03:46:04.2817069Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.48s
+fast	Rust tests	2026-10-25T03:46:04.2817632Z 
+fast	Rust tests	2026-10-25T03:46:04.2824913Z ^[[1m^[[92m     Running^[[0m tests/headless.rs (/tmp/campfire-improvements-20261025-target/debug/deps/headless-9af3fd608735f15c)
+fast	Rust tests	2026-10-25T03:46:04.2846661Z 
+fast	Rust tests	2026-10-25T03:46:04.2846842Z running 22 tests
+fast	Rust tests	2026-10-25T03:46:04.4655044Z test authentication_deadline_and_invalid_first_message ... ok
+fast	Rust tests	2026-10-25T03:46:04.6080294Z test concurrent_authentication_and_cross_room_admission_has_one_membership ... ok
+fast	Rust tests	2026-10-25T03:46:04.6483499Z test connection_and_unauthenticated_caps_refund_permits ... ok
+fast	Rust tests	2026-10-25T03:46:04.7050364Z test abusive_connection_is_isolated ... ok
+fast	Rust tests	2026-10-25T03:46:04.7806721Z test game_isolation_and_stale_instance ... ok
+fast	Rust tests	2026-10-25T03:46:04.9275278Z test caps_and_cleanup ... ok
+fast	Rust tests	2026-10-25T03:46:04.9366426Z test input_validation_and_recipient_ack ... ok
+fast	Rust tests	2026-10-25T03:46:05.0350131Z test issuer_and_global_guest_rate_limits_recover ... ok
+fast	Rust tests	2026-10-25T03:46:05.0354590Z test reconnect_grace_expires ... ignored, real 30 second reservation boundary
+fast	Rust tests	2026-10-25T03:46:05.0541845Z test panic_supervision_cleans_directory ... ok
+fast	Rust tests	2026-10-25T03:46:05.2733709Z test replacement_requires_resume_and_preserves_membership ... ok
+fast	Rust tests	2026-10-25T03:46:05.3354339Z test replay_and_idempotent_leave ... ok
+fast	Rust tests	2026-10-25T03:46:05.3804444Z test rate_key_cap_and_ttl_reclaim_trusted_source_entries ... ok
+fast	Rust tests	2026-10-25T03:46:05.4673450Z test schema_and_explicit_game_mismatch_are_rejected ... ok
+fast	Rust tests	2026-10-25T03:46:05.7252005Z test repeated_authentication_does_not_extend_reservation ... ok
+fast	Rust tests	2026-10-25T03:46:05.7253477Z test slow_reader_isolated_and_p95 ... ignored, real socket backpressure and matched baseline measurement
+fast	Rust tests	2026-10-25T03:46:05.7256713Z test soak_16_clients_60_seconds ... ignored, real TCP soak, minimum 60 seconds
+fast	Rust tests	2026-10-25T03:46:05.7258425Z test soak_8_clients_60_seconds ... ignored, real TCP soak, minimum 60 seconds
+fast	Rust tests	2026-10-25T03:46:05.7354006Z test last_seat_race_is_atomic ... ok
+fast	Rust tests	2026-10-25T03:46:05.8560848Z test room_cap_refunds_rejected_and_disconnected_creation ... ok
+fast	Rust tests	2026-10-25T03:46:06.0962218Z test token_expiry_and_logout ... ok
+fast	Rust tests	2026-10-25T03:46:08.3315923Z test shared_queue_saturation_is_not_abuse ... ok
+fast	Rust tests	2026-10-25T03:46:08.3316328Z 
+fast	Rust tests	2026-10-25T03:46:08.3316774Z test result: ok. 18 passed; 0 failed; 4 ignored; 0 measured; 0 filtered out; finished in 4.05s
+fast	Rust tests	2026-10-25T03:46:08.3317138Z 
+fast	Rust tests	2026-10-25T03:46:08.3329501Z ^[[1m^[[92m     Running^[[0m unittests examples/account_server.rs (/tmp/campfire-improvements-20261025-target/debug/examples/account_server-bf403bea337f263a)
+fast	Rust tests	2026-10-25T03:46:08.3339225Z 
+fast	Rust tests	2026-10-25T03:46:08.3339449Z running 0 tests
+fast	Rust tests	2026-10-25T03:46:08.3339904Z 
+fast	Rust tests	2026-10-25T03:46:08.3340606Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+fast	Rust tests	2026-10-25T03:46:08.3341394Z 
+fast	Rust tests	2026-10-25T03:46:08.3342671Z ^[[1m^[[92m     Running^[[0m unittests examples/headless.rs (/tmp/campfire-improvements-20261025-target/debug/examples/headless-4e4b985be869456f)
+fast	Rust tests	2026-10-25T03:46:08.3351601Z 
+fast	Rust tests	2026-10-25T03:46:08.3351836Z running 0 tests
+fast	Rust tests	2026-10-25T03:46:08.3352098Z 
+fast	Rust tests	2026-10-25T03:46:08.3352538Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+fast	Rust tests	2026-10-25T03:46:08.3352909Z 
+fast	Server without default features	﻿2026-10-25T03:46:08.3443964Z ##[group]Run set -o pipefail
+fast	Server without default features	2026-10-25T03:46:08.3444272Z ^[[36;1mset -o pipefail^[[0m
+fast	Server without default features	2026-10-25T03:46:08.3444860Z ^[[36;1mcargo check -p campfire-server --no-default-features --all-targets --locked --offline 2>&1 | tee artifacts/ci/server-no-default.log^[[0m
+fast	Server without default features	2026-10-25T03:46:08.3506880Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Server without default features	2026-10-25T03:46:08.3507227Z env:
+fast	Server without default features	2026-10-25T03:46:08.3507501Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Server without default features	2026-10-25T03:46:08.3507844Z   CARGO_BUILD_JOBS: 4
+fast	Server without default features	2026-10-25T03:46:08.3508074Z   CARGO_TERM_COLOR: always
+fast	Server without default features	2026-10-25T03:46:08.3508294Z ##[endgroup]
+fast	Server without default features	2026-10-25T03:46:08.4975848Z ^[[1m^[[92m    Checking^[[0m campfire-runtime v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-runtime)
+fast	Server without default features	2026-10-25T03:46:09.2693979Z ^[[1m^[[92m    Checking^[[0m campfire-server v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-server)
+fast	Server without default features	2026-10-25T03:46:10.1326760Z ^[[1m^[[92m    Finished^[[0m `dev` profile [unoptimized + debuginfo] target(s) in 1.76s
+fast	Node UI tests	﻿2026-10-25T03:46:10.1509590Z ##[group]Run set -o pipefail
+fast	Node UI tests	2026-10-25T03:46:10.1509920Z ^[[36;1mset -o pipefail^[[0m
+fast	Node UI tests	2026-10-25T03:46:10.1510289Z ^[[36;1mnode --test tools/tests/*.mjs 2>&1 | tee artifacts/ci/node-tests.log^[[0m
+fast	Node UI tests	2026-10-25T03:46:10.1572498Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Node UI tests	2026-10-25T03:46:10.1572851Z env:
+fast	Node UI tests	2026-10-25T03:46:10.1573136Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Node UI tests	2026-10-25T03:46:10.1573484Z   CARGO_BUILD_JOBS: 4
+fast	Node UI tests	2026-10-25T03:46:10.1573712Z   CARGO_TERM_COLOR: always
+fast	Node UI tests	2026-10-25T03:46:10.1573935Z ##[endgroup]
+fast	Node UI tests	2026-10-25T03:46:10.3601302Z Dashboard UI async controls and chart diagnostics: 23 scenarios passed.
+fast	Node UI tests	2026-10-25T03:46:10.3696413Z ✔ tools/tests/dashboard_ui_control.mjs (165.977449ms)
+fast	Node UI tests	2026-10-25T03:46:10.3700415Z ℹ tests 1
+fast	Node UI tests	2026-10-25T03:46:10.3700848Z ℹ suites 0
+fast	Node UI tests	2026-10-25T03:46:10.3704321Z ℹ pass 1
+fast	Node UI tests	2026-10-25T03:46:10.3705476Z ℹ fail 0
+fast	Node UI tests	2026-10-25T03:46:10.3706069Z ℹ cancelled 0
+fast	Node UI tests	2026-10-25T03:46:10.3706684Z ℹ skipped 0
+fast	Node UI tests	2026-10-25T03:46:10.3707215Z ℹ todo 0
+fast	Node UI tests	2026-10-25T03:46:10.3707957Z ℹ duration_ms 174.772213
+fast	Python runner and package tests	﻿2026-10-25T03:46:10.3798573Z ##[group]Run set -o pipefail
+fast	Python runner and package tests	2026-10-25T03:46:10.3799096Z ^[[36;1mset -o pipefail^[[0m
+fast	Python runner and package tests	2026-10-25T03:46:10.3799947Z ^[[36;1mpython3 -m unittest discover -s tools/tests -p 'test_*.py' 2>&1 | tee artifacts/ci/python-tests.log^[[0m
+fast	Python runner and package tests	2026-10-25T03:46:10.3864904Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Python runner and package tests	2026-10-25T03:46:10.3865265Z env:
+fast	Python runner and package tests	2026-10-25T03:46:10.3865552Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Python runner and package tests	2026-10-25T03:46:10.3865905Z   CARGO_BUILD_JOBS: 4
+fast	Python runner and package tests	2026-10-25T03:46:10.3866126Z   CARGO_TERM_COLOR: always
+fast	Python runner and package tests	2026-10-25T03:46:10.3866353Z ##[endgroup]
+fast	Python runner and package tests	2026-10-25T03:46:10.6868517Z ........{
+fast	Python runner and package tests	2026-10-25T03:46:10.6869158Z   "status": "failed",
+fast	Python runner and package tests	2026-10-25T03:46:10.6869595Z   "version": "0.1.0",
+fast	Python runner and package tests	2026-10-25T03:46:10.6869899Z   "msrv": "pending",
+fast	Python runner and package tests	2026-10-25T03:46:10.6870323Z   "target_dir": "/tmp/campfire-package-smoke-5ikd058n/target",
+fast	Python runner and package tests	2026-10-25T03:46:10.6870722Z   "target_source": "temporary",
+fast	Python runner and package tests	2026-10-25T03:46:10.6871662Z   "archive_mode": "runtime verified; arena/server archive without lockfile, then compiled from extracted archive",
+fast	Python runner and package tests	2026-10-25T03:46:10.6872494Z   "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+fast	Python runner and package tests	2026-10-25T03:46:10.6872999Z   "checkout_consumer": "pending",
+fast	Python runner and package tests	2026-10-25T03:46:10.6873527Z   "archive_consumer": "pending",
+fast	Python runner and package tests	2026-10-25T03:46:10.6883426Z   "server_archive_check": "pending",
+fast	Python runner and package tests	2026-10-25T03:46:10.6883797Z   "archives": {},
+fast	Python runner and package tests	2026-10-25T03:46:10.6884041Z   "metadata": {},
+fast	Python runner and package tests	2026-10-25T03:46:10.6884268Z   "consumer_lockfiles": {},
+fast	Python runner and package tests	2026-10-25T03:46:10.6884529Z   "repository_lockfile": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6884988Z     "before_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+fast	Python runner and package tests	2026-10-25T03:46:10.6885637Z     "after_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+fast	Python runner and package tests	2026-10-25T03:46:10.6886087Z     "unchanged": true
+fast	Python runner and package tests	2026-10-25T03:46:10.6886301Z   },
+fast	Python runner and package tests	2026-10-25T03:46:10.6886963Z   "lockfile_exclusion_reason": "unpublished internal crate versions are absent from crates.io; root Cargo.lock stays unchanged",
+fast	Python runner and package tests	2026-10-25T03:46:10.6887675Z   "verification_limits": [
+fast	Python runner and package tests	2026-10-25T03:46:10.6888254Z     "arena/server archives omit Cargo.lock; reproducible packaged resolution and cargo install --locked are unverified",
+fast	Python runner and package tests	2026-10-25T03:46:10.6888933Z     "crates.io publication and public registry download are unverified"
+fast	Python runner and package tests	2026-10-25T03:46:10.6889292Z   ],
+fast	Python runner and package tests	2026-10-25T03:46:10.6889524Z   "registry_publish": "not attempted",
+fast	Python runner and package tests	2026-10-25T03:46:10.6889795Z   "error": "dry run"
+fast	Python runner and package tests	2026-10-25T03:46:10.6890002Z }
+fast	Python runner and package tests	2026-10-25T03:46:10.6890174Z {
+fast	Python runner and package tests	2026-10-25T03:46:10.6890359Z   "status": "passed",
+fast	Python runner and package tests	2026-10-25T03:46:10.6890586Z   "version": "0.1.0",
+fast	Python runner and package tests	2026-10-25T03:46:10.6890906Z   "msrv": "verified 1.96 in all normalized package manifests",
+fast	Python runner and package tests	2026-10-25T03:46:10.6891542Z   "target_dir": "/tmp/tmpnphncg0s/target",
+fast	Python runner and package tests	2026-10-25T03:46:10.6891860Z   "target_source": "argument",
+fast	Python runner and package tests	2026-10-25T03:46:10.6892426Z   "archive_mode": "runtime verified; arena/server archive without lockfile, then compiled from extracted archive",
+fast	Python runner and package tests	2026-10-25T03:46:10.6893190Z   "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+fast	Python runner and package tests	2026-10-25T03:46:10.6893679Z   "checkout_consumer": "passed",
+fast	Python runner and package tests	2026-10-25T03:46:10.6893954Z   "archive_consumer": "passed",
+fast	Python runner and package tests	2026-10-25T03:46:10.6894234Z   "server_archive_check": "passed",
+fast	Python runner and package tests	2026-10-25T03:46:10.6894492Z   "archives": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6894720Z     "campfire-runtime": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6895129Z       "sha256": "67c72aad2a1f35650a4a91788121d3558f0ed76ec5ef8639c23ad0d18fc5de9e",
+fast	Python runner and package tests	2026-10-25T03:46:10.6895529Z       "files": 3,
+fast	Python runner and package tests	2026-10-25T03:46:10.6895763Z       "lockfile_included": true
+fast	Python runner and package tests	2026-10-25T03:46:10.6896000Z     },
+fast	Python runner and package tests	2026-10-25T03:46:10.6896199Z     "campfire-arena": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6896604Z       "sha256": "823219faa15ee4cb7a1d6f9b037ca1dde25b95ee0bc7c4edea5810025716ebc9",
+fast	Python runner and package tests	2026-10-25T03:46:10.6897203Z       "files": 2,
+fast	Python runner and package tests	2026-10-25T03:46:10.6897438Z       "lockfile_included": false
+fast	Python runner and package tests	2026-10-25T03:46:10.6897675Z     },
+fast	Python runner and package tests	2026-10-25T03:46:10.6897870Z     "campfire-server": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6898439Z       "sha256": "1e9658b9920a6dbed9f2faa01efc896794e237e0bb105866ef1ed8d936230eca",
+fast	Python runner and package tests	2026-10-25T03:46:10.6898847Z       "files": 2,
+fast	Python runner and package tests	2026-10-25T03:46:10.6899084Z       "lockfile_included": false
+fast	Python runner and package tests	2026-10-25T03:46:10.6899324Z     }
+fast	Python runner and package tests	2026-10-25T03:46:10.6899506Z   },
+fast	Python runner and package tests	2026-10-25T03:46:10.6899691Z   "metadata": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6899908Z     "campfire-runtime": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6900179Z       "name": "campfire-runtime",
+fast	Python runner and package tests	2026-10-25T03:46:10.6900433Z       "version": "0.1.0",
+fast	Python runner and package tests	2026-10-25T03:46:10.6900664Z       "rust-version": "1.96",
+fast	Python runner and package tests	2026-10-25T03:46:10.6900902Z       "license": "MIT",
+fast	Python runner and package tests	2026-10-25T03:46:10.6901498Z       "repository": "https://github.com/sangjinsu/campfire",
+fast	Python runner and package tests	2026-10-25T03:46:10.6901867Z       "description": "Package test"
+fast	Python runner and package tests	2026-10-25T03:46:10.6902131Z     },
+fast	Python runner and package tests	2026-10-25T03:46:10.6902328Z     "campfire-arena": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6902576Z       "name": "campfire-arena",
+fast	Python runner and package tests	2026-10-25T03:46:10.6902814Z       "version": "0.1.0",
+fast	Python runner and package tests	2026-10-25T03:46:10.6903041Z       "rust-version": "1.96",
+fast	Python runner and package tests	2026-10-25T03:46:10.6903321Z       "license": "MIT",
+fast	Python runner and package tests	2026-10-25T03:46:10.6903636Z       "repository": "https://github.com/sangjinsu/campfire",
+fast	Python runner and package tests	2026-10-25T03:46:10.6903988Z       "description": "Package test"
+fast	Python runner and package tests	2026-10-25T03:46:10.6904229Z     },
+fast	Python runner and package tests	2026-10-25T03:46:10.6904423Z     "campfire-server": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6904680Z       "name": "campfire-server",
+fast	Python runner and package tests	2026-10-25T03:46:10.6904923Z       "version": "0.1.0",
+fast	Python runner and package tests	2026-10-25T03:46:10.6905153Z       "rust-version": "1.96",
+fast	Python runner and package tests	2026-10-25T03:46:10.6905383Z       "license": "MIT",
+fast	Python runner and package tests	2026-10-25T03:46:10.6905687Z       "repository": "https://github.com/sangjinsu/campfire",
+fast	Python runner and package tests	2026-10-25T03:46:10.6906032Z       "description": "Package test"
+fast	Python runner and package tests	2026-10-25T03:46:10.6906273Z     }
+fast	Python runner and package tests	2026-10-25T03:46:10.6906446Z   },
+fast	Python runner and package tests	2026-10-25T03:46:10.6906638Z   "consumer_lockfiles": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6906874Z     "checkout": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6907137Z       "file": "lockfiles/checkout.Cargo.lock",
+fast	Python runner and package tests	2026-10-25T03:46:10.6907596Z       "sha256": "9e254674fc385c9d5bb286300cddda4829dcd462aa391fa05709dde31e417750"
+fast	Python runner and package tests	2026-10-25T03:46:10.6907987Z     },
+fast	Python runner and package tests	2026-10-25T03:46:10.6908170Z     "archive": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6908436Z       "file": "lockfiles/archive.Cargo.lock",
+fast	Python runner and package tests	2026-10-25T03:46:10.6908883Z       "sha256": "9e254674fc385c9d5bb286300cddda4829dcd462aa391fa05709dde31e417750"
+fast	Python runner and package tests	2026-10-25T03:46:10.6909257Z     },
+fast	Python runner and package tests	2026-10-25T03:46:10.6909445Z     "server_archive": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6909734Z       "file": "lockfiles/server-archive.Cargo.lock",
+fast	Python runner and package tests	2026-10-25T03:46:10.6910192Z       "sha256": "9e254674fc385c9d5bb286300cddda4829dcd462aa391fa05709dde31e417750"
+fast	Python runner and package tests	2026-10-25T03:46:10.6910573Z     }
+fast	Python runner and package tests	2026-10-25T03:46:10.6910748Z   },
+fast	Python runner and package tests	2026-10-25T03:46:10.6911143Z   "repository_lockfile": {
+fast	Python runner and package tests	2026-10-25T03:46:10.6911611Z     "before_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+fast	Python runner and package tests	2026-10-25T03:46:10.6912239Z     "after_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+fast	Python runner and package tests	2026-10-25T03:46:10.6912670Z     "unchanged": true
+fast	Python runner and package tests	2026-10-25T03:46:10.6912882Z   },
+fast	Python runner and package tests	2026-10-25T03:46:10.6913426Z   "lockfile_exclusion_reason": "unpublished internal crate versions are absent from crates.io; root Cargo.lock stays unchanged",
+fast	Python runner and package tests	2026-10-25T03:46:10.6913994Z   "verification_limits": [
+fast	Python runner and package tests	2026-10-25T03:46:10.6914548Z     "arena/server archives omit Cargo.lock; reproducible packaged resolution and cargo install --locked are unverified",
+fast	Python runner and package tests	2026-10-25T03:46:10.6915228Z     "crates.io publication and public registry download are unverified"
+fast	Python runner and package tests	2026-10-25T03:46:10.6915579Z   ],
+fast	Python runner and package tests	2026-10-25T03:46:10.6915802Z   "registry_publish": "not attempted"
+fast	Python runner and package tests	2026-10-25T03:46:10.6916058Z }
+fast	Python runner and package tests	2026-10-25T03:46:10.6916593Z {"success": false, "failure": "browse stop unconfirmed (RuntimeError)", "artifact": "/tmp/tmpz4em1xwb/result"}
+fast	Python runner and package tests	2026-10-25T03:46:10.7068663Z ..{"success": false, "failure": "browse stop unconfirmed (TimeoutExpired)", "artifact": "/tmp/tmpknnk11sy/result"}
+fast	Python runner and package tests	2026-10-25T03:46:10.7284753Z ....{"success": true, "failure": null, "artifact": "/tmp/tmp84djx067/result"}
+fast	Python runner and package tests	2026-10-25T03:46:10.7317595Z ...
+fast	Python runner and package tests	2026-10-25T03:46:10.7318333Z ----------------------------------------------------------------------
+fast	Python runner and package tests	2026-10-25T03:46:10.7318970Z Ran 17 tests in 0.085s
+fast	Python runner and package tests	2026-10-25T03:46:10.7319156Z 
+fast	Python runner and package tests	2026-10-25T03:46:10.7319257Z OK
+fast	Package and independent consumers	﻿2026-10-25T03:46:10.7503043Z ##[group]Run set -o pipefail
+fast	Package and independent consumers	2026-10-25T03:46:10.7503378Z ^[[36;1mset -o pipefail^[[0m
+fast	Package and independent consumers	2026-10-25T03:46:10.7504000Z ^[[36;1mpython3 tools/package_smoke.py --target-dir "$CARGO_TARGET_DIR" --output artifacts/ci/package-smoke 2>&1 | tee artifacts/ci/package-smoke.log^[[0m
+fast	Package and independent consumers	2026-10-25T03:46:10.7565487Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Package and independent consumers	2026-10-25T03:46:10.7565847Z env:
+fast	Package and independent consumers	2026-10-25T03:46:10.7566131Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Package and independent consumers	2026-10-25T03:46:10.7566478Z   CARGO_BUILD_JOBS: 4
+fast	Package and independent consumers	2026-10-25T03:46:10.7566714Z   CARGO_TERM_COLOR: always
+fast	Package and independent consumers	2026-10-25T03:46:10.7566934Z ##[endgroup]
+fast	Package and independent consumers	2026-10-25T03:46:39.6506742Z {
+fast	Package and independent consumers	2026-10-25T03:46:39.6509188Z   "status": "passed",
+fast	Package and independent consumers	2026-10-25T03:46:39.6509602Z   "version": "0.1.0",
+fast	Package and independent consumers	2026-10-25T03:46:39.6510119Z   "msrv": "verified 1.96 in all normalized package manifests",
+fast	Package and independent consumers	2026-10-25T03:46:39.6510827Z   "target_dir": "/tmp/campfire-improvements-20261025-target",
+fast	Package and independent consumers	2026-10-25T03:46:39.6511654Z   "target_source": "argument",
+fast	Package and independent consumers	2026-10-25T03:46:39.6512559Z   "archive_mode": "runtime verified; arena/server archive without lockfile, then compiled from extracted archive",
+fast	Package and independent consumers	2026-10-25T03:46:39.6513681Z   "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+fast	Package and independent consumers	2026-10-25T03:46:39.6514428Z   "checkout_consumer": "passed",
+fast	Package and independent consumers	2026-10-25T03:46:39.6514857Z   "archive_consumer": "passed",
+fast	Package and independent consumers	2026-10-25T03:46:39.6515289Z   "server_archive_check": "passed",
+fast	Package and independent consumers	2026-10-25T03:46:39.6515682Z   "archives": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6516006Z     "campfire-runtime": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6516641Z       "sha256": "ed277f1188bbd4eb06ab744256e9d5dc0f81515718e70bb160e0ef49298661fc",
+fast	Package and independent consumers	2026-10-25T03:46:39.6517255Z       "files": 20,
+fast	Package and independent consumers	2026-10-25T03:46:39.6517608Z       "lockfile_included": true
+fast	Package and independent consumers	2026-10-25T03:46:39.6517962Z     },
+fast	Package and independent consumers	2026-10-25T03:46:39.6518258Z     "campfire-arena": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6518902Z       "sha256": "41af1cac0814b9e9470cdbbeebe3294b3e3dadc0fb97d4c6e77722edcb2fcc81",
+fast	Package and independent consumers	2026-10-25T03:46:39.6519513Z       "files": 5,
+fast	Package and independent consumers	2026-10-25T03:46:39.6519890Z       "lockfile_included": false
+fast	Package and independent consumers	2026-10-25T03:46:39.6520262Z     },
+fast	Package and independent consumers	2026-10-25T03:46:39.6520594Z     "campfire-server": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6521693Z       "sha256": "c9056a7e79dbe9de4cef87e2bca7ce19d6c1b156ceec25603b0c9e2d43ed2eb5",
+fast	Package and independent consumers	2026-10-25T03:46:39.6522404Z       "files": 20,
+fast	Package and independent consumers	2026-10-25T03:46:39.6522819Z       "lockfile_included": false
+fast	Package and independent consumers	2026-10-25T03:46:39.6523240Z     }
+fast	Package and independent consumers	2026-10-25T03:46:39.6523609Z   },
+fast	Package and independent consumers	2026-10-25T03:46:39.6523939Z   "metadata": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6524309Z     "campfire-runtime": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6524776Z       "name": "campfire-runtime",
+fast	Package and independent consumers	2026-10-25T03:46:39.6525214Z       "version": "0.1.0",
+fast	Package and independent consumers	2026-10-25T03:46:39.6525625Z       "rust-version": "1.96",
+fast	Package and independent consumers	2026-10-25T03:46:39.6526039Z       "license": "MIT",
+fast	Package and independent consumers	2026-10-25T03:46:39.6526574Z       "repository": "https://github.com/sangjinsu/campfire",
+fast	Package and independent consumers	2026-10-25T03:46:39.6527654Z       "description": "Reusable room-based multiplayer runtime with sessions, WebSocket transport, and game modules"
+fast	Package and independent consumers	2026-10-25T03:46:39.6528534Z     },
+fast	Package and independent consumers	2026-10-25T03:46:39.6528830Z     "campfire-arena": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6529213Z       "name": "campfire-arena",
+fast	Package and independent consumers	2026-10-25T03:46:39.6529592Z       "version": "0.1.0",
+fast	Package and independent consumers	2026-10-25T03:46:39.6529968Z       "rust-version": "1.96",
+fast	Package and independent consumers	2026-10-25T03:46:39.6530377Z       "license": "MIT",
+fast	Package and independent consumers	2026-10-25T03:46:39.6530907Z       "repository": "https://github.com/sangjinsu/campfire",
+fast	Package and independent consumers	2026-10-25T03:46:39.6532009Z       "description": "Server-authoritative arena game module for the Campfire runtime"
+fast	Package and independent consumers	2026-10-25T03:46:39.6532740Z     },
+fast	Package and independent consumers	2026-10-25T03:46:39.6533364Z     "campfire-server": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6533823Z       "name": "campfire-server",
+fast	Package and independent consumers	2026-10-25T03:46:39.6534259Z       "version": "0.1.0",
+fast	Package and independent consumers	2026-10-25T03:46:39.6534659Z       "rust-version": "1.96",
+fast	Package and independent consumers	2026-10-25T03:46:39.6535075Z       "license": "MIT",
+fast	Package and independent consumers	2026-10-25T03:46:39.6535643Z       "repository": "https://github.com/sangjinsu/campfire",
+fast	Package and independent consumers	2026-10-25T03:46:39.6536684Z       "description": "Example Campfire multiplayer server with CLI, dashboard, and optional arena game"
+fast	Package and independent consumers	2026-10-25T03:46:39.6537718Z     }
+fast	Package and independent consumers	2026-10-25T03:46:39.6538014Z   },
+fast	Package and independent consumers	2026-10-25T03:46:39.6538330Z   "consumer_lockfiles": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6538749Z     "checkout": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6539225Z       "file": "lockfiles/checkout.Cargo.lock",
+fast	Package and independent consumers	2026-10-25T03:46:39.6540003Z       "sha256": "e179f6323eedf2ab86fc43373b51c2aa090aad37f423496b29406ecc28840714"
+fast	Package and independent consumers	2026-10-25T03:46:39.6540656Z     },
+fast	Package and independent consumers	2026-10-25T03:46:39.6540937Z     "archive": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6541567Z       "file": "lockfiles/archive.Cargo.lock",
+fast	Package and independent consumers	2026-10-25T03:46:39.6542300Z       "sha256": "e179f6323eedf2ab86fc43373b51c2aa090aad37f423496b29406ecc28840714"
+fast	Package and independent consumers	2026-10-25T03:46:39.6542910Z     },
+fast	Package and independent consumers	2026-10-25T03:46:39.6543243Z     "server_archive": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6543807Z       "file": "lockfiles/server-archive.Cargo.lock",
+fast	Package and independent consumers	2026-10-25T03:46:39.6544574Z       "sha256": "15b870648b33ed2f5ac5d637a1338f76e221981ef454cf48f4399ebbb0551958"
+fast	Package and independent consumers	2026-10-25T03:46:39.6545226Z     }
+fast	Package and independent consumers	2026-10-25T03:46:39.6545536Z   },
+fast	Package and independent consumers	2026-10-25T03:46:39.6545873Z   "repository_lockfile": {
+fast	Package and independent consumers	2026-10-25T03:46:39.6546738Z     "before_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+fast	Package and independent consumers	2026-10-25T03:46:39.6547842Z     "after_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+fast	Package and independent consumers	2026-10-25T03:46:39.6548527Z     "unchanged": true
+fast	Package and independent consumers	2026-10-25T03:46:39.6548836Z   },
+fast	Package and independent consumers	2026-10-25T03:46:39.6549699Z   "lockfile_exclusion_reason": "unpublished internal crate versions are absent from crates.io; root Cargo.lock stays unchanged",
+fast	Package and independent consumers	2026-10-25T03:46:39.6550662Z   "verification_limits": [
+fast	Package and independent consumers	2026-10-25T03:46:39.6551858Z     "arena/server archives omit Cargo.lock; reproducible packaged resolution and cargo install --locked are unverified",
+fast	Package and independent consumers	2026-10-25T03:46:39.6553007Z     "crates.io publication and public registry download are unverified"
+fast	Package and independent consumers	2026-10-25T03:46:39.6553611Z   ],
+fast	Package and independent consumers	2026-10-25T03:46:39.6553984Z   "registry_publish": "not attempted"
+fast	Package and independent consumers	2026-10-25T03:46:39.6554406Z }
+fast	Upload fast-check evidence	﻿2026-10-25T03:46:39.6678864Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6679315Z with:
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6679518Z   name: fast-checks-40159325035
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6679940Z   path: artifacts/ci/
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6680165Z   if-no-files-found: warn
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6680393Z   retention-days: 14
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6680610Z   compression-level: 6
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6680898Z   overwrite: false
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6681278Z   include-hidden-files: false
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6681513Z   archive: true
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6681701Z env:
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6682073Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6682487Z   CARGO_BUILD_JOBS: 4
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6682704Z   CARGO_TERM_COLOR: always
+fast	Upload fast-check evidence	2026-10-25T03:46:39.6682923Z ##[endgroup]
+fast	Upload fast-check evidence	2026-10-25T03:46:39.8203133Z With the provided path, there will be 29 files uploaded
+fast	Upload fast-check evidence	2026-10-25T03:46:39.8204078Z Artifact name is valid!
+fast	Upload fast-check evidence	2026-10-25T03:46:39.8204546Z Root directory input is valid!
+fast	Upload fast-check evidence	2026-10-25T03:46:40.0005333Z Uploading artifact: fast-checks-40159325035.zip
+fast	Upload fast-check evidence	2026-10-25T03:46:40.0047336Z Beginning upload of artifact content to blob storage
+fast	Upload fast-check evidence	2026-10-25T03:46:40.1058633Z Uploaded bytes 170768
+fast	Upload fast-check evidence	2026-10-25T03:46:40.1166908Z Finished uploading artifact content to blob storage!
+fast	Upload fast-check evidence	2026-10-25T03:46:40.1167863Z SHA256 digest of uploaded artifact is a8e11b3ab8694ffb6561ea8a121d9268638631fb3b16dec520ab1fb9ccfeaadd
+fast	Upload fast-check evidence	2026-10-25T03:46:40.1168663Z Finalizing artifact upload
+fast	Upload fast-check evidence	2026-10-25T03:46:40.5247226Z Artifact fast-checks-40159325035 successfully finalized. Artifact ID 12585775767
+fast	Upload fast-check evidence	2026-10-25T03:46:40.5248859Z Artifact fast-checks-40159325035 has been successfully uploaded! Final size is 170768 bytes. Artifact ID is 12585775767
+fast	Upload fast-check evidence	2026-10-25T03:46:40.5253058Z Artifact download URL: https://github.com/sangjinsu/campfire/actions/runs/40159325035/artifacts/12585775767
+fast	Post Set up Node.js	﻿2026-10-25T03:46:40.5422537Z Post job cleanup.
+fast	Post Checkout	﻿2026-10-25T03:46:40.6645947Z Post job cleanup.
+fast	Post Checkout	2026-10-25T03:46:40.7611745Z [command]/usr/bin/git version
+fast	Post Checkout	2026-10-25T03:46:40.7648934Z git version 2.55.0
+fast	Post Checkout	2026-10-25T03:46:40.7705206Z Temporarily overriding HOME='/home/runner/work/_temp/d2190fb0-eef1-4977-8dd0-a9d1ac3ca165' before making global git config changes
+fast	Post Checkout	2026-10-25T03:46:40.7707050Z Adding repository directory to the temporary git global config as a safe directory
+fast	Post Checkout	2026-10-25T03:46:40.7711591Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/campfire/campfire
+fast	Post Checkout	2026-10-25T03:46:40.7747429Z Removing SSH command configuration
+fast	Post Checkout	2026-10-25T03:46:40.7755934Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+fast	Post Checkout	2026-10-25T03:46:40.7794624Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+fast	Post Checkout	2026-10-25T03:46:40.8052067Z Removing HTTP extra header
+fast	Post Checkout	2026-10-25T03:46:40.8053451Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+fast	Post Checkout	2026-10-25T03:46:40.8095222Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+fast	Post Checkout	2026-10-25T03:46:40.8404278Z Removing includeIf entries pointing to credentials config files
+fast	Post Checkout	2026-10-25T03:46:40.8426311Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+fast	Post Checkout	2026-10-25T03:46:40.8453789Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+fast	Complete job	﻿2026-10-25T03:46:40.8856625Z Cleaning up orphan processes

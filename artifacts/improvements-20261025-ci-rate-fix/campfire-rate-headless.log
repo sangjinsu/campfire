@@ -1,0 +1,30 @@
+   Compiling campfire-server v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-server)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.47s
+     Running tests/headless.rs (/tmp/campfire-improvements-20261025-target/debug/deps/headless-afd729189917a3cc)
+
+running 22 tests
+test game_isolation_and_stale_instance ... ok
+test authentication_deadline_and_invalid_first_message ... ok
+test last_seat_race_is_atomic ... ok
+test panic_supervision_cleans_directory ... ok
+test reconnect_grace_expires ... ignored, real 30 second reservation boundary
+test concurrent_authentication_and_cross_room_admission_has_one_membership ... ok
+test connection_and_unauthenticated_caps_refund_permits ... ok
+test replay_and_idempotent_leave ... ok
+test input_validation_and_recipient_ack ... ok
+test schema_and_explicit_game_mismatch_are_rejected ... ok
+test abusive_connection_is_isolated ... ok
+test slow_reader_isolated_and_p95 ... ignored, real socket backpressure and matched baseline measurement
+test soak_16_clients_60_seconds ... ignored, real TCP soak, minimum 60 seconds
+test soak_8_clients_60_seconds ... ignored, real TCP soak, minimum 60 seconds
+test replacement_requires_resume_and_preserves_membership ... ok
+test issuer_and_global_guest_rate_limits_recover ... ok
+test rate_key_cap_and_ttl_reclaim_trusted_source_entries ... ok
+test caps_and_cleanup ... ok
+test token_expiry_and_logout ... ok
+test room_cap_refunds_rejected_and_disconnected_creation ... ok
+test repeated_authentication_does_not_extend_reservation ... ok
+test shared_queue_saturation_is_not_abuse ... ok
+
+test result: ok. 18 passed; 0 failed; 4 ignored; 0 measured; 0 filtered out; finished in 2.45s
+

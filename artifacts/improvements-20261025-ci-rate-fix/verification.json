@@ -1,0 +1,22 @@
+{
+  "parent_head": "45e87bf09e363aa147f63d3f8cd27aae6d9f24d8",
+  "root_workspace_test_exit_code": 0,
+  "root_workspace_test_counts": {
+    "passed": 141,
+    "failed": 0,
+    "ignored": 4
+  },
+  "source_changes_since_live_qa": {
+    "crates/campfire-server/tests/headless.rs": {
+      "before": "7b3faab2ed9651c1a338c3d9a6d225592c258cc17ba0935e454c3592a9098d89",
+      "after": "f4603739befd372022878f65d8690b0b549f2e63a91a857b2f9778dfe688cc17"
+    }
+  },
+  "compiled_product_and_runner_inputs_unchanged": true,
+  "scope": "Only an HTTP integration test and its local helper changed. Production Rust, manifests, lockfile, web assets, Godot and QA runner inputs match the successful local and Linux live suites.",
+  "binary_sha256": {
+    "/tmp/campfire-improvements-20261025-target/debug/campfire-server": "780bafe9477df946ab9328ac1f6be24511554c7840f930ca6a29553ddafd0319",
+    "/tmp/campfire-improvements-20261025-target/debug/examples/account_server": "e32527b99e63a470d7d5aa8dde4306435f8e7908941b44522dd37fb2ef481722",
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/target/debug/campfire-server": "b1338640176776557099605aeaf7046fbd25979b9fea6ffc20551f6459ed34f7"
+  }
+}

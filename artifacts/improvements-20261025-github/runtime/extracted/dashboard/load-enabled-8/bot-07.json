@@ -1,0 +1,35 @@
+{
+  "duration_seconds": 20.6,
+  "errors": [],
+  "failure": "",
+  "guest_id": "g_7bc55209ba486fee209c781be278364025b562fbeb517e810e217cd5e46bec28",
+  "index": 7,
+  "last_processed_input_seq": 285,
+  "max_members": 8,
+  "monotonic": true,
+  "own_position_span": 10.0,
+  "reconnect_before": {
+    "ack": 90,
+    "server_tick": 204,
+    "snapshot_seq": 102
+  },
+  "reconnect_done": true,
+  "reconnect_resumed": {
+    "ack": 91.0,
+    "guest_id": "g_7bc55209ba486fee209c781be278364025b562fbeb517e810e217cd5e46bec28",
+    "room_id": "r_62cd9f6fc1565f7d23527aeae7185b1fcd7883293022ec53d26895cf5bcfbe27",
+    "room_instance_id": "i_823911e7b54a417097e3bd16b55825814231fcbb8706a6e64cc6d42dd95fed05",
+    "server_tick": 251.0,
+    "snapshot_seq": 125.0
+  },
+  "remote_disconnect": [],
+  "room_id": "r_62cd9f6fc1565f7d23527aeae7185b1fcd7883293022ec53d26895cf5bcfbe27",
+  "room_instance_id": "i_823911e7b54a417097e3bd16b55825814231fcbb8706a6e64cc6d42dd95fed05",
+  "saw_remote_return": false,
+  "server_tick": 640,
+  "snapshot_count": 289,
+  "snapshot_seq": 320,
+  "success": true,
+  "snapshot_gap_ms_p95": 67,
+  "snapshot_gap_ms_max": 1567
+}

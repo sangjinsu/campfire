@@ -1,6 +1,8 @@
 # Campfire 프로젝트 개선: 구현과 검증 인계
 
-기록일: 2026-10-25. 대상 branch는 `codex/project-improvements`, 기준 commit은 `d04f6f19c8228a72e71613657b97d9b8dcefee3c`, 로컬 Rust·실환경 검증 대상 commit은 `647aaf1994d58906d70436f90de80827f45d44b5`다. [승인 설계](superpowers/specs/2026-10-25-runtime-hardening-design.md)와 [실행 계획](superpowers/plans/2026-10-25-project-improvements.md)에 대한 증거를 아래에 연결한다. **로컬 구현·통합·패키지 검증은 완료됐다. Push 전 독립 Architect 재검토가 진행 중이며 GitHub CI는 실행 전이다.**
+기록일: 2026-10-25. 대상 branch는 `codex/project-improvements`, 기준 commit은 `d04f6f19c8228a72e71613657b97d9b8dcefee3c`, 최초 로컬 Rust·실환경 검증 대상 commit은 `647aaf1994d58906d70436f90de80827f45d44b5`다. [승인 설계](superpowers/specs/2026-10-25-runtime-hardening-design.md)와 [실행 계획](superpowers/plans/2026-10-25-project-improvements.md)에 대한 증거를 아래에 연결한다. **로컬 구현·통합·패키지 검증이 완료됐다. GitHub runtime validation은 성공했고, 첫 quick CI 실패를 테스트 수정으로 해결한 뒤 새 quick CI도 성공했다.** 두 성공 run의 commit은 다르며 아래에 각각 기록한다.
+
+증거의 commit은 단계별로 다르다. 최초 소스 동결과 Mac 실환경 검증은 `647aaf1`, 패키지 수정은 `8ce48d654c930f8aaad73b9e7cfdb4d3488f0a82`, 문서 기록 및 첫 GitHub 두 run은 `45e87bf09e363aa147f63d3f8cd27aae6d9f24d8`에 해당한다. 첫 CI 뒤의 테스트 전용 수정은 `84af2abec020a722ac660fac479717dca17ff51f`다. 각 수치와 바이너리 해시는 해당 단계에만 적용한다.
 
 ## 변경된 동작
 
@@ -12,7 +14,7 @@
 | Dashboard | 실제 이력에서 1/5/15분 표시 범위를 고르고 pointer·키보드로 같은 표본을 읽는다. `null`과 측정값 0, 빈 시간 구간, 누적 오류의 증가분과 counter reset을 구분한다. |
 | 검증·배포 준비 | QA runner는 별도 target/binary 경로, 전용 browser state/profile을 받는다. MIT LICENSE, 세 crate의 Rust MSRV 1.96 및 패키지 메타데이터가 추가됐다. 빠른 CI와 수동·주간 실환경 workflow가 설정됐다. |
 
-동시성·취소·Stop·지표·UI·QA 격리의 source 검토 근거는 [독립 Architect 중간 감사](../.superpowers/sdd/2026-10-25-project-improvements/final-architect-audit.md)다. 최종 승인 여부는 진행 중인 재검토와 실제 GitHub CI 결과를 따로 확인해야 한다.
+동시성·취소·Stop·지표·UI·QA 격리의 source 검토 근거는 [독립 Architect 감사](../.superpowers/sdd/2026-10-25-project-improvements/final-architect-audit.md)다. 수정 범위는 독립 검토에서 승인됐으며 CI의 실제 통과 여부는 run별로 아래에 기록한다.
 
 ## 로컬 소스와 자동 검증
 
@@ -33,7 +35,7 @@ python3 -m unittest discover -s tools/tests -p 'test_*.py'
 
 Cargo 일반 실행은 **141 passed, 4 ignored**였고, 별도 ignored 실행에서 grace 만료, slow reader, 8명·16명 각각 60초 soak **4 passed**였다. 따라서 실행된 Rust 테스트는 총 145개다. [일반 테스트 로그](../artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-tests.log), [ignored 로그](../artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-ignored.log), [8명](../artifacts/improvements-20261025-final-escalated/root-regression-artifacts/soak-8.json)·[16명](../artifacts/improvements-20261025-final-escalated/root-regression-artifacts/soak-16.json)·[slow reader](../artifacts/improvements-20261025-final-escalated/root-regression-artifacts/slow-reader.json) 측정 원본을 보존했다. 별도 [Node 로그](../artifacts/improvements-20261025-final-escalated/root-verification-logs/root-node-task5-fix1.log)는 dashboard 23개 시나리오를 기록한다. 패키지 도구 수정 전 [Python 로그](../artifacts/improvements-20261025-final-escalated/root-verification-logs/root-python-all.log)는 unittest 16개, 수정 후 독립 [최종 Python 로그](../artifacts/improvements-20261025-final-escalated/root-verification-logs/root-python-final.log)와 [해시·종료 코드](../artifacts/improvements-20261025-final-escalated/root-verification-logs/root-python-final-evidence.json)는 **17개 통과, exit 0**을 기록한다.
 
-[소스 동결 확인](../artifacts/improvements-20261025-final-escalated/root-verification-logs/root-source-freeze-verification.json)은 검증 당시 위 commit과 작업 트리의 84개 대상 파일이 일치하고 불일치가 0개임을 기록한다. 그 범위의 aggregate SHA-256은 `684240daa66fd580d6569a6261ba9839ec577b806d2d3e822d464eea38e5c0dc`다. 이후 패키지 수정의 source 차이는 `tools/package_smoke.py`와 `tools/tests/test_package_smoke.py` 두 파일이며 Rust, UI, Godot, CI 파일은 바뀌지 않았다. 새 서버 SHA-256은 `68f9f31b3187f5023bee93115caa287450603f8489b65d5511536671adc0cfb2`, 계정 예제는 `e32527b99e63a470d7d5aa8dde4306435f8e7908941b44522dd37fb2ef481722`다. 기존 checkout의 `target/debug/campfire-server` SHA-256은 `b1338640176776557099605aeaf7046fbd25979b9fea6ffc20551f6459ed34f7`로 별도다.
+[소스 동결 확인](../artifacts/improvements-20261025-final-escalated/root-verification-logs/root-source-freeze-verification.json)은 검증 당시 위 commit과 작업 트리의 84개 대상 파일이 일치하고 불일치가 0개임을 기록한다. 그 범위의 aggregate SHA-256은 `684240daa66fd580d6569a6261ba9839ec577b806d2d3e822d464eea38e5c0dc`다. 이후 패키지 단계에서는 `tools/package_smoke.py`와 `tools/tests/test_package_smoke.py` 두 파일, 첫 CI 뒤에는 `crates/campfire-server/tests/headless.rs` 한 파일만 추가로 바뀌었다. 제품 Rust, manifest/lock, UI, Godot, QA runner와 workflow 입력은 변하지 않았다는 [후속 소스 대조](../artifacts/improvements-20261025-ci-rate-fix/verification.json)를 보존했다. 최초 Mac 실환경 실행의 새 서버 SHA-256은 `68f9f31b3187f5023bee93115caa287450603f8489b65d5511536671adc0cfb2`, 계정 예제는 `e32527b99e63a470d7d5aa8dde4306435f8e7908941b44522dd37fb2ef481722`다. 기존 checkout의 `target/debug/campfire-server` SHA-256은 `b1338640176776557099605aeaf7046fbd25979b9fea6ffc20551f6459ed34f7`로 별도다.
 
 ## 실제 loopback 통합 실행
 
@@ -70,7 +72,27 @@ QA runner가 소유한 프로세스 8개는 모두 종료됐고 browser stop과 
 
 후속 컴파일의 [checkout](../artifacts/improvements-20261025-package-fixed3/lockfiles/checkout.Cargo.lock), [archive](../artifacts/improvements-20261025-package-fixed3/lockfiles/archive.Cargo.lock), [server archive](../artifacts/improvements-20261025-package-fixed3/lockfiles/server-archive.Cargo.lock) 생성 lockfile과 각 SHA-256은 summary에 보존했다. 저장소 원본 `Cargo.lock` SHA-256은 전후 `9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0`로 같다. arena/server archive에서 lockfile을 뺀 이유는 미게시 내부 crate 버전을 offline crates.io index에서 찾을 수 없기 때문이다. 따라서 이 통과는 **로컬 package 내용과 임시 source override를 사용한 소비·컴파일 검증**이다. lockfile이 없는 배포 archive의 의존성 재현성, `cargo install --locked`, crates.io 게시 및 공개 registry 다운로드는 검증하지 않았다. `--no-verify`로 archive를 만든 단계와 추출본을 후속 컴파일한 단계는 구분한다.
 
-[빠른 CI](../.github/workflows/ci.yml)는 push/PR에서 fmt, clippy, Rust/Node/Python 테스트, no-default check, package smoke를 실행하도록 설정됐다. [Runtime validation](../.github/workflows/runtime-validation.yml)은 수동·주간 실행과 Godot/browser/account artifact 보존을 설정했다. **이 기록 시점에 실제 GitHub run URL·결과는 아직 없다.** Root가 push 후 run의 commit SHA와 URL 및 결론을 확인해 이 문서를 갱신해야 한다. 주간 workflow는 첫 실제 성공 전까지 ‘설정됨’으로만 표기한다.
+[빠른 CI](../.github/workflows/ci.yml)는 push/PR에서 fmt, clippy, Rust/Node/Python 테스트, no-default check, package smoke를 실행하도록 설정됐다. [Runtime validation](../.github/workflows/runtime-validation.yml)은 수동·주간 실행과 Godot/browser/account artifact 보존을 설정했다. 수동 runtime의 실제 성공과 첫 quick CI 실패는 다음 절에 따로 기록한다. 주간 예약 실행은 아직 성공 기록이 없으므로 ‘설정됨’으로만 표기한다.
+
+## GitHub Actions 실제 실행과 후속 테스트 수정
+
+첫 두 run의 `headSha`는 `45e87bf09e363aa147f63d3f8cd27aae6d9f24d8`이고 runner는 Ubuntu 24.04다. 원본 GitHub metadata·로그·artifact ZIP, API digest와 대조한 SHA-256 및 안전 추출본은 [증거 manifest](../artifacts/improvements-20261025-github/evidence-manifest.json)와 [독립 QA 보고](../.superpowers/sdd/2026-10-25-project-improvements/task-8-github-report.md)에 있다. 수정 후 quick run의 `headSha`는 `84af2abec020a722ac660fac479717dca17ff51f`다.
+
+| Workflow | Run | 실제 결론 |
+| --- | --- | --- |
+| Runtime validation | [40158222582](https://github.com/sangjinsu/campfire/actions/runs/40158222582) | **success**. 준비·Godot·account·dashboard·artifact 업로드 단계 성공. |
+| Push quick CI | [40158205928](https://github.com/sangjinsu/campfire/actions/runs/40158205928) | **failure**. fmt·clippy 성공, Rust tests 한 건 실패. 이후 no-default, Node, Python, package 단계는 skipped. |
+| 수정 후 push quick CI | [40159325035](https://github.com/sangjinsu/campfire/actions/runs/40159325035) | **success**. Rust fmt·clippy·tests, no-default, Node·Python, package 및 독립 소비, artifact 업로드 단계 모두 성공. |
+
+Runtime run은 Rust/Cargo 1.96.0, Node 24.22.1, Bun 1.4.3, Godot 4.7.2와 고정 gstack commit `e66c43c57209a17e2d9a79847a2e985c27ca80bd`를 사용했다. 별도 Godot 8명·16명은 각각 공개 상태 비교 19회로 성공했다. 계정 transport와 native Alice 45개·Bob 41개 점검, browser 15개·UI probe 20개, dashboard OFF/ON × 8/16명 네 부하 조합이 성공했다. 활성 dashboard polling은 8명 216회·16명 225회, 오류 0회였고 관리자 응답 237개의 private 값 비노출을 확인했다. 생성 프로세스·browser profile 정리, 소스·바이너리 전후 해시 및 비밀값 검사도 성공했다. 근거는 [Godot](../artifacts/improvements-20261025-github/runtime/extracted/godot/summary.json), [계정](../artifacts/improvements-20261025-github/runtime/extracted/accounts/summary.json), [Dashboard](../artifacts/improvements-20261025-github/runtime/extracted/dashboard/summary.json) 원본이다. Linux 실행 바이너리 SHA-256은 Mac 바이너리와 별도로 [QA 보고](../.superpowers/sdd/2026-10-25-project-improvements/task-8-github-report.md)에 있다. Mac의 203/210회 polling·193개 privacy 응답과 Linux의 216/225회·237개를 합산하지 않는다.
+
+첫 quick CI의 [Rust 원본 로그](../artifacts/improvements-20261025-github/quick/extracted/rust-tests.log)는 `issuer_and_global_guest_rate_limits_recover`의 `headless.rs:1161`에서 기대 `429` 대신 실제 HTTP `201`을 기록한다. 이 run의 headless 결과는 17 passed, 1 failed, 4 ignored였으며 뒤 단계는 실행되지 않았다. 테스트는 guest bucket 10/s에서 매번 새 HTTP client로 보낸 세 요청이 100ms 이내라고 가정했다. 100ms마다 토큰 하나가 재충전되는 계약과 어긋난다. CI 로그에는 요청별 경과시간이 없어 CI에서 정확히 어느 구간이 100ms를 넘었는지는 단정할 수 없다. [수정 보고](../artifacts/improvements-20261025-ci-rate-fix/ci-rate-test-fix-report.md)는 제어된 실제 120ms 지연(측정 126.6ms)으로 같은 201/429 실패를 재현하고, Tokio paused clock과 blocking guard·공유 client·응답 body 소비를 사용해 virtual 0ms/99ms/100ms 경계를 검증했다. 이는 테스트의 시계 전제를 고친 것이며 제품 rate 설정을 바꾸지 않았다.
+
+수정 commit `84af2abec020a722ac660fac479717dca17ff51f`는 `crates/campfire-server/tests/headless.rs`의 테스트와 helper 한 파일에 한정됐다. 로컬 [focused 로그](../artifacts/improvements-20261025-ci-rate-fix/campfire-rate-green.log)는 1개, [headless 로그](../artifacts/improvements-20261025-ci-rate-fix/campfire-rate-headless.log)는 18개 통과와 기존 ignored 4개 유지, [workspace 로그](../artifacts/improvements-20261025-ci-rate-fix/root-ci-fix-workspace-tests.log)는 독립 재실행 **141 passed/4 ignored**를 기록한다. fmt·clippy 결과 및 변경 파일 해시는 [수정 보고](../artifacts/improvements-20261025-ci-rate-fix/ci-rate-test-fix-report.md)와 [검증 JSON](../artifacts/improvements-20261025-ci-rate-fix/verification.json)에 있다. 수정 후 quick run의 [metadata](../artifacts/improvements-20261025-github/quick-recovery/run-metadata.json)는 `completed/success`와 모든 gate의 `success`를, [artifact API 기록](../artifacts/improvements-20261025-github/quick-recovery/artifacts-api.json)은 commit·artifact digest를 보존한다. 첫 실패 run의 결론은 그대로 failure다.
+
+성공한 Linux runtime run은 테스트 수정 전 commit `45e87bf`에서 실행됐다. [후속 소스 동등성 확인](../artifacts/improvements-20261025-ci-rate-fix/source-equivalence-84af2ab.json)은 현재 `84af2ab`과 비교해 변경 경로가 headless 통합 테스트 한 개이며, live runner manifest 72개 중 달라진 것도 그 파일 하나임을 기록한다. 제품 Rust, manifest/lock, web asset, Godot, QA runner 및 workflow는 같으므로 기존 Linux runtime 실행을 변경되지 않은 제품 입력에 대한 근거로 사용할 수 있다는 독립 검토 판정이 있다. **Runtime 성공과 새 quick 성공을 동일 commit의 한 번 실행으로 표시하지 않는다.**
+
+후속 빌드에서 별도 target의 서버 바이너리 SHA-256은 `780bafe9477df946ab9328ac1f6be24511554c7840f930ca6a29553ddafd0319`로, 이전 Mac live 실행의 `68f9f31b...`과 다르다. [빌드 확인](../artifacts/improvements-20261025-ci-rate-fix/final-build-verification.json)은 재링크 이후 값을 기록하지만 바이트 차이의 원인은 확정하지 않았다. 이전 Mac live suite가 이 새 바이너리를 실행했다고 주장하지 않는다. 제품 소스가 같은 Linux runtime CI 성공과 최초 Mac suite는 각 run의 source·binary 해시에 묶어 해석한다. 원본 checkout의 `target/debug/campfire-server` SHA는 변하지 않았다.
 
 ## 적용 범위
 

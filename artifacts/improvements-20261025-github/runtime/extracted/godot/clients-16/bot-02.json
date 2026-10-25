@@ -1,0 +1,97 @@
+{
+  "duration_seconds": 20.566,
+  "errors": [],
+  "failure": "",
+  "guest_id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+  "index": 2,
+  "last_processed_input_seq": 327,
+  "max_members": 16,
+  "monotonic": true,
+  "own_position_span": 9.9999999,
+  "reconnect_before": {},
+  "reconnect_done": false,
+  "reconnect_resumed": {},
+  "remote_disconnect": [
+    {
+      "server_tick": 232,
+      "snapshot_seq": 116,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 234,
+      "snapshot_seq": 117,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 236,
+      "snapshot_seq": 118,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 238,
+      "snapshot_seq": 119,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 240,
+      "snapshot_seq": 120,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 242,
+      "snapshot_seq": 121,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 244,
+      "snapshot_seq": 122,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 246,
+      "snapshot_seq": 123,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 248,
+      "snapshot_seq": 124,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 250,
+      "snapshot_seq": 125,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 252,
+      "snapshot_seq": 126,
+      "x": 0.0,
+      "y": 9.833333235
+    },
+    {
+      "server_tick": 254,
+      "snapshot_seq": 127,
+      "x": 0.0,
+      "y": 9.833333235
+    }
+  ],
+  "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+  "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+  "saw_remote_return": true,
+  "server_tick": 664,
+  "snapshot_count": 330,
+  "snapshot_seq": 332,
+  "success": true,
+  "snapshot_gap_ms_p95": 67,
+  "snapshot_gap_ms_max": 68
+}

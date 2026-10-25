@@ -1,0 +1,16 @@
+{
+  "verified_at": "2026-10-25T03:45:34.691934+00:00",
+  "successful_runtime_ci_commit": "45e87bf09e363aa147f63d3f8cd27aae6d9f24d8",
+  "source_fix_commit": "84af2abec020a722ac660fac479717dca17ff51f",
+  "git_changed_paths": [
+    "crates/campfire-server/tests/headless.rs"
+  ],
+  "live_manifest_count": 72,
+  "live_manifest_changed_paths": [
+    "crates/campfire-server/tests/headless.rs"
+  ],
+  "changed_test_sha256": "f4603739befd372022878f65d8690b0b549f2e63a91a857b2f9778dfe688cc17",
+  "committed_test_matches_root_verified_worktree": true,
+  "runtime_ci_reuse_approved": true,
+  "basis": "Only a test and its local helper differ. Production Rust, manifests, Cargo.lock, web assets, Godot, QA runners and workflows match the successful Linux runtime CI commit. Test-only validation was rerun locally and the new quick CI is tracked independently."
+}

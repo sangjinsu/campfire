@@ -1,0 +1,3908 @@
+{
+  "success": true,
+  "client_engine": "Godot WebSocketPeer via production CampfireClient",
+  "count": 16,
+  "measured_seconds": 20.786865335000016,
+  "total_seconds": 22.752289896000008,
+  "config": {
+    "server": "http://127.0.0.1:38739",
+    "count": 16,
+    "duration": 20.0
+  },
+  "commands": [
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "0"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "1"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "2"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "3"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "4"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "5"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "6"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "7"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "8"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "9"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "10"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "11"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "12"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "13"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "14"
+    ],
+    [
+      "/home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64",
+      "--path",
+      "/home/runner/work/campfire/campfire/examples/godot",
+      "--audio-driver",
+      "Dummy",
+      "--max-fps",
+      "30",
+      "--single-threaded-scene",
+      "--headless",
+      "--script",
+      "res://tests/bot.gd",
+      "--",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16/config.json",
+      "/tmp/campfire-godot-zz9cx0kz/clients-16",
+      "15"
+    ]
+  ],
+  "common_state_checks": [
+    {
+      "snapshot_seq": 30,
+      "server_tick": 60,
+      "state_sha256": "55adecee7fae08d743cec98751bab603bf4405c1cc4ac62a1109ce5cc58e2eb4",
+      "state": {
+        "goal": {
+          "active": true,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 1.833333315,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 1.499999985
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 1.66666665,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 0.0
+      }
+    },
+    {
+      "snapshot_seq": 45,
+      "server_tick": 90,
+      "state_sha256": "80cd8d4eefb2bfccc465c6700b5c4c20324e9f5553be55dfe7c8fd008b2f9951",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 6.833333265,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 6.499999935
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 6.6666666,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 60,
+      "server_tick": 120,
+      "state_sha256": "871652aff4b2ffcdfe6d8f07241788f700749c67160fb8ffee6f22a2d277d1b7",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 8.16666658500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 8.499999915
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 8.33333325,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 75,
+      "server_tick": 150,
+      "state_sha256": "893556fb5578afc437d7dbea7363981c66cd4fa04fde92d5f69abd6fb47f222f",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 3.166666635,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 3.499999965
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 3.3333333,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 90,
+      "server_tick": 180,
+      "state_sha256": "a0f46ba95ec782d4f042c49a7b99f107574cea071373c5f29dc6069b45813fbb",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 1.833333315,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 1.499999985
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 1.66666665,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 105,
+      "server_tick": 210,
+      "state_sha256": "80cd8d4eefb2bfccc465c6700b5c4c20324e9f5553be55dfe7c8fd008b2f9951",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 6.833333265,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 6.499999935
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 6.6666666,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 135,
+      "server_tick": 270,
+      "state_sha256": "97069646c5d05def248b059862cd7ad9f4aef0ad03a8ae65911bad5b6bb03b0c",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 3.166666635,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 3.499999965
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 7.499999925
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 3.3333333,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 150,
+      "server_tick": 300,
+      "state_sha256": "6fdfb22b88b2676480ba5efbf82fc808caa2a1b4cb15f1e5e23df28f2eb85512",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 1.833333315,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 1.499999985
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 5.833333275
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 1.66666665,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 165,
+      "server_tick": 330,
+      "state_sha256": "80795e1bedc9eb3249c800dddb8b9466aa443153ea95bb24ce9bf62f73a79144",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 6.833333265,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 6.499999935
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 10.0
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 6.6666666,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 180,
+      "server_tick": 360,
+      "state_sha256": "3ec2aac8bb42b6cad88daf63d489b7495fea0d8981171007480d7b906bb53e4c",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 8.16666658500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 8.499999915
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 8.33333335000001
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 8.33333325,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 195,
+      "server_tick": 390,
+      "state_sha256": "947123a0ea3f720b38be77a990b82d2ee55fcd5a176f4840cfe5c465a2814e41",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 3.166666635,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 3.499999965
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 3.3333334
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 3.3333333,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 210,
+      "server_tick": 420,
+      "state_sha256": "7503646a3880ccfd5ed752b65c0f475e6e21a2f80edcffce18459f8ae721d8ce",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 1.833333315,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 1.499999985
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 1.66666675
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 1.66666665,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 225,
+      "server_tick": 450,
+      "state_sha256": "1bba2adb5d7c5a5e1825013ee69cb17094e0626ee10a58f5951ffe9c62995fa1",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 6.833333265,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 6.499999935
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 6.66666670000001
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 6.6666666,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 240,
+      "server_tick": 480,
+      "state_sha256": "3ec2aac8bb42b6cad88daf63d489b7495fea0d8981171007480d7b906bb53e4c",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 8.16666658500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 8.499999915
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 8.33333335000001
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 8.33333325,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 255,
+      "server_tick": 510,
+      "state_sha256": "947123a0ea3f720b38be77a990b82d2ee55fcd5a176f4840cfe5c465a2814e41",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 3.166666635,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 3.499999965
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 3.3333334
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 3.3333333,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 270,
+      "server_tick": 540,
+      "state_sha256": "7503646a3880ccfd5ed752b65c0f475e6e21a2f80edcffce18459f8ae721d8ce",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 1.833333315,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 1.499999985
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 1.66666665,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 1.66666675
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 1.833333315
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 1.66666665,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 285,
+      "server_tick": 570,
+      "state_sha256": "1bba2adb5d7c5a5e1825013ee69cb17094e0626ee10a58f5951ffe9c62995fa1",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 6.833333265,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 6.499999935
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 6.6666666,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 6.66666670000001
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 6.833333265
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 6.6666666,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 300,
+      "server_tick": 600,
+      "state_sha256": "3ec2aac8bb42b6cad88daf63d489b7495fea0d8981171007480d7b906bb53e4c",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 8.16666658500001,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 8.499999915
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 8.33333325,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 8.33333335000001
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 8.16666658500001
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 8.33333325,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    },
+    {
+      "snapshot_seq": 315,
+      "server_tick": 630,
+      "state_sha256": "947123a0ea3f720b38be77a990b82d2ee55fcd5a176f4840cfe5c465a2814e41",
+      "state": {
+        "goal": {
+          "active": false,
+          "radius": 0.5,
+          "x": 5.0,
+          "y": 0.0
+        },
+        "players": [
+          {
+            "connected": true,
+            "id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+            "x": 3.166666635,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+            "x": 0.0,
+            "y": 3.499999965
+          },
+          {
+            "connected": true,
+            "id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+            "x": 3.3333333,
+            "y": 0.0
+          },
+          {
+            "connected": true,
+            "id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+            "x": 0.0,
+            "y": 3.3333334
+          },
+          {
+            "connected": true,
+            "id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+            "x": 0.0,
+            "y": 3.166666635
+          },
+          {
+            "connected": true,
+            "id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+            "x": 3.3333333,
+            "y": 0.0
+          }
+        ],
+        "shared_score": 1.0
+      }
+    }
+  ],
+  "clients": [
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_31973b491f201dc224009c039763eb9b43d98ac479303fbf690c632dfbc02c43",
+      "index": 0,
+      "last_processed_input_seq": 331,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.833333235,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 662,
+      "snapshot_count": 333,
+      "snapshot_seq": 331,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 100
+    },
+    {
+      "duration_seconds": 20.567,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_1247f839115b66f51c6f75be131d1940526d5926ce3f825312a8056cfa77e834",
+      "index": 1,
+      "last_processed_input_seq": 329,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.833333235,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 664,
+      "snapshot_count": 332,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.566,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_3b83de83b8e71ac4da66581fafbfbb2fbb2c5bdf6b9ac777be4cfb1110d98d47",
+      "index": 2,
+      "last_processed_input_seq": 327,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.9999999,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 664,
+      "snapshot_count": 330,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 68
+    },
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_f6764b4dce9de6e5bece433d60a5ace1acddde18ea053644e3093ba480255b5f",
+      "index": 3,
+      "last_processed_input_seq": 325,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.833333235,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 662,
+      "snapshot_count": 328,
+      "snapshot_seq": 331,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_faaa61675987d573525ea0ed821adaeb08bb1c035e66235a9d93853cf3e358ee",
+      "index": 4,
+      "last_processed_input_seq": 324,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.9999999,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 664,
+      "snapshot_count": 327,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 74
+    },
+    {
+      "duration_seconds": 20.534,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_963cb1e25003fa0cf7632443c99e6e10c14f1024064b57b2ce48cb1a937e5669",
+      "index": 5,
+      "last_processed_input_seq": 322,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.833333235,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 662,
+      "snapshot_count": 325,
+      "snapshot_seq": 331,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_82ed79816426d0c79e253adbaf579b2f4d35d7d3c1de793461530f695de2e54e",
+      "index": 6,
+      "last_processed_input_seq": 321,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.9999999,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 664,
+      "snapshot_count": 324,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_36cadc0ed8bb00fe2f47f452f0a7c4c949f9c4531b3adc374160382865b8a426",
+      "index": 7,
+      "last_processed_input_seq": 320,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.833333235,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 664,
+      "snapshot_count": 323,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 68
+    },
+    {
+      "duration_seconds": 20.566,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_cda3626ed2ff84a3ed071a9ec1bc26ab81ea9e9afa98d3e83c5955d78af286d8",
+      "index": 8,
+      "last_processed_input_seq": 318,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.9999999,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 664,
+      "snapshot_count": 321,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_0b21ddfd02510678917e70bbcebb95511c84890ae2344c4a9179f79c26565501",
+      "index": 9,
+      "last_processed_input_seq": 316,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.833333235,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 662,
+      "snapshot_count": 319,
+      "snapshot_seq": 331,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.534,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_75afcb28cfb72c5724d28534c7e3446f5509c30dd8170d5da65c1b5d665ee428",
+      "index": 10,
+      "last_processed_input_seq": 315,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.9999999,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 664,
+      "snapshot_count": 318,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.534,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_f27a0a8b8bfb638d0decad983cb615241e2da62062a2cbcb698f5d51cf210341",
+      "index": 11,
+      "last_processed_input_seq": 313,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.833333235,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 662,
+      "snapshot_count": 316,
+      "snapshot_seq": 331,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_cfadfb7637bda7ac46b51b303e3eac8f96b7ae75feeb117b323fc58e9ecc4359",
+      "index": 12,
+      "last_processed_input_seq": 312,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.9999999,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 664,
+      "snapshot_count": 315,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 68
+    },
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_4a728e5937a1cabac066c0d57058bb21b1e66cd89ea6ad31edbd458f5d832f74",
+      "index": 13,
+      "last_processed_input_seq": 310,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.833333235,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 662,
+      "snapshot_count": 313,
+      "snapshot_seq": 331,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_cbd44656b344cd74953c1954f0fae2a161a03c7be5eb5d87b22bdf58ad4755f2",
+      "index": 14,
+      "last_processed_input_seq": 309,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 9.9999999,
+      "reconnect_before": {},
+      "reconnect_done": false,
+      "reconnect_resumed": {},
+      "remote_disconnect": [
+        {
+          "server_tick": 232,
+          "snapshot_seq": 116,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 234,
+          "snapshot_seq": 117,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 236,
+          "snapshot_seq": 118,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 238,
+          "snapshot_seq": 119,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 240,
+          "snapshot_seq": 120,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 242,
+          "snapshot_seq": 121,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 244,
+          "snapshot_seq": 122,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 246,
+          "snapshot_seq": 123,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 248,
+          "snapshot_seq": 124,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 250,
+          "snapshot_seq": 125,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 252,
+          "snapshot_seq": 126,
+          "x": 0.0,
+          "y": 9.833333235
+        },
+        {
+          "server_tick": 254,
+          "snapshot_seq": 127,
+          "x": 0.0,
+          "y": 9.833333235
+        }
+      ],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": true,
+      "server_tick": 664,
+      "snapshot_count": 312,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 67
+    },
+    {
+      "duration_seconds": 20.533,
+      "errors": [],
+      "failure": "",
+      "guest_id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+      "index": 15,
+      "last_processed_input_seq": 295,
+      "max_members": 16,
+      "monotonic": true,
+      "own_position_span": 10.0,
+      "reconnect_before": {
+        "ack": 90,
+        "server_tick": 228,
+        "snapshot_seq": 114
+      },
+      "reconnect_done": true,
+      "reconnect_resumed": {
+        "ack": 91.0,
+        "guest_id": "g_d2041db514b424b7fff84a7c657f9716b407891a70ce99baad7f1a209a3b7e16",
+        "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+        "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+        "server_tick": 254.0,
+        "snapshot_seq": 127.0
+      },
+      "remote_disconnect": [],
+      "room_id": "r_57df6baf37272b1739565eb861eba1f3b358bd06f16ce4527ebeb9d84a046412",
+      "room_instance_id": "i_7908b71029183dc9ae15d3a799ad467545c71aaef371d14ef7075b87a8adf4aa",
+      "saw_remote_return": false,
+      "server_tick": 664,
+      "snapshot_count": 299,
+      "snapshot_seq": 332,
+      "success": true,
+      "snapshot_gap_ms_p95": 67,
+      "snapshot_gap_ms_max": 867
+    }
+  ]
+}

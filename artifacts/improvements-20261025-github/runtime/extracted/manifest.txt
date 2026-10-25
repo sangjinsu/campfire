@@ -1,0 +1,14 @@
+45e87bf09e363aa147f63d3f8cd27aae6d9f24d8
+59b3b4fdca1b946dcafd2a588b55ee262c4f450c
+rustc 1.96.0 (ac68faa20 2026-05-25)
+cargo 1.96.0 (30a34c682 2026-05-25)
+v24.22.1
+Python 3.12.3
+1.4.3
+4.7.2.stable.official.ed1daf0bf
+Version 1.62.1
+gstack_commit=e66c43c57209a17e2d9a79847a2e985c27ca80bd
+9ba3d1da8b945332789cf4c70f124c993f0e968b0c4c727acabd6e8a98a248e1  /tmp/campfire-improvements-20261025-target/debug/campfire-server
+6c6267383622e28cb60b3de66a18dc27c750920b326574e2ac19ebaa38337f20  /tmp/campfire-improvements-20261025-target/debug/examples/account_server
+8d106cbe6144c2dc7e881d61d2429c1a8a76e6b22ef48bd5e48dcf934953f71e  /home/runner/work/_temp/campfire-godot/Godot_v4.7.2-stable_linux.x86_64
+15eb65008d0c0ea00c436bf023a70b136ea176a48ef39fd8406cda264bc050be  /home/runner/work/_temp/campfire-gstack/browse/dist/browse

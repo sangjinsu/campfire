@@ -1,0 +1,2210 @@
+{
+  "files": {
+    "artifacts/improvements-20261025-ci-rate-fix/campfire-rate-clippy.log": {
+      "sha256": "086d313dd3c16de9235218541968287221187106da729883f32aa484fc1a1749",
+      "bytes": 387
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/campfire-rate-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/campfire-rate-green.log": {
+      "sha256": "508825ffa6d0c3247b19671da3dbce1c4e86000e4952988722fd3210602c6ced",
+      "bytes": 460
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/campfire-rate-headless.log": {
+      "sha256": "cb7b7dbd0616c486d8c0ac68306ff53801bf7060bf20bdb7038b1015cf73a51a",
+      "bytes": 1699
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/campfire-rate-red.log": {
+      "sha256": "f019b43a247a48192b6b29fca1111b0c46f9b2ea45a68cf3dc5530aa0a53be23",
+      "bytes": 852
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/ci-rate-test-fix-report.md": {
+      "sha256": "a7d0a9a65e2b203d5bfa0a182d1f269e00569735552e597bc4cef3df890cea45",
+      "bytes": 5432
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/final-build-verification.json": {
+      "sha256": "d733eeb1600fd201ab595cb2e080b3099b3bd6699aa068dcd37ea5a8fba52a3c",
+      "bytes": 595
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/root-ci-fix-build.log": {
+      "sha256": "3c978146bf00ef4f1a28d8d2ddb57aa5c1f7d31219987904aabe64ce3f5f415e",
+      "bytes": 177
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/root-ci-fix-workspace-tests.log": {
+      "sha256": "94fb12fda0b659c29fa800a527928404dc062743fa2ea06010ef6db194aba2cb",
+      "bytes": 14839
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/sha256.json": {
+      "sha256": "f1dcc83e4641971923de172fb98ac0adcc580d3b747e68129748b962641609c1",
+      "bytes": 1087
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/source-equivalence-84af2ab.json": {
+      "sha256": "0f1e5ab2ff2f9a20a23b96399f765f81993fc2dc66bdb0fdaaf31d57ad069024",
+      "bytes": 852
+    },
+    "artifacts/improvements-20261025-ci-rate-fix/verification.json": {
+      "sha256": "067dfe6c3319d85178f7d7f5b4b18bed763113c35ebd5d5d73c5ce9edbc948ec",
+      "bytes": 1175
+    },
+    "artifacts/improvements-20261025-final/summary.json": {
+      "sha256": "2a3b084201433a635874f53a2ff6ff5eb88215a9422aa41e1c964ab64758cd7a",
+      "bytes": 10312
+    },
+    "artifacts/improvements-20261025-final-escalated/account-dashboard-polls-0.json": {
+      "sha256": "7790a68b53dedad638bdf9940823e723c110ff10cfc12de16a6175fde8cae3db",
+      "bytes": 338093
+    },
+    "artifacts/improvements-20261025-final-escalated/account-dashboard-polls-1.json": {
+      "sha256": "7d58997a04bf211ba2cf2fa785379c1d68fa69c3e7cc145d38a30edce6d82043",
+      "bytes": 12889
+    },
+    "artifacts/improvements-20261025-final-escalated/account-dashboard-polls-2.json": {
+      "sha256": "fc58380115e343ea894636671eeaf45798e8c3e0726fa199361ab4aec43f6f66",
+      "bytes": 290422
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/account-native-server.log": {
+      "sha256": "8e8a46f580b653f3a68c1c2c982d086bec02d5397467e364282bd0fdcac11b8a",
+      "bytes": 75
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/account-transport-server.log": {
+      "sha256": "8e8a46f580b653f3a68c1c2c982d086bec02d5397467e364282bd0fdcac11b8a",
+      "bytes": 75
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/alice-engine.log": {
+      "sha256": "2b4a150b9ab87b0ddee48167ab6c36d9634eade5be7bb5172561775e91049a50",
+      "bytes": 189
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/alice-shared.png": {
+      "sha256": "c22aa08d6f4ce23feceb3cd24ab41b6f7d9207fc1cfd5368cab2f6b87a10cd44",
+      "bytes": 117237
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/alice.json": {
+      "sha256": "2cb16056c1c539bb9ba4d2c5282754318c31c734811616247161bb0d253099e2",
+      "bytes": 8638
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/alice.log": {
+      "sha256": "2b4a150b9ab87b0ddee48167ab6c36d9634eade5be7bb5172561775e91049a50",
+      "bytes": 189
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/arena-server.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/bob-engine.log": {
+      "sha256": "b04386b852b895a1a32c817831a18d1fcf2a1148348cb183eb4b5b194c48ce5e",
+      "bytes": 187
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/bob-shared.png": {
+      "sha256": "0050348cd364da4a9d089c71742c24fd728fdebcc672890df87a20c2b9c9b9de",
+      "bytes": 115839
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/bob.json": {
+      "sha256": "bd4b34353a741c92e7527c2837752177c6ad7197dedbad1a343d371aed5aa88e",
+      "bytes": 5269
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/bob.log": {
+      "sha256": "b04386b852b895a1a32c817831a18d1fcf2a1148348cb183eb4b5b194c48ce5e",
+      "bytes": 187
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/summary.json": {
+      "sha256": "513b630d9db9b7968b6ab348f5c8e80401cfb750a6d984f4b96166a4b1dd9ec0",
+      "bytes": 14551
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/transport-engine.log": {
+      "sha256": "d1ebc5012d45273ae6a8fc9a4305ec89d34c8079d5d9fd723138334abd93f1f9",
+      "bytes": 268
+    },
+    "artifacts/improvements-20261025-final-escalated/account-regression/transport.log": {
+      "sha256": "d1ebc5012d45273ae6a8fc9a4305ec89d34c8079d5d9fd723138334abd93f1f9",
+      "bytes": 268
+    },
+    "artifacts/improvements-20261025-final-escalated/browser-chart-diagnostics-mobile.json": {
+      "sha256": "ca6a27db781d090fae1260e34a90e967d31bd2253c301edba6f899271f062ad4",
+      "bytes": 208
+    },
+    "artifacts/improvements-20261025-final-escalated/browser-chart-diagnostics.json": {
+      "sha256": "07655326e27d0c08869b13b36e9204e83554982fc7380abe8a569578d7596188",
+      "bytes": 209
+    },
+    "artifacts/improvements-20261025-final-escalated/browser-checks.json": {
+      "sha256": "525d8bea4de2b601736c1e29c7744d0e2e8f474c3fd87298239df72e2392b8fb",
+      "bytes": 1250
+    },
+    "artifacts/improvements-20261025-final-escalated/browser-cleared-state.txt": {
+      "sha256": "ace2cda18568d7e74c5fa4353bd90a92092bb245b8883f74073f5ee33799ee25",
+      "bytes": 126
+    },
+    "artifacts/improvements-20261025-final-escalated/browser-console.txt": {
+      "sha256": "81172742338eae4fe76a956b20cecd4c394d70cb39536132656d61354e600922",
+      "bytes": 236
+    },
+    "artifacts/improvements-20261025-final-escalated/browser-mobile-geometry.json": {
+      "sha256": "c16e713d2319679709b57c73945b5b049aad720574462af01397712789ce95c6",
+      "bytes": 176
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-cpu-zero-controlled.png": {
+      "sha256": "397b2f8412e6ec4e0d8862595d0bed04e88dc4cd9ea04a495441a89441ecc685",
+      "bytes": 138928
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-desktop-viewport.png": {
+      "sha256": "d1f5a612f9b0866d87767872b14e35a9acab14c16004d79553df8964689432bb",
+      "bytes": 146554
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-desktop.png": {
+      "sha256": "43e672aca471d08206ea1051d202d20e96a98e495b220daf083e6c8be004bacd",
+      "bytes": 496787
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-mobile-viewport.png": {
+      "sha256": "dbd2026f773755af3c16a34bd97951a49d74f33c5bb04cf32bef0318b678a0bd",
+      "bytes": 58354
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-mobile.png": {
+      "sha256": "d74e8a160c7fd0cc4af216f5bf9d3d3b3cc42fa31fdbf6fa4393b1df23429eb0",
+      "bytes": 199483
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-page-two.png": {
+      "sha256": "63f2b7838278dab819350b0c995692e2ca0de8d5f981b8274a39941aeeea9767",
+      "bytes": 231850
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-private-drawer.png": {
+      "sha256": "8f1df06c52e3eba943156334f7f32462d6ebb919e4b2cd99397b5ee9e010b469",
+      "bytes": 208552
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-room-fixture.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-server.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-final-escalated/dashboard-warming-controlled.png": {
+      "sha256": "ec0ee28fbbb2b84c11cd2e19aff9351241ede3168f8f30aed9f7b996495a251a",
+      "bytes": 151629
+    },
+    "artifacts/improvements-20261025-final-escalated/empty-desktop.png": {
+      "sha256": "50fd5d45e3bd964da6f1bc0c94b6f312244cacafb5fe5f8ed66c641c63e225c0",
+      "bytes": 170461
+    },
+    "artifacts/improvements-20261025-final-escalated/http-empty-status.json": {
+      "sha256": "b5b5be53c3249a9b1bdb9c253267b556b2ece4a2be6a71ab6a3adfdbf2ae64dd",
+      "bytes": 2650
+    },
+    "artifacts/improvements-20261025-final-escalated/http-history.json": {
+      "sha256": "6baad7c59aa5417d98382e1e3f7fe55bfcf17e5e78e285cbb720bf9609c4228b",
+      "bytes": 89615
+    },
+    "artifacts/improvements-20261025-final-escalated/http-rooms.json": {
+      "sha256": "019a502cabdede7c7208649f7c7d76b50a8b98d91c7cff487a50fd2168aa9cd5",
+      "bytes": 46401
+    },
+    "artifacts/improvements-20261025-final-escalated/http-status.json": {
+      "sha256": "8819358d6faeb78f01c6bff7271b1fbe2bc862b3557f0c881a7ad79cd224c86e",
+      "bytes": 2751
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-00.json": {
+      "sha256": "bdc7c80992baa40d0a1682dd2f07b8837882f6394333fc79e91558493c43fadb",
+      "bytes": 2921
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-01.json": {
+      "sha256": "baa2a78245970eef172f68733b2c7a4f24cbde0c3f74b11d4cf510bc8a7b2dfc",
+      "bytes": 2921
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-02.json": {
+      "sha256": "a590c7b3738df7060e42d7d3c0dced49e5cbdd4cd5cb29776021c90e2bb86d00",
+      "bytes": 2921
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-03.json": {
+      "sha256": "8da337c606d79ba36d9b2185453def68d0d4bd23a00018fe91366a9585f4e7db",
+      "bytes": 2914
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-04.json": {
+      "sha256": "4c3ef25db4eddac9856ec8ad2b7910d5795a92321415cf09432d92a000efdf20",
+      "bytes": 2921
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-05.json": {
+      "sha256": "8c992e2ec3f0c4690976da0c680f682f100cf0e6d6dc2d8eb76cebef8f429322",
+      "bytes": 2922
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-06.json": {
+      "sha256": "4671e7f76d3b910c72f373808b39dbe85313f7dd41d93d8b94aba2b9ca2ef1e5",
+      "bytes": 2921
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-07.json": {
+      "sha256": "46fa26bde8abc38821491684c769c5ce2bdb73e85e21273ce749b756516d1103",
+      "bytes": 2919
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-08.json": {
+      "sha256": "bb1f3a52df020fa85c8167eee9f80dcde97ac45cad6227e06447ee6a1476a1dd",
+      "bytes": 2922
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-08.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-09.json": {
+      "sha256": "e458594786b26ee4daa7d37eefbc37dd68db346e5996286472bb1d2185c90a0a",
+      "bytes": 2920
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-09.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-10.json": {
+      "sha256": "e70b423eadecf60de5aaa7b4565c3a96856ba7b6d4d7a6b7f8ed4226d0796382",
+      "bytes": 2921
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-10.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-11.json": {
+      "sha256": "42c99c80d1ae155edeff40b27cec35959a7f0db3f7b796d537013220f0d56b83",
+      "bytes": 2922
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-11.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-12.json": {
+      "sha256": "86eef3f6fe2de3f979ac3007414f61bf29fb6c9ccca9f18571964df8b6d51672",
+      "bytes": 2915
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-12.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-13.json": {
+      "sha256": "5e1cf56cc921433a11dd3fe1c8287ac8a223a50ac3532b81759dc42e97b911cf",
+      "bytes": 2923
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-13.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-14.json": {
+      "sha256": "d27695aa035f46fafd7e7aa767e03f83d6c8a1f8d61d44934524ea543917e6f4",
+      "bytes": 2922
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-14.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-15.json": {
+      "sha256": "494fb703352ac78bdacc292c627ad5a47ef7beb9f9a4703dca838d8b2eca4b15",
+      "bytes": 1143
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/bot-15.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/process-os-samples.json": {
+      "sha256": "c36ee822c60dff1b55ee24359467a0caaeea3cc1db43b4dfc23b514523a6a6c8",
+      "bytes": 9734
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16/result.json": {
+      "sha256": "24a7e3fbf6975d41ef64a2680fa9863a191795327e0bd4c3f64178b7ffd9058f",
+      "bytes": 130025
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-16-server.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-00.json": {
+      "sha256": "19978efa472774ac8f3979f9379b0c1ba82f8d473b7b763e75a2ead6319aa9f4",
+      "bytes": 2943
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-01.json": {
+      "sha256": "0cb2ef84e055ed1fd419de7ba744c36ec5438beb38c4eb48f5f8c3e01537285e",
+      "bytes": 2934
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-02.json": {
+      "sha256": "0ba9ae9055b7740bd9ff460230e72f17396ae2f515d4d8241938bcdb305fcdcb",
+      "bytes": 2942
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-03.json": {
+      "sha256": "b6a90186e34c12a9e0a4f2a0d9d09a09b109dbafb90787fa65e4e03910531895",
+      "bytes": 2941
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-04.json": {
+      "sha256": "010493dc73fed4766075617a02ebbe502e92d1b5554305964dcb7baaaa43a71e",
+      "bytes": 2934
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-05.json": {
+      "sha256": "a1d85edc95dcd34c1af3d9240acfe4edab720c89d7bc63b05c5a2d41b6d57eea",
+      "bytes": 2942
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-06.json": {
+      "sha256": "112c62506b165dd959d40d93a7fa5f4ce1f48b756ae72dd065e0573afd73c709",
+      "bytes": 2943
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-07.json": {
+      "sha256": "48cf1d2eef34cbaf10a3e87c2405366840346f791e7340a91b86f12005625abd",
+      "bytes": 1133
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/process-os-samples.json": {
+      "sha256": "6ddd897e6014fe7df9556cd80276a1333b67c25f3108d5aba8252b14aee8945e",
+      "bytes": 9018
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8/result.json": {
+      "sha256": "0759b145ae3f54ff2f00e07b9aba2abe6cc206c7fb27f284feb778c511577693",
+      "bytes": 65652
+    },
+    "artifacts/improvements-20261025-final-escalated/load-disabled-8-server.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-00.json": {
+      "sha256": "575c44a1c1c732db6197fd579891a89a40341dd7b1fc503708d4beb2fb964300",
+      "bytes": 2793
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-01.json": {
+      "sha256": "3c0f7d5d1ef5952301357d1b23d8822a6b12704285458e2fd0e3478f81d651c1",
+      "bytes": 2795
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-02.json": {
+      "sha256": "284913d2604a9d7bfe32a82e2351caae4b494e6ec785c8f1061c0483d500942b",
+      "bytes": 2794
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-03.json": {
+      "sha256": "e452fbdc34c929a44cfc95e0420b474a7e4c0008a15fec379cf5fdac8653b27d",
+      "bytes": 2795
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-04.json": {
+      "sha256": "a9c11287c91d002e277ac4e12609e7d8fd0e38c4ee3a25452208da53490e224f",
+      "bytes": 2796
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-05.json": {
+      "sha256": "756bdf8650dd4a31dd9c5b28bdcdf009342c809f70065ac662a5f3cafdc6e3fd",
+      "bytes": 2793
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-06.json": {
+      "sha256": "6dafaaef8ca1e93212a5b0ce813ae3cd37e66d789bbda12e7728990f1c9689f7",
+      "bytes": 2796
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-07.json": {
+      "sha256": "8c2a7b67101e9ef76e58c0d47f35ec5a3b7d7a4a615fb78bea0c29e8c3fea01c",
+      "bytes": 2795
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-08.json": {
+      "sha256": "2bb6c150533a66c5e77876e641d7a290d6f1d16874178e31164db6c578d9dd3e",
+      "bytes": 2796
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-08.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-09.json": {
+      "sha256": "8bf022c6b730e57cd0e570b6e790191c712b33d8c3baf4b976cbbbe4369b57d8",
+      "bytes": 2794
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-09.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-10.json": {
+      "sha256": "26cde6418def2ebd693b0fe3883781dc2b690591d65accc773c1e844cdbc80ae",
+      "bytes": 2795
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-10.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-11.json": {
+      "sha256": "6af254bbe9a1237d74f597e838db0cb8ba6b8e1ea4f3ad10c48c10d5d0effa1c",
+      "bytes": 2795
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-11.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-12.json": {
+      "sha256": "dd5fa91e6a578297b37febba29d4f20970ebcda369230c4f2cf0a7114cc60e80",
+      "bytes": 2794
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-12.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-13.json": {
+      "sha256": "735e49dd42e7c930af42ebac1f87d6522486a70994fb1063a70593158ca8c25e",
+      "bytes": 2789
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-13.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-14.json": {
+      "sha256": "6e23e6f86d255b2e573728be6c9f600a1e659de2352ac0323eb138aea7089ac8",
+      "bytes": 2796
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-14.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-15.json": {
+      "sha256": "9e1aff90ada06fbe7832fa624e57b24eae44e75550e3ae4b9107323c7f0bbb36",
+      "bytes": 1143
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/bot-15.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/dashboard-polls.json": {
+      "sha256": "5c2a27fc45ac8239b9657ad4e0e576b6233e08fd0b1ff6ac42696c614f82779f",
+      "bytes": 732157
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/process-os-samples.json": {
+      "sha256": "bf0927cc115090c11b30a4655f4f6b089f22b49252db34f10f26f9e548a18826",
+      "bytes": 9626
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16/result.json": {
+      "sha256": "fa031cd9287f782325c502687c1f2610484c5aba2182f2e00885f81e192904e1",
+      "bytes": 124366
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-16-server.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-00.json": {
+      "sha256": "cf90b6a6fd48a2093298f1bfeb443450ab4f59c8b4c7c5d021095069f3d36d20",
+      "bytes": 2892
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-01.json": {
+      "sha256": "69538dfc1ae2f9cb869ee6d691eb65ed80241cd4c4bdf4620c0adca9600b328f",
+      "bytes": 2892
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-02.json": {
+      "sha256": "bc979446940d79744f8f171b74d075d77562ebac2e92a0cc039c9689e6e62792",
+      "bytes": 2894
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-03.json": {
+      "sha256": "85699b3f5276c4461c45b84fbd0eb74fbefea8ce5c18b0486a8faebab4e5f2c2",
+      "bytes": 2893
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-04.json": {
+      "sha256": "c838c86cf7afdfc8fc653d88a9e1a9fdc0c806065065a34b552b4d67c8540e85",
+      "bytes": 2893
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-05.json": {
+      "sha256": "0939ca28f3822dbdffa53b8062368241b07ee1c9e442673d0f12edc1cbd8b053",
+      "bytes": 2893
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-06.json": {
+      "sha256": "65ab1615455926842293dd7c09b70f530a916f63c09f1906d9bd347c518cad00",
+      "bytes": 2892
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-07.json": {
+      "sha256": "53eb9844120a94fac3c3468d0b9aa2afa9925994192e13bfe3f37b06e17d9125",
+      "bytes": 1133
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/dashboard-polls.json": {
+      "sha256": "3e2d4a6e8186e4d2f61d9dea9e33ea7a0de22e81519c3f3fbb4e4c7024dc645a",
+      "bytes": 705988
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/process-os-samples.json": {
+      "sha256": "ed580cf0753ff95693a09cb456e7f3b8a0dd5eeaa50c2d65f641d9c2ebb968e3",
+      "bytes": 9223
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8/result.json": {
+      "sha256": "696548c38d4c0ee182413b9ff8a409c666593d1e61a4571002673e0f00af8582",
+      "bytes": 65570
+    },
+    "artifacts/improvements-20261025-final-escalated/load-enabled-8-server.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-final-escalated/login-desktop.png": {
+      "sha256": "76ffcb2b0632db404c293d38e883d3ec9fc4752d66f3f566e4267927dd0267f2",
+      "bytes": 54862
+    },
+    "artifacts/improvements-20261025-final-escalated/real-room-fixture.json": {
+      "sha256": "df0ec9b6f1695083b0102f2b62e635d5883d225a79d879b1a25c501d426fca44",
+      "bytes": 25454
+    },
+    "artifacts/improvements-20261025-final-escalated/reviews/architect-python-final.log": {
+      "sha256": "884fed4c377555bd588d77f107cf2f5f4f954c1114cd04cce0afe1c5369e2231",
+      "bytes": 4755
+    },
+    "artifacts/improvements-20261025-final-escalated/reviews/pre-push-architect-review.md": {
+      "sha256": "05ced7e3578cacffa161f7437dc5fff30aab54daca914956d77b07db74643ced",
+      "bytes": 11427
+    },
+    "artifacts/improvements-20261025-final-escalated/reviews/sha256.json": {
+      "sha256": "38a7be8d18db6b118a68b1dbda62a18566aea5b5af74956a691cfa71d42fb12a",
+      "bytes": 672
+    },
+    "artifacts/improvements-20261025-final-escalated/reviews/task-1-review.md": {
+      "sha256": "9a96075650f447513feb261a336482e6dfaaef67730ee55680f6dfbb8c0e84e3",
+      "bytes": 4676
+    },
+    "artifacts/improvements-20261025-final-escalated/reviews/task-2-3-review.md": {
+      "sha256": "6b3af3ed436aad4ca33d3f08115986784534b72f63e62b7c57d97ab9d99fb75a",
+      "bytes": 6912
+    },
+    "artifacts/improvements-20261025-final-escalated/reviews/task-4-5-rereview1.md": {
+      "sha256": "a3f9a6a9aa2d505f5e94302393dd34e7efa30632f8207dcad12d643c19437e66",
+      "bytes": 3368
+    },
+    "artifacts/improvements-20261025-final-escalated/reviews/task-6-7-rereview1.md": {
+      "sha256": "05e2e78ac6c19e39352af3f1702b987bf24fd70fa24d5db089debd7e79f70f3a",
+      "bytes": 2563
+    },
+    "artifacts/improvements-20261025-final-escalated/reviews/task-8-live-report.md": {
+      "sha256": "63a628b87a59f55c0361b5299947d9393450e79c3ae1a7f7f3799e21310fe52d",
+      "bytes": 5702
+    },
+    "artifacts/improvements-20261025-final-escalated/root-evidence-sha256.json": {
+      "sha256": "57b535b002a29e065e9868880a6b73cef9a59aeb61c54ee98bb0c0aec1e04e04",
+      "bytes": 2631
+    },
+    "artifacts/improvements-20261025-final-escalated/root-regression-artifacts/sha256.json": {
+      "sha256": "056dc878e553a2c33a91fa6579f97adc4dff44fce3010eeab9f8944f0e1d5757",
+      "bytes": 417
+    },
+    "artifacts/improvements-20261025-final-escalated/root-regression-artifacts/slow-reader.json": {
+      "sha256": "ec2d778a81199f40e3a8d54850de75d6cd37dc750ee8f6dce93acb0459518878",
+      "bytes": 4747
+    },
+    "artifacts/improvements-20261025-final-escalated/root-regression-artifacts/soak-16.json": {
+      "sha256": "1a294a8d92e8379db1bad84821ea1b2319651be70360bd57b031d92fe9163f01",
+      "bytes": 7304
+    },
+    "artifacts/improvements-20261025-final-escalated/root-regression-artifacts/soak-8.json": {
+      "sha256": "38b8b0d78dae3738d3a8fb2468ed63fab450b4a4df0126660817d70a2baedc99",
+      "bytes": 5069
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/post-package-source-verification.json": {
+      "sha256": "f250a752ef7202d79e3136e7e5fb8457d88455559dde5147c2fe436390f86f69",
+      "bytes": 10522
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-build-account.log": {
+      "sha256": "8fc642a5d25c35c2a3b6d8d05c1ae969a8f1c9a3600e085a911db126408a3a90",
+      "bytes": 177
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-build.log": {
+      "sha256": "b9d2d1f0a3a3ab482bd54f09776d1065bdbbb80ecbce9835681264f4cfe0e503",
+      "bytes": 177
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-clippy.log": {
+      "sha256": "d54cc004d4d286d29259cf092670ea02685369b71a1c87f79323a03c9bde699d",
+      "bytes": 175
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-commands.json": {
+      "sha256": "1c2db0646732d91d960a3db9abb565887f24f10a7fdbdd133fbd3a40c9715ac2",
+      "bytes": 1090
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-ignored.log": {
+      "sha256": "f292d34ff7abc96f7e5053ce7cabae10064e0de7bbc631a0ccbebe63224bf6c2",
+      "bytes": 2834
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-no-default.log": {
+      "sha256": "eb278749403513db0953f394c65f2521a74e0df5f3d0e4d9d70ee87dcd343f30",
+      "bytes": 284
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-final-tests.log": {
+      "sha256": "9685309f79348c7f0c6d01b21f4c5aa0d392f59952eee114059095a36dffdcf8",
+      "bytes": 14839
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-node-task5-fix1.log": {
+      "sha256": "3ba119026e67a456026c61416961b6655ff34895d84e2a684e690100eb54b43f",
+      "bytes": 243
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-python-all.log": {
+      "sha256": "9e95b6fe1c231b57ddc8d59a6c54022d02139320697ddd05157844ee8d25e19d",
+      "bytes": 1185
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-python-final-evidence.json": {
+      "sha256": "66113000d99163c2793a744f0b120ee990ddf66706c1e72be37db3fdaf3d193f",
+      "bytes": 342
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-python-final.log": {
+      "sha256": "3daa422ee0f23c4df3827826a9134d5e499fa5a83fe102822ac8ea12407291ab",
+      "bytes": 4755
+    },
+    "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-source-freeze-verification.json": {
+      "sha256": "e0b312064587adcdb6ca3e180d468b76a97fca2767e3d9978236fe199746a770",
+      "bytes": 754
+    },
+    "artifacts/improvements-20261025-final-escalated/summary.json": {
+      "sha256": "2c9a927395032342968d5e3da49da0b637bc32811142f4b749636df7b64c0fd7",
+      "bytes": 21579
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/actual-layout-1440.png": {
+      "sha256": "38c65e1d7558662cf02905c997e2a8fd9c9ce282565dc5d6ac14f127f70dc4eb",
+      "bytes": 147809
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/actual-layout-390.png": {
+      "sha256": "63c58751222ce91449355223886ab172e8021463e4696b4c129ebb692ea3bff7",
+      "bytes": 63460
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-eleven.json": {
+      "sha256": "2cb9c5930adbbcd0c7711ebc90364c33b3420f0b2e456603fa89b8df4d55b4f6",
+      "bytes": 140
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-eleven.png": {
+      "sha256": "6dba3b83733c3fe80b649db5bf5f3e89e2a77bd3b61b49a94d5530dba3221e22",
+      "bytes": 109645
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-empty.json": {
+      "sha256": "2d403c7529475572d3e85a1789d3917611edc9930a4bd71a0957b944b86b7d4a",
+      "bytes": 92
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-empty.png": {
+      "sha256": "a2879c545a03074b1042a8530920f55f95e5be3631bca2987b9a0d0235ccea91",
+      "bytes": 101873
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-fifteen.json": {
+      "sha256": "f140dc17f5bc1d1c21084e132acd4b504442a14c2720ff1bf60a8c8915e772d0",
+      "bytes": 144
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-fifteen.png": {
+      "sha256": "1453ef019abb161b830f2082c27f9845cabf0835fa66191636817135e5d889a3",
+      "bytes": 110862
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-gap-null-multicore.json": {
+      "sha256": "4dcf9e4190510a94391ab25a9c9441eb919792a0d08e000e01e3c5e24e90f1ff",
+      "bytes": 139
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-gap-null-multicore.png": {
+      "sha256": "dfab64c333cee3724797812dd601a429c483bf88e8e3f56c5d0e42d8473e087c",
+      "bytes": 111374
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-one.json": {
+      "sha256": "37b87ccc67a558b31dc8d9f735380d73e72ff359f02199193741c0a25f143d67",
+      "bytes": 140
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/controlled-history-one.png": {
+      "sha256": "71d94ae30e969bd12a86834c23b57127a32063655dc7a4d4a92fd374cefcc826",
+      "bytes": 110286
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/layout-1440.json": {
+      "sha256": "eae6d7bbdee4fe59b58c994b576fb7f7515022c73c60fa4605e4daa7f56eb729",
+      "bytes": 25994
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/layout-390.json": {
+      "sha256": "0f1ac3a0bc29bebd48d788a6bd2cca4a5f6e23080097d6d48f3a12255a56e41e",
+      "bytes": 26764
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe/summary.json": {
+      "sha256": "ef35be1998183bed445dd7e14130e1d2abc35e0885f3d35abc843f600caca4dd",
+      "bytes": 5666
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe-rooms.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-final-escalated/ui-probe-server.log": {
+      "sha256": "bc1c1a132a31efb48c0f0afee872910403db20159878759a06afadf0f77d4c8d",
+      "bytes": 1932
+    },
+    "artifacts/improvements-20261025-github/evidence-manifest.json": {
+      "sha256": "7c3b03df663c2bf09993390b42d0e3d779dfa7e39c9634edcdb73e0827305b25",
+      "bytes": 50354
+    },
+    "artifacts/improvements-20261025-github/quick/artifact.zip": {
+      "sha256": "88045896e493a6d47a81871c08bfaec04c7f963cc0731cfac59195bb0b891d77",
+      "bytes": 10416
+    },
+    "artifacts/improvements-20261025-github/quick/artifacts-api.json": {
+      "sha256": "9134854dfa6a1928e7c45f5335e31375d31a832e4b63cec9bc632f80476627b5",
+      "bytes": 718
+    },
+    "artifacts/improvements-20261025-github/quick/extracted/cargo-fetch.log": {
+      "sha256": "61976a72237661215d637d14378786288efbbbd885cda778b58835c2c6588992",
+      "bytes": 10207
+    },
+    "artifacts/improvements-20261025-github/quick/extracted/clippy.log": {
+      "sha256": "0e04abcc6c326e64671126a3b0da0115fe698d25d78c4cd56aed84ead2802fae",
+      "bytes": 7306
+    },
+    "artifacts/improvements-20261025-github/quick/extracted/fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-github/quick/extracted/manifest.txt": {
+      "sha256": "f300a9e07f4c63ef71beca8b051cc3e156cfc09094d945d7caf46de9418fae3d",
+      "bytes": 254
+    },
+    "artifacts/improvements-20261025-github/quick/extracted/rust-install.log": {
+      "sha256": "b34ad2e279c1aa6e80e5bb65852aa575c4802debe630781f32e3af2ef0743254",
+      "bytes": 541
+    },
+    "artifacts/improvements-20261025-github/quick/extracted/rust-tests.log": {
+      "sha256": "216b6b6942d6395db01e1b7a408adaab9609c73a63338fbe4ba3790524b38234",
+      "bytes": 20767
+    },
+    "artifacts/improvements-20261025-github/quick/failed-steps.log": {
+      "sha256": "cb15fb9f958b34fbbb0f5fdec7775f8a1a352983fd8e6a22ed73f78924f01b22",
+      "bytes": 37762
+    },
+    "artifacts/improvements-20261025-github/quick/run-metadata.json": {
+      "sha256": "9e282ee474d757a52e9ab77180086d11791552d9ea521355d2f4c35b9b196f67",
+      "bytes": 3344
+    },
+    "artifacts/improvements-20261025-github/quick/workflow.log": {
+      "sha256": "d986e96f0017e5df8f1bb3c01465627c8f87e931ca21c512959e9658089819e0",
+      "bytes": 108068
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/artifact.zip": {
+      "sha256": "a8e11b3ab8694ffb6561ea8a121d9268638631fb3b16dec520ab1fb9ccfeaadd",
+      "bytes": 170768
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/artifacts-api.json": {
+      "sha256": "2bfb12e704b21e0c0fd2bcaaec92480eb0d8dd44cd7b7453a6ac3953ae8efd8d",
+      "bytes": 719
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/cargo-fetch.log": {
+      "sha256": "ecb68dc51328198885ede2f274a0e47b7da769802643ac565b3fbdd24dfdc5e8",
+      "bytes": 10207
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/clippy.log": {
+      "sha256": "3259effc64c31ce2593e3adfaad52ebb85a0edefe242b8010013be6688808a9c",
+      "bytes": 7306
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/manifest.txt": {
+      "sha256": "a02b06430f1c53dcc8bb3b81a1f1364e16f17bb952e9afda4d58c9b37e639b84",
+      "bytes": 254
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/node-tests.log": {
+      "sha256": "5e511941827cecef0b08fff349fc7e09f4ed379bc3aff74b8c4db1996ebf158c",
+      "bytes": 243
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/archive-consumer.log": {
+      "sha256": "c84a622673b22a55d1dffb837ddb8c4cbc8854b68b1c0a6c1f1f859bae83601d",
+      "bytes": 699
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/archive-lock.log": {
+      "sha256": "e511a61f999a19c05c5494ba44a48a86b3ada4595d6316554208bdc10ab72e24",
+      "bytes": 195
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/checkout-consumer.log": {
+      "sha256": "d7c00cf350c87fdc8ad35a8848b44ae1390358544d82e37365750f31564756e7",
+      "bytes": 681
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/checkout-lock.log": {
+      "sha256": "9aa2cc5d84c98aa8772f4af673c9ac0ca15ad4601b3a02f558101b9dc0ef6203",
+      "bytes": 196
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/lockfiles/archive.Cargo.lock": {
+      "sha256": "e179f6323eedf2ab86fc43373b51c2aa090aad37f423496b29406ecc28840714",
+      "bytes": 21590
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/lockfiles/checkout.Cargo.lock": {
+      "sha256": "e179f6323eedf2ab86fc43373b51c2aa090aad37f423496b29406ecc28840714",
+      "bytes": 21590
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/lockfiles/server-archive.Cargo.lock": {
+      "sha256": "15b870648b33ed2f5ac5d637a1338f76e221981ef454cf48f4399ebbb0551958",
+      "bytes": 54884
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/package-campfire-arena.log": {
+      "sha256": "18db71c0d22f757f005a86728ac94b44aa1c7adeb094e309a06defd7a2bb3f3f",
+      "bytes": 413
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/package-campfire-server.log": {
+      "sha256": "fef67d68306434cd5031655a7cd1d41d0f809f9f28e07a9cb076047295ee4d1c",
+      "bytes": 420
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/package-runtime.log": {
+      "sha256": "e80b6b69abb11d1c74b0e6b99ebd463458037598c9032852e275a264f1dac912",
+      "bytes": 1738
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/packages/campfire-arena-0.1.0.crate": {
+      "sha256": "41af1cac0814b9e9470cdbbeebe3294b3e3dadc0fb97d4c6e77722edcb2fcc81",
+      "bytes": 4140
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/packages/campfire-arena.files.txt": {
+      "sha256": "7628d3dd3a463975081e6415d6e498f22b3a37dabcb17b6c9e194e43ab8d7b68",
+      "bytes": 172
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/packages/campfire-runtime-0.1.0.crate": {
+      "sha256": "ed277f1188bbd4eb06ab744256e9d5dc0f81515718e70bb160e0ef49298661fc",
+      "bytes": 64943
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/packages/campfire-runtime.files.txt": {
+      "sha256": "6d87f37af3ca84324f883ded0b8b4ecef97d139b637c600410dfca463f96747f",
+      "bytes": 768
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/packages/campfire-server-0.1.0.crate": {
+      "sha256": "c9056a7e79dbe9de4cef87e2bca7ce19d6c1b156ceec25603b0c9e2d43ed2eb5",
+      "bytes": 56949
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/packages/campfire-server.files.txt": {
+      "sha256": "28b87a3d2f12d95458d5e82b09b3ad81378b4bb83201677497c3aca212a0eeb3",
+      "bytes": 843
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/server-archive-check.log": {
+      "sha256": "715c908af95df023139e8ab60bf899196fb50d2f7ade73e16b1de3c4dbaa0e23",
+      "bytes": 1469
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/server-archive-lock.log": {
+      "sha256": "d3fe07b4945b97fd43fb32aa00dc2f4ee4ba9bbd955ffdd1fb99f8b9b2b1953b",
+      "bytes": 363
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke/summary.json": {
+      "sha256": "a6815a3402a160e4411ed59cf00af81b8b1594a768fa14df73d8caac3074fd4e",
+      "bytes": 3112
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/package-smoke.log": {
+      "sha256": "a6815a3402a160e4411ed59cf00af81b8b1594a768fa14df73d8caac3074fd4e",
+      "bytes": 3112
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/python-tests.log": {
+      "sha256": "2127e7d6ac49b0b0cd7eeb13b1c6130fc50772fe78e792fc6dd42109ca1d0d2e",
+      "bytes": 4495
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/rust-install.log": {
+      "sha256": "b34ad2e279c1aa6e80e5bb65852aa575c4802debe630781f32e3af2ef0743254",
+      "bytes": 541
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/rust-tests.log": {
+      "sha256": "aaedffd97d06b51ae8b608fb6338d97c8466d4fa8d25f0e69eb8685a600aa41c",
+      "bytes": 20809
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/extracted/server-no-default.log": {
+      "sha256": "f6cbb70e8e5cbbddbafdceb06fe81459e124bb7784d8668a84a22cf8ee0737f2",
+      "bytes": 307
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/run-metadata.json": {
+      "sha256": "8ce455b9ef892d55fce72e4d3166ee4612c0de349e3f33d994be836b61b76db1",
+      "bytes": 3344
+    },
+    "artifacts/improvements-20261025-github/quick-recovery/workflow.log": {
+      "sha256": "3d0dc7d646aca2627519cc19df758d89e9cdfc9cf65c0bb3ccbdd2a0c0b36e22",
+      "bytes": 133566
+    },
+    "artifacts/improvements-20261025-github/reports/delivery-architect-review.md": {
+      "sha256": "d95afbcce1db89a13b81be66a5968375a43c9ceaf5a2dcfeeac700c4e9914e31",
+      "bytes": 19968
+    },
+    "artifacts/improvements-20261025-github/reports/github-validation-report.md": {
+      "sha256": "e101d83283eb2272ec767872d987b5808b6b92016679b8bb7ed57a6bbde8400a",
+      "bytes": 7283
+    },
+    "artifacts/improvements-20261025-github/runtime/artifact.zip": {
+      "sha256": "5cf0db0a9a335ea24cf9ab9c9231133fc293743494667383f41ec801d453b11a",
+      "bytes": 3237710
+    },
+    "artifacts/improvements-20261025-github/runtime/artifacts-api.json": {
+      "sha256": "92befe28e730413e75fc0e2b792a32c137be667a3ff1cccc07b573b2668989eb",
+      "bytes": 727
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/account-native-server.log": {
+      "sha256": "6b3b0a87990fed6d57b6855f6e7e9ea7e493e8d76368d798d94611d93ac0caf5",
+      "bytes": 75
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/account-transport-server.log": {
+      "sha256": "6b3b0a87990fed6d57b6855f6e7e9ea7e493e8d76368d798d94611d93ac0caf5",
+      "bytes": 75
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/alice-engine.log": {
+      "sha256": "915c874865b2db38b5145fbd0f1aba74c7d5650cb93712e8d2192744a5197afb",
+      "bytes": 412
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/alice-shared.png": {
+      "sha256": "3ce17936db7788df86d9913c3f41ea3a4cb9a4bbe95119fd80247f9bcf70b562",
+      "bytes": 118460
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/alice.json": {
+      "sha256": "2b7c17cd1eef686718596455ad007fe2b1e01fe6d16609524b7aa976d7c644e9",
+      "bytes": 8634
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/alice.log": {
+      "sha256": "9b885beb71d2743e2e887674f3e693729b74abc24e73340ec269f61ba08ec006",
+      "bytes": 414
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/arena-server.log": {
+      "sha256": "652d2a3a68598ff546bf44ce87a5fdf04c9f1367f858c91fc4b7298e525c0f02",
+      "bytes": 3092
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/bob-engine.log": {
+      "sha256": "aa0947d897ca610411bd0b925a2eff7b69a9e591b717aed8e5c03b2f46ee3e64",
+      "bytes": 410
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/bob-shared.png": {
+      "sha256": "811c4ae7e4bbedfddc2dbab7623d8adddc68f92c8ce68fe15ec1f03179a37502",
+      "bytes": 116715
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/bob.json": {
+      "sha256": "b820bfc9e36263afd1b6177f735626e87ac52bb6fe9c2d49d9e97895c55c2dd0",
+      "bytes": 5266
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/bob.log": {
+      "sha256": "f2ed5fb7f73fa9aebf24bf605de944fee54797554fad365d31535bbb88137df2",
+      "bytes": 412
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/summary.json": {
+      "sha256": "3650d663683f6aabf75f25b1fa84c49919971540f7e1b35037cbb7b70f7b3baa",
+      "bytes": 14249
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/transport-engine.log": {
+      "sha256": "d1ebc5012d45273ae6a8fc9a4305ec89d34c8079d5d9fd723138334abd93f1f9",
+      "bytes": 268
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts/transport.log": {
+      "sha256": "d1ebc5012d45273ae6a8fc9a4305ec89d34c8079d5d9fd723138334abd93f1f9",
+      "bytes": 268
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/accounts-run.log": {
+      "sha256": "e41ea4b151846fbaf3ee7b2fd787af2eef9b16116436626ad93a3e260d5fcbcf",
+      "bytes": 197
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/apt-native.log": {
+      "sha256": "211f7ac99d60ceb265b8cf9ea4d1c581c2b3bb1d5ae24acc371ba7b6a80cd88f",
+      "bytes": 4721
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/apt-update.log": {
+      "sha256": "b0e485525fcaa0dc85b171d20b770bb850642333ad7587511480aab057dcdd44",
+      "bytes": 422
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/build-account.log": {
+      "sha256": "c4668d754537ed8594f89b85f65755fa03f8ccaa914db157d11b0fe3a04db4b0",
+      "bytes": 4245
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/build-server.log": {
+      "sha256": "00179f04a21acd202d38c9a7fe8d27a1973a58a1588f33283bcb6661d4aa6192",
+      "bytes": 4488
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/cargo-fetch.log": {
+      "sha256": "67b082b0af7a7c4a079686ee026332aab24d812c6e986ad1342eef9582978abc",
+      "bytes": 10207
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-dashboard-polls-0.json": {
+      "sha256": "c892bc534c301391ae7fec4e10e6e57358c17995f2714af77ed8cf22cc56361d",
+      "bytes": 405648
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-dashboard-polls-1.json": {
+      "sha256": "ba8c49ce0acf089aa1aaa7da66d0d8aca8aeb65af28e492a3b806edbc7e2edc6",
+      "bytes": 70253
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-dashboard-polls-2.json": {
+      "sha256": "314bbc14f704a26c4578f6893d14445ab818cd008d995c4807bc8ebbff98b651",
+      "bytes": 309258
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/account-native-server.log": {
+      "sha256": "c8e3f5a9143e35229494dbc76670695165000a77da9f50b69c97003ecfb81e86",
+      "bytes": 75
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/account-transport-server.log": {
+      "sha256": "c8e3f5a9143e35229494dbc76670695165000a77da9f50b69c97003ecfb81e86",
+      "bytes": 75
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/alice-engine.log": {
+      "sha256": "915c874865b2db38b5145fbd0f1aba74c7d5650cb93712e8d2192744a5197afb",
+      "bytes": 412
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/alice-shared.png": {
+      "sha256": "79d5be8301e8948243b03e08d86bd3fd3e8b9abd82254f92237867c27c46a861",
+      "bytes": 118488
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/alice.json": {
+      "sha256": "aae6fb3613112db3944055d9349cae61c7ded79adbd0f087d4a4d9e215708361",
+      "bytes": 8636
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/alice.log": {
+      "sha256": "9b885beb71d2743e2e887674f3e693729b74abc24e73340ec269f61ba08ec006",
+      "bytes": 414
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/arena-server.log": {
+      "sha256": "b2aa472c5ff84a0411d5d7aa82cb5e34c695a9586acb68bd3c0453a0774897b7",
+      "bytes": 3092
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/bob-engine.log": {
+      "sha256": "aa0947d897ca610411bd0b925a2eff7b69a9e591b717aed8e5c03b2f46ee3e64",
+      "bytes": 410
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/bob-shared.png": {
+      "sha256": "271c980b495199336059b61ec292612e38ed28ddeaf8da40870a7ddc00ba77db",
+      "bytes": 116743
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/bob.json": {
+      "sha256": "d7fb39885145099aa76d304560d260ba7b10b14713cdc5bb8b41431d0bcf277f",
+      "bytes": 5267
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/bob.log": {
+      "sha256": "f2ed5fb7f73fa9aebf24bf605de944fee54797554fad365d31535bbb88137df2",
+      "bytes": 412
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/summary.json": {
+      "sha256": "40b6bd552ed824ca20b45d59bc6094b741cfef6ae42a163a9b28d034069b84f3",
+      "bytes": 14413
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/transport-engine.log": {
+      "sha256": "d1ebc5012d45273ae6a8fc9a4305ec89d34c8079d5d9fd723138334abd93f1f9",
+      "bytes": 268
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/account-regression/transport.log": {
+      "sha256": "d1ebc5012d45273ae6a8fc9a4305ec89d34c8079d5d9fd723138334abd93f1f9",
+      "bytes": 268
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/browser-chart-diagnostics-mobile.json": {
+      "sha256": "ca6a27db781d090fae1260e34a90e967d31bd2253c301edba6f899271f062ad4",
+      "bytes": 208
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/browser-chart-diagnostics.json": {
+      "sha256": "07655326e27d0c08869b13b36e9204e83554982fc7380abe8a569578d7596188",
+      "bytes": 209
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/browser-checks.json": {
+      "sha256": "a1130baab3635409e74409eabccb6fbc41d32e194a825a3c66cdec5a77d7ae21",
+      "bytes": 1250
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/browser-cleared-state.txt": {
+      "sha256": "ba4df5ea1cf5fa8da0dde8304b20413796c7549cefae5766d3f3a67e489dad3f",
+      "bytes": 126
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/browser-console.txt": {
+      "sha256": "ab11a41c87a663f0d717be14991b3efbd1ad19b30155fef67c93a731faf0d3bb",
+      "bytes": 236
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/browser-mobile-geometry.json": {
+      "sha256": "3b3a78474bd3033de003db873e3362d3e0b1e18af65c32b5effa7f06b8828b1d",
+      "bytes": 176
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-cpu-zero-controlled.png": {
+      "sha256": "0f10f50fa91bacdf23eb6343cebcae151db09a13ba05c0777d782fcde65901c8",
+      "bytes": 131250
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-desktop-viewport.png": {
+      "sha256": "c89f81d43a2791b3a9cf5779ba7c11fcaaa96aab25fd1fb399d1bdaf680d9ac4",
+      "bytes": 141475
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-desktop.png": {
+      "sha256": "409aa3e71cbee4c3293cf51a9a5d872c6adb82ba3390e2d067d3dbace026c0d5",
+      "bytes": 503557
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-mobile-viewport.png": {
+      "sha256": "19958ddc22a98427ebd21c9cbd006fe80c27260e789f192b05c32a9a16c8ac58",
+      "bytes": 56190
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-mobile.png": {
+      "sha256": "4bde267c8f48066d239c5a635b461aabfb62abac5192e17a4cac38dbf99a9377",
+      "bytes": 205895
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-page-two.png": {
+      "sha256": "07a4402bae1b613625d717bfb21e81dd9cf7fe21e39575259d3cb888ec6d7909",
+      "bytes": 223112
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-private-drawer.png": {
+      "sha256": "56a89ff347df0d390901b8f0a8b4f286db5dcb5c8f6454e041a1d0f5e99534a0",
+      "bytes": 207196
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-room-fixture.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-server.log": {
+      "sha256": "53d555817cc19c51d0ed96b60f773dc3d9434da9aa9da0805a77f63fa5a914d0",
+      "bytes": 46104
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/dashboard-warming-controlled.png": {
+      "sha256": "66b768a258ab86d766e4b5899d86ca77c522f91b520550ece601c2c7e85675d0",
+      "bytes": 144939
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/empty-desktop.png": {
+      "sha256": "04a73dee4719a1aba1c43ee7013030efa81eba0bd47f6fccb3283b01462263f8",
+      "bytes": 167882
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/http-empty-status.json": {
+      "sha256": "958b99d81b0f6718ddbbb6d79584d8356fd76b157aca35cbb0e96f455b1a8d5f",
+      "bytes": 2641
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/http-history.json": {
+      "sha256": "3f463f3cb4826a47ed345fc2c3f9bdebeebdd7609aad8cae52fd2050b932b93c",
+      "bytes": 163718
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/http-rooms.json": {
+      "sha256": "bd5dc785b8f9c6a4b8ca6e3a80a4f25129ab50d8db4ea542978614e35f7e196f",
+      "bytes": 46432
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/http-status.json": {
+      "sha256": "8c1ddcd48f2d1eef60f3c16ce0ef1769675a10dc82a30985449ef30b61093250",
+      "bytes": 2756
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-00.json": {
+      "sha256": "eab9d83b0335b70f450ee6f667b7ff9efe844150790b5e89596e80f130c12bb1",
+      "bytes": 3048
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-01.json": {
+      "sha256": "7caa5968c758d14456fe15e95d3c86b37ccfe3f6666a3e9a2e3c36f12c694090",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-02.json": {
+      "sha256": "e93999d3617e0c90d77f49b46ac3b52b51cc3941d9eb2c03db9fc96008d90f81",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-03.json": {
+      "sha256": "596b0202ee76db3c7679235eea730c8484fc3c9981f223bae48c85ecc227a3b7",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-04.json": {
+      "sha256": "f0f3681d6ad92af09f5c90d4d7eb4ec3bd9872f00df2c8eaf2c274f0b3472de2",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-05.json": {
+      "sha256": "2853cec5ecef100f80c6610b7eec9edac83ebd795d0c3fd652000fe302903d81",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-06.json": {
+      "sha256": "1c679a8c8f1e75142cd52de9f532849793cd570e409666c6d5c9be116cbb6cd4",
+      "bytes": 3045
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-07.json": {
+      "sha256": "df22357dcef35ecb3e0ff8fc6f0cc2cce0a1828d420cf090d840ae556d7fe124",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-08.json": {
+      "sha256": "0d1ef9ef53e6988755fc90b92e654e25004e4fa72a467e548b578453e8de31fb",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-08.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-09.json": {
+      "sha256": "eddc2db5e302abaf4136dd6e75a18d9b062bfad8cf0edbb55c447c5814b33b13",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-09.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-10.json": {
+      "sha256": "958b611ea62302ba397f0fc210187d9673673a6b5527fc365b7cbaf38a61baae",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-10.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-11.json": {
+      "sha256": "0732d8e23fe22cb264d3d1e49b8095225379b4dc91330c81163ca8c282396789",
+      "bytes": 3048
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-11.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-12.json": {
+      "sha256": "d2d1ff2bace284fbcd91bf229a00029da400598b06c2aaad91b773a6361b3576",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-12.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-13.json": {
+      "sha256": "26781438611b285f19072cecbcf1af258a518ec7d0823b87fc9dd5afad6eca8f",
+      "bytes": 3048
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-13.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-14.json": {
+      "sha256": "acddde37bc0eb032e4eae38a0ac47249ff0f2ed932d36cf4e972f5fa23f3933d",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-14.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-15.json": {
+      "sha256": "0cb4a076fc488638d2935c31dc9eb4d149c2cc6832d30178c9aee3a7d874443b",
+      "bytes": 1134
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/bot-15.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/process-os-samples.json": {
+      "sha256": "ff8de7cfa57accf45d0835e789578996fd41827bb4b60a3b5cd8eeceb078953a",
+      "bytes": 9598
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16/result.json": {
+      "sha256": "36213c033d82cbcf8112bfeb5f6319c28f80d1a9c1a8a7851af6aba30aa305f0",
+      "bytes": 127431
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-16-server.log": {
+      "sha256": "eacef5c0c9af642b16641e82db73c3a734e52c4b20fc72c4f6870afb9e40c2cd",
+      "bytes": 4829
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-00.json": {
+      "sha256": "6cca4cc6c2ab1d70106ca2f2d60f3c412ecbb4ea2be3070cdd5de24292769e47",
+      "bytes": 3044
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-01.json": {
+      "sha256": "d62bd4db67efbce7008de9c1f77f062f2f38fbf203a516e72eb917b85d31ba32",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-02.json": {
+      "sha256": "1f03bf734126fc5334844e84b18e19c085d1b3a708dd9e4316d1762615a96258",
+      "bytes": 3044
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-03.json": {
+      "sha256": "61726d9b4a8d28eb5ffaa7be1810b8820f192f2bd076b1a99f6a4df09aa022be",
+      "bytes": 3042
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-04.json": {
+      "sha256": "f8c753e15ddf66daf37785d1659c51b8696d53b5d5f6363b7b2c6e95761abf9a",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-05.json": {
+      "sha256": "208698948af4f1aa7ed8c295c63ccc6b9045b960c32fceef22c97e21efa68f91",
+      "bytes": 3044
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-06.json": {
+      "sha256": "63524c088334cabf0fa39e12d5d22c5331ecc5f89bd99fbc9bb93b14e7e33aa0",
+      "bytes": 3044
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-07.json": {
+      "sha256": "ea417b059ee530520905e0175d6cac71b9c0fa018ec01066cdbcdc7a64e5d8b9",
+      "bytes": 1130
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/process-os-samples.json": {
+      "sha256": "ad8eef5958c832650872d9c0f3526785af6f68a49d1f387231ddba2a2e41c3cb",
+      "bytes": 9260
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8/result.json": {
+      "sha256": "e02b014cd005a0eac2dd0de633c9207b8ed386f0f1f3c4850b885d85e5713507",
+      "bytes": 65804
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-disabled-8-server.log": {
+      "sha256": "557e79ef89ec41c36c553804f444282c96bdaa601c4ea929bcf5903663be50c0",
+      "bytes": 4822
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-00.json": {
+      "sha256": "ad65e6e385928164c35593a61cba8bca7b7f1932e974ca676188f10e30173123",
+      "bytes": 3048
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-01.json": {
+      "sha256": "5dc92b817db95a442b9614f133cf7902649cca5ea3d18bbc4a1cc8912a391ce9",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-02.json": {
+      "sha256": "06173cbcef9658a91262790a32a22fa171e26003f15bd4ebd887f76d1f46f7a1",
+      "bytes": 3044
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-03.json": {
+      "sha256": "8197f84a07396aebf449673f0f369d7699dda953378f55b11c6dd82282c44a2b",
+      "bytes": 3045
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-04.json": {
+      "sha256": "997cba43cfe8371a48616760c9434b70bcfc1f125cd962712822655407cfd0b8",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-05.json": {
+      "sha256": "01cf33a58a80cfbbfddee60174a6b1910740587580c140b1568edeb5bcd7ace0",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-06.json": {
+      "sha256": "ada1ad0dee92375a81488369e12b5c4de27164aa8c2fc2e60e792a88855e7b10",
+      "bytes": 3045
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-07.json": {
+      "sha256": "5ed63db4eba4b94a28233b53ca666090f8db639ef4eccd8024b92bd5dd199d92",
+      "bytes": 3045
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-08.json": {
+      "sha256": "59f692c64405cbc9dfa5ee5aa00a9a919028bb23b992147c8be4e957c142be78",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-08.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-09.json": {
+      "sha256": "fc8033dcd0e1635183ed7dd9caf8ce6dbd8eb3d3f695d99c0de75f5a3f240513",
+      "bytes": 3047
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-09.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-10.json": {
+      "sha256": "9edd50aa9a7a70cc39f951fa73e6c9ffd89ff4e3ca4bce00474dbb2bf443da48",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-10.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-11.json": {
+      "sha256": "a7ba4cde790455f7c8a78fb08501de519964bea4971bfa5b32b5d8c6a6c90612",
+      "bytes": 3048
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-11.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-12.json": {
+      "sha256": "2a2cb2b4047542e2a03a4a17851b44fecc7c3caab662b74d77363f4941702ebf",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-12.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-13.json": {
+      "sha256": "4c0640ede595c0adb5f389be2519b657dc631d91173a2665895202043754c5eb",
+      "bytes": 3048
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-13.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-14.json": {
+      "sha256": "0573d091afdd61aaf2a6d574eabd426cf9b26ab94fe8d4df385cd690a8dc771a",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-14.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-15.json": {
+      "sha256": "ccec55a5927517407cac65e947ab694658e6640947fc35ef8fc45c4d8ed3510d",
+      "bytes": 1134
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/bot-15.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/dashboard-polls.json": {
+      "sha256": "a35e482c6d1d8f25dea770ea848c2464ac55382a208b53d241ce67c37094a302",
+      "bytes": 783006
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/process-os-samples.json": {
+      "sha256": "827fcc26622ed732025b01e849e5beb035caa5bfe4ef729c5c1d79d3ec97472b",
+      "bytes": 9697
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16/result.json": {
+      "sha256": "f3b1d757a266b655e5bac8791f05c80f45a6a9055ca33b13d72dba46ad068deb",
+      "bytes": 127385
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-16-server.log": {
+      "sha256": "5e13658a54e8914c08832654b9e543a0de1924ab84207cdfb1e91549900cfb38",
+      "bytes": 4828
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-00.json": {
+      "sha256": "8bceb9145ff7d5a1840148a61def12bd4ef426ad613e15a7412c8b977bf8a583",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-01.json": {
+      "sha256": "f0cb966a89fcf0e765d9642cee433a102ec89b43fd88e78a27da5220a6ae5065",
+      "bytes": 3039
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-02.json": {
+      "sha256": "1e765d5fde3be5f34abfa24b3caf33ef3915b5080e3680cfbdc8a42e6012ab47",
+      "bytes": 3044
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-03.json": {
+      "sha256": "e2bcf5c7a991ff537a0d9202238dcbee7256245d61b52bccad6d8aab9c315862",
+      "bytes": 3044
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-04.json": {
+      "sha256": "cac70b21b2c5d62632d424c0991e0a411bd0890a5683747b3423ac5922af7493",
+      "bytes": 3044
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-05.json": {
+      "sha256": "d7f6221d40cb211ea7b944c6f002476ffd29b7f57351a1416392f9aa72c5cb40",
+      "bytes": 3046
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-06.json": {
+      "sha256": "4e5bf188aa5891e29e34f35deb56fd0589f75fd28d20633b0f0a73113683d397",
+      "bytes": 3042
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-07.json": {
+      "sha256": "495e8b2192df8c594891524e45ddcb22d44376333801989bcf4b150c2580ce11",
+      "bytes": 1130
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/dashboard-polls.json": {
+      "sha256": "2bb0e3c0d277e8fc6407ba3b55a3f6025d53a44f85cac5172058696e503cc065",
+      "bytes": 750035
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/process-os-samples.json": {
+      "sha256": "bd76d4a7367619c5f5cd118147d73c16f4c6b321051cf1892122af13bdc10e80",
+      "bytes": 9277
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8/result.json": {
+      "sha256": "c57d5714fd7fb0a08bfd864a0c64875a1c629d5353ef465532b14c51c1c9386e",
+      "bytes": 65882
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/load-enabled-8-server.log": {
+      "sha256": "900559445c1334666c9de23b67f7d9b7c4f4d048ddea561cf5ebbff835528877",
+      "bytes": 4819
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/login-desktop.png": {
+      "sha256": "73b3cb36a62f7ec52206d97411e04a58bf4877a181c23fc2bf056768e9a42009",
+      "bytes": 54888
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/real-room-fixture.json": {
+      "sha256": "f639f4021869e906dddbca4226612cd1c24711d50403eab1242384f051f6639f",
+      "bytes": 25454
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/summary.json": {
+      "sha256": "1abb13029dd67a1e7278be20ef505cd7285742b23f46ea54b7c36d4fbb99b19c",
+      "bytes": 21498
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/actual-layout-1440.png": {
+      "sha256": "cd6751be238707fbee476ef48a8427fa58c448c7d32314145cc2707bd8457b82",
+      "bytes": 139117
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/actual-layout-390.png": {
+      "sha256": "3c132d7de63282fa4280db4b7f685cc02d36eb597c2ea5eb021a6a44c1c28ccb",
+      "bytes": 62839
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-eleven.json": {
+      "sha256": "2cb9c5930adbbcd0c7711ebc90364c33b3420f0b2e456603fa89b8df4d55b4f6",
+      "bytes": 140
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-eleven.png": {
+      "sha256": "be296d94699f2f194c8fc21d36f2eff51f5eca776410f1100c1ee87a469ae5d9",
+      "bytes": 107517
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-empty.json": {
+      "sha256": "2d403c7529475572d3e85a1789d3917611edc9930a4bd71a0957b944b86b7d4a",
+      "bytes": 92
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-empty.png": {
+      "sha256": "c1c749bdc0308673c4ee99d6aac77526e3588f934db7239ce507f1b1c5771fa0",
+      "bytes": 98138
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-fifteen.json": {
+      "sha256": "f140dc17f5bc1d1c21084e132acd4b504442a14c2720ff1bf60a8c8915e772d0",
+      "bytes": 144
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-fifteen.png": {
+      "sha256": "825ad66839d3d44da4617695cb66cafecfe3ce6649d84c9ab85bda3a258fc481",
+      "bytes": 107603
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-gap-null-multicore.json": {
+      "sha256": "4dcf9e4190510a94391ab25a9c9441eb919792a0d08e000e01e3c5e24e90f1ff",
+      "bytes": 139
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-gap-null-multicore.png": {
+      "sha256": "f908ac1fe65434be6992355f5d9ccfb1185c6d10e9849b0623c7b27504035451",
+      "bytes": 108029
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-one.json": {
+      "sha256": "37b87ccc67a558b31dc8d9f735380d73e72ff359f02199193741c0a25f143d67",
+      "bytes": 140
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/controlled-history-one.png": {
+      "sha256": "89c6a78eaf3a90a2f7c00f48d60634287276677b7db5c89d15a1f7b86fba1701",
+      "bytes": 106962
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/layout-1440.json": {
+      "sha256": "9515fa4bc9970acfb3f079911d055739840d75ad5a207213011a977a5bff5df5",
+      "bytes": 25929
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/layout-390.json": {
+      "sha256": "b6d20d930be2f09fa5c2cea0055c5c2ca906b777d37d8c12dd09d8fe75f9dfef",
+      "bytes": 26733
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe/summary.json": {
+      "sha256": "2de333c76ba57c433d7370ae529c5b9caceccd7886940f4cc34b3ccea336756c",
+      "bytes": 5664
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe-rooms.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard/ui-probe-server.log": {
+      "sha256": "49feec15db8cfac414323ebe7e3181386ec1c97657d7792dab586197dcb07b9f",
+      "bytes": 44767
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/dashboard-run.log": {
+      "sha256": "0c6ad36bb5fc51008945c474d59be7ba4f5c175f62228a667370eca624defdf7",
+      "bytes": 506
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-00.json": {
+      "sha256": "ddf9216241fb4feff3b036316af2f8d73368de823a71cb8e0df41db2794086de",
+      "bytes": 1998
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-01.json": {
+      "sha256": "13c4cfff21832c532a6c4ea187875cf5384a94ac3942e7629779fc98d823556a",
+      "bytes": 1997
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-02.json": {
+      "sha256": "40fac495377215312097b0a481000a7b458a5fe75e3ca914e3f8f556b88f0e8d",
+      "bytes": 1995
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-03.json": {
+      "sha256": "7a4fbe8aac67f64b9b081b300dd4d78b1baab70c1602247476b9fd415877e2df",
+      "bytes": 1997
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-04.json": {
+      "sha256": "18f64ed8df5da8e2e0ea18bf3b8e7e8ddc2999f40851b6e987ba1dbf807e9b4d",
+      "bytes": 1995
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-05.json": {
+      "sha256": "8f20c38cdd9110e4f3e8302f0792b8ebc6f4e36e5e93926f384eeb59c69c782d",
+      "bytes": 1997
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-06.json": {
+      "sha256": "fd1ea786975204fdda8270c7a8359f97ecca60493e6a4a5ac417896cd720d78f",
+      "bytes": 1995
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-07.json": {
+      "sha256": "f5fb67fb00594edddd03a5244b8d54d369f63d25e462d0e8efe209eb51444edc",
+      "bytes": 1997
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-08.json": {
+      "sha256": "27f26c870548433f8dd702e28fe6eded1561bb91356cb1d1cbb8aca7bb32f31c",
+      "bytes": 1995
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-08.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-09.json": {
+      "sha256": "05867733de1f8f5bd7f6093733c9f72832707287e41476d33d11ad7cda09e8ae",
+      "bytes": 1997
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-09.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-10.json": {
+      "sha256": "e548f423915cca168ab3ddb1bedf5aaf96eab9b49e6887dde36cd0e37ab11c1c",
+      "bytes": 1996
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-10.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-11.json": {
+      "sha256": "3b5447ba5dc4f45745beb45046f1b896057b56af7f7972fb60281542e9932330",
+      "bytes": 1998
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-11.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-12.json": {
+      "sha256": "7e30e2d79ed98690ed9e5c1af34331fa8e6570323bdf20c3bf380b04566fc146",
+      "bytes": 1996
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-12.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-13.json": {
+      "sha256": "ef0dbf0e36efe078bd2c3907f0970e114b96655c4ebf151368976147e1e4531c",
+      "bytes": 1998
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-13.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-14.json": {
+      "sha256": "25e52a156efd66e7bd88f2611fc6d88bd55fdc918c44fcbc4e630c47fac38b99",
+      "bytes": 1996
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-14.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-15.json": {
+      "sha256": "d1d2293ac027b01e359334acbb8a07547186c1d7cf51a11a389b14bd11e472e6",
+      "bytes": 1133
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/bot-15.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-16/result.json": {
+      "sha256": "66b45c32e333f34913a9f27d2fc9c4e94824b7eb0ef5c6cbd8c66e07639d7b97",
+      "bytes": 111019
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-00.json": {
+      "sha256": "bea0a13feb391b3b16cde07a1fb075befa9af25ce0e5dbc66e884bded9e226d6",
+      "bytes": 1996
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-00.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-01.json": {
+      "sha256": "908de5db43d3cea70ac3a34fb126a78b1ec858e6aca75b122cbe2d2562ab755f",
+      "bytes": 1996
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-01.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-02.json": {
+      "sha256": "6099778816f85edd56cf539ed63f6612dbdba30e0463b8ae4ff2a7c4af34ce01",
+      "bytes": 1992
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-02.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-03.json": {
+      "sha256": "bc03b7194ec9ee7e6e882cc0b5ca7c004040d325fbce8d0f3298c786aeba0a26",
+      "bytes": 1996
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-03.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-04.json": {
+      "sha256": "f2885853acb0b231aef200186118b561e677dc2dc495c5ad98c8097fe0189738",
+      "bytes": 1994
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-04.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-05.json": {
+      "sha256": "947bfd0bbf9923daf78123df30566ab16f1af3228cdd10ec18db412d116ba8d3",
+      "bytes": 1997
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-05.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-06.json": {
+      "sha256": "3634a8a395616c52e1c11add817b4db89a7b83329f368de090e055e1958ef1ea",
+      "bytes": 1994
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-06.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-07.json": {
+      "sha256": "318268c2c2d19b35f178c0956c30a77f22b2e381afde940cd29e1d09fb038b8b",
+      "bytes": 1131
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/bot-07.log": {
+      "sha256": "6d1c065383a27c36804949b6ffa4b09714470b112e5dacc0bd5aeb7b9c147c4e",
+      "bytes": 73
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/clients-8/result.json": {
+      "sha256": "10b628cee3d0b5bea32363ab2e4b20531cd33909f5c5a93efc95b890db498b85",
+      "bytes": 58514
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/integration.json": {
+      "sha256": "929dd2450dbd926a4ed51a9db3f281babdba1caa681e0a93b4f617c04d4e9323",
+      "bytes": 2505
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/integration.log": {
+      "sha256": "a8b3f2b5bb647de96d7032df6b1ef2dd0a40021d40fbd62b09aafdca1cc408e6",
+      "bytes": 375
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/server.log": {
+      "sha256": "cdd21789f496e21adfd2f1f3383b2d10e13baebcc40722fc3061538c51a7d564",
+      "bytes": 9466
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/summary.json": {
+      "sha256": "8529ac139bc9b1f27536f3a7a4ded0edbcdc06d180067ffbe96a93fab3274304",
+      "bytes": 4423
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot/ui-live.png": {
+      "sha256": "38434aec95f738303c70208caec1c43ad43c50bde31d91da284def3428881017",
+      "bytes": 94533
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot-import.log": {
+      "sha256": "93e7e597f0239543d7abc254e80e893b366c7a04608ad2946b84603000db5f41",
+      "bytes": 1889
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/godot-run.log": {
+      "sha256": "a127374372771cc5c69821e5bd99ea9f4a561a4ebe2bb9418b7e2787f8152987",
+      "bytes": 129
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/gstack-install.log": {
+      "sha256": "7dd36703c2564bf5a759c65e88c7693258aa649fe7dec9241dadcff4182daa8c",
+      "bytes": 159999
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/manifest.txt": {
+      "sha256": "ef629da51b2b5e258232296358cdd03bae2d767bcac9c461236908c6381d0c0b",
+      "bytes": 818
+    },
+    "artifacts/improvements-20261025-github/runtime/extracted/rust-install.log": {
+      "sha256": "bbacc2e363278e7498c39e17678d9852c61ca5f5648d9068a56b4dec7b2385af",
+      "bytes": 505
+    },
+    "artifacts/improvements-20261025-github/runtime/run-metadata.json": {
+      "sha256": "9e370fd9bba16e9e7f517fdce04c33ba2869acbe21d01853625907caffd0d673",
+      "bytes": 3859
+    },
+    "artifacts/improvements-20261025-github/runtime/workflow.log": {
+      "sha256": "4db5e5fec37dfab202c3aaf2af280e8b8f6e73b2fa8ac0f39c1c930184209bce",
+      "bytes": 561988
+    },
+    "artifacts/improvements-20261025-package/package-campfire-arena.log": {
+      "sha256": "396cc3f1084ef42f5ac76e16c53b6fcf8f369589550bf7d4cbe677dd72fa46e1",
+      "bytes": 695
+    },
+    "artifacts/improvements-20261025-package/package-runtime.log": {
+      "sha256": "d1e34c7eba1f3b38befe2203b8dfe097d589ca11775b7dfc54cec4fa09492f3c",
+      "bytes": 600
+    },
+    "artifacts/improvements-20261025-package/summary.json": {
+      "sha256": "3d66ee8439df1bf2bf56dd58fdc93d863977f13e3fc93bf30caee4a5fe8ee9db",
+      "bytes": 699
+    },
+    "artifacts/improvements-20261025-package-fixed/package-campfire-arena.log": {
+      "sha256": "24fffbe3146b35376ff002e63ad62fa414d19cd316452fc7ca6a4d494ae7c2b7",
+      "bytes": 848
+    },
+    "artifacts/improvements-20261025-package-fixed/package-runtime.log": {
+      "sha256": "76651f78c302265d23eae90de7627a8b4a362c9add94283f2c6c0de59c24f135",
+      "bytes": 600
+    },
+    "artifacts/improvements-20261025-package-fixed/packages/campfire-runtime-0.1.0.crate": {
+      "sha256": "67b549eb7ec6593fa479f4ca1872b73e233bc2bcfd44fe0f90b2b75cb1409636",
+      "bytes": 64943
+    },
+    "artifacts/improvements-20261025-package-fixed/packages/campfire-runtime.files.txt": {
+      "sha256": "6d87f37af3ca84324f883ded0b8b4ecef97d139b637c600410dfca463f96747f",
+      "bytes": 768
+    },
+    "artifacts/improvements-20261025-package-fixed/summary.json": {
+      "sha256": "6d1ad4892cf41bd75f7ba622fcd2df27669d6e93ba1121c104519674ae089a25",
+      "bytes": 1168
+    },
+    "artifacts/improvements-20261025-package-fixed2/archive-consumer.log": {
+      "sha256": "5689ff5a80f91216d634285088efa27a5e2a8235e93c9dd6221ce19d8ae49a57",
+      "bytes": 826
+    },
+    "artifacts/improvements-20261025-package-fixed2/archive-lock.log": {
+      "sha256": "02d284334e74305182483f62ca499a9ffa035a797e9120b76c48967ba1195011",
+      "bytes": 226
+    },
+    "artifacts/improvements-20261025-package-fixed2/checkout-consumer.log": {
+      "sha256": "78072112b11fd8a5b2bbe753341fd365b1adaa449a3cad2f853b07e8758a711b",
+      "bytes": 736
+    },
+    "artifacts/improvements-20261025-package-fixed2/checkout-lock.log": {
+      "sha256": "5341a486398db38c59e8f18eacb3d0a0adb9377455154a7bedca05efbe22c6e8",
+      "bytes": 227
+    },
+    "artifacts/improvements-20261025-package-fixed2/package-campfire-arena.log": {
+      "sha256": "86b54f49d0c5d6940003a3d4ed68473cfe72b13f3e3436c0fbb126f540f5c02a",
+      "bytes": 447
+    },
+    "artifacts/improvements-20261025-package-fixed2/package-campfire-server.log": {
+      "sha256": "3015d599b7010daa431ca513b1dbf2703c4e31d92d519eee9a5ab96491c0e984",
+      "bytes": 454
+    },
+    "artifacts/improvements-20261025-package-fixed2/package-runtime.log": {
+      "sha256": "a370bcbf6f7d7c6110f46ae5afdfa10bc928ce12c03949a74f1869359fcc9bf7",
+      "bytes": 600
+    },
+    "artifacts/improvements-20261025-package-fixed2/packages/campfire-arena-0.1.0.crate": {
+      "sha256": "2b502137f528720236e2b1a428028bee846ed4f39406c73464f020abc532d4f6",
+      "bytes": 4142
+    },
+    "artifacts/improvements-20261025-package-fixed2/packages/campfire-arena.files.txt": {
+      "sha256": "7628d3dd3a463975081e6415d6e498f22b3a37dabcb17b6c9e194e43ab8d7b68",
+      "bytes": 172
+    },
+    "artifacts/improvements-20261025-package-fixed2/packages/campfire-runtime-0.1.0.crate": {
+      "sha256": "67b549eb7ec6593fa479f4ca1872b73e233bc2bcfd44fe0f90b2b75cb1409636",
+      "bytes": 64943
+    },
+    "artifacts/improvements-20261025-package-fixed2/packages/campfire-runtime.files.txt": {
+      "sha256": "6d87f37af3ca84324f883ded0b8b4ecef97d139b637c600410dfca463f96747f",
+      "bytes": 768
+    },
+    "artifacts/improvements-20261025-package-fixed2/packages/campfire-server-0.1.0.crate": {
+      "sha256": "885eee3a63763295b7b62747af732a8902916b79b15393f411d48a7d1054c4bd",
+      "bytes": 56427
+    },
+    "artifacts/improvements-20261025-package-fixed2/packages/campfire-server.files.txt": {
+      "sha256": "28b87a3d2f12d95458d5e82b09b3ad81378b4bb83201677497c3aca212a0eeb3",
+      "bytes": 843
+    },
+    "artifacts/improvements-20261025-package-fixed2/server-archive-check.log": {
+      "sha256": "ba7bafa84619da174bf5c3964ea6861e927e038cb13e0c8e47c6952c279ab11d",
+      "bytes": 838
+    },
+    "artifacts/improvements-20261025-package-fixed2/server-archive-lock.log": {
+      "sha256": "32e3b86cb116e3406f7efe5fef61ecaa16a2931e77d267a23a2c2f4220e25dd7",
+      "bytes": 389
+    },
+    "artifacts/improvements-20261025-package-fixed2/summary.json": {
+      "sha256": "9cefeaa2adb0da9311409eb5c9238f26f00ada385bb524e402d00b49e0c29608",
+      "bytes": 1917
+    },
+    "artifacts/improvements-20261025-package-fixed3/archive-consumer.log": {
+      "sha256": "e8d725f84cc6d0f4061de37f5ae0161846cf4ff92683128649999c326595a834",
+      "bytes": 826
+    },
+    "artifacts/improvements-20261025-package-fixed3/archive-lock.log": {
+      "sha256": "3930712b6ff90f7438835db16d60962982b3a5c0a49953ff8749e43639b9e738",
+      "bytes": 226
+    },
+    "artifacts/improvements-20261025-package-fixed3/checkout-consumer.log": {
+      "sha256": "707824850a6712cca0a3bf46c98a50177e97f0f7d2dedc1cf50f43b76566b6b9",
+      "bytes": 526
+    },
+    "artifacts/improvements-20261025-package-fixed3/checkout-lock.log": {
+      "sha256": "300e5edc64a729f16ba1d04302c0996a9d50f16d28070dbeb3cfc8039db09808",
+      "bytes": 227
+    },
+    "artifacts/improvements-20261025-package-fixed3/lockfiles/archive.Cargo.lock": {
+      "sha256": "e179f6323eedf2ab86fc43373b51c2aa090aad37f423496b29406ecc28840714",
+      "bytes": 21590
+    },
+    "artifacts/improvements-20261025-package-fixed3/lockfiles/checkout.Cargo.lock": {
+      "sha256": "e179f6323eedf2ab86fc43373b51c2aa090aad37f423496b29406ecc28840714",
+      "bytes": 21590
+    },
+    "artifacts/improvements-20261025-package-fixed3/lockfiles/server-archive.Cargo.lock": {
+      "sha256": "15b870648b33ed2f5ac5d637a1338f76e221981ef454cf48f4399ebbb0551958",
+      "bytes": 54884
+    },
+    "artifacts/improvements-20261025-package-fixed3/package-campfire-arena.log": {
+      "sha256": "e505b10d19f6e5cf9baf727cd42f1f0ccefe38e9155374bc14e7aaf10a2a40f3",
+      "bytes": 447
+    },
+    "artifacts/improvements-20261025-package-fixed3/package-campfire-server.log": {
+      "sha256": "ef42185e1bb634e441493b3274b57f6abeb76b72c301bbfbee97601fa8512b8a",
+      "bytes": 454
+    },
+    "artifacts/improvements-20261025-package-fixed3/package-runtime.log": {
+      "sha256": "64a72df161ae228fc3ea0777aaf86c707d91d3586b61d88f25a25776fc4a1ab8",
+      "bytes": 600
+    },
+    "artifacts/improvements-20261025-package-fixed3/packages/campfire-arena-0.1.0.crate": {
+      "sha256": "2b502137f528720236e2b1a428028bee846ed4f39406c73464f020abc532d4f6",
+      "bytes": 4142
+    },
+    "artifacts/improvements-20261025-package-fixed3/packages/campfire-arena.files.txt": {
+      "sha256": "7628d3dd3a463975081e6415d6e498f22b3a37dabcb17b6c9e194e43ab8d7b68",
+      "bytes": 172
+    },
+    "artifacts/improvements-20261025-package-fixed3/packages/campfire-runtime-0.1.0.crate": {
+      "sha256": "67b549eb7ec6593fa479f4ca1872b73e233bc2bcfd44fe0f90b2b75cb1409636",
+      "bytes": 64943
+    },
+    "artifacts/improvements-20261025-package-fixed3/packages/campfire-runtime.files.txt": {
+      "sha256": "6d87f37af3ca84324f883ded0b8b4ecef97d139b637c600410dfca463f96747f",
+      "bytes": 768
+    },
+    "artifacts/improvements-20261025-package-fixed3/packages/campfire-server-0.1.0.crate": {
+      "sha256": "885eee3a63763295b7b62747af732a8902916b79b15393f411d48a7d1054c4bd",
+      "bytes": 56427
+    },
+    "artifacts/improvements-20261025-package-fixed3/packages/campfire-server.files.txt": {
+      "sha256": "28b87a3d2f12d95458d5e82b09b3ad81378b4bb83201677497c3aca212a0eeb3",
+      "bytes": 843
+    },
+    "artifacts/improvements-20261025-package-fixed3/server-archive-check.log": {
+      "sha256": "71c1fdce1bbd3a71065ca5b0c39fe63d0bd4adb2e82816ebae50d403cf8ec746",
+      "bytes": 838
+    },
+    "artifacts/improvements-20261025-package-fixed3/server-archive-lock.log": {
+      "sha256": "2e52d5c9f3a975f8795365017e5857207ac1e961e16246e024ef975f0a68efd8",
+      "bytes": 389
+    },
+    "artifacts/improvements-20261025-package-fixed3/summary.json": {
+      "sha256": "6117711e3202276f17a0bd8e4a4a7c936d5091e0d3300e631e922462567f9aa3",
+      "bytes": 3120
+    }
+  },
+  "high_confidence_secret_pattern_files": [],
+  "nonregular_files": []
+}

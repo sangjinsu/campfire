@@ -1,0 +1,7 @@
+cwd: /home/runner/work/campfire/campfire
+command: cargo package -p campfire-server --allow-dirty --locked --no-verify --exclude-lockfile --config /tmp/campfire-package-smoke-91gd3kxz/package-campfire-server-config.toml --offline
+
+[1m[92m   Packaging[0m campfire-server v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-server)
+[1m[92m    Packaged[0m 20 files, 241.6KiB (55.6KiB compressed)
+
+exit_code: 0

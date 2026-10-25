@@ -1,0 +1,3 @@
+Running real guest/account transport regression
+Running two independent native production scenes
+PASS: two native Godot accounts, isolated private state, same-command retry and real timeout/resume

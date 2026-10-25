@@ -1,0 +1,359 @@
+fast	Rust tests	﻿2026-10-25T03:27:06.6340285Z ##[group]Run set -o pipefail
+fast	Rust tests	2026-10-25T03:27:06.6340632Z ^[[36;1mset -o pipefail^[[0m
+fast	Rust tests	2026-10-25T03:27:06.6341112Z ^[[36;1mcargo test --workspace --all-targets --locked --offline 2>&1 | tee artifacts/ci/rust-tests.log^[[0m
+fast	Rust tests	2026-10-25T03:27:06.6404621Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+fast	Rust tests	2026-10-25T03:27:06.6405009Z env:
+fast	Rust tests	2026-10-25T03:27:06.6405313Z   CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+fast	Rust tests	2026-10-25T03:27:06.6405708Z   CARGO_BUILD_JOBS: 4
+fast	Rust tests	2026-10-25T03:27:06.6405956Z   CARGO_TERM_COLOR: always
+fast	Rust tests	2026-10-25T03:27:06.6406202Z ##[endgroup]
+fast	Rust tests	2026-10-25T03:27:06.8131878Z ^[[1m^[[92m   Compiling^[[0m cfg-if v1.0.5
+fast	Rust tests	2026-10-25T03:27:06.8132954Z ^[[1m^[[92m   Compiling^[[0m libc v0.2.191
+fast	Rust tests	2026-10-25T03:27:06.8134395Z ^[[1m^[[92m   Compiling^[[0m smallvec v1.16.3
+fast	Rust tests	2026-10-25T03:27:06.8178978Z ^[[1m^[[92m   Compiling^[[0m itoa v1.0.18
+fast	Rust tests	2026-10-25T03:27:06.8439669Z ^[[1m^[[92m   Compiling^[[0m bytes v1.12.1
+fast	Rust tests	2026-10-25T03:27:06.9549276Z ^[[1m^[[92m   Compiling^[[0m log v0.4.34
+fast	Rust tests	2026-10-25T03:27:06.9764689Z ^[[1m^[[92m   Compiling^[[0m pin-project-lite v0.2.17
+fast	Rust tests	2026-10-25T03:27:07.0241421Z ^[[1m^[[92m   Compiling^[[0m scopeguard v1.2.0
+fast	Rust tests	2026-10-25T03:27:07.0669826Z ^[[1m^[[92m   Compiling^[[0m futures-core v0.3.34
+fast	Rust tests	2026-10-25T03:27:07.1138991Z ^[[1m^[[92m   Compiling^[[0m lock_api v0.4.14
+fast	Rust tests	2026-10-25T03:27:07.1459923Z ^[[1m^[[92m   Compiling^[[0m once_cell v1.21.4
+fast	Rust tests	2026-10-25T03:27:07.3019596Z ^[[1m^[[92m   Compiling^[[0m tracing-core v0.1.36
+fast	Rust tests	2026-10-25T03:27:07.3180167Z ^[[1m^[[92m   Compiling^[[0m futures-sink v0.3.34
+fast	Rust tests	2026-10-25T03:27:07.3635757Z ^[[1m^[[92m   Compiling^[[0m typenum v1.20.1
+fast	Rust tests	2026-10-25T03:27:07.5959531Z ^[[1m^[[92m   Compiling^[[0m http v1.5.0
+fast	Rust tests	2026-10-25T03:27:07.9108600Z ^[[1m^[[92m   Compiling^[[0m errno v0.3.14
+fast	Rust tests	2026-10-25T03:27:07.9410097Z ^[[1m^[[92m   Compiling^[[0m parking_lot_core v0.9.12
+fast	Rust tests	2026-10-25T03:27:07.9959646Z ^[[1m^[[92m   Compiling^[[0m signal-hook-registry v1.4.8
+fast	Rust tests	2026-10-25T03:27:08.1279832Z ^[[1m^[[92m   Compiling^[[0m parking_lot v0.12.5
+fast	Rust tests	2026-10-25T03:27:08.1464685Z ^[[1m^[[92m   Compiling^[[0m mio v1.2.4
+fast	Rust tests	2026-10-25T03:27:08.2379465Z ^[[1m^[[92m   Compiling^[[0m socket2 v0.6.5
+fast	Rust tests	2026-10-25T03:27:08.5479421Z ^[[1m^[[92m   Compiling^[[0m tokio v1.53.3
+fast	Rust tests	2026-10-25T03:27:08.6499391Z ^[[1m^[[92m   Compiling^[[0m slab v0.4.12
+fast	Rust tests	2026-10-25T03:27:08.7319516Z ^[[1m^[[92m   Compiling^[[0m generic-array v0.14.7
+fast	Rust tests	2026-10-25T03:27:08.7500561Z ^[[1m^[[92m   Compiling^[[0m tracing v0.1.44
+fast	Rust tests	2026-10-25T03:27:08.7730252Z ^[[1m^[[92m   Compiling^[[0m zerofrom v0.1.8
+fast	Rust tests	2026-10-25T03:27:08.8444897Z ^[[1m^[[92m   Compiling^[[0m stable_deref_trait v1.2.1
+fast	Rust tests	2026-10-25T03:27:08.8739934Z ^[[1m^[[92m   Compiling^[[0m yoke v0.8.3
+fast	Rust tests	2026-10-25T03:27:08.9700166Z ^[[1m^[[92m   Compiling^[[0m httparse v1.10.1
+fast	Rust tests	2026-10-25T03:27:09.0099688Z ^[[1m^[[92m   Compiling^[[0m futures-task v0.3.34
+fast	Rust tests	2026-10-25T03:27:09.1099822Z ^[[1m^[[92m   Compiling^[[0m futures-util v0.3.34
+fast	Rust tests	2026-10-25T03:27:09.2318952Z ^[[1m^[[92m   Compiling^[[0m serde_core v1.0.229
+fast	Rust tests	2026-10-25T03:27:09.2879588Z ^[[1m^[[92m   Compiling^[[0m crypto-common v0.1.7
+fast	Rust tests	2026-10-25T03:27:09.3459439Z ^[[1m^[[92m   Compiling^[[0m block-buffer v0.10.4
+fast	Rust tests	2026-10-25T03:27:09.4179304Z ^[[1m^[[92m   Compiling^[[0m getrandom v0.3.4
+fast	Rust tests	2026-10-25T03:27:09.5589568Z ^[[1m^[[92m   Compiling^[[0m zerocopy v0.8.63
+fast	Rust tests	2026-10-25T03:27:11.4580802Z ^[[1m^[[92m   Compiling^[[0m http-body v1.1.0
+fast	Rust tests	2026-10-25T03:27:11.5439726Z ^[[1m^[[92m   Compiling^[[0m percent-encoding v2.3.2
+fast	Rust tests	2026-10-25T03:27:11.6609556Z ^[[1m^[[92m   Compiling^[[0m zerovec v0.11.8
+fast	Rust tests	2026-10-25T03:27:11.6868618Z ^[[1m^[[92m   Compiling^[[0m rand_core v0.9.5
+fast	Rust tests	2026-10-25T03:27:11.8385377Z ^[[1m^[[92m   Compiling^[[0m digest v0.10.7
+fast	Rust tests	2026-10-25T03:27:11.9789741Z ^[[1m^[[92m   Compiling^[[0m cpufeatures v0.2.17
+fast	Rust tests	2026-10-25T03:27:12.0129339Z ^[[1m^[[92m   Compiling^[[0m hashbrown v0.17.1
+fast	Rust tests	2026-10-25T03:27:12.2399562Z ^[[1m^[[92m   Compiling^[[0m equivalent v1.0.3
+fast	Rust tests	2026-10-25T03:27:12.2789461Z ^[[1m^[[92m   Compiling^[[0m tower-service v0.3.3
+fast	Rust tests	2026-10-25T03:27:12.3149564Z ^[[1m^[[92m   Compiling^[[0m atomic-waker v1.1.2
+fast	Rust tests	2026-10-25T03:27:12.3679903Z ^[[1m^[[92m   Compiling^[[0m fnv v1.0.7
+fast	Rust tests	2026-10-25T03:27:12.4039553Z ^[[1m^[[92m   Compiling^[[0m try-lock v0.2.5
+fast	Rust tests	2026-10-25T03:27:12.4490051Z ^[[1m^[[92m   Compiling^[[0m want v0.3.2
+fast	Rust tests	2026-10-25T03:27:12.5428894Z ^[[1m^[[92m   Compiling^[[0m indexmap v2.14.2
+fast	Rust tests	2026-10-25T03:27:12.5609474Z ^[[1m^[[92m   Compiling^[[0m thiserror v2.0.21
+fast	Rust tests	2026-10-25T03:27:12.6029365Z ^[[1m^[[92m   Compiling^[[0m serde v1.0.229
+fast	Rust tests	2026-10-25T03:27:13.1868315Z ^[[1m^[[92m   Compiling^[[0m tokio-util v0.7.20
+fast	Rust tests	2026-10-25T03:27:13.1949377Z ^[[1m^[[92m   Compiling^[[0m sha1 v0.10.7
+fast	Rust tests	2026-10-25T03:27:13.3558010Z ^[[1m^[[92m   Compiling^[[0m form_urlencoded v1.2.2
+fast	Rust tests	2026-10-25T03:27:13.4689879Z ^[[1m^[[92m   Compiling^[[0m ppv-lite86 v0.2.21
+fast	Rust tests	2026-10-25T03:27:13.4960032Z ^[[1m^[[92m   Compiling^[[0m futures-channel v0.3.34
+fast	Rust tests	2026-10-25T03:27:13.6610140Z ^[[1m^[[92m   Compiling^[[0m sync_wrapper v1.0.2
+fast	Rust tests	2026-10-25T03:27:13.7056024Z ^[[1m^[[92m   Compiling^[[0m h2 v0.4.20
+fast	Rust tests	2026-10-25T03:27:13.8093202Z ^[[1m^[[92m   Compiling^[[0m rand_chacha v0.9.0
+fast	Rust tests	2026-10-25T03:27:13.9020625Z ^[[1m^[[92m   Compiling^[[0m httpdate v1.0.3
+fast	Rust tests	2026-10-25T03:27:14.0949739Z ^[[1m^[[92m   Compiling^[[0m rand v0.9.5
+fast	Rust tests	2026-10-25T03:27:14.2661651Z ^[[1m^[[92m   Compiling^[[0m data-encoding v2.11.1
+fast	Rust tests	2026-10-25T03:27:14.7168519Z ^[[1m^[[92m   Compiling^[[0m tower-layer v0.3.3
+fast	Rust tests	2026-10-25T03:27:14.8419991Z ^[[1m^[[92m   Compiling^[[0m memchr v2.8.3
+fast	Rust tests	2026-10-25T03:27:15.1879901Z ^[[1m^[[92m   Compiling^[[0m zmij v1.0.23
+fast	Rust tests	2026-10-25T03:27:15.4867055Z ^[[1m^[[92m   Compiling^[[0m tinystr v0.8.4
+fast	Rust tests	2026-10-25T03:27:15.6268367Z ^[[1m^[[92m   Compiling^[[0m http-body-util v0.1.5
+fast	Rust tests	2026-10-25T03:27:15.6369313Z ^[[1m^[[92m   Compiling^[[0m base64 v0.23.1
+fast	Rust tests	2026-10-25T03:27:15.8282795Z ^[[1m^[[92m   Compiling^[[0m writeable v0.6.4
+fast	Rust tests	2026-10-25T03:27:16.0189418Z ^[[1m^[[92m   Compiling^[[0m litemap v0.8.3
+fast	Rust tests	2026-10-25T03:27:16.0359519Z ^[[1m^[[92m   Compiling^[[0m ipnet v2.12.2
+fast	Rust tests	2026-10-25T03:27:16.1549660Z ^[[1m^[[92m   Compiling^[[0m icu_locale_core v2.3.0
+fast	Rust tests	2026-10-25T03:27:16.2429711Z ^[[1m^[[92m   Compiling^[[0m serde_json v1.0.154
+fast	Rust tests	2026-10-25T03:27:16.5729395Z ^[[1m^[[92m   Compiling^[[0m tower v0.5.3
+fast	Rust tests	2026-10-25T03:27:17.0809689Z ^[[1m^[[92m   Compiling^[[0m potential_utf v0.1.6
+fast	Rust tests	2026-10-25T03:27:17.1694395Z ^[[1m^[[92m   Compiling^[[0m zerotrie v0.2.5
+fast	Rust tests	2026-10-25T03:27:17.4200131Z ^[[1m^[[92m   Compiling^[[0m mime v0.3.17
+fast	Rust tests	2026-10-25T03:27:17.4910154Z ^[[1m^[[92m   Compiling^[[0m ryu v1.0.23
+fast	Rust tests	2026-10-25T03:27:17.6249980Z ^[[1m^[[92m   Compiling^[[0m utf8_iter v1.0.4
+fast	Rust tests	2026-10-25T03:27:17.6369700Z ^[[1m^[[92m   Compiling^[[0m serde_urlencoded v0.7.1
+fast	Rust tests	2026-10-25T03:27:17.7080243Z ^[[1m^[[92m   Compiling^[[0m icu_collections v2.3.0
+fast	Rust tests	2026-10-25T03:27:17.7350525Z ^[[1m^[[92m   Compiling^[[0m icu_provider v2.3.1
+fast	Rust tests	2026-10-25T03:27:17.8519854Z ^[[1m^[[92m   Compiling^[[0m tungstenite v0.29.0
+fast	Rust tests	2026-10-25T03:27:18.0222109Z ^[[1m^[[92m   Compiling^[[0m hyper v1.12.0
+fast	Rust tests	2026-10-25T03:27:18.2189852Z ^[[1m^[[92m   Compiling^[[0m base64 v0.22.1
+fast	Rust tests	2026-10-25T03:27:18.5079447Z ^[[1m^[[92m   Compiling^[[0m tokio-tungstenite v0.29.0
+fast	Rust tests	2026-10-25T03:27:18.7219771Z ^[[1m^[[92m   Compiling^[[0m icu_properties_data v2.3.0
+fast	Rust tests	2026-10-25T03:27:18.8169672Z ^[[1m^[[92m   Compiling^[[0m icu_normalizer_data v2.3.0
+fast	Rust tests	2026-10-25T03:27:18.8549700Z ^[[1m^[[92m   Compiling^[[0m axum-core v0.5.6
+fast	Rust tests	2026-10-25T03:27:19.0559745Z ^[[1m^[[92m   Compiling^[[0m serde_path_to_error v0.1.20
+fast	Rust tests	2026-10-25T03:27:19.3999527Z ^[[1m^[[92m   Compiling^[[0m hyper-util v0.1.21
+fast	Rust tests	2026-10-25T03:27:19.6179143Z ^[[1m^[[92m   Compiling^[[0m matchit v0.8.4
+fast	Rust tests	2026-10-25T03:27:19.9670199Z ^[[1m^[[92m   Compiling^[[0m foreign-types-shared v0.1.1
+fast	Rust tests	2026-10-25T03:27:19.9950039Z ^[[1m^[[92m   Compiling^[[0m bitflags v2.13.2
+fast	Rust tests	2026-10-25T03:27:20.1190390Z ^[[1m^[[92m   Compiling^[[0m foreign-types v0.3.2
+fast	Rust tests	2026-10-25T03:27:20.1506416Z ^[[1m^[[92m   Compiling^[[0m icu_normalizer v2.3.0
+fast	Rust tests	2026-10-25T03:27:20.1545250Z ^[[1m^[[92m   Compiling^[[0m icu_properties v2.3.0
+fast	Rust tests	2026-10-25T03:27:20.5581500Z ^[[1m^[[92m   Compiling^[[0m openssl-sys v0.9.117
+fast	Rust tests	2026-10-25T03:27:20.7486791Z ^[[1m^[[92m   Compiling^[[0m sha2 v0.10.9
+fast	Rust tests	2026-10-25T03:27:20.9697277Z ^[[1m^[[92m   Compiling^[[0m axum v0.8.9
+fast	Rust tests	2026-10-25T03:27:21.1509568Z ^[[1m^[[92m   Compiling^[[0m openssl v0.10.81
+fast	Rust tests	2026-10-25T03:27:21.4619480Z ^[[1m^[[92m   Compiling^[[0m idna_adapter v1.2.2
+fast	Rust tests	2026-10-25T03:27:21.5204760Z ^[[1m^[[92m   Compiling^[[0m openssl-probe v0.2.1
+fast	Rust tests	2026-10-25T03:27:21.5893007Z ^[[1m^[[92m   Compiling^[[0m idna v1.1.0
+fast	Rust tests	2026-10-25T03:27:21.6319479Z ^[[1m^[[92m   Compiling^[[0m utf-8 v0.7.6
+fast	Rust tests	2026-10-25T03:27:21.7389955Z ^[[1m^[[92m   Compiling^[[0m zeroize v1.9.1
+fast	Rust tests	2026-10-25T03:27:21.8579652Z ^[[1m^[[92m   Compiling^[[0m regex-syntax v0.8.11
+fast	Rust tests	2026-10-25T03:27:22.5010315Z ^[[1m^[[92m   Compiling^[[0m url v2.5.8
+fast	Rust tests	2026-10-25T03:27:23.4300534Z ^[[1m^[[92m   Compiling^[[0m simdutf8 v0.1.5
+fast	Rust tests	2026-10-25T03:27:23.5849910Z ^[[1m^[[92m   Compiling^[[0m core_detect v1.0.0
+fast	Rust tests	2026-10-25T03:27:23.6699717Z ^[[1m^[[92m   Compiling^[[0m encoding_rs v0.8.42
+fast	Rust tests	2026-10-25T03:27:24.4140193Z ^[[1m^[[92m   Compiling^[[0m native-tls v0.2.18
+fast	Rust tests	2026-10-25T03:27:24.7029554Z ^[[1m^[[92m   Compiling^[[0m tokio-native-tls v0.3.1
+fast	Rust tests	2026-10-25T03:27:24.7960405Z ^[[1m^[[92m   Compiling^[[0m hyper-tls v0.6.0
+fast	Rust tests	2026-10-25T03:27:24.9350000Z ^[[1m^[[92m   Compiling^[[0m regex-automata v0.4.18
+fast	Rust tests	2026-10-25T03:27:25.5360778Z ^[[1m^[[92m   Compiling^[[0m campfire-runtime v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-runtime)
+fast	Rust tests	2026-10-25T03:27:25.8549470Z ^[[1m^[[92m   Compiling^[[0m tower-http v0.6.11
+fast	Rust tests	2026-10-25T03:27:26.1928433Z ^[[1m^[[92m   Compiling^[[0m rustls-pki-types v1.15.1
+fast	Rust tests	2026-10-25T03:27:26.2189614Z ^[[1m^[[92m   Compiling^[[0m tungstenite v0.28.0
+fast	Rust tests	2026-10-25T03:27:26.6750125Z ^[[1m^[[92m   Compiling^[[0m lazy_static v1.5.1
+fast	Rust tests	2026-10-25T03:27:26.7129526Z ^[[1m^[[92m   Compiling^[[0m sharded-slab v0.1.7
+fast	Rust tests	2026-10-25T03:27:27.2099675Z ^[[1m^[[92m   Compiling^[[0m matchers v0.2.0
+fast	Rust tests	2026-10-25T03:27:27.2769602Z ^[[1m^[[92m   Compiling^[[0m tokio-tungstenite v0.28.0
+fast	Rust tests	2026-10-25T03:27:27.3749605Z ^[[1m^[[92m   Compiling^[[0m reqwest v0.12.28
+fast	Rust tests	2026-10-25T03:27:27.5050041Z ^[[1m^[[92m   Compiling^[[0m tracing-serde v0.2.0
+fast	Rust tests	2026-10-25T03:27:27.5994767Z ^[[1m^[[92m   Compiling^[[0m tracing-log v0.2.0
+fast	Rust tests	2026-10-25T03:27:27.7739791Z ^[[1m^[[92m   Compiling^[[0m thread_local v1.1.10
+fast	Rust tests	2026-10-25T03:27:27.9490101Z ^[[1m^[[92m   Compiling^[[0m nu-ansi-term v0.50.3
+fast	Rust tests	2026-10-25T03:27:28.2247354Z ^[[1m^[[92m   Compiling^[[0m tracing-subscriber v0.3.23
+fast	Rust tests	2026-10-25T03:27:28.8879505Z ^[[1m^[[92m   Compiling^[[0m campfire-arena v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-arena)
+fast	Rust tests	2026-10-25T03:27:29.5140050Z ^[[1m^[[92m   Compiling^[[0m sysinfo v0.39.6
+fast	Rust tests	2026-10-25T03:27:30.8989255Z ^[[1m^[[92m   Compiling^[[0m subtle v2.6.1
+fast	Rust tests	2026-10-25T03:27:31.0008167Z ^[[1m^[[92m   Compiling^[[0m campfire-server v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-server)
+fast	Rust tests	2026-10-25T03:27:47.5638015Z ^[[1m^[[92m    Finished^[[0m `test` profile [unoptimized + debuginfo] target(s) in 40.90s
+fast	Rust tests	2026-10-25T03:27:47.6443488Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (/tmp/campfire-improvements-20261025-target/debug/deps/campfire_arena-3a674e8ed37df6b4)
+fast	Rust tests	2026-10-25T03:27:47.6456201Z 
+fast	Rust tests	2026-10-25T03:27:47.6456632Z running 7 tests
+fast	Rust tests	2026-10-25T03:27:47.6460995Z test tests::diagonals_are_normalized_and_boundaries_clamped ... ok
+fast	Rust tests	2026-10-25T03:27:47.6462703Z test tests::disconnect_stops_direction_and_reconnect_does_not_replay_it ... ok
+fast	Rust tests	2026-10-25T03:27:47.6463618Z test tests::invalid_settings_are_rejected ... ok
+fast	Rust tests	2026-10-25T03:27:47.6464558Z test tests::input_messages_do_not_move_until_tick_and_speed_is_fixed ... ok
+fast	Rust tests	2026-10-25T03:27:47.6465766Z test tests::rejects_client_authority_invalid_components_and_unknown_fields ... ok
+fast	Rust tests	2026-10-25T03:27:47.6466919Z test tests::simultaneous_goal_acquisition_scores_exactly_once ... ok
+fast	Rust tests	2026-10-25T03:27:47.6468198Z test tests::replay_is_deterministic_and_departure_removes_player ... ok
+fast	Rust tests	2026-10-25T03:27:47.6468756Z 
+fast	Rust tests	2026-10-25T03:27:47.6469433Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+fast	Rust tests	2026-10-25T03:27:47.6470095Z 
+fast	Rust tests	2026-10-25T03:27:47.6471466Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (/tmp/campfire-improvements-20261025-target/debug/deps/campfire_runtime-e880b8b2770728c6)
+fast	Rust tests	2026-10-25T03:27:47.6481497Z 
+fast	Rust tests	2026-10-25T03:27:47.6481664Z running 71 tests
+fast	Rust tests	2026-10-25T03:27:47.6488463Z test connection_limits::tests::control_bucket_refills_on_manual_clock ... ok
+fast	Rust tests	2026-10-25T03:27:47.6491495Z test connection_limits::tests::defaults_and_finite_validation ... ok
+fast	Rust tests	2026-10-25T03:27:47.6502851Z test observation::tests::directory_ages_cached_summaries_and_omits_closed_publishers_before_supervision ... ok
+fast	Rust tests	2026-10-25T03:27:47.6504834Z test observation::tests::directory_late_old_close_preserves_replacement_and_prunes_closed_admissions ... ok
+fast	Rust tests	2026-10-25T03:27:47.6506287Z test protocol::tests::parses_ordered_game_commands ... ok
+fast	Rust tests	2026-10-25T03:27:47.6507741Z test protocol::tests::fingerprints_canonicalize_nested_object_keys_but_preserve_array_order ... ok
+fast	Rust tests	2026-10-25T03:27:47.6509534Z test protocol::tests::requires_explicit_version_type_request_id_and_fields ... ok
+fast	Rust tests	2026-10-25T03:27:47.6513160Z test protocol::tests::response_cache_is_bounded_and_conflicting_request_body_is_rejected ... ok
+fast	Rust tests	2026-10-25T03:27:47.6520314Z test room::tests::admission_full_sync_is_reliable_before_latest_snapshot_and_expiry_releases_seat ... ok
+fast	Rust tests	2026-10-25T03:27:47.6522050Z test room::tests::account_rotation_refreshes_token_deadline_without_reusing_older_token_lifetime ... ok
+fast	Rust tests	2026-10-25T03:27:47.6523283Z test room::tests::cancellation_before_admission_has_no_membership_or_game_side_effect ... ok
+fast	Rust tests	2026-10-25T03:27:47.6524015Z test room::tests::command_result_survives_reply_loss_and_expiry_prevents_replay ... ok
+fast	Rust tests	2026-10-25T03:27:47.6524604Z test room::tests::command_replay_does_not_increment_processed ... ok
+fast	Rust tests	2026-10-25T03:27:47.6525253Z test room::tests::cancelled_short_grant_preparation_does_not_shorten_real_actor_reservation ... ok
+fast	Rust tests	2026-10-25T03:27:47.6526007Z test room::tests::commands_are_fifo_while_inputs_coalesce_and_terminal_errors_consume_sequence ... ok
+fast	Rust tests	2026-10-25T03:27:47.6526752Z test room::tests::command_replay_conflict_gap_eviction_and_generation_fences_never_reexecute ... ok
+fast	Rust tests	2026-10-25T03:27:47.6527409Z test room::tests::hardening_late_leave_cannot_remove_replacement ... ok
+fast	Rust tests	2026-10-25T03:27:47.6528271Z test room::tests::failed_command_is_counted_once ... ok
+fast	Rust tests	2026-10-25T03:27:47.6529272Z test room::tests::full_sync_and_snapshot_include_independent_command_ack ... ok
+fast	Rust tests	2026-10-25T03:27:47.6530607Z test room::tests::newest_valid_input_is_applied_once_per_tick_and_invalid_does_not_advance_ack ... ok
+fast	Rust tests	2026-10-25T03:27:47.6531472Z test room::tests::hardening_stop_already_true_before_actor_starts ... ok
+fast	Rust tests	2026-10-25T03:27:47.6532053Z test room::tests::pending_rotation_cannot_commit_after_room_is_dropped ... ok
+fast	Rust tests	2026-10-25T03:27:47.6538623Z test room::tests::observation_keeps_expired_unprocessed_seats_without_callbacks_or_sequence_changes ... ok
+fast	Rust tests	2026-10-25T03:27:47.6540052Z test room::tests::prepared_rotation_keeps_old_identity_and_deadline_until_commit ... ok
+fast	Rust tests	2026-10-25T03:27:47.6541185Z test room::tests::private_state_is_recipient_scoped_for_initial_periodic_and_resume ... ok
+fast	Rust tests	2026-10-25T03:27:47.6542438Z test room::tests::queued_old_generation_commands_are_fenced_by_control_barrier ... ok
+fast	Rust tests	2026-10-25T03:27:47.6543501Z test room::tests::recent_nearest_rank_percentiles_include_zero ... ok
+fast	Rust tests	2026-10-25T03:27:47.6544846Z test room::tests::replacement_does_not_extend_existing_grace_and_old_close_cannot_disconnect_resume ... ok
+fast	Rust tests	2026-10-25T03:27:47.6550830Z test room::tests::replacement_discards_unprocessed_old_generation_and_reuses_processed_sequence ... ok
+fast	Rust tests	2026-10-25T03:27:47.6559639Z test room::tests::response_failure_after_commit_preserves_resumable_reservation ... ok
+fast	Rust tests	2026-10-25T03:27:47.6561636Z test room::tests::same_manual_clock_trace_replays_tick_ack_expiry_and_state_deterministically ... ok
+fast	Rust tests	2026-10-25T03:27:47.6569641Z test session::tests::account_cancelled_rotation_keeps_old_token_identity_and_deadline_before_actor_commit ... ok
+fast	Rust tests	2026-10-25T03:27:47.6573025Z test session::tests::accepted_rotation_preserves_real_actor_ledger_when_old_ttl_expires_before_next_poll ... ok
+fast	Rust tests	2026-10-25T03:27:47.6583555Z test session::tests::account_disabled_and_invalid_credentials_do_not_create_sessions ... ok
+fast	Rust tests	2026-10-25T03:27:47.6584913Z test session::tests::account_grant_expiring_during_expired_seat_cleanup_does_not_commit ... ok
+fast	Rust tests	2026-10-25T03:27:47.6586097Z test session::tests::account_grant_expiring_while_waiting_for_commit_does_not_create_session ... ok
+fast	Rust tests	2026-10-25T03:27:47.6587051Z test session::tests::account_invalid_grants_are_bounded_and_debug_redacts_identity ... ok
+fast	Rust tests	2026-10-25T03:27:47.6588132Z test session::tests::account_grant_lifetime_starts_before_verification_and_is_capped_by_guest_ttl ... ok
+fast	Rust tests	2026-10-25T03:27:47.6600729Z test session::tests::account_valid_grant_is_scoped_and_rotation_replaces_token_without_replacing_player ... ok
+fast	Rust tests	2026-10-25T03:27:47.6603116Z test session::tests::account_timeout_and_shutdown_release_verification_capacity_without_session_mutation ... ok
+fast	Rust tests	2026-10-25T03:27:47.6611899Z test session::tests::account_verification_does_not_hold_state_lock_and_cancel_releases_shared_permit ... ok
+fast	Rust tests	2026-10-25T03:27:47.6621524Z test session::tests::bounded_command_queue_full_is_non_consuming_and_retry_uses_same_sequence ... ok
+fast	Rust tests	2026-10-25T03:27:47.6623150Z test session::tests::hardening_cached_pagination_skips_closed_private_and_uncommitted_rooms ... ok
+fast	Rust tests	2026-10-25T03:27:47.6624649Z test session::tests::hardening_cancellation_before_enter_enqueue_has_no_admission ... ok
+fast	Rust tests	2026-10-25T03:27:47.6629033Z test session::tests::hardening_cancelled_enter_reconciles_seat ... ok
+fast	Rust tests	2026-10-25T03:27:47.6630356Z test session::tests::hardening_cancelled_enter_after_real_actor_commit_preserves_one_reserved_seat ... ok
+fast	Rust tests	2026-10-25T03:27:47.6643842Z test session::tests::hardening_create_cancel_releases_slot ... ok
+fast	Rust tests	2026-10-25T03:27:47.6647447Z test session::tests::hardening_cancelled_short_rotation_preserves_actor_reservation_deadline ... ok
+fast	Rust tests	2026-10-25T03:27:47.6659077Z test session::tests::hardening_factory_runs_without_state_lock_and_reserves_room_capacity ... ok
+fast	Rust tests	2026-10-25T03:27:47.6660109Z test session::tests::hardening_disconnect_uses_actor_deadline_instead_of_late_ack_time ... ok
+fast	Rust tests	2026-10-25T03:27:47.6675004Z test session::tests::hardening_list_uses_cached_summary ... ok
+fast	Rust tests	2026-10-25T03:27:47.6683976Z test room::tests::hardening_saturated_tick_and_controls_allow_data ... ok
+fast	Rust tests	2026-10-25T03:27:47.6686635Z test session::tests::hardening_parallel_rotation_and_expiry ... ok
+fast	Rust tests	2026-10-25T03:27:47.6703911Z test session::tests::hardening_shutdown_releases_callers_waiting_for_session_gate ... ok
+fast	Rust tests	2026-10-25T03:27:47.6706568Z test session::tests::hardening_removed_sessions_do_not_release_operation_capacity_early ... ok
+fast	Rust tests	2026-10-25T03:27:47.6724137Z test session::tests::hardening_identity_gate_registry_is_bounded ... ok
+fast	Rust tests	2026-10-25T03:27:47.6725740Z test session::tests::hardening_slow_room_does_not_block_other_session ... ok
+fast	Rust tests	2026-10-25T03:27:47.6739546Z test session::tests::hardening_stop_bypasses_full_control_queue ... ok
+fast	Rust tests	2026-10-25T03:27:47.6760839Z test session::tests::late_old_instance_close_keeps_replacement_room_and_decrements_only_old_actor ... ok
+fast	Rust tests	2026-10-25T03:27:47.6762729Z test session::tests::manual_clock_reclaims_session_rate_keys_room_and_reservation_before_reissue ... ok
+fast	Rust tests	2026-10-25T03:27:47.6764202Z test session::tests::observer_does_not_keep_runtime_alive ... ok
+fast	Rust tests	2026-10-25T03:27:47.6772550Z test session::tests::observer_omits_panicked_actor_and_supervision_refunds_active_room_once ... ok
+fast	Rust tests	2026-10-25T03:27:47.6773707Z test room::tests::recent_window_expires_and_caps_512 ... ok
+fast	Rust tests	2026-10-25T03:27:47.6777612Z test session::tests::observer_reports_empty_registered_games_without_manager_or_module_locks ... ok
+fast	Rust tests	2026-10-25T03:27:47.6799235Z test session::tests::observer_tracks_actual_actor_seats_through_join_disconnect_resume_expiry_and_close ... ok
+fast	Rust tests	2026-10-25T03:27:47.6811154Z test session::tests::reservation_expiry_timestamp_is_stable_across_manual_clock_reauthentication ... ok
+fast	Rust tests	2026-10-25T03:27:47.6820015Z test session::tests::shutdown_delivers_stop_even_when_control_queue_is_full ... ok
+fast	Rust tests	2026-10-25T03:27:47.6822890Z test transport::tests::reliable_send_survives_first_deadline_without_dropping_full_sync ... ok
+fast	Rust tests	2026-10-25T03:27:47.6846903Z test session::tests::observer_only_serializes_allowlisted_summary_without_game_callbacks_or_mutations ... ok
+fast	Rust tests	2026-10-25T03:27:47.7327121Z test session::tests::hardening_shutdown_reports_blocked_callback_until_released ... ok
+fast	Rust tests	2026-10-25T03:27:47.7459164Z test session::tests::hardening_shutdown_reports_pending_without_claiming_completion ... ok
+fast	Rust tests	2026-10-25T03:27:47.7459738Z 
+fast	Rust tests	2026-10-25T03:27:47.7460105Z test result: ok. 71 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+fast	Rust tests	2026-10-25T03:27:47.7460469Z 
+fast	Rust tests	2026-10-25T03:27:47.7465585Z ^[[1m^[[92m     Running^[[0m tests/connection_limits.rs (/tmp/campfire-improvements-20261025-target/debug/deps/connection_limits-87f843909d648993)
+fast	Rust tests	2026-10-25T03:27:47.7489366Z 
+fast	Rust tests	2026-10-25T03:27:47.7489578Z running 8 tests
+fast	Rust tests	2026-10-25T03:27:47.8661231Z test hardening_malformed_frames_close_within_violation_limit ... ok
+fast	Rust tests	2026-10-25T03:27:47.8677446Z test hardening_invalid_budget_counts_binary_and_closes_early ... ok
+fast	Rust tests	2026-10-25T03:27:47.8682919Z test hardening_options_reject_zero_and_overflow_without_changing_legacy_config ... ok
+fast	Rust tests	2026-10-25T03:27:47.8702310Z test hardening_control_flood_is_limited ... ok
+fast	Rust tests	2026-10-25T03:27:47.9659432Z test hardening_input_and_control_budgets_are_independent ... ok
+fast	Rust tests	2026-10-25T03:27:47.9727429Z test hardening_normal_create_and_cached_list_remain_available ... ok
+fast	Rust tests	2026-10-25T03:27:47.9830924Z test hardening_replay_consumes_control_budget ... ok
+fast	Rust tests	2026-10-25T03:27:48.0222863Z test hardening_resume_after_disconnect_uses_control_budget ... ok
+fast	Rust tests	2026-10-25T03:27:48.0224544Z 
+fast	Rust tests	2026-10-25T03:27:48.0225222Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
+fast	Rust tests	2026-10-25T03:27:48.0225721Z 
+fast	Rust tests	2026-10-25T03:27:48.0234423Z ^[[1m^[[92m     Running^[[0m tests/invariants.rs (/tmp/campfire-improvements-20261025-target/debug/deps/invariants-a1470ae077a778ef)
+fast	Rust tests	2026-10-25T03:27:48.0244881Z 
+fast	Rust tests	2026-10-25T03:27:48.0245071Z running 2 tests
+fast	Rust tests	2026-10-25T03:27:48.0247931Z test config_rejects_unbounded_or_invalid_timing ... ok
+fast	Rust tests	2026-10-25T03:27:48.0248838Z test config_rejects_values_that_overflow_clocks_or_channel_allocations ... ok
+fast	Rust tests	2026-10-25T03:27:48.0249483Z 
+fast	Rust tests	2026-10-25T03:27:48.0250202Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+fast	Rust tests	2026-10-25T03:27:48.0250914Z 
+fast	Rust tests	2026-10-25T03:27:48.0251857Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (/tmp/campfire-improvements-20261025-target/debug/deps/campfire_server-3549b5ac027a4c2a)
+fast	Rust tests	2026-10-25T03:27:48.0261747Z 
+fast	Rust tests	2026-10-25T03:27:48.0262102Z running 18 tests
+fast	Rust tests	2026-10-25T03:27:48.0266999Z test connection_limits::tests::defaults_and_exact_environment_keys ... ok
+fast	Rust tests	2026-10-25T03:27:48.0268944Z test cli::tests::cli_overrides_environment_without_global_env_mutation ... ok
+fast	Rust tests	2026-10-25T03:27:48.0270159Z test cli::tests::defaults_and_explicit_module_selection ... ok
+fast	Rust tests	2026-10-25T03:27:48.0271609Z test connection_limits::tests::overrides_and_rejects_invalid_values ... ok
+fast	Rust tests	2026-10-25T03:27:48.0273270Z test cli::tests::rejects_invalid_unknown_duplicate_and_overflow_values ... ok
+fast	Rust tests	2026-10-25T03:27:48.0279080Z test dashboard::tests::failed_initial_refresh_cannot_initialize_the_cpu_baseline ... ok
+fast	Rust tests	2026-10-25T03:27:48.0280203Z test dashboard::tests::drop_does_not_join_a_blocked_os_call ... ok
+fast	Rust tests	2026-10-25T03:27:48.0283701Z test dashboard::tests::frozen_cache_and_actor_resource_ages_become_stale_at_response_time ... ok
+fast	Rust tests	2026-10-25T03:27:48.0321479Z test dashboard::tests::collector_warms_up_and_skips_missed_ticks_and_restarts_with_a_new_boot ... ok
+fast	Rust tests	2026-10-25T03:27:48.0323808Z test dashboard::tests::history_bounds_count_and_monotonic_age_without_filling_skipped_intervals ... ok
+fast	Rust tests	2026-10-25T03:27:48.0332151Z test dashboard::tests::rate_counter_decrease_is_unknown_and_maxima_remain_lifetime_values ... ok
+fast	Rust tests	2026-10-25T03:27:48.0334247Z test dashboard::tests::metrics_projection_includes_only_operational_fields_and_recent_latency ... ok
+fast	Rust tests	2026-10-25T03:27:48.0339812Z test dashboard::tests::resource_warmup_failure_and_multicore_values_are_explicit ... ok
+fast	Rust tests	2026-10-25T03:27:48.0345582Z test dashboard::tests::room_keyset_cursor_is_bound_to_boot_and_filters_and_private_metadata_is_visible ... ok
+fast	Rust tests	2026-10-25T03:27:48.0355056Z test dashboard::tests::terminated_worker_before_first_publish_becomes_unavailable ... ok
+fast	Rust tests	2026-10-25T03:27:48.6715899Z test dashboard::tests::history_restart_and_evicted_cursor_reset_without_synthetic_points ... ok
+fast	Rust tests	2026-10-25T03:27:49.0352582Z test dashboard::tests::stalled_worker_after_a_successful_publish_becomes_stale ... ok
+fast	Rust tests	2026-10-25T03:27:53.1319359Z test dashboard::tests::blocked_os_worker_does_not_stop_collection_and_shutdown_has_a_deadline ... ok
+fast	Rust tests	2026-10-25T03:27:53.1320321Z 
+fast	Rust tests	2026-10-25T03:27:53.1321057Z test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.11s
+fast	Rust tests	2026-10-25T03:27:53.1321881Z 
+fast	Rust tests	2026-10-25T03:27:53.1325570Z ^[[1m^[[92m     Running^[[0m unittests src/main.rs (/tmp/campfire-improvements-20261025-target/debug/deps/campfire_server-380d3cbaf1e7d595)
+fast	Rust tests	2026-10-25T03:27:53.1336319Z 
+fast	Rust tests	2026-10-25T03:27:53.1336495Z running 0 tests
+fast	Rust tests	2026-10-25T03:27:53.1336843Z 
+fast	Rust tests	2026-10-25T03:27:53.1337652Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+fast	Rust tests	2026-10-25T03:27:53.1338364Z 
+fast	Rust tests	2026-10-25T03:27:53.1340030Z ^[[1m^[[92m     Running^[[0m tests/dashboard.rs (/tmp/campfire-improvements-20261025-target/debug/deps/dashboard-7cb3935ad54ad58b)
+fast	Rust tests	2026-10-25T03:27:53.1360661Z 
+fast	Rust tests	2026-10-25T03:27:53.1360847Z running 5 tests
+fast	Rust tests	2026-10-25T03:27:53.1381331Z test environment_requires_untrimmed_graphic_secret_and_never_echoes_it ... ok
+fast	Rust tests	2026-10-25T03:27:53.1428878Z test invalid_unicode_environment_is_rejected_without_printing_its_bytes ... ok
+fast	Rust tests	2026-10-25T03:27:53.2165378Z test admin_data_requires_an_independent_bearer_key ... ok
+fast	Rust tests	2026-10-25T03:27:53.2350338Z test disabled_routes_are_missing_and_enabled_shell_contains_no_secret ... ok
+fast	Rust tests	2026-10-25T03:27:55.4786907Z test real_process_sampler_and_incremental_history_progress_independently ... ok
+fast	Rust tests	2026-10-25T03:27:55.4788019Z 
+fast	Rust tests	2026-10-25T03:27:55.4788823Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.34s
+fast	Rust tests	2026-10-25T03:27:55.4789745Z 
+fast	Rust tests	2026-10-25T03:27:55.4796768Z ^[[1m^[[92m     Running^[[0m tests/extensions.rs (/tmp/campfire-improvements-20261025-target/debug/deps/extensions-c67ba33c0dd93278)
+fast	Rust tests	2026-10-25T03:27:55.4819781Z 
+fast	Rust tests	2026-10-25T03:27:55.4819987Z running 12 tests
+fast	Rust tests	2026-10-25T03:27:55.7108925Z test account_endpoint_preserves_media_type_status_without_echoing_credentials ... ok
+fast	Rust tests	2026-10-25T03:27:55.8029724Z test account_keys_are_scoped_by_game_and_issuer_and_tokens_cannot_cross_games ... ok
+fast	Rust tests	2026-10-25T03:27:55.9003191Z test bounded_command_history_rejects_evicted_sequences_without_reapplying ... ok
+fast	Rust tests	2026-10-25T03:27:55.9470583Z test account_rotation_closes_old_socket_preserves_room_and_private_state_stays_recipient_local ... ok
+fast	Rust tests	2026-10-25T03:27:56.1578994Z test command_request_cache_and_stale_instance_cannot_bypass_membership_validation ... ok
+fast	Rust tests	2026-10-25T03:27:56.1687648Z test account_endpoint_rejects_disabled_invalid_expired_and_client_identity ... ok
+fast	Rust tests	2026-10-25T03:27:56.2645162Z test concurrent_account_logins_leave_only_the_last_issued_token_valid ... ok
+fast	Rust tests	2026-10-25T03:27:56.3543435Z test account_verification_timeout_returns_permit_and_cannot_issue_a_session ... ok
+fast	Rust tests	2026-10-25T03:27:56.5066099Z test pending_host_verification_does_not_block_health_or_guest_issuance ... ok
+fast	Rust tests	2026-10-25T03:27:57.1440112Z test eight_accounts_share_fifo_state_without_private_data_leaks ... ok
+fast	Rust tests	2026-10-25T03:27:57.4555873Z test sixteen_accounts_share_fifo_state_without_private_data_leaks ... ok
+fast	Rust tests	2026-10-25T03:27:57.9800707Z test command_fifo_replay_conflict_gap_failures_and_resume_preserve_exact_mutations ... ok
+fast	Rust tests	2026-10-25T03:27:57.9801653Z 
+fast	Rust tests	2026-10-25T03:27:57.9802460Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.50s
+fast	Rust tests	2026-10-25T03:27:57.9803097Z 
+fast	Rust tests	2026-10-25T03:27:57.9815134Z ^[[1m^[[92m     Running^[[0m tests/headless.rs (/tmp/campfire-improvements-20261025-target/debug/deps/headless-9af3fd608735f15c)
+fast	Rust tests	2026-10-25T03:27:57.9837530Z 
+fast	Rust tests	2026-10-25T03:27:57.9838021Z running 22 tests
+fast	Rust tests	2026-10-25T03:27:58.2189364Z test authentication_deadline_and_invalid_first_message ... ok
+fast	Rust tests	2026-10-25T03:27:58.3050601Z test concurrent_authentication_and_cross_room_admission_has_one_membership ... ok
+fast	Rust tests	2026-10-25T03:27:58.3869367Z test connection_and_unauthenticated_caps_refund_permits ... ok
+fast	Rust tests	2026-10-25T03:27:58.4210873Z test abusive_connection_is_isolated ... ok
+fast	Rust tests	2026-10-25T03:27:58.5093270Z test game_isolation_and_stale_instance ... ok
+fast	Rust tests	2026-10-25T03:27:58.6235587Z test issuer_and_global_guest_rate_limits_recover ... FAILED
+fast	Rust tests	2026-10-25T03:27:58.6732680Z test input_validation_and_recipient_ack ... ok
+fast	Rust tests	2026-10-25T03:27:58.7012333Z test caps_and_cleanup ... ok
+fast	Rust tests	2026-10-25T03:27:58.7013874Z test reconnect_grace_expires ... ignored, real 30 second reservation boundary
+fast	Rust tests	2026-10-25T03:27:58.7579740Z test panic_supervision_cleans_directory ... ok
+fast	Rust tests	2026-10-25T03:27:58.9990975Z test replacement_requires_resume_and_preserves_membership ... ok
+fast	Rust tests	2026-10-25T03:27:59.0647138Z test replay_and_idempotent_leave ... ok
+fast	Rust tests	2026-10-25T03:27:59.1491762Z test rate_key_cap_and_ttl_reclaim_trusted_source_entries ... ok
+fast	Rust tests	2026-10-25T03:27:59.2302699Z test schema_and_explicit_game_mismatch_are_rejected ... ok
+fast	Rust tests	2026-10-25T03:27:59.4146974Z test repeated_authentication_does_not_extend_reservation ... ok
+fast	Rust tests	2026-10-25T03:27:59.4149619Z test slow_reader_isolated_and_p95 ... ignored, real socket backpressure and matched baseline measurement
+fast	Rust tests	2026-10-25T03:27:59.4152276Z test soak_16_clients_60_seconds ... ignored, real TCP soak, minimum 60 seconds
+fast	Rust tests	2026-10-25T03:27:59.4153706Z test soak_8_clients_60_seconds ... ignored, real TCP soak, minimum 60 seconds
+fast	Rust tests	2026-10-25T03:27:59.5753621Z test room_cap_refunds_rejected_and_disconnected_creation ... ok
+fast	Rust tests	2026-10-25T03:27:59.6191855Z test last_seat_race_is_atomic ... ok
+fast	Rust tests	2026-10-25T03:27:59.7858665Z test token_expiry_and_logout ... ok
+fast	Rust tests	2026-10-25T03:28:02.0940934Z test shared_queue_saturation_is_not_abuse ... ok
+fast	Rust tests	2026-10-25T03:28:02.0941645Z 
+fast	Rust tests	2026-10-25T03:28:02.0941929Z failures:
+fast	Rust tests	2026-10-25T03:28:02.0942140Z 
+fast	Rust tests	2026-10-25T03:28:02.0942555Z ---- issuer_and_global_guest_rate_limits_recover stdout ----
+fast	Rust tests	2026-10-25T03:28:02.0943054Z 
+fast	Rust tests	2026-10-25T03:28:02.0944010Z thread 'issuer_and_global_guest_rate_limits_recover' (8247) panicked at crates/campfire-server/tests/headless.rs:1161:5:
+fast	Rust tests	2026-10-25T03:28:02.0945115Z assertion `left == right` failed
+fast	Rust tests	2026-10-25T03:28:02.0945549Z   left: 201
+fast	Rust tests	2026-10-25T03:28:02.0945873Z  right: 429
+fast	Rust tests	2026-10-25T03:28:02.0946591Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+fast	Rust tests	2026-10-25T03:28:02.0947138Z 
+fast	Rust tests	2026-10-25T03:28:02.0947148Z 
+fast	Rust tests	2026-10-25T03:28:02.0947292Z failures:
+fast	Rust tests	2026-10-25T03:28:02.0947738Z     issuer_and_global_guest_rate_limits_recover
+fast	Rust tests	2026-10-25T03:28:02.0948393Z 
+fast	Rust tests	2026-10-25T03:28:02.0949037Z test result: FAILED. 17 passed; 1 failed; 4 ignored; 0 measured; 0 filtered out; finished in 4.11s
+fast	Rust tests	2026-10-25T03:28:02.0949472Z 
+fast	Rust tests	2026-10-25T03:28:02.0956802Z ^[[1m^[[91merror^[[0m: test failed, to rerun pass `-p campfire-server --test headless`
+fast	Rust tests	2026-10-25T03:28:02.1027015Z ##[error]Process completed with exit code 101.

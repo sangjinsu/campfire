@@ -1,0 +1,3 @@
+[1m[92m    Checking[0m campfire-runtime v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-runtime)
+[1m[92m    Checking[0m campfire-server v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-server)
+[1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 1.76s

@@ -1,0 +1,21 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/headless.rs (/tmp/campfire-improvements-20261025-target/debug/deps/headless-afd729189917a3cc)
+
+running 1 test
+controlled delay: wall=126.557792ms, rate clock=126.557792ms, third status=201 Created
+
+thread 'issuer_and_global_guest_rate_limits_recover' (12356908) panicked at crates/campfire-server/tests/headless.rs:1167:5:
+assertion `left == right` failed
+  left: 201
+ right: 429
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test issuer_and_global_guest_rate_limits_recover ... FAILED
+
+failures:
+
+failures:
+    issuer_and_global_guest_rate_limits_recover
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 21 filtered out; finished in 0.18s
+
+error: test failed, to rerun pass `-p campfire-server --test headless`

@@ -1,0 +1,11 @@
+cwd: /tmp/campfire-package-smoke-91gd3kxz/checkout-consumer
+command: cargo run --locked --offline
+
+[1m[92m   Compiling[0m campfire-runtime v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-runtime)
+[1m[92m   Compiling[0m campfire-arena v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-arena)
+[1m[92m   Compiling[0m campfire-package-consumer v0.1.0 (/tmp/campfire-package-smoke-91gd3kxz/checkout-consumer)
+[1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 3.97s
+[1m[92m     Running[0m `/tmp/campfire-improvements-20261025-target/debug/campfire-package-consumer`
+consumer_ok games=2 shutdown_completed=true
+
+exit_code: 0

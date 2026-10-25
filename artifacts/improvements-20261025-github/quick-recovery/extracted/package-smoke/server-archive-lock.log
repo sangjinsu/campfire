@@ -1,0 +1,8 @@
+cwd: /tmp/campfire-package-smoke-91gd3kxz/extracted/campfire-server-0.1.0
+command: cargo generate-lockfile --offline
+
+[1m[92m     Locking[0m 223 packages to latest compatible versions
+[1m[92m      Adding[0m getrandom v0.3.4 [1m[33m(available: v0.4.3)[0m
+[1m[92m      Adding[0m tokio-tungstenite v0.28.0 [1m[33m(available: v0.29.0)[0m
+
+exit_code: 0

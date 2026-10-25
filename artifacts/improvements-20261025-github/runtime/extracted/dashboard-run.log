@@ -1,0 +1,8 @@
+PASS dashboard disabled: 8 real Godot clients
+PASS dashboard disabled: 16 real Godot clients
+PASS dashboard enabled: 8 real Godot clients
+PASS dashboard enabled: 16 real Godot clients
+Running real guest/account transport regression
+Running two independent native production scenes
+PASS: two native Godot accounts, isolated private state, same-command retry and real timeout/resume
+{"success": true, "failure": null, "artifact": "/home/runner/work/campfire/campfire/artifacts/runtime-validation/dashboard"}

@@ -1,0 +1,7 @@
+cwd: /home/runner/work/campfire/campfire
+command: cargo package -p campfire-arena --allow-dirty --locked --no-verify --exclude-lockfile --config /tmp/campfire-package-smoke-91gd3kxz/package-campfire-arena-config.toml --offline
+
+[1m[92m   Packaging[0m campfire-arena v0.1.0 (/home/runner/work/campfire/campfire/crates/campfire-arena)
+[1m[92m    Packaged[0m 5 files, 12.1KiB (4.0KiB compressed)
+
+exit_code: 0

@@ -1,0 +1,1448 @@
+{
+  "viewport": 390,
+  "rootWidth": 390,
+  "bodyWidth": 390,
+  "charts": [
+    {
+      "id": "chart-connections",
+      "labels": [
+        {
+          "text": "0",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 58.55937576293945,
+            "y": 1050.731201171875,
+            "width": 7.515621185302734,
+            "height": 15
+          }
+        },
+        {
+          "text": "57.2",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 39.79375076293945,
+            "y": 1020.3562622070312,
+            "width": 26.281246185302734,
+            "height": 14.99993896484375
+          }
+        },
+        {
+          "text": "114.4",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 33.29375457763672,
+            "y": 989.9812622070312,
+            "width": 33.27294158935547,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:31:01",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 72.1500015258789,
+            "y": 1066.9312744140625,
+            "width": 52.56249237060547,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:31:31",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 183.56875610351562,
+            "y": 1066.9312744140625,
+            "width": 52.56248474121094,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:32:00",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 294.9875183105469,
+            "y": 1066.9312744140625,
+            "width": 52.562469482421875,
+            "height": 15
+          }
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "id": "chart-throughput",
+      "labels": [
+        {
+          "text": "0",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 58.55937576293945,
+            "y": 1277.731201171875,
+            "width": 7.515621185302734,
+            "height": 15
+          }
+        },
+        {
+          "text": "849",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 43.54375076293945,
+            "y": 1247.356201171875,
+            "width": 22.531246185302734,
+            "height": 15
+          }
+        },
+        {
+          "text": "1.7천",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 33.29375457763672,
+            "y": 1216.981201171875,
+            "width": 32.78124237060547,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:31:01",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 72.1500015258789,
+            "y": 1293.9312744140625,
+            "width": 52.56249237060547,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:31:31",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 183.56875610351562,
+            "y": 1293.9312744140625,
+            "width": 52.56248474121094,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:32:00",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 294.9875183105469,
+            "y": 1293.9312744140625,
+            "width": 52.562469482421875,
+            "height": 15
+          }
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "id": "chart-cpu",
+      "labels": [
+        {
+          "text": "0",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 58.55937576293945,
+            "y": 1522.731201171875,
+            "width": 7.515621185302734,
+            "height": 15
+          }
+        },
+        {
+          "text": "59.7",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 39.79375076293945,
+            "y": 1492.356201171875,
+            "width": 26.281246185302734,
+            "height": 15
+          }
+        },
+        {
+          "text": "119.5",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 33.29375457763672,
+            "y": 1461.981201171875,
+            "width": 32.78124237060547,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:31:01",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 72.1500015258789,
+            "y": 1538.9312744140625,
+            "width": 52.56249237060547,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:31:31",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 183.56875610351562,
+            "y": 1538.9312744140625,
+            "width": 52.56248474121094,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:32:00",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 294.9875183105469,
+            "y": 1538.9312744140625,
+            "width": 52.562469482421875,
+            "height": 15
+          }
+        }
+      ],
+      "overlaps": []
+    },
+    {
+      "id": "chart-rss",
+      "labels": [
+        {
+          "text": "0",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 58.55937576293945,
+            "y": 1749.731201171875,
+            "width": 7.515621185302734,
+            "height": 15
+          }
+        },
+        {
+          "text": "23.2",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 39.79375076293945,
+            "y": 1719.356201171875,
+            "width": 26.281246185302734,
+            "height": 15
+          }
+        },
+        {
+          "text": "46.4",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 39.79375076293945,
+            "y": 1688.981201171875,
+            "width": 26.766841888427734,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:31:01",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 72.1500015258789,
+            "y": 1765.9312744140625,
+            "width": 52.56249237060547,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:31:31",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 183.56875610351562,
+            "y": 1765.9312744140625,
+            "width": 52.56248474121094,
+            "height": 15
+          }
+        },
+        {
+          "text": "03:32:00",
+          "effectiveFontPx": 13.5,
+          "bbox": {
+            "x": 294.9875183105469,
+            "y": 1765.9312744140625,
+            "width": 52.562469482421875,
+            "height": 15
+          }
+        }
+      ],
+      "overlaps": []
+    }
+  ],
+  "targets": [
+    {
+      "id": "auto-refresh",
+      "tag": "INPUT",
+      "bbox": {
+        "x": 16,
+        "y": 80.9375,
+        "width": 97.34375,
+        "height": 44
+      }
+    },
+    {
+      "id": "refresh",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 214.375,
+        "y": 80.9375,
+        "width": 77.625,
+        "height": 44
+      }
+    },
+    {
+      "id": "logout",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 300,
+        "y": 80.9375,
+        "width": 74,
+        "height": 44
+      }
+    },
+    {
+      "id": "range-1m",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 16,
+        "y": 828.40625,
+        "width": 54,
+        "height": 44
+      }
+    },
+    {
+      "id": "range-5m",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 74,
+        "y": 828.40625,
+        "width": 54,
+        "height": 44
+      }
+    },
+    {
+      "id": "range-15m",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 132,
+        "y": 828.40625,
+        "width": 54,
+        "height": 44
+      }
+    },
+    {
+      "id": "game-filter",
+      "tag": "SELECT",
+      "bbox": {
+        "x": 33,
+        "y": 2382.90625,
+        "width": 157,
+        "height": 44
+      }
+    },
+    {
+      "id": "visibility-filter",
+      "tag": "SELECT",
+      "bbox": {
+        "x": 200,
+        "y": 2382.90625,
+        "width": 157,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-query",
+      "tag": "INPUT",
+      "bbox": {
+        "x": 33,
+        "y": 2463.90625,
+        "width": 324,
+        "height": 44
+      }
+    },
+    {
+      "id": "",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 33,
+        "y": 2517.90625,
+        "width": 157,
+        "height": 44
+      }
+    },
+    {
+      "id": "reset-filters",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 200,
+        "y": 2517.90625,
+        "width": 157,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 2680.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 2762.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 2844.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 2926.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3008.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3090.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3172.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3254.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3336.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3418.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3500.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3582.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3664.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3746.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3828.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3910.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 3992.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4074.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4156.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4238.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4320.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4402.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4484.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4566.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4648.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4730.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4812.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4894.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 4976.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5058.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5140.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5222.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5304.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5386.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5468.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5550.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5632.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5714.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5796.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5878.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 5960.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6042.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6124.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6206.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6288.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6370.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6452.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6534.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6616.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6698.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6780.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6862.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 6944.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7026.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7108.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7190.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7272.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7354.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7436.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7518.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7600.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7682.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7764.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7846.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 7928.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8010.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8092.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8174.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8256.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8338.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8420.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8502.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8584.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8666.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8748.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8830.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8912.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 8994.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9076.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9158.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9240.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9322.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9404.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9486.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9568.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9650.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9732.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9814.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9896.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 9978.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10060.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10142.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10224.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10306.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10388.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10470.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10552.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10634.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10716.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "room-button",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 37,
+        "y": 10798.40625,
+        "width": 300,
+        "height": 44
+      }
+    },
+    {
+      "id": "first-page",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 167,
+        "y": 3058.90625,
+        "width": 58,
+        "height": 44
+      }
+    },
+    {
+      "id": "previous-page",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 233,
+        "y": 3058.90625,
+        "width": 58,
+        "height": 44
+      }
+    },
+    {
+      "id": "next-page",
+      "tag": "BUTTON",
+      "bbox": {
+        "x": 299,
+        "y": 3058.90625,
+        "width": 58,
+        "height": 44
+      }
+    }
+  ],
+  "table": {
+    "rows": 100,
+    "clientHeight": 440,
+    "scrollHeight": 8245,
+    "sticky": [
+      {
+        "position": "sticky",
+        "top": "0px"
+      },
+      {
+        "position": "sticky",
+        "top": "0px"
+      },
+      {
+        "position": "sticky",
+        "top": "0px"
+      },
+      {
+        "position": "sticky",
+        "top": "0px"
+      },
+      {
+        "position": "sticky",
+        "top": "0px"
+      },
+      {
+        "position": "sticky",
+        "top": "0px"
+      },
+      {
+        "position": "sticky",
+        "top": "0px"
+      }
+    ]
+  }
+}
