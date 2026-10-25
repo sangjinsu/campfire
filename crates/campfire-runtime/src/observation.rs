@@ -115,6 +115,38 @@ impl ObservationDirectory {
             ));
     }
 
+    pub(crate) fn room_summary(&self, reference: &RoomRef) -> Option<RoomObservation> {
+        let receiver = self
+            .state
+            .read()
+            .unwrap_or_else(|error| error.into_inner())
+            .rooms
+            .get(&(
+                reference.game_id.clone(),
+                reference.id.clone(),
+                reference.instance.clone(),
+            ))?
+            .clone();
+        if receiver.has_changed().is_err() {
+            return None;
+        }
+        let published = receiver.borrow().clone();
+        if receiver.has_changed().is_err() {
+            return None;
+        }
+        let mut summary = published.summary;
+        if summary.game_id != reference.game_id
+            || summary.room_id != reference.id
+            || summary.room_instance_id != reference.instance
+        {
+            return None;
+        }
+        summary.summary_age_ms = Instant::now()
+            .saturating_duration_since(published.published_at)
+            .as_millis() as u64;
+        Some(summary)
+    }
+
     fn snapshot(&self) -> (Vec<String>, Vec<RoomObservation>) {
         let (game_ids, receivers): (Vec<_>, Vec<_>) = {
             let state = self.state.read().unwrap_or_else(|error| error.into_inner());

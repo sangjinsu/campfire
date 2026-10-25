@@ -18,17 +18,20 @@ use std::{
     collections::{BTreeMap, HashMap},
     panic::{AssertUnwindSafe, catch_unwind},
     sync::{
-        Arc, RwLock,
+        Arc, RwLock, Weak,
         atomic::{AtomicBool, Ordering},
     },
     time::{SystemTime, UNIX_EPOCH},
 };
 use tokio::{
-    sync::{Mutex, Semaphore, mpsc, oneshot, watch},
+    sync::{Mutex, OwnedMutexGuard, Semaphore, mpsc, oneshot, watch},
     time::Instant,
 };
 
 pub(crate) type TokenHash = [u8; 32];
+type CommandResult = Result<(Value, bool), Error>;
+type AuthenticationResult = Result<(TokenHash, u64, Instant, Value), Error>;
+type IdentityGates = HashMap<(String, String, String), Weak<Mutex<()>>>;
 struct RotationGuard(Arc<room::Rotation>);
 impl Drop for RotationGuard {
     fn drop(&mut self) {
@@ -45,6 +48,7 @@ pub(crate) struct Session {
     pub room: Option<RoomRef>,
     pub reservation: Option<Instant>,
     pub identity: PlayerIdentity,
+    pub lifecycle: Arc<Mutex<()>>,
 }
 pub(crate) struct RateKey {
     pub bucket: Bucket,
@@ -66,6 +70,8 @@ pub(crate) struct Inner {
     pub shutdown: watch::Sender<bool>,
     pub authenticator: Option<Arc<dyn AccountAuthenticator>>,
     pub observations: ObservationDirectory,
+    pub operations: Arc<Semaphore>,
+    identity_gates: std::sync::Mutex<IdentityGates>,
     started: AtomicBool,
     pub clock_origin: Instant,
     unix_origin: u64,
@@ -92,6 +98,8 @@ impl Campfire {
         let (shutdown, _) = watch::channel(false);
         Ok(Self {
             inner: Arc::new(Inner {
+                operations: Arc::new(Semaphore::new(config.max_sessions)),
+                identity_gates: std::sync::Mutex::new(HashMap::new()),
                 connections: Arc::new(Semaphore::new(config.max_connections)),
                 unauthenticated: Arc::new(Semaphore::new(config.max_unauthenticated_connections)),
                 state: Mutex::new(State {
@@ -294,7 +302,7 @@ impl Inner {
         }
     }
     pub async fn issue_account(
-        &self,
+        self: &Arc<Self>,
         game: &str,
         credential: &str,
         source: String,
@@ -320,7 +328,8 @@ impl Inner {
         }
         let _permit = self
             .unauthenticated
-            .try_acquire()
+            .clone()
+            .try_acquire_owned()
             .map_err(|_| Error::busy())?;
         {
             let mut state = self.state.lock().await;
@@ -368,126 +377,245 @@ impl Inner {
         if *self.shutdown.borrow() {
             return Err(Error::busy());
         }
+        let identity_key = (
+            game.to_owned(),
+            grant.identity.issuer.clone(),
+            grant.identity.subject.clone(),
+        );
+        let identity_gate = {
+            let mut gates = self
+                .identity_gates
+                .lock()
+                .unwrap_or_else(|error| error.into_inner());
+            gates.retain(|_, gate| gate.strong_count() > 0);
+            let gate = gates
+                .get(&identity_key)
+                .and_then(Weak::upgrade)
+                .unwrap_or_else(|| Arc::new(Mutex::new(())));
+            gates.insert(identity_key, Arc::downgrade(&gate));
+            gate
+        };
+        let identity_guard = self.acquire_gate(identity_gate).await?;
+        let previous = {
+            let state = self.state.lock().await;
+            state
+                .sessions
+                .iter()
+                .find_map(|(key, session)| match &session.identity {
+                    PlayerIdentity::Account(identity)
+                        if session.game_id == game
+                            && identity.issuer == grant.identity.issuer
+                            && identity.subject == grant.identity.subject =>
+                    {
+                        Some(*key)
+                    }
+                    _ => None,
+                })
+        };
+        let lifecycle = if let Some(key) = previous {
+            self.state
+                .lock()
+                .await
+                .sessions
+                .get(&key)
+                .map(|s| s.lifecycle.clone())
+                .unwrap_or_else(|| Arc::new(Mutex::new(())))
+        } else {
+            Arc::new(Mutex::new(()))
+        };
+        let session_guard = self.acquire_gate(lifecycle.clone()).await?;
+        let permit = self
+            .operations
+            .clone()
+            .try_acquire_owned()
+            .map_err(|_| Error::busy())?;
+        let inner = self.clone();
+        let game = game.to_owned();
+        let (mut tx, rx) = oneshot::channel();
+        tokio::spawn(async move {
+            let (_identity, _session, _operation, _issuance) =
+                (identity_guard, session_guard, permit, _permit);
+            if tx.is_closed() {
+                return;
+            }
+            let result = inner
+                .rotate_account(
+                    &game,
+                    PlayerIdentity::Account(grant.identity),
+                    deadline,
+                    previous,
+                    lifecycle,
+                    &mut tx,
+                )
+                .await;
+            let _ = tx.send(result);
+        });
+        let mut shutdown = self.shutdown.subscribe();
+        if *shutdown.borrow() {
+            return Err(Error::busy());
+        }
+        tokio::select! {
+            result = rx => result.map_err(|_| Error::busy())?,
+            _ = shutdown.changed() => Err(Error::busy()),
+        }
+    }
+    async fn rotate_account(
+        &self,
+        game: &str,
+        identity: PlayerIdentity,
+        deadline: Instant,
+        previous: Option<TokenHash>,
+        lifecycle: Arc<Mutex<()>>,
+        reply: &mut oneshot::Sender<Result<Value, Error>>,
+    ) -> Result<Value, Error> {
         let token = random_id("")?;
         let new_key = token_hash(&token);
         let mut state = self.state.lock().await;
-        if *self.shutdown.borrow() {
-            return Err(Error::busy());
-        }
-        if deadline <= Instant::now() {
-            return Err(unavailable());
-        }
-        let previous = state
-            .sessions
-            .iter()
-            .find_map(|(key, session)| match &session.identity {
-                PlayerIdentity::Account(identity)
-                    if session.game_id == game
-                        && identity.issuer == grant.identity.issuer
-                        && identity.subject == grant.identity.subject =>
-                {
-                    Some(*key)
-                }
-                _ => None,
-            });
-        let identity = PlayerIdentity::Account(grant.identity);
-        // Expired sessions cannot be resurrected even when periodic cleanup has not run yet.
+        let previous = previous.filter(|key| {
+            state
+                .sessions
+                .get(key)
+                .is_some_and(|s| Arc::ptr_eq(&s.lifecycle, &lifecycle))
+        });
         if let Some(key) = previous.filter(|key| state.sessions[key].deadline <= Instant::now()) {
-            let expired = state.sessions.get(&key).expect("located expired session");
-            if let Some(output) = &expired.output {
+            let expired = state
+                .sessions
+                .remove(&key)
+                .expect("located expired session");
+            if let Some(output) = expired.output {
                 output.close();
             }
-            if let Some(reference) = &expired.room {
-                leave(&state, reference, &expired.id, None).await;
-            }
-            state.sessions.remove(&key);
+            let handle = expired.room.as_ref().and_then(|r| room_handle(&state, r));
             self.metrics
                 .active_sessions
                 .store(state.sessions.len() as u64, Ordering::Relaxed);
+            drop(state);
+            if let Some(handle) = handle {
+                leave_handle(&handle, &expired.id, expired.generation).await;
+            }
+            state = self.state.lock().await;
         }
-        // Expired-seat cleanup can await the actor; recheck before issuing a replacement session.
-        if *self.shutdown.borrow() {
+        if *self.shutdown.borrow() || reply.is_closed() {
             return Err(Error::busy());
         }
         if deadline <= Instant::now() {
-            return Err(unavailable());
+            return Err(Error::new(
+                "AUTH_UNAVAILABLE",
+                "account authentication is unavailable",
+            ));
         }
         let previous = previous.filter(|key| state.sessions.contains_key(key));
-        let session = if let Some(key) = previous {
-            let old = &state.sessions[&key];
-            let generation = old.generation.checked_add(1).ok_or_else(Error::busy)?;
-            let player = old.id.clone();
-            let mut room = old.room.clone();
-            let mut reservation = None;
-            let rotation = RotationGuard(room::Rotation::new(deadline, identity.clone()));
-            if let Some(reference) = &room {
-                if let Some(handle) = state
-                    .rooms
-                    .get(&(reference.game_id.clone(), reference.id.clone()))
-                    .filter(|handle| &handle.reference == reference)
-                {
+        let session =
+            if let Some(key) = previous {
+                let old = state.sessions.get_mut(&key).expect("located session");
+                let generation = old.generation.checked_add(1).ok_or_else(Error::busy)?;
+                // The actor may advance even when the rotation is later aborted.
+                old.generation = generation;
+                let player = old.id.clone();
+                let mut reference = old.room.clone();
+                let handle = reference.as_ref().and_then(|r| room_handle(&state, r));
+                let rotation = RotationGuard(room::Rotation::new(deadline, identity.clone()));
+                drop(state);
+                let mut reservation = None;
+                if let Some(handle) = &handle {
                     let (tx, rx) = oneshot::channel();
-                    if handle
-                        .control
-                        .send(Control::Replace {
+                    if enqueue(
+                        handle,
+                        Control::Replace {
                             player: player.clone(),
                             generation,
                             rotation: Some(rotation.0.clone()),
                             reply: tx,
-                        })
-                        .await
-                        .is_ok()
+                        },
+                        Some(&mut *reply),
+                        None,
+                    )
+                    .await
+                    .is_ok()
                     {
                         reservation = rx.await.ok().flatten();
                     }
                 }
+                state = self.state.lock().await;
+                let live = reference
+                    .as_ref()
+                    .is_some_and(|r| room_handle(&state, r).is_some());
+                reservation = reservation.filter(|_| live);
                 if reservation.is_none() {
-                    room = None;
+                    reference = None;
                 }
-            }
-            // Preserve the old map entry across every await; cancellation cannot orphan its seat.
-            if *self.shutdown.borrow() {
-                return Err(Error::busy());
-            }
-            if deadline <= Instant::now() {
-                return Err(unavailable());
-            }
-            if room.is_some() && !rotation.0.commit() {
-                return Err(Error::busy());
-            }
-            // No await separates the shared actor decision from this token-map swap.
-            let old = state.sessions.remove(&key).expect("rotation is serialized");
-            if let Some(output) = old.output {
-                output.close();
-            }
-            Session {
-                id: player,
-                game_id: game.into(),
-                deadline,
-                expires_at: self.deadline_millis(deadline),
-                generation,
-                output: None,
-                room,
-                reservation,
-                identity,
-            }
-        } else {
-            if state.sessions.len() >= self.config.max_sessions {
-                inc(&self.metrics.admission_rejections);
-                return Err(Error::busy());
-            }
-            Session {
-                id: random_id("a_")?,
-                game_id: game.into(),
-                deadline,
-                expires_at: self.deadline_millis(deadline),
-                generation: 0,
-                output: None,
-                room: None,
-                reservation: None,
-                identity,
-            }
-        };
+                let Some(old) = state.sessions.get_mut(&key).filter(|s| {
+                    s.generation == generation && Arc::ptr_eq(&s.lifecycle, &lifecycle)
+                }) else {
+                    drop(state);
+                    if let Some(handle) = handle {
+                        leave_handle(&handle, &player, generation).await;
+                    }
+                    return Err(Error::busy());
+                };
+                // Aborted prepares keep the old token and an accurate generation/reservation.
+                if let Some(output) = old.output.take() {
+                    output.close();
+                }
+                if reply.is_closed() {
+                    old.reservation = rotation
+                        .0
+                        .previous_reservation()
+                        .or(old.reservation)
+                        .or(reservation.map(|until| until.min(old.deadline)))
+                        .filter(|_| old.room.is_some());
+                    return Err(Error::busy());
+                }
+                old.room = reference.clone();
+                old.reservation = rotation
+                    .0
+                    .previous_reservation()
+                    .or(reservation.map(|until| until.min(old.deadline)))
+                    .filter(|_| old.room.is_some());
+                if *self.shutdown.borrow() {
+                    return Err(Error::busy());
+                }
+                if deadline <= Instant::now() {
+                    return Err(Error::new(
+                        "AUTH_UNAVAILABLE",
+                        "account authentication is unavailable",
+                    ));
+                }
+                if reference.is_some() && !rotation.0.commit() {
+                    return Err(Error::busy());
+                }
+                // No await separates the actor decision and token-map replacement.
+                state.sessions.remove(&key);
+                Session {
+                    id: player,
+                    game_id: game.into(),
+                    deadline,
+                    expires_at: self.deadline_millis(deadline),
+                    generation,
+                    output: None,
+                    room: reference,
+                    reservation,
+                    identity,
+                    lifecycle,
+                }
+            } else {
+                if state.sessions.len() >= self.config.max_sessions {
+                    inc(&self.metrics.admission_rejections);
+                    return Err(Error::busy());
+                }
+                Session {
+                    id: random_id("a_")?,
+                    game_id: game.into(),
+                    deadline,
+                    expires_at: self.deadline_millis(deadline),
+                    generation: 0,
+                    output: None,
+                    room: None,
+                    reservation: None,
+                    identity,
+                    lifecycle,
+                }
+            };
         let response = json!({"player_id":session.id,"token":token,"expires_at":session.expires_at,"game_id":game});
         state.sessions.insert(new_key, session);
         self.metrics
@@ -504,6 +632,9 @@ impl Inner {
         }
         let now = Instant::now();
         let mut state = self.state.lock().await;
+        if *self.shutdown.borrow() {
+            return Err(Error::busy());
+        }
         state.rate_keys.retain(|_, key| {
             now.saturating_duration_since(key.last_seen) < self.config.rate_key_ttl
         });
@@ -561,6 +692,7 @@ impl Inner {
                 room: None,
                 reservation: None,
                 identity: PlayerIdentity::Guest,
+                lifecycle: Arc::new(Mutex::new(())),
             },
         );
         self.metrics
@@ -572,8 +704,40 @@ impl Inner {
         inc(&self.metrics.guests_issued);
         Ok(json!({"guest_id":id,"token":token,"expires_at":expires_at,"game_id":game}))
     }
+    async fn acquire_gate(&self, gate: Arc<Mutex<()>>) -> Result<OwnedMutexGuard<()>, Error> {
+        let mut shutdown = self.shutdown.subscribe();
+        if *shutdown.borrow() {
+            return Err(Error::busy());
+        }
+        tokio::select! {
+            biased;
+            _ = shutdown.changed() => Err(Error::busy()),
+            guard = gate.lock_owned() => Ok(guard),
+        }
+    }
+    async fn session_gate(&self, key: TokenHash) -> Result<OwnedMutexGuard<()>, Error> {
+        let gate = self
+            .state
+            .lock()
+            .await
+            .sessions
+            .get(&key)
+            .map(|session| session.lifecycle.clone())
+            .ok_or_else(|| Error::new("UNAUTHENTICATED", "session is no longer active"))?;
+        let guard = self.acquire_gate(gate.clone()).await?;
+        let state = self.state.lock().await;
+        if *self.shutdown.borrow()
+            || !state
+                .sessions
+                .get(&key)
+                .is_some_and(|session| Arc::ptr_eq(&gate, &session.lifecycle))
+        {
+            return Err(Error::new("UNAUTHENTICATED", "session is no longer active"));
+        }
+        Ok(guard)
+    }
     pub async fn authenticate(
-        &self,
+        self: &Arc<Self>,
         game: &str,
         token: &str,
         request: &str,
@@ -583,16 +747,116 @@ impl Inner {
             return Err(Error::new("UNAUTHENTICATED", "invalid or expired token"));
         }
         let key = token_hash(token);
-        let mut state = self.state.lock().await;
-        let session = state
-            .sessions
-            .get_mut(&key)
-            .ok_or_else(|| Error::new("UNAUTHENTICATED", "invalid or expired token"))?;
-        if session.deadline <= Instant::now() {
-            return Err(Error::new("UNAUTHENTICATED", "invalid or expired token"));
+        let gate = self.session_gate(key).await?;
+        let permit = self
+            .operations
+            .clone()
+            .try_acquire_owned()
+            .map_err(|_| Error::busy())?;
+        let (mut tx, rx) = oneshot::channel();
+        let inner = self.clone();
+        let game = game.to_owned();
+        let request = request.to_owned();
+        tokio::spawn(async move {
+            let (_gate, _permit) = (gate, permit);
+            if tx.is_closed() {
+                return;
+            }
+            let result = inner
+                .authenticate_owned(key, &game, &request, output.clone(), &mut tx)
+                .await;
+            let authenticated_generation = result.as_ref().ok().map(|value| value.1);
+            if tx.send(result).is_err() {
+                output.close();
+                if let Some(generation) = authenticated_generation {
+                    inner.disconnect_owned(key, generation).await;
+                }
+            }
+        });
+        let mut shutdown = self.shutdown.subscribe();
+        if *shutdown.borrow() {
+            return Err(Error::busy());
         }
-        if session.game_id != game {
-            return Err(Error::new("GAME_MISMATCH", "token belongs to another game"));
+        tokio::select! {
+            result = rx => result.map_err(|_| Error::busy())?,
+            _ = shutdown.changed() => Err(Error::busy()),
+        }
+    }
+    async fn authenticate_owned(
+        &self,
+        key: TokenHash,
+        game: &str,
+        request: &str,
+        output: Arc<Output>,
+        caller: &mut oneshot::Sender<AuthenticationResult>,
+    ) -> Result<(TokenHash, u64, Instant, Value), Error> {
+        let (generation, player, reference, handle) = {
+            let mut state = self.state.lock().await;
+            let session = state
+                .sessions
+                .get_mut(&key)
+                .ok_or_else(|| Error::new("UNAUTHENTICATED", "invalid or expired token"))?;
+            if session.deadline <= Instant::now() {
+                return Err(Error::new("UNAUTHENTICATED", "invalid or expired token"));
+            }
+            if session.game_id != game {
+                return Err(Error::new("GAME_MISMATCH", "token belongs to another game"));
+            }
+            if caller.is_closed() || !output.is_alive() || *self.shutdown.borrow() {
+                return Err(Error::new(
+                    "CANCELLED",
+                    "connection closed during authentication",
+                ));
+            }
+            session.generation = session.generation.checked_add(1).ok_or_else(Error::busy)?;
+            if let Some(previous) = session.output.take() {
+                previous.close();
+            }
+            let (generation, player, reference) =
+                (session.generation, session.id.clone(), session.room.clone());
+            let handle = reference.as_ref().and_then(|r| room_handle(&state, r));
+            (generation, player, reference, handle)
+        };
+        let reservation = if let Some(handle) = &handle {
+            let (tx, rx) = oneshot::channel();
+            enqueue(
+                handle,
+                Control::Replace {
+                    player: player.clone(),
+                    generation,
+                    rotation: None,
+                    reply: tx,
+                },
+                Some(&mut *caller),
+                Some(&output),
+            )
+            .await?;
+            rx.await.ok().flatten()
+        } else {
+            None
+        };
+        let mut state = self.state.lock().await;
+        let valid = !*self.shutdown.borrow()
+            && state
+                .sessions
+                .get(&key)
+                .is_some_and(|s| s.generation == generation && s.deadline > Instant::now());
+        if !valid {
+            drop(state);
+            if let Some(handle) = handle {
+                leave_handle(&handle, &player, generation).await;
+            }
+            return Err(Error::new("UNAUTHENTICATED", "session is no longer active"));
+        }
+        let live_reference = reference
+            .as_ref()
+            .is_some_and(|r| room_handle(&state, r).is_some());
+        let session = state.sessions.get_mut(&key).expect("validated session");
+        if session.room == reference {
+            session.reservation = reservation.filter(|_| live_reference);
+            if session.reservation.is_none() {
+                session.room = None;
+            }
         }
         if !output.is_alive() {
             return Err(Error::new(
@@ -600,45 +864,6 @@ impl Inner {
                 "connection closed during authentication",
             ));
         }
-        session.generation = session.generation.checked_add(1).ok_or_else(Error::busy)?;
-        let generation = session.generation;
-        if let Some(previous) = session.output.take() {
-            previous.close();
-        }
-        let room_ref = session.room.clone();
-        let player = session.id.clone();
-        if let Some(reference) = room_ref {
-            let reservation = if let Some(handle) = state
-                .rooms
-                .get(&(reference.game_id.clone(), reference.id.clone()))
-                .filter(|h| h.reference == reference)
-            {
-                let (tx, rx) = oneshot::channel();
-                if handle
-                    .control
-                    .send(Control::Replace {
-                        player,
-                        generation,
-                        rotation: None,
-                        reply: tx,
-                    })
-                    .await
-                    .is_ok()
-                {
-                    rx.await.ok().flatten()
-                } else {
-                    None
-                }
-            } else {
-                None
-            };
-            let session = state.sessions.get_mut(&key).expect("session is serialized");
-            session.reservation = reservation;
-            if reservation.is_none() {
-                session.room = None;
-            }
-        }
-        let session = state.sessions.get_mut(&key).expect("session is serialized");
         session.output = Some(output);
         let response = json!({"v":1,"type":"session.authenticated","request_id":request,"guest_id":session.id,"player_id":session.id,
             "expires_at":session.expires_at,"game_id":game,"room_id":session.room.as_ref().map(|r|&r.id),
@@ -646,39 +871,71 @@ impl Inner {
             "reservation_expires_at":session.reservation.map(|deadline|self.deadline_millis(deadline))});
         Ok((key, generation, session.deadline, response))
     }
-    pub async fn disconnect(&self, key: TokenHash, generation: u64) {
-        let mut state = self.state.lock().await;
-        let Some(session) = state
-            .sessions
-            .get_mut(&key)
-            .filter(|s| s.generation == generation)
-        else {
+    pub async fn disconnect(self: &Arc<Self>, key: TokenHash, generation: u64) {
+        let Ok(gate) = self.session_gate(key).await else {
             return;
         };
-        session.output = None;
-        let player = session.id.clone();
-        let reference = session.room.clone();
-        if let Some(reference) = reference {
-            if let Some(handle) = state
-                .rooms
-                .get(&(reference.game_id.clone(), reference.id.clone()))
-                .filter(|h| h.reference == reference)
+        let Ok(permit) = self.operations.clone().try_acquire_owned() else {
+            return;
+        };
+        let inner = self.clone();
+        let (tx, rx) = oneshot::channel();
+        tokio::spawn(async move {
+            let (_gate, _permit) = (gate, permit);
+            inner.disconnect_owned(key, generation).await;
+            let _ = tx.send(());
+        });
+        let mut shutdown = self.shutdown.subscribe();
+        if *shutdown.borrow() {
+            return;
+        }
+        tokio::select! { _ = rx => {}, _ = shutdown.changed() => {} }
+    }
+    async fn disconnect_owned(&self, key: TokenHash, generation: u64) {
+        let (player, reference, handle) = {
+            let mut state = self.state.lock().await;
+            let Some(session) = state
+                .sessions
+                .get_mut(&key)
+                .filter(|s| s.generation == generation)
+            else {
+                return;
+            };
+            if let Some(output) = session.output.take() {
+                output.close();
+            }
+            let (player, reference) = (session.id.clone(), session.room.clone());
+            let handle = reference.as_ref().and_then(|r| room_handle(&state, r));
+            (player, reference, handle)
+        };
+        let mut reservation = None;
+        if let Some(handle) = &handle {
+            let (tx, rx) = oneshot::channel();
+            if handle
+                .control
+                .send(Control::Disconnect {
+                    player,
+                    generation,
+                    reply: tx,
+                })
+                .await
+                .is_ok()
             {
-                let (tx, rx) = oneshot::channel();
-                let _ = handle
-                    .control
-                    .send(Control::Disconnect {
-                        player,
-                        generation,
-                        reply: tx,
-                    })
-                    .await;
-                let _ = rx.await;
-                let session = state.sessions.get_mut(&key).expect("session is serialized");
-                session.reservation.get_or_insert(
-                    (Instant::now() + self.config.reconnect_grace).min(session.deadline),
-                );
-            } else if let Some(session) = state.sessions.get_mut(&key) {
+                reservation = rx.await.ok().flatten();
+            }
+        }
+        let mut state = self.state.lock().await;
+        let live = reference
+            .as_ref()
+            .is_some_and(|r| room_handle(&state, r).is_some());
+        if let Some(session) = state
+            .sessions
+            .get_mut(&key)
+            .filter(|s| s.generation == generation && s.room == reference)
+        {
+            if live && reservation.is_some() {
+                session.reservation = reservation;
+            } else {
                 session.room = None;
                 session.reservation = None;
             }
@@ -692,6 +949,65 @@ impl Inner {
         output: Arc<Output>,
         request: &Request,
     ) -> Result<(Value, bool), Error> {
+        if matches!(
+            request.command,
+            Command::Input { .. }
+                | Command::Execute { .. }
+                | Command::List { .. }
+                | Command::Authenticate { .. }
+        ) {
+            return self
+                .command_owned(key, generation, game, output, request, None)
+                .await;
+        }
+        let gate = self.session_gate(key).await?;
+        let permit = self
+            .operations
+            .clone()
+            .try_acquire_owned()
+            .map_err(|_| Error::busy())?;
+        let (mut tx, rx) = oneshot::channel();
+        let inner = self.clone();
+        let game = game.to_owned();
+        let request = request.clone();
+        tokio::spawn(async move {
+            let (_gate, _permit) = (gate, permit);
+            if tx.is_closed() || !output.is_alive() {
+                return;
+            }
+            let result = inner
+                .command_owned(
+                    key,
+                    generation,
+                    &game,
+                    output.clone(),
+                    &request,
+                    Some(&mut tx),
+                )
+                .await;
+            if tx.send(result).is_err() || !output.is_alive() {
+                output.close();
+                inner.disconnect_owned(key, generation).await;
+            }
+        });
+        let mut shutdown = self.shutdown.subscribe();
+        if *shutdown.borrow() {
+            return Err(Error::busy());
+        }
+        tokio::select! {
+            result = rx => result.map_err(|_| Error::busy())?,
+            _ = shutdown.changed() => Err(Error::busy()),
+        }
+    }
+    async fn command_owned(
+        self: &Arc<Self>,
+        key: TokenHash,
+        generation: u64,
+        game: &str,
+        output: Arc<Output>,
+        request: &Request,
+        caller: Option<&mut oneshot::Sender<CommandResult>>,
+    ) -> Result<(Value, bool), Error> {
         if request.game_id.as_ref().is_some_and(|id| id != game) {
             return Err(Error::new(
                 "GAME_MISMATCH",
@@ -699,6 +1015,9 @@ impl Inner {
             ));
         }
         let mut state = self.state.lock().await;
+        if *self.shutdown.borrow() || caller.as_ref().is_some_and(|reply| reply.is_closed()) {
+            return Err(Error::new("CANCELLED", "request cancelled before enqueue"));
+        }
         let session = state
             .sessions
             .get(&key)
@@ -728,9 +1047,24 @@ impl Inner {
                 "connection is already authenticated",
             )),
             Command::Logout => {
-                if let Some(reference) = membership {
-                    leave(&state, &reference, &player, None).await;
+                let handle = membership.as_ref().and_then(|r| room_handle(&state, r));
+                drop(state);
+                if let Some(handle) = handle {
+                    let (reply, received) = oneshot::channel();
+                    enqueue(
+                        &handle,
+                        Control::Leave {
+                            player: player.clone(),
+                            generation: Some(generation),
+                            reply,
+                        },
+                        caller,
+                        None,
+                    )
+                    .await?;
+                    let _ = received.await;
                 }
+                let mut state = self.state.lock().await;
                 state.sessions.remove(&key);
                 self.metrics
                     .active_sessions
@@ -744,36 +1078,39 @@ impl Inner {
                 if *limit == 0 || *limit > 100 {
                     return Err(Error::new("INVALID_MESSAGE", "limit must be 1..=100"));
                 }
+                let handles: Vec<_> = state
+                    .rooms
+                    .values()
+                    .filter(|h| {
+                        h.reference.game_id == game
+                            && h.public
+                            && h.visible
+                            && cursor
+                                .as_ref()
+                                .is_none_or(|cursor| h.reference.id > *cursor)
+                    })
+                    .cloned()
+                    .collect();
+                drop(state);
                 let mut rooms = Vec::new();
-                let mut next_cursor = None;
-                for handle in state.rooms.values().filter(|h| {
-                    h.reference.game_id == game
-                        && h.public
-                        && h.visible
-                        && cursor
-                            .as_ref()
-                            .is_none_or(|cursor| h.reference.id > *cursor)
-                }) {
-                    if rooms.len() == *limit as usize {
-                        next_cursor = rooms
-                            .last()
-                            .and_then(|v: &Value| v["room_id"].as_str())
-                            .map(str::to_owned);
-                        break;
-                    }
-                    let (tx, rx) = oneshot::channel();
-                    if handle
-                        .control
-                        .send(Control::List { reply: tx })
-                        .await
-                        .is_err()
-                    {
-                        continue;
-                    }
-                    if let Ok(members) = rx.await {
-                        rooms.push(json!({"game_id":game,"room_id":handle.reference.id,"room_instance_id":handle.reference.instance,"members":members,"capacity":handle.capacity}));
+                for handle in handles {
+                    if let Some(summary) = self.observations.room_summary(&handle.reference) {
+                        rooms.push(json!({"game_id":game,"room_id":handle.reference.id,"room_instance_id":handle.reference.instance,
+                            "members":summary.connected_members + summary.reserved_members,"capacity":handle.capacity}));
+                        if rooms.len() > *limit as usize {
+                            break;
+                        }
                     }
                 }
+                let next_cursor = if rooms.len() > *limit as usize {
+                    rooms.pop();
+                    rooms
+                        .last()
+                        .and_then(|v| v["room_id"].as_str())
+                        .map(str::to_owned)
+                } else {
+                    None
+                };
                 Ok((
                     json!({"v":1,"type":"room.listed","request_id":request.id,"rooms":rooms,"next_cursor":next_cursor}),
                     false,
@@ -823,11 +1160,6 @@ impl Inner {
                     capacity,
                     tick_interval: self.config.tick_interval(),
                 };
-                let game_state = catch_unwind(AssertUnwindSafe(|| {
-                    module.create(&Value::Object(settings), &context)
-                }))
-                .map_err(|_| Error::new("GAME_FAILED", "game factory panicked"))?
-                .map_err(Error::from)?;
                 let reference = RoomRef {
                     game_id: game.into(),
                     id: random_id("r_")?,
@@ -853,6 +1185,19 @@ impl Inner {
                 );
                 self.observations.insert(&reference, observed);
                 inc(&self.metrics.active_rooms);
+                drop(state);
+                let game_state = match catch_unwind(AssertUnwindSafe(|| {
+                    module.create(&Value::Object(settings), &context)
+                }))
+                .map_err(|_| Error::new("GAME_FAILED", "game factory panicked"))
+                .and_then(|result| result.map_err(Error::from))
+                {
+                    Ok(game) => game,
+                    Err(error) => {
+                        self.closed(reference, Ok("factory_failed")).await;
+                        return Err(error);
+                    }
+                };
                 let room_config = self.config.clone();
                 let metrics = self.metrics.clone();
                 let room_ref = reference.clone();
@@ -887,28 +1232,28 @@ impl Inner {
                         request,
                         resume: false,
                         identity,
+                        caller,
                     },
                 )
                 .await;
                 match result {
                     Ok(response) => {
-                        if let Some(handle) = state
-                            .rooms
-                            .get_mut(&(reference.game_id.clone(), reference.id.clone()))
-                        {
-                            handle.visible = true;
-                        }
-                        let session = state.sessions.get_mut(&key).expect("session is serialized");
-                        session.room = Some(reference);
-                        session.reservation = None;
+                        self.commit_admission(key, generation, &handle, &player)
+                            .await?;
                         Ok((response, true))
                     }
                     Err(error) => {
                         let _ = handle.control.send(Control::Stop).await;
                         handle.control.closed().await;
-                        state
+                        let mut state = self.state.lock().await;
+                        let slot = (reference.game_id.clone(), reference.id.clone());
+                        if state
                             .rooms
-                            .remove(&(reference.game_id.clone(), reference.id.clone()));
+                            .get(&slot)
+                            .is_some_and(|h| h.reference == reference)
+                        {
+                            state.rooms.remove(&slot);
+                        }
                         Err(error)
                     }
                 }
@@ -922,7 +1267,7 @@ impl Inner {
                 room_instance_id,
             } => {
                 let resume = matches!(request.command, Command::Resume { .. });
-                let handle = lookup(&state, game, room_id, room_instance_id)?;
+                let handle = lookup(&state, game, room_id, room_instance_id)?.clone();
                 if resume {
                     if membership.as_ref() != Some(&handle.reference) {
                         return Err(Error::new(
@@ -936,9 +1281,9 @@ impl Inner {
                         "leave the current room before joining another",
                     ));
                 }
-                let reference = handle.reference.clone();
+                drop(state);
                 let response = admit(
-                    handle,
+                    &handle,
                     AdmissionOptions {
                         player: &player,
                         generation,
@@ -947,12 +1292,12 @@ impl Inner {
                         request,
                         resume,
                         identity,
+                        caller,
                     },
                 )
                 .await?;
-                let session = state.sessions.get_mut(&key).expect("session is serialized");
-                session.room = Some(reference);
-                session.reservation = None;
+                self.commit_admission(key, generation, &handle, &player)
+                    .await?;
                 Ok((response, true))
             }
             Command::Leave {
@@ -972,11 +1317,31 @@ impl Inner {
                             "room instance does not match membership",
                         ));
                     }
-                    leave(&state, &reference, &player, Some(generation)).await;
-                    let session = state.sessions.get_mut(&key).expect("session is serialized");
-                    session.room = None;
-                    session.reservation = None;
-                    output.latest.send_replace(None);
+                    let handle = room_handle(&state, &reference);
+                    drop(state);
+                    if let Some(handle) = handle {
+                        let (reply, received) = oneshot::channel();
+                        enqueue(
+                            &handle,
+                            Control::Leave {
+                                player: player.clone(),
+                                generation: Some(generation),
+                                reply,
+                            },
+                            caller,
+                            None,
+                        )
+                        .await?;
+                        let _ = received.await;
+                    }
+                    let mut state = self.state.lock().await;
+                    if let Some(session) = state.sessions.get_mut(&key).filter(|s| {
+                        s.generation == generation && s.room.as_ref() == Some(&reference)
+                    }) {
+                        session.room = None;
+                        session.reservation = None;
+                        output.latest.send_replace(None);
+                    }
                 }
                 Ok((
                     json!({"v":1,"type":"room.left","request_id":request.id,"room_id":room_id,"room_instance_id":room_instance_id}),
@@ -1069,6 +1434,39 @@ impl Inner {
             }
         }
     }
+    async fn commit_admission(
+        &self,
+        key: TokenHash,
+        generation: u64,
+        handle: &RoomHandle,
+        player: &str,
+    ) -> Result<(), Error> {
+        let mut state = self.state.lock().await;
+        let valid = !*self.shutdown.borrow()
+            && room_handle(&state, &handle.reference).is_some()
+            && state
+                .sessions
+                .get(&key)
+                .is_some_and(|s| s.generation == generation && s.deadline > Instant::now());
+        if !valid {
+            drop(state);
+            leave_handle(handle, player, generation).await;
+            return Err(Error::new(
+                "UNAUTHENTICATED",
+                "admission owner is no longer active",
+            ));
+        }
+        let session = state.sessions.get_mut(&key).expect("validated owner");
+        session.room = Some(handle.reference.clone());
+        session.reservation = None;
+        if let Some(handle) = state.rooms.get_mut(&(
+            handle.reference.game_id.clone(),
+            handle.reference.id.clone(),
+        )) {
+            handle.visible = true;
+        }
+        Ok(())
+    }
     async fn closed(
         &self,
         reference: RoomRef,
@@ -1151,6 +1549,7 @@ struct AdmissionOptions<'a> {
     request: &'a Request,
     resume: bool,
     identity: PlayerIdentity,
+    caller: Option<&'a mut oneshot::Sender<CommandResult>>,
 }
 async fn admit(handle: &RoomHandle, admission: AdmissionOptions<'_>) -> Result<Value, Error> {
     let AdmissionOptions {
@@ -1161,88 +1560,132 @@ async fn admit(handle: &RoomHandle, admission: AdmissionOptions<'_>) -> Result<V
         request,
         resume,
         identity,
+        caller,
     } = admission;
     let (tx, rx) = oneshot::channel();
-    handle
-        .control
-        .send(Control::Enter(Admission {
+    enqueue(
+        handle,
+        Control::Enter(Admission {
             player: player.into(),
             generation,
             token_deadline: deadline,
-            output,
+            output: output.clone(),
             request_id: request.id.clone(),
             resume,
             identity,
             reply: tx,
-        }))
-        .await
-        .map_err(|_| Error::new("ROOM_NOT_FOUND", "room task has ended"))?;
+        }),
+        caller,
+        Some(&output),
+    )
+    .await?;
     rx.await
         .map_err(|_| Error::new("ROOM_NOT_FOUND", "room task has ended"))?
 }
-async fn leave(state: &State, reference: &RoomRef, player: &str, generation: Option<u64>) {
-    if let Some(handle) = state
+async fn enqueue<T>(
+    handle: &RoomHandle,
+    control: Control,
+    mut caller: Option<&mut oneshot::Sender<T>>,
+    output: Option<&Output>,
+) -> Result<(), Error> {
+    let permit = tokio::select! {
+        biased;
+        _ = async {
+            if let Some(reply) = caller.as_mut() { reply.closed().await; }
+            else { std::future::pending::<()>().await; }
+        } => return Err(Error::new("CANCELLED", "request cancelled before enqueue")),
+        permit = handle.control.reserve() => permit.map_err(|_| Error::new("ROOM_NOT_FOUND", "room task has ended"))?,
+    };
+    if caller.is_some_and(|reply| reply.is_closed())
+        || output.is_some_and(|output| !output.is_alive())
+    {
+        return Err(Error::new("CANCELLED", "request cancelled before enqueue"));
+    }
+    permit.send(control);
+    Ok(())
+}
+fn room_handle(state: &State, reference: &RoomRef) -> Option<RoomHandle> {
+    state
         .rooms
         .get(&(reference.game_id.clone(), reference.id.clone()))
-        .filter(|h| h.reference == *reference)
+        .filter(|handle| handle.reference == *reference)
+        .cloned()
+}
+async fn leave_handle(handle: &RoomHandle, player: &str, generation: u64) {
+    let (tx, rx) = oneshot::channel();
+    if handle
+        .control
+        .send(Control::Leave {
+            player: player.into(),
+            generation: Some(generation),
+            reply: tx,
+        })
+        .await
+        .is_ok()
     {
-        let (tx, rx) = oneshot::channel();
-        let _ = handle
-            .control
-            .send(Control::Leave {
-                player: player.into(),
-                generation,
-                reply: tx,
-            })
-            .await;
         let _ = rx.await;
     }
 }
-async fn cleanup(inner: &Inner) {
-    let mut state = inner.state.lock().await;
+async fn cleanup(inner: &Arc<Inner>) {
     let now = Instant::now();
-    let expired: Vec<_> = state
-        .sessions
-        .iter()
-        .filter(|(_, s)| s.deadline <= now)
-        .map(|(key, _)| *key)
-        .collect();
-    for key in expired {
-        if let Some(session) = state.sessions.remove(&key) {
-            if let Some(output) = session.output {
-                output.close();
-            }
-            if let Some(reference) = session.room {
-                leave(&state, &reference, &session.id, None).await;
-            }
+    let candidates: Vec<_> = {
+        let mut state = inner.state.lock().await;
+        state.rate_keys.retain(|_, key| {
+            now.saturating_duration_since(key.last_seen) < inner.config.rate_key_ttl
+        });
+        inner
+            .metrics
+            .rate_keys
+            .store(state.rate_keys.len() as u64, Ordering::Relaxed);
+        state
+            .sessions
+            .iter()
+            .filter(|(_, s)| s.deadline <= now || s.reservation.is_some_and(|d| d <= now))
+            .map(|(key, s)| (*key, s.lifecycle.clone()))
+            .collect()
+    };
+    for (key, gate) in candidates {
+        let Ok(guard) = gate.clone().try_lock_owned() else {
+            continue;
+        };
+        let Ok(permit) = inner.operations.clone().try_acquire_owned() else {
+            continue;
+        };
+        let mut state = inner.state.lock().await;
+        let Some(session) = state
+            .sessions
+            .get_mut(&key)
+            .filter(|s| Arc::ptr_eq(&s.lifecycle, &gate))
+        else {
+            continue;
+        };
+        let expired = session.deadline <= Instant::now();
+        if !expired && session.reservation.is_none_or(|d| d > Instant::now()) {
+            continue;
         }
-    }
-    let reservations: Vec<_> = state
-        .sessions
-        .iter()
-        .filter(|(_, s)| s.reservation.is_some_and(|d| d <= now))
-        .map(|(key, _)| *key)
-        .collect();
-    for key in reservations {
-        let session = state.sessions.get_mut(&key).expect("session is serialized");
         let reference = session.room.take();
         let player = session.id.clone();
+        let generation = session.generation;
         session.reservation = None;
-        if let Some(reference) = reference {
-            leave(&state, &reference, &player, None).await;
+        if expired {
+            if let Some(output) = session.output.take() {
+                output.close();
+            }
+            state.sessions.remove(&key);
+        }
+        let handle = reference.as_ref().and_then(|r| room_handle(&state, r));
+        inner
+            .metrics
+            .active_sessions
+            .store(state.sessions.len() as u64, Ordering::Relaxed);
+        drop(state);
+        if let Some(handle) = handle {
+            tokio::spawn(async move {
+                let (_guard, _permit) = (guard, permit);
+                leave_handle(&handle, &player, generation).await;
+            });
         }
     }
-    state
-        .rate_keys
-        .retain(|_, key| now.saturating_duration_since(key.last_seen) < inner.config.rate_key_ttl);
-    inner
-        .metrics
-        .active_sessions
-        .store(state.sessions.len() as u64, Ordering::Relaxed);
-    inner
-        .metrics
-        .rate_keys
-        .store(state.rate_keys.len() as u64, Ordering::Relaxed);
 }
 
 #[cfg(test)]
@@ -1660,6 +2103,744 @@ mod tests {
             },
         );
         (controls, command_rx, commands)
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_cancelled_enter_after_real_actor_commit_preserves_one_reserved_seat() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let host = runtime.inner.issue("a", "host".into()).await.unwrap();
+        let (host_out, _host_rx) = output(32);
+        let (host_key, host_generation, _, _) = runtime
+            .inner
+            .authenticate(
+                "a",
+                host["token"].as_str().unwrap(),
+                "host",
+                host_out.clone(),
+            )
+            .await
+            .unwrap();
+        let create = crate::protocol::parse(
+            r#"{"v":1,"type":"room.create","request_id":"create","settings":{}}"#,
+        )
+        .unwrap();
+        let created = runtime
+            .inner
+            .command(host_key, host_generation, "a", host_out, &create)
+            .await
+            .unwrap()
+            .0;
+        let guest = runtime.inner.issue("a", "guest".into()).await.unwrap();
+        let (out, _rx) = output(32);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", guest["token"].as_str().unwrap(), "guest", out.clone())
+            .await
+            .unwrap();
+        let (proxy, mut controls) = mpsc::channel(8);
+        let actual = {
+            let mut state = runtime.inner.state.lock().await;
+            let handle = state.rooms.values_mut().next().unwrap();
+            std::mem::replace(&mut handle.control, proxy)
+        };
+        let (committed, committed_rx) = oneshot::channel();
+        let (release, release_rx) = oneshot::channel();
+        let actor = actual.clone();
+        let forwarding = tokio::spawn(async move {
+            let Some(Control::Enter(mut admission)) = controls.recv().await else {
+                panic!("Enter expected")
+            };
+            let (ack, received) = oneshot::channel();
+            let original = std::mem::replace(&mut admission.reply, ack);
+            actor.send(Control::Enter(admission)).await.unwrap();
+            let result = received.await.unwrap();
+            committed.send(()).unwrap();
+            release_rx.await.unwrap();
+            original.send(result).unwrap();
+            let Some(control @ Control::Disconnect { .. }) = controls.recv().await else {
+                panic!("Disconnect expected")
+            };
+            actor.send(control).await.unwrap();
+        });
+        let request = crate::protocol::parse(&json!({"v":1,"type":"room.join","request_id":"join","room_id":created["room_id"],"room_instance_id":created["room_instance_id"]}).to_string()).unwrap();
+        let inner = runtime.inner.clone();
+        let pending =
+            tokio::spawn(async move { inner.command(key, generation, "a", out, &request).await });
+        committed_rx.await.unwrap();
+        pending.abort();
+        let _ = pending.await;
+        release.send(()).unwrap();
+        forwarding.await.unwrap();
+        for _ in 0..16 {
+            tokio::task::yield_now().await;
+        }
+        let (reply, received) = oneshot::channel();
+        actual.send(Control::List { reply }).await.unwrap();
+        assert_eq!(
+            received.await.unwrap(),
+            2,
+            "host and cancelled committed guest each retain exactly one seat"
+        );
+        {
+            let mut state = runtime.inner.state.lock().await;
+            let guest = &state.sessions[&key];
+            assert_eq!(guest.generation, generation);
+            assert!(guest.room.is_some());
+            assert!(guest.reservation.is_some());
+            assert!(guest.output.is_none());
+            assert_eq!(state.rooms.len(), 1);
+            assert_eq!(runtime.metrics().active_rooms, 1);
+            state.rooms.values_mut().next().unwrap().control = actual;
+        }
+        let summary = runtime.observer().snapshot().unwrap().rooms.pop().unwrap();
+        assert_eq!(
+            (summary.connected_members, summary.reserved_members),
+            (1, 1)
+        );
+        runtime.shutdown().await;
+        assert_eq!(runtime.metrics().active_rooms, 0);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_cached_pagination_skips_closed_private_and_uncommitted_rooms() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let guest = runtime.inner.issue("a", "source".into()).await.unwrap();
+        let (out, _rx) = output(16);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", guest["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let (_controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        let mut publishers = Vec::new();
+        {
+            let mut state = runtime.inner.state.lock().await;
+            let template = state.rooms.pop_first().unwrap().1;
+            for (id, public, visible, alive) in [
+                ("a", true, true, false),
+                ("b", true, true, true),
+                ("c", false, true, true),
+                ("d", true, false, true),
+                ("e", true, true, true),
+                ("f", true, true, true),
+            ] {
+                let mut handle = template.clone();
+                handle.reference.id = id.into();
+                handle.public = public;
+                handle.visible = visible;
+                let (publisher, receiver) =
+                    watch::channel(PublishedRoom::new(&handle.reference, public, 16));
+                runtime
+                    .inner
+                    .observations
+                    .insert(&handle.reference, receiver);
+                if alive {
+                    publishers.push(publisher);
+                }
+                state.rooms.insert(("a".into(), id.into()), handle);
+            }
+        }
+        let mut cursor = Value::Null;
+        for (expected, next) in [("b", json!("b")), ("e", json!("e")), ("f", Value::Null)] {
+            let request = crate::protocol::parse(
+                &json!({"v":1,"type":"room.list","request_id":"list","cursor":cursor,"limit":1})
+                    .to_string(),
+            )
+            .unwrap();
+            let listed = runtime
+                .inner
+                .command(key, generation, "a", out.clone(), &request)
+                .await
+                .unwrap()
+                .0;
+            assert_eq!(listed["rooms"].as_array().unwrap().len(), 1);
+            assert_eq!(listed["rooms"][0]["room_id"], expected);
+            assert_eq!(listed["next_cursor"], next);
+            cursor = next;
+        }
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_cancellation_before_enter_enqueue_has_no_admission() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let guest = runtime.inner.issue("a", "first".into()).await.unwrap();
+        let (out, _rx) = output(16);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", guest["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let (mut controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        let handle = {
+            let mut state = runtime.inner.state.lock().await;
+            state.sessions.get_mut(&key).unwrap().room = None;
+            state.rooms.values().next().unwrap().clone()
+        };
+        for _ in 0..8 {
+            let (reply, _) = oneshot::channel();
+            handle.control.try_send(Control::List { reply }).unwrap();
+        }
+        let inner = runtime.inner.clone();
+        let request = crate::protocol::parse(r#"{"v":1,"type":"room.join","request_id":"join","room_id":"stub","room_instance_id":"epoch"}"#).unwrap();
+        let pending =
+            tokio::spawn(async move { inner.command(key, generation, "a", out, &request).await });
+        for _ in 0..8 {
+            tokio::task::yield_now().await;
+        }
+        pending.abort();
+        let _ = pending.await;
+        for _ in 0..8 {
+            assert!(matches!(controls.recv().await, Some(Control::List { .. })));
+        }
+        for _ in 0..8 {
+            tokio::task::yield_now().await;
+        }
+        assert!(
+            controls.try_recv().is_err(),
+            "cancelled request must not enqueue Enter after queue space returns"
+        );
+        assert!(
+            runtime.inner.state.lock().await.sessions[&key]
+                .room
+                .is_none()
+        );
+        assert_eq!(
+            runtime.inner.operations.available_permits(),
+            runtime.inner.config.max_sessions
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_shutdown_releases_callers_waiting_for_session_gate() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let guest = runtime.inner.issue("a", "source".into()).await.unwrap();
+        let token = guest["token"].as_str().unwrap().to_owned();
+        let key = token_hash(&token);
+        let gate = runtime.inner.state.lock().await.sessions[&key]
+            .lifecycle
+            .clone();
+        let _blocked = gate.lock_owned().await;
+        let inner = runtime.inner.clone();
+        let (out, _rx) = output(16);
+        let caller =
+            tokio::spawn(async move { inner.authenticate("a", &token, "auth", out).await });
+        for _ in 0..4 {
+            tokio::task::yield_now().await;
+        }
+        runtime.inner.shutdown.send_replace(true);
+        assert!(
+            tokio::time::timeout(Duration::from_secs(1), caller)
+                .await
+                .is_ok(),
+            "shutdown must release callers that have not spawned an operation"
+        );
+        assert_eq!(
+            runtime.inner.operations.available_permits(),
+            runtime.inner.config.max_sessions
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_disconnect_uses_actor_deadline_instead_of_late_ack_time() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let guest = runtime.inner.issue("a", "source".into()).await.unwrap();
+        let (out, _rx) = output(16);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", guest["token"].as_str().unwrap(), "auth", out)
+            .await
+            .unwrap();
+        let (mut controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        let inner = runtime.inner.clone();
+        let pending = tokio::spawn(async move { inner.disconnect(key, generation).await });
+        let Control::Disconnect { reply, .. } = controls.recv().await.unwrap() else {
+            panic!("Disconnect expected")
+        };
+        let actor_deadline = Instant::now() + Duration::from_secs(30);
+        tokio::time::advance(Duration::from_secs(5)).await;
+        reply.send(Some(actor_deadline)).unwrap();
+        pending.await.unwrap();
+        assert_eq!(
+            runtime.inner.state.lock().await.sessions[&key].reservation,
+            Some(actor_deadline)
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_cancelled_short_rotation_preserves_actor_reservation_deadline() {
+        struct ChangingGrant(Arc<std::sync::atomic::AtomicU64>);
+        impl AccountAuthenticator for ChangingGrant {
+            fn authenticate<'a>(
+                &'a self,
+                _: &'a str,
+                _: &'a str,
+            ) -> std::pin::Pin<
+                Box<
+                    dyn std::future::Future<Output = Result<crate::AccountGrant, AuthError>>
+                        + Send
+                        + 'a,
+                >,
+            > {
+                Box::pin(async move {
+                    Ok(crate::AccountGrant {
+                        identity: crate::AccountIdentity {
+                            issuer: "host".into(),
+                            subject: "alice".into(),
+                            claims: json!({}),
+                        },
+                        valid_for: Duration::from_secs(self.0.load(Ordering::Relaxed)),
+                    })
+                })
+            }
+        }
+        let duration = Arc::new(std::sync::atomic::AtomicU64::new(60));
+        let runtime = account_runtime(Config::default(), ChangingGrant(duration.clone()));
+        let issued = runtime
+            .inner
+            .issue_account("a", "alice", "source".into())
+            .await
+            .unwrap();
+        let (out, _rx) = output(32);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", issued["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let create = crate::protocol::parse(
+            r#"{"v":1,"type":"room.create","request_id":"create","settings":{}}"#,
+        )
+        .unwrap();
+        runtime
+            .inner
+            .command(key, generation, "a", out, &create)
+            .await
+            .unwrap();
+        duration.store(1, Ordering::Relaxed);
+        let (proxy, mut controls) = mpsc::channel(8);
+        let actual = {
+            let mut state = runtime.inner.state.lock().await;
+            std::mem::replace(&mut state.rooms.values_mut().next().unwrap().control, proxy)
+        };
+        let (prepared, prepared_rx) = oneshot::channel();
+        let (release, release_rx) = oneshot::channel();
+        let actor = actual.clone();
+        let forwarding = tokio::spawn(async move {
+            let Some(Control::Replace {
+                player,
+                generation,
+                rotation,
+                reply,
+            }) = controls.recv().await
+            else {
+                panic!("Replace expected")
+            };
+            let (ack, received) = oneshot::channel();
+            actor
+                .send(Control::Replace {
+                    player,
+                    generation,
+                    rotation,
+                    reply: ack,
+                })
+                .await
+                .unwrap();
+            let result = received.await.unwrap();
+            prepared.send(()).unwrap();
+            release_rx.await.unwrap();
+            reply.send(result).unwrap();
+        });
+        let inner = runtime.inner.clone();
+        let pending =
+            tokio::spawn(async move { inner.issue_account("a", "alice", "source".into()).await });
+        prepared_rx.await.unwrap();
+        let prior_deadline = Instant::now() + Duration::from_secs(30);
+        pending.abort();
+        let _ = pending.await;
+        release.send(()).unwrap();
+        forwarding.await.unwrap();
+        for _ in 0..16 {
+            tokio::task::yield_now().await;
+        }
+        {
+            let mut state = runtime.inner.state.lock().await;
+            state.rooms.values_mut().next().unwrap().control = actual.clone();
+            assert_eq!(state.sessions[&key].reservation, Some(prior_deadline));
+        }
+        tokio::time::advance(Duration::from_secs(2)).await;
+        cleanup(&runtime.inner).await;
+        assert!(
+            runtime.inner.state.lock().await.sessions[&key]
+                .room
+                .is_some()
+        );
+        let (reply, received) = oneshot::channel();
+        actual.send(Control::List { reply }).await.unwrap();
+        assert_eq!(received.await.unwrap(), 1);
+        assert_eq!(runtime.metrics().active_rooms, 1);
+        runtime.shutdown().await;
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_removed_sessions_do_not_release_operation_capacity_early() {
+        let runtime = account_runtime(
+            Config {
+                max_sessions: 1,
+                guest_ttl: Duration::from_secs(1),
+                ..Config::default()
+            },
+            AccountVerifier,
+        );
+        let guest = runtime.inner.issue("a", "first".into()).await.unwrap();
+        let key = token_hash(guest["token"].as_str().unwrap());
+        let (mut controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        tokio::time::advance(Duration::from_secs(1)).await;
+        cleanup(&runtime.inner).await;
+        let Control::Leave {
+            generation, reply, ..
+        } = controls.recv().await.unwrap()
+        else {
+            panic!("cleanup must leave")
+        };
+        assert_eq!(generation, Some(0));
+        assert_eq!(runtime.metrics().active_sessions, 0);
+        assert_eq!(runtime.inner.operations.available_permits(), 0);
+        let replacement = runtime.inner.issue("a", "second".into()).await.unwrap();
+        let (out, _rx) = output(16);
+        assert_eq!(
+            runtime
+                .inner
+                .authenticate(
+                    "a",
+                    replacement["token"].as_str().unwrap(),
+                    "auth",
+                    out.clone()
+                )
+                .await
+                .unwrap_err()
+                .code,
+            "SERVER_BUSY"
+        );
+        reply.send(()).unwrap();
+        for _ in 0..8 {
+            tokio::task::yield_now().await;
+        }
+        assert!(
+            runtime
+                .inner
+                .authenticate("a", replacement["token"].as_str().unwrap(), "auth", out)
+                .await
+                .is_ok()
+        );
+        assert_eq!(runtime.inner.operations.available_permits(), 1);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_parallel_rotation_and_expiry() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let issued = runtime
+            .inner
+            .issue_account("a", "alice", "first".into())
+            .await
+            .unwrap();
+        let token = issued["token"].as_str().unwrap().to_owned();
+        let key = token_hash(&token);
+        let (mut controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        let other = runtime.inner.issue("a", "second".into()).await.unwrap();
+        let other_key = token_hash(other["token"].as_str().unwrap());
+        runtime
+            .inner
+            .state
+            .lock()
+            .await
+            .sessions
+            .get_mut(&other_key)
+            .unwrap()
+            .deadline = Instant::now();
+        let inner = runtime.inner.clone();
+        let pending =
+            tokio::spawn(async move { inner.issue_account("a", "alice", "rotation".into()).await });
+        let Control::Replace {
+            generation: prepared,
+            reply,
+            rotation,
+            ..
+        } = controls.recv().await.unwrap()
+        else {
+            panic!("rotation prepare")
+        };
+        cleanup(&runtime.inner).await;
+        {
+            let state = runtime.inner.state.lock().await;
+            assert!(state.sessions.contains_key(&key));
+            assert!(!state.sessions.contains_key(&other_key));
+        }
+        pending.abort();
+        let _ = pending.await;
+        reply
+            .send(Some(Instant::now() + Duration::from_secs(30)))
+            .unwrap();
+        for _ in 0..8 {
+            tokio::task::yield_now().await;
+        }
+        assert!(
+            !rotation.unwrap().commit(),
+            "cancelled prepare must be aborted"
+        );
+        let inner = runtime.inner.clone();
+        let (out, _rx) = output(16);
+        let retry =
+            tokio::spawn(async move { inner.authenticate("a", &token, "retry", out).await });
+        let Control::Replace {
+            generation, reply, ..
+        } = controls.recv().await.unwrap()
+        else {
+            panic!("authentication replacement")
+        };
+        assert!(generation > prepared);
+        reply
+            .send(Some(Instant::now() + Duration::from_secs(30)))
+            .unwrap();
+        assert_eq!(retry.await.unwrap().unwrap().1, generation);
+        assert_eq!(runtime.metrics().active_sessions, 1);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_identity_gate_registry_is_bounded() {
+        let runtime = account_runtime(
+            Config {
+                guest_burst: 100,
+                ..Config::default()
+            },
+            AccountVerifier,
+        );
+        for i in 0..40 {
+            runtime
+                .inner
+                .issue_account("a", &format!("player-{i}"), "source".into())
+                .await
+                .unwrap();
+        }
+        assert_eq!(runtime.metrics().active_sessions, 40);
+        assert!(runtime.inner.identity_gates.lock().unwrap().len() <= 1);
+        assert_eq!(
+            runtime.inner.operations.available_permits(),
+            runtime.inner.config.max_sessions
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_factory_runs_without_state_lock_and_reserves_room_capacity() {
+        struct FactoryProbe {
+            inner: Weak<Inner>,
+        }
+        impl GameModule for FactoryProbe {
+            fn create(
+                &self,
+                _: &Value,
+                _: &GameContext,
+            ) -> Result<Box<dyn Game>, crate::GameError> {
+                let inner = self.inner.upgrade().unwrap();
+                let state = inner
+                    .state
+                    .try_lock()
+                    .expect("factory must run outside State");
+                assert_eq!(
+                    state.rooms.len(),
+                    1,
+                    "pending factory consumes the room slot"
+                );
+                assert!(!state.rooms.values().next().unwrap().visible);
+                assert_eq!(inner.metrics.active_rooms.load(Ordering::Relaxed), 1);
+                Ok(Box::<TestGame>::default())
+            }
+        }
+        let runtime = Campfire::new(Config {
+            max_rooms: 1,
+            ..Config::default()
+        })
+        .unwrap();
+        runtime
+            .register_game(
+                "a",
+                FactoryProbe {
+                    inner: Arc::downgrade(&runtime.inner),
+                },
+            )
+            .unwrap();
+        let issued = runtime.inner.issue("a", "source".into()).await.unwrap();
+        let (out, _rx) = output(16);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", issued["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let create = crate::protocol::parse(
+            r#"{"v":1,"type":"room.create","request_id":"create","settings":{}}"#,
+        )
+        .unwrap();
+        runtime
+            .inner
+            .command(key, generation, "a", out, &create)
+            .await
+            .unwrap();
+        assert_eq!(runtime.metrics().active_rooms, 1);
+        assert!(
+            runtime
+                .inner
+                .state
+                .lock()
+                .await
+                .rooms
+                .values()
+                .next()
+                .unwrap()
+                .visible
+        );
+        runtime.shutdown().await;
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_slow_room_does_not_block_other_session() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let first = runtime.inner.issue("a", "first".into()).await.unwrap();
+        let token = first["token"].as_str().unwrap().to_owned();
+        let key = token_hash(&token);
+        let (mut controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        let inner = runtime.inner.clone();
+        let (out, _rx) = output(16);
+        let blocked = tokio::spawn(async move { inner.authenticate("a", &token, "a", out).await });
+        let Control::Replace { reply, .. } = controls.recv().await.unwrap() else {
+            panic!("expected Replace barrier")
+        };
+        let independent = tokio::time::timeout(Duration::from_secs(1), async {
+            let second = runtime.inner.issue("a", "second".into()).await.unwrap();
+            let (out, _rx) = output(16);
+            let (key, generation, _, _) = runtime
+                .inner
+                .authenticate("a", second["token"].as_str().unwrap(), "b", out.clone())
+                .await
+                .unwrap();
+            let request = crate::protocol::parse(
+                r#"{"v":1,"type":"room.list","request_id":"list","cursor":null,"limit":10}"#,
+            )
+            .unwrap();
+            runtime
+                .inner
+                .command(key, generation, "a", out, &request)
+                .await
+                .unwrap();
+        })
+        .await;
+        blocked.abort();
+        drop(reply);
+        assert!(
+            independent.is_ok(),
+            "unrelated session must progress while Replace is blocked"
+        );
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_list_uses_cached_summary() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let guest = runtime.inner.issue("a", "first".into()).await.unwrap();
+        let (out, _rx) = output(16);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", guest["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let (_controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        let reference = runtime
+            .inner
+            .state
+            .lock()
+            .await
+            .rooms
+            .values()
+            .next()
+            .unwrap()
+            .reference
+            .clone();
+        let mut published = PublishedRoom::new(&reference, true, 16);
+        published.summary.connected_members = 2;
+        published.summary.reserved_members = 1;
+        let (_publisher, receiver) = watch::channel(published);
+        runtime.inner.observations.insert(&reference, receiver);
+        let request = crate::protocol::parse(
+            r#"{"v":1,"type":"room.list","request_id":"list","cursor":null,"limit":1}"#,
+        )
+        .unwrap();
+        let result = tokio::time::timeout(
+            Duration::from_secs(1),
+            runtime.inner.command(key, generation, "a", out, &request),
+        )
+        .await;
+        let listed = result
+            .expect("cached list must not contact control receiver")
+            .unwrap()
+            .0;
+        assert_eq!(listed["rooms"][0]["members"], 3);
+        assert_eq!(listed["next_cursor"], Value::Null);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_cancelled_enter_reconciles_seat() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let guest = runtime.inner.issue("a", "first".into()).await.unwrap();
+        let (out, _rx) = output(16);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", guest["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let (mut controls, _commands, _sender) =
+            stub_membership(&mut *runtime.inner.state.lock().await, key);
+        runtime
+            .inner
+            .state
+            .lock()
+            .await
+            .sessions
+            .get_mut(&key)
+            .unwrap()
+            .room = None;
+        let inner = runtime.inner.clone();
+        let request = crate::protocol::parse(r#"{"v":1,"type":"room.join","request_id":"join","room_id":"stub","room_instance_id":"epoch"}"#).unwrap();
+        let pending =
+            tokio::spawn(async move { inner.command(key, generation, "a", out, &request).await });
+        let Control::Enter(admission) = controls.recv().await.unwrap() else {
+            panic!("expected Enter")
+        };
+        pending.abort();
+        let _ = pending.await;
+        assert!(
+            !admission.reply.is_closed(),
+            "enqueued Enter must retain its result owner"
+        );
+        admission
+            .reply
+            .send(Ok(json!({"type":"room.joined"})))
+            .unwrap();
+        let control = tokio::time::timeout(Duration::from_secs(1), controls.recv())
+            .await
+            .unwrap()
+            .unwrap();
+        let Control::Disconnect {
+            generation: disconnected,
+            reply,
+            ..
+        } = control
+        else {
+            panic!("cancelled Enter must reserve seat")
+        };
+        assert_eq!(disconnected, generation);
+        reply
+            .send(Some(Instant::now() + Duration::from_secs(30)))
+            .unwrap();
+        for _ in 0..8 {
+            tokio::task::yield_now().await;
+        }
+        let state = runtime.inner.state.lock().await;
+        assert_eq!(
+            state.sessions[&key].room.as_ref().unwrap().instance,
+            "epoch"
+        );
+        assert!(state.sessions[&key].reservation.is_some());
+        assert!(state.sessions[&key].output.is_none());
     }
     #[tokio::test(start_paused = true)]
     async fn late_old_instance_close_keeps_replacement_room_and_decrements_only_old_actor() {
@@ -2366,7 +3547,7 @@ mod tests {
         runtime.shutdown().await;
     }
     #[tokio::test(start_paused = true)]
-    async fn cancelled_create_rolls_back_temporary_room_and_refunds_room_capacity() {
+    async fn hardening_create_cancel_releases_slot() {
         let runtime = Campfire::new(Config {
             max_rooms: 1,
             ..Config::default()

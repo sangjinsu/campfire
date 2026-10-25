@@ -92,6 +92,12 @@ impl Rotation {
             false
         }
     }
+    pub fn previous_reservation(&self) -> Option<Instant> {
+        match self.outcome() {
+            RotationDecision::Pending { valid_until } => valid_until,
+            _ => None,
+        }
+    }
     pub fn commit(&self) -> bool {
         let mut decision = self
             .decision
@@ -138,13 +144,14 @@ pub(crate) enum Control {
     Disconnect {
         player: String,
         generation: u64,
-        reply: oneshot::Sender<()>,
+        reply: oneshot::Sender<Option<Instant>>,
     },
     Leave {
         player: String,
         generation: Option<u64>,
         reply: oneshot::Sender<()>,
     },
+    #[cfg(test)]
     List {
         reply: oneshot::Sender<usize>,
     },
@@ -366,7 +373,12 @@ impl Room {
                 reply,
             } => {
                 self.reserve(&player, generation);
-                let _ = reply.send(());
+                let reservation = self
+                    .members
+                    .get(&player)
+                    .filter(|member| member.generation == generation)
+                    .and_then(|member| member.reserved_until);
+                let _ = reply.send(reservation);
             }
             Control::Leave {
                 player,
@@ -388,6 +400,7 @@ impl Room {
                 }
                 let _ = reply.send(());
             }
+            #[cfg(test)]
             Control::List { reply } => {
                 let _ = reply.send(self.members.len());
             }
@@ -934,6 +947,37 @@ mod tests {
             reply: tx,
         });
         rx.try_recv().unwrap()
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_late_leave_cannot_remove_replacement() {
+        let mut room = room();
+        let (out, _rx) = output(16);
+        enter(&mut room, out, false, 1).unwrap();
+        let (reply, _rx) = oneshot::channel();
+        room.control(Control::Replace {
+            player: "p".into(),
+            generation: 2,
+            rotation: None,
+            reply,
+        });
+        let (out, _rx) = output(16);
+        enter(&mut room, out, true, 2).unwrap();
+        let (reply, _rx) = oneshot::channel();
+        room.control(Control::Leave {
+            player: "p".into(),
+            generation: Some(1),
+            reply,
+        });
+        assert_eq!(room.members.len(), 1);
+        assert_eq!(room.members["p"].generation, 2);
+        assert!(room.members["p"].output.is_some());
+        let (reply, _rx) = oneshot::channel();
+        room.control(Control::Leave {
+            player: "p".into(),
+            generation: Some(2),
+            reply,
+        });
+        assert!(room.members.is_empty());
     }
     #[tokio::test(start_paused = true)]
     async fn observation_keeps_expired_unprocessed_seats_without_callbacks_or_sequence_changes() {
