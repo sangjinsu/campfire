@@ -36,7 +36,16 @@ CLI가 환경 변수보다 우선한다. 환경 변수 이름은 옵션의 `-`�
 | `--max-write-timeouts` | 2 | 동일 send future의 연속 기한 초과 횟수; 초과 후 연결 종료 |
 | `--max-abuse-violations` | 5 | 개인 크기/빈도 위반 종료 기준 |
 
-0, 잘못된 타입, 알 수 없는 옵션, duration/정수 overflow 및 runtime 유한 상한을 넘긴 설정은 시작 전에 거부한다. `Config::validate()`가 in-process와 CLI에 같은 규칙을 적용한다. 현재 안전 상한은 정원 4096, capacity/frame/cache/session/connection/room/rate-key 계열 1048576, rate/burst/위반 횟수 1000000, duration 366일이다. frame 설정은 최소 256 bytes다. tick은 1~1000, snapshot은 1~tick이다. 입력 번호 도약은 0보다 큰 u64다. 제한을 높이면 프로세스 메모리 예산도 늘어난다.
+WebSocket의 control·invalid 예산은 CLI `Options` 필드를 늘리지 않고 다음 환경 변수로 설정한다. 네 값 모두 양의 정수이며 1,000,000 이하여야 한다. 환경 변수가 없으면 표의 기본값을 사용하고, 잘못된 값은 서버 시작 전에 거부한다. 기본 서버와 `account_server` 예제가 같은 helper를 사용한다. 인프로세스 호스트는 `RuntimeOptions { connection_limits: ConnectionLimits { ... } }`를 `Campfire::new_with_options` 또는 `Campfire::with_authenticator_and_options`에 전달한다. 기존 constructor는 기본값을 사용한다.
+
+| 환경 변수 | 기본값 | 연결별 예산 |
+| --- | ---: | --- |
+| `CAMPFIRE_CONTROL_RATE_PER_SECOND` | 10 | 인증·목록·생성·입장·퇴장·복귀·로그아웃 요청의 초당 충전량 |
+| `CAMPFIRE_CONTROL_BURST` | 20 | 위 control 요청의 순간 허용량 |
+| `CAMPFIRE_INVALID_RATE_PER_SECOND` | 2 | 잘못된 application frame의 초당 충전량 |
+| `CAMPFIRE_INVALID_BURST` | 4 | 잘못된 application frame의 순간 허용량 |
+
+0, 잘못된 타입, 알 수 없는 옵션, duration/정수 overflow 및 runtime 유한 상한을 넘긴 설정은 시작 전에 거부한다. 기존 설정에는 `Config::validate()`, 새 연결 예산에는 `ConnectionLimits::validate()`를 적용한다. 현재 안전 상한은 정원 4096, capacity/frame/cache/session/connection/room/rate-key 계열 1048576, rate/burst/위반 횟수 1000000, duration 366일이다. frame 설정은 최소 256 bytes다. tick은 1~1000, snapshot은 1~tick이다. 입력 번호 도약은 0보다 큰 u64다. 제한을 높이면 프로세스 메모리 예산도 늘어난다.
 
 룸 생성 settings의 framework 필드는 `capacity`(1~서버 capacity), `public`(boolean, 기본 true)다. 이 필드를 제거한 나머지를 게임 factory에 전달한다. arena는 `speed`(0.1~100, 기본 5), `boundary`(1~1000, 기본 10), `goal_radius`(0.1~boundary, 기본 0.5)만 허용한다. arena의 좌표 범위는 양 축 `[-boundary,boundary]`, 목표는 `(boundary/2,0)`이다. 설정 생략은 `{}`로 표현한다.
 

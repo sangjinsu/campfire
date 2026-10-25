@@ -1,8 +1,8 @@
-#[cfg(feature = "arena")]
-use campfire_server::Campfire;
 use campfire_server::cli::Options;
 #[cfg(feature = "arena")]
 use campfire_server::dashboard::{Dashboard, DashboardOptions};
+#[cfg(feature = "arena")]
+use campfire_server::{Campfire, RuntimeOptions, connection_limits_from_env};
 use std::error::Error;
 #[cfg(feature = "arena")]
 use std::{net::SocketAddr, time::Duration};
@@ -32,7 +32,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
         let admin_options = DashboardOptions::from_env()?;
         let listener = tokio::net::TcpListener::bind(options.bind).await?;
         let address = listener.local_addr()?;
-        let runtime = Campfire::new(options.config)?;
+        let connection_limits = connection_limits_from_env(|key| std::env::var(key).ok())?;
+        let runtime =
+            Campfire::new_with_options(options.config, RuntimeOptions { connection_limits })?;
         for game_id in &options.games {
             if let Err(error) = runtime.register_game(game_id.clone(), campfire_server::ArenaModule)
             {

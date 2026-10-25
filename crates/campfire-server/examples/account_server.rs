@@ -2,8 +2,9 @@
 //! Run with CAMPFIRE_DEMO_ALICE_CREDENTIAL and CAMPFIRE_DEMO_BOB_CREDENTIAL set.
 use campfire_runtime::{
     AccountAuthenticator, AccountGrant, AccountIdentity, AuthError, Campfire, Config, Game,
-    GameContext, GameError, GameModule, PlayerIdentity,
+    GameContext, GameError, GameModule, PlayerIdentity, RuntimeOptions,
 };
+use campfire_server::connection_limits_from_env;
 use campfire_server::dashboard::{Dashboard, DashboardOptions};
 use serde_json::{Value, json};
 use std::{
@@ -138,10 +139,15 @@ impl Game for InventoryGame {
 async fn main() -> Result<(), Box<dyn Error>> {
     let accounts = DevelopmentAccounts::from_environment()?;
     let admin_options = DashboardOptions::from_env()?;
+    let connection_limits = connection_limits_from_env(|key| std::env::var(key).ok())?;
     let bind = std::env::var("CAMPFIRE_DEMO_BIND").unwrap_or_else(|_| "127.0.0.1:3001".into());
     let listener = tokio::net::TcpListener::bind(&bind).await?;
     let address = listener.local_addr()?;
-    let runtime = Campfire::with_authenticator(Config::default(), Arc::new(accounts))?;
+    let runtime = Campfire::with_authenticator_and_options(
+        Config::default(),
+        Arc::new(accounts),
+        RuntimeOptions { connection_limits },
+    )?;
     if let Err(error) = runtime.register_game("inventory", InventoryModule) {
         runtime.shutdown().await;
         return Err(error.into());

@@ -1,5 +1,6 @@
 use crate::{
     Campfire,
+    connection_limits::ConnectionLimits,
     metrics::inc,
     output::Output,
     protocol::{self, Command, Error, ResponseCache},
@@ -159,6 +160,7 @@ async fn connection_task(
         return;
     }
     let config = runtime.inner.config.clone();
+    let connection_limits = runtime.inner.connection_limits.clone();
     let (reliable, mut reliable_rx) = mpsc::channel(config.reliable_capacity);
     let (latest, mut latest_rx) = watch::channel::<Option<Value>>(None);
     let (stop, _) = watch::channel(false);
@@ -233,11 +235,14 @@ async fn connection_task(
     let (requests, mut request_rx) = mpsc::channel(32);
     let reader_output = output.clone();
     let reader_config = config.clone();
+    let reader_limits = connection_limits;
     let mut reader_stop = output.stop.subscribe();
     let reader = tokio::spawn(async move {
         let mut first = true;
         let mut violations = 0;
-        let mut rate = Bucket::new(reader_config.input_burst);
+        let mut input_rate = Bucket::new(reader_config.input_burst);
+        let mut control_rate = Bucket::new(reader_limits.control_burst);
+        let mut invalid_rate = Bucket::new(reader_limits.invalid_burst);
         loop {
             let message = tokio::select! {biased;_=reader_stop.changed()=>break,message=stream.next()=>message};
             let Some(Ok(message)) = message else {
@@ -248,24 +253,34 @@ async fn connection_task(
                 Message::Close(_) => break,
                 Message::Ping(_) | Message::Pong(_) => continue,
                 Message::Binary(_) => {
-                    reader_output.send(
-                        Error::new("INVALID_MESSAGE", "binary messages are not supported")
-                            .value(None),
-                    );
-                    if first {
+                    if reject_invalid_frame(
+                        &reader_output,
+                        &mut invalid_rate,
+                        &reader_limits,
+                        &mut violations,
+                        reader_config.max_abuse_violations,
+                        first,
+                        "INVALID_MESSAGE",
+                        "binary messages are not supported",
+                        None,
+                    ) {
                         break;
                     }
                     continue;
                 }
             };
             if text.len() > reader_config.max_frame_bytes {
-                inc(&reader_output.metrics.abusive_frames);
-                violations += 1;
-                reader_output.send(
-                    Error::new("FRAME_TOO_LARGE", "JSON frame exceeds configured limit")
-                        .value(None),
-                );
-                if first || violations >= reader_config.max_abuse_violations {
+                if reject_invalid_frame(
+                    &reader_output,
+                    &mut invalid_rate,
+                    &reader_limits,
+                    &mut violations,
+                    reader_config.max_abuse_violations,
+                    first,
+                    "FRAME_TOO_LARGE",
+                    "JSON frame exceeds configured limit",
+                    None,
+                ) {
                     break;
                 }
                 continue;
@@ -281,11 +296,17 @@ async fn connection_task(
                                 .and_then(Value::as_str)
                                 .map(str::to_owned)
                         });
-                    reader_output.send(
-                        Error::new(code, "invalid protocol envelope or command schema")
-                            .value(id.as_deref()),
-                    );
-                    if first {
+                    if reject_invalid_frame(
+                        &reader_output,
+                        &mut invalid_rate,
+                        &reader_limits,
+                        &mut violations,
+                        reader_config.max_abuse_violations,
+                        first,
+                        code,
+                        "invalid protocol envelope or command schema",
+                        id.as_deref(),
+                    ) {
                         break;
                     }
                     continue;
@@ -301,20 +322,33 @@ async fn connection_task(
                     break;
                 }
             }
-            if matches!(
+            let (within_rate, rate_message) = if matches!(
                 request.command,
                 Command::Input { .. } | Command::Execute { .. }
-            ) && !rate.take(
-                reader_config.input_rate_per_second,
-                reader_config.input_burst,
-                Instant::now(),
             ) {
+                (
+                    input_rate.take(
+                        reader_config.input_rate_per_second,
+                        reader_config.input_burst,
+                        Instant::now(),
+                    ),
+                    "connection input rate exceeded",
+                )
+            } else {
+                (
+                    control_rate.take(
+                        reader_limits.control_rate_per_second,
+                        reader_limits.control_burst,
+                        Instant::now(),
+                    ),
+                    "connection control rate exceeded",
+                )
+            };
+            if !within_rate {
                 inc(&reader_output.metrics.abusive_inputs);
                 violations += 1;
-                reader_output.send(
-                    Error::new("RATE_LIMITED", "connection input rate exceeded")
-                        .value(Some(&request.id)),
-                );
+                reader_output
+                    .send(Error::new("RATE_LIMITED", rate_message).value(Some(&request.id)));
                 if violations >= reader_config.max_abuse_violations {
                     break;
                 }
@@ -417,6 +451,34 @@ async fn connection_task(
     reader.abort();
     let _ = reader.await;
     let _ = writer.await;
+}
+
+#[allow(clippy::too_many_arguments)]
+fn reject_invalid_frame(
+    output: &Output,
+    rate: &mut Bucket,
+    limits: &ConnectionLimits,
+    violations: &mut u32,
+    maximum_violations: u32,
+    first: bool,
+    code: &str,
+    message: &str,
+    request_id: Option<&str>,
+) -> bool {
+    inc(&output.metrics.abusive_frames);
+    *violations = violations.saturating_add(1);
+    let within_rate = rate.take(
+        limits.invalid_rate_per_second,
+        limits.invalid_burst,
+        Instant::now(),
+    );
+    let error = if within_rate {
+        Error::new(code, message)
+    } else {
+        Error::new("RATE_LIMITED", "connection invalid frame rate exceeded")
+    };
+    output.send(error.value(request_id));
+    first || !within_rate || *violations >= maximum_violations
 }
 
 #[derive(Debug, PartialEq, Eq)]

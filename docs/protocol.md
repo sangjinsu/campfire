@@ -142,10 +142,14 @@ server_tick/snapshot_seq는 재접속으로 초기화하지 않는다. snapshot�
 | `STALE_COMMAND` | seq 0 또는 결과가 퇴출된 과거 명령 |
 | `COMMAND_SEQUENCE_GAP` | 다음 expected보다 큰 명령 번호 |
 | `COMMAND_SEQUENCE_CONFLICT` | 같은 명령 번호에 다른 payload |
-| `RATE_LIMITED` | 개인 또는 발급 빈도 제한 |
+| `RATE_LIMITED` | 개인 control·input·invalid frame 또는 발급 빈도 제한 |
 | `SERVER_BUSY` | 공유 queue/서버 수용량 포화, retryable true |
 | `INVALID_MESSAGE`, `UNSUPPORTED_VERSION` | envelope/schema 오류 |
 | `INVALID_INPUT`, `INVALID_SETTINGS` | 게임 입력/설정 거부 |
 | `REQUEST_ID_CONFLICT` | 같은 요청 ID의 다른 본문 |
 
 추가 오류에는 `GAME_NOT_FOUND`(미등록 게임), `ALREADY_IN_ROOM`(기존 멤버십), `FRAME_TOO_LARGE`(개인 JSON 한도), `CANCELLED`(인증/입장 중 연결 취소), `GAME_FAILED`(factory panic)가 있다. 오류 code의 실제 상세 분류는 runtime tests와 함께 유지한다. 공유 queue 포화는 개인 위반에 포함하지 않는다. JSON application 한도 초과는 처리하지 않고 위반으로 센다. transport는 fragmentation 우회를 제한하는 별도 안전 상한(설정의 4배)을 두며 이를 넘는 frame/message는 즉시 종료될 수 있다. 개인 frame/빈도 위반이 지속되거나 reliable queue가 포화되면 그 연결을 종료하고 예약 절차를 적용한다. writer는 동일 send future를 기한 사이에도 유지하며, 설정한 횟수까지 완료되지 않으면 연결을 종료한다. reliable full sync를 첫 timeout 때 버리고 후속 snapshot으로 진행하지 않는다. snapshot slot은 이전 상태를 대체할 수 있으므로 중간 snapshot 모두 수신할 것을 요구하지 않는다. 명령 결과는 reliable lane으로 전송하며 full sync의 보관 이력으로 복구한다. arena에는 별도 필수 reliable 게임 이벤트가 없으며 최신 full sync로 복구한다.
+
+각 WebSocket 연결은 별도의 token bucket 세 개를 사용한다. `session.authenticate`, `room.list`, `room.create`, `room.join`, `room.leave`, `resume`, `session.logout`는 control 예산(기본 초당 10, burst 20)을 소비한다. 같은 `request_id`의 cache replay도 reader에서 먼저 소비한다. `game.input`과 `game.command`는 기존 input 예산(기본 초당 60, burst 30)을 공유하며 control 예산과 독립적이다. 잘못된 JSON·schema, binary, application frame 크기 초과는 invalid 예산(기본 초당 2, burst 4)과 공통 위반 횟수를 소비한다. 최초 인증 오류는 즉시 연결을 닫는다. 이후에도 invalid frame이 반복되면 예산이 남아 있어도 `max_abuse_violations`에 도달해 닫힌다. invalid 예산을 넘으면 `RATE_LIMITED`를 보낸 뒤 연결을 닫을 수 있다. 오류의 `request_id`는 유효한 문자열을 추출할 수 있을 때만 포함하며 자격 증명이나 payload를 반영하지 않는다.
+
+WebSocket `RATE_LIMITED`는 현재 `retryable:false`이고 `Retry-After`를 제공하지 않는다. 클라이언트는 이를 자동 재전송 신호로 취급하지 말고 요청 속도를 낮춰야 한다. 연결이 살아 있고 예산이 다시 충전된 후 재요청할 수 있지만, 반복 초과 시 연결이 종료된다. 연결 종료 후에는 새 연결에서 인증·예약 복귀 절차를 따른다. 공유 queue의 `SERVER_BUSY`는 별도 과부하 오류이며 `retryable:true`다.

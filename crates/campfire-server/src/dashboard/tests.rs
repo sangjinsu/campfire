@@ -48,6 +48,112 @@ async fn body(response: Response) -> Value {
     .unwrap()
 }
 
+#[test]
+fn metrics_projection_includes_only_operational_fields_and_recent_latency() {
+    let mut source = MetricsSnapshot {
+        commands_processed: 12,
+        commands_failed: 2,
+        command_replays: 4,
+        max_command_duration_micros: 8500,
+        ..MetricsSnapshot::default()
+    };
+    source.recent.window_ms = 60_000;
+    source.recent.command_duration.sample_count = 3;
+    source.recent.command_duration.p95_micros = Some(7_000);
+    source.recent.command_duration.p99_micros = Some(8_000);
+    let projected = serde_json::to_value(Metrics::from(&source)).unwrap();
+    assert_eq!(projected["commands_processed"], 12);
+    assert_eq!(projected["commands_failed"], 2);
+    assert_eq!(projected["command_replays"], 4);
+    assert_eq!(projected["max_command_duration_micros"], 8_500);
+    assert_eq!(projected["recent"]["window_ms"], 60_000);
+    assert_eq!(projected["recent"]["command_duration"]["sample_count"], 3);
+    assert_eq!(projected["recent"]["command_duration"]["p95_micros"], 7_000);
+    assert_eq!(projected["recent"]["command_duration"]["p99_micros"], 8_000);
+    let metric_keys: std::collections::BTreeSet<_> = projected
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect();
+    assert_eq!(
+        metric_keys,
+        [
+            "active_sessions",
+            "active_connections",
+            "unauthenticated_connections",
+            "active_rooms",
+            "rate_keys",
+            "guests_issued",
+            "admission_rejections",
+            "abusive_frames",
+            "abusive_inputs",
+            "shared_queue_overloads",
+            "reliable_queue_disconnects",
+            "write_deadline_disconnects",
+            "room_panics",
+            "ticks",
+            "inputs_processed",
+            "snapshots",
+            "max_input_queue_depth",
+            "max_reliable_queue_depth",
+            "max_tick_delay_micros",
+            "max_tick_duration_micros",
+            "max_input_latency_micros",
+            "max_input_duration_micros",
+            "commands_processed",
+            "commands_failed",
+            "command_replays",
+            "max_command_duration_micros",
+            "recent",
+        ]
+        .into_iter()
+        .collect()
+    );
+    let recent_keys: std::collections::BTreeSet<_> = projected["recent"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect();
+    assert_eq!(
+        recent_keys,
+        [
+            "window_ms",
+            "tick_delay",
+            "tick_duration",
+            "input_latency",
+            "input_duration",
+            "command_duration"
+        ]
+        .into_iter()
+        .collect()
+    );
+    let latency_keys: std::collections::BTreeSet<_> = projected["recent"]["command_duration"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect();
+    assert_eq!(
+        latency_keys,
+        ["sample_count", "p95_micros", "p99_micros"]
+            .into_iter()
+            .collect()
+    );
+    let encoded = projected.to_string();
+    for forbidden in [
+        "credential",
+        "identity",
+        "player_id",
+        "claims",
+        "payload",
+        "private_state",
+    ] {
+        assert!(!encoded.contains(forbidden));
+    }
+}
+
 #[tokio::test(start_paused = true)]
 async fn collector_warms_up_and_skips_missed_ticks_and_restarts_with_a_new_boot() {
     let runtime = Campfire::new(Config::default()).unwrap();

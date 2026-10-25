@@ -1,8 +1,10 @@
 mod auth;
 mod config;
+mod connection_limits;
 mod game;
 pub use auth::{AccountAuthenticator, AccountGrant, AccountIdentity, AuthError, PlayerIdentity};
 pub use config::{Config, ConfigError};
+pub use connection_limits::{ConnectionLimits, RuntimeOptions};
 pub use game::{Game, GameContext, GameError, GameModule, PlayerId};
 
 mod metrics;
@@ -13,6 +15,6 @@ mod rate;
 mod room;
 mod session;
 mod transport;
-pub use metrics::MetricsSnapshot;
+pub use metrics::{LatencySnapshot, MetricsSnapshot, RecentMetricsSnapshot};
 pub use observation::{RoomObservation, RuntimeObservation, RuntimeObserver};
-pub use session::Campfire;
+pub use session::{Campfire, ShutdownReport};

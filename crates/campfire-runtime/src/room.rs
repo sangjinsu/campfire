@@ -1,10 +1,11 @@
 use crate::{
     Config, Game, PlayerIdentity,
-    metrics::{Metrics, inc, max},
+    metrics::{Metrics, inc},
     observation::PublishedRoom,
     output::Output,
     protocol::{Error, fingerprint},
 };
+use futures_util::FutureExt;
 use serde_json::{Value, json};
 use std::{
     collections::{BTreeMap, VecDeque},
@@ -26,6 +27,7 @@ pub(crate) struct RoomRef {
 pub(crate) struct RoomHandle {
     pub reference: RoomRef,
     pub control: mpsc::Sender<Control>,
+    pub stop: watch::Sender<bool>,
     pub inputs: mpsc::Sender<Input>,
     pub commands: mpsc::Sender<GameCommand>,
     pub public: bool,
@@ -155,6 +157,7 @@ pub(crate) enum Control {
     List {
         reply: oneshot::Sender<usize>,
     },
+    #[cfg(test)]
     Stop,
 }
 struct Pending {
@@ -200,6 +203,7 @@ struct Room {
 }
 
 pub(crate) struct Channels {
+    pub stop: watch::Receiver<bool>,
     pub observation: watch::Sender<PublishedRoom>,
     pub controls: mpsc::Receiver<Control>,
     pub inputs: mpsc::Receiver<Input>,
@@ -218,6 +222,7 @@ pub(crate) async fn run(
     channels: Channels,
 ) -> &'static str {
     let Channels {
+        mut stop,
         observation,
         mut controls,
         mut inputs,
@@ -243,45 +248,148 @@ pub(crate) async fn run(
     let mut ticker = tokio::time::interval_at(start, period);
     ticker.set_missed_tick_behavior(MissedTickBehavior::Skip);
     let mut snapshot_phase = 0_u64;
+    let mut pending_control = None;
+    let mut pending_data = None;
+    let mut pending_tick = None;
+    let mut command_first = false;
     loop {
-        tokio::select! { biased;
-            scheduled=ticker.tick()=> {
-                max(&room.metrics.max_tick_delay_micros,Instant::now().saturating_duration_since(scheduled).as_micros() as u64);
-                let began=std::time::Instant::now();
-                room.step(period);
-                snapshot_phase+=u64::from(config.snapshot_hz);
-                if snapshot_phase>=u64::from(config.tick_hz) {
-                    room.publish();
-                    snapshot_phase-=u64::from(config.tick_hz);
-                }
-                let elapsed=began.elapsed();
-                max(&room.metrics.max_tick_duration_micros,elapsed.as_micros() as u64);
-                if elapsed>period {tracing::warn!(game_id=%room.reference.game_id,room_id=%room.reference.id,server_tick=room.tick,duration_micros=elapsed.as_micros() as u64,budget_micros=period.as_micros() as u64,"trusted game tick exceeded processing budget");}
+        if *stop.borrow() || stop.has_changed().is_err() {
+            return "shutdown";
+        }
+        let mut progressed = false;
+        // Finish the idle wake-up as its own cycle. Its freed queue slot may
+        // already have been refilled, so combining it with a capped snapshot
+        // could move a queued generation fence behind data.
+        let waking_control = pending_control.is_some();
+        let control_count = if waking_control {
+            1
+        } else {
+            controls.len().min(64)
+        };
+        for _ in 0..control_count {
+            if *stop.borrow() {
+                return "shutdown";
             }
-            command=controls.recv()=> {
-                match command {
-                    Some(Control::Stop)|None=>return "shutdown",
-                    Some(command)=>room.control(command),
+            let control = pending_control.take().or_else(|| controls.try_recv().ok());
+            match control {
+                #[cfg(test)]
+                Some(Control::Stop) => return "shutdown",
+                Some(control) => {
+                    room.control(control);
+                    progressed = true;
                 }
+                None => break,
             }
-            data=async { tokio::select! {
-                input=inputs.recv()=>Data::Input(input),
-                command=commands.recv()=>Data::Command(command),
-            }}=> { match data {
-                Data::Input(Some(input))=> {
-                    let began=std::time::Instant::now();room.input(input);
-                    max(&room.metrics.max_input_duration_micros,began.elapsed().as_micros() as u64);
+        }
+        if *stop.borrow() {
+            return "shutdown";
+        }
+        if waking_control {
+            room.observe_if_due();
+            if room.ever_joined && room.members.is_empty() {
+                return "empty";
+            }
+            tokio::task::yield_now().await;
+            continue;
+        }
+        if pending_data.is_none() {
+            pending_data = if command_first {
+                commands
+                    .try_recv()
+                    .ok()
+                    .map(|command| Data::Command(Some(command)))
+                    .or_else(|| inputs.try_recv().ok().map(|input| Data::Input(Some(input))))
+            } else {
+                inputs
+                    .try_recv()
+                    .ok()
+                    .map(|input| Data::Input(Some(input)))
+                    .or_else(|| {
+                        commands
+                            .try_recv()
+                            .ok()
+                            .map(|command| Data::Command(Some(command)))
+                    })
+            };
+        }
+        if let Some(data) = pending_data.take() {
+            command_first = !command_first;
+            match data {
+                Data::Input(Some(input)) => {
+                    let began = std::time::Instant::now();
+                    room.input(input);
+                    room.metrics.recent.input_duration.record(
+                        &room.metrics.max_input_duration_micros,
+                        began.elapsed().as_micros() as u64,
+                    );
+                    progressed = true;
                 }
-                Data::Command(Some(command))=>room.command(command),
-                _=>{},
-            }}
+                Data::Command(Some(command)) => {
+                    room.command(command);
+                    progressed = true;
+                }
+                _ => {}
+            }
+        }
+        if *stop.borrow() {
+            return "shutdown";
+        }
+        if let Some(scheduled) = pending_tick.take().or_else(|| ticker.tick().now_or_never()) {
+            room.metrics.recent.tick_delay.record(
+                &room.metrics.max_tick_delay_micros,
+                Instant::now()
+                    .saturating_duration_since(scheduled)
+                    .as_micros() as u64,
+            );
+            let began = std::time::Instant::now();
+            room.step(period);
+            if *stop.borrow() {
+                return "shutdown";
+            }
+            snapshot_phase += u64::from(config.snapshot_hz);
+            if snapshot_phase >= u64::from(config.tick_hz) {
+                room.publish();
+                snapshot_phase -= u64::from(config.tick_hz);
+            }
+            let elapsed = began.elapsed();
+            room.metrics.recent.tick_duration.record(
+                &room.metrics.max_tick_duration_micros,
+                elapsed.as_micros() as u64,
+            );
+            if elapsed > period {
+                tracing::warn!(game_id=%room.reference.game_id,room_id=%room.reference.id,server_tick=room.tick,
+                duration_micros=elapsed.as_micros() as u64,budget_micros=period.as_micros() as u64,"trusted game tick exceeded processing budget");
+            }
+            progressed = true;
+        }
+        if *stop.borrow() {
+            return "shutdown";
         }
         room.observe_if_due();
         if room.ever_joined && room.members.is_empty() {
             return "empty";
         }
+        if controls.is_closed() && controls.is_empty() {
+            return "shutdown";
+        }
+        if progressed {
+            tokio::task::yield_now().await;
+            continue;
+        }
+        tokio::select! {
+            biased;
+            _ = stop.changed() => {},
+            control = controls.recv() => match control {
+                Some(control) => pending_control = Some(control),
+                None => return "shutdown",
+            },
+            input = inputs.recv(), if !(inputs.is_closed() && inputs.is_empty()) => pending_data = Some(Data::Input(input)),
+            command = commands.recv(), if !(commands.is_closed() && commands.is_empty()) => pending_data = Some(Data::Command(command)),
+            scheduled = ticker.tick() => pending_tick = Some(scheduled),
+        }
     }
 }
+
 impl Room {
     fn observe_if_due(&mut self) {
         if !self.observation_dirty && self.last_observed.elapsed() < Duration::from_secs(1) {
@@ -404,6 +512,7 @@ impl Room {
             Control::List { reply } => {
                 let _ = reply.send(self.members.len());
             }
+            #[cfg(test)]
             Control::Stop => {}
         }
     }
@@ -579,6 +688,7 @@ impl Room {
                             "command_seq already identifies another payload",
                         ));
                     }
+                    inc(&self.metrics.command_replays);
                     let mut response = response.clone();
                     response["request_id"] = json!(command.request_id);
                     return Ok(response);
@@ -595,10 +705,19 @@ impl Room {
                 ));
             }
             // Validation and mutation share the room actor's serialization boundary.
+            let began = std::time::Instant::now();
             let applied = self
                 .game
                 .validate_command(&command.player, &command.payload)
                 .and_then(|()| self.game.apply_command(&command.player, &command.payload));
+            self.metrics.recent.command_duration.record(
+                &self.metrics.max_command_duration_micros,
+                began.elapsed().as_micros() as u64,
+            );
+            inc(&self.metrics.commands_processed);
+            if applied.is_err() {
+                inc(&self.metrics.commands_failed);
+            }
             let mut response = json!({"v":1,"type":"game.command.result","request_id":command.request_id,
                 "game_id":self.reference.game_id,"room_id":self.reference.id,"room_instance_id":self.reference.instance,
                 "command_seq":command.sequence,"ok":applied.is_ok()});
@@ -722,13 +841,13 @@ impl Room {
                 {
                     let began = std::time::Instant::now();
                     self.game.apply_input(player, &pending.payload);
-                    max(
+                    self.metrics.recent.input_duration.record(
                         &self.metrics.max_input_duration_micros,
                         began.elapsed().as_micros() as u64,
                     );
                     member.processed = pending.sequence;
                     inc(&self.metrics.inputs_processed);
-                    max(
+                    self.metrics.recent.input_latency.record(
                         &self.metrics.max_input_latency_micros,
                         Instant::now()
                             .saturating_duration_since(pending.received)
@@ -947,6 +1066,225 @@ mod tests {
             reply: tx,
         });
         rx.try_recv().unwrap()
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_stop_already_true_before_actor_starts() {
+        let fixture = room();
+        let (_control, controls) = mpsc::channel(8);
+        let (_inputs, inputs) = mpsc::channel(8);
+        let (_commands, commands) = mpsc::channel(8);
+        let (_stop, stop) = watch::channel(true);
+        let metrics = Arc::new(Metrics::default());
+        let reason = run(
+            fixture.reference,
+            Config::default(),
+            16,
+            Box::<TestGame>::default(),
+            metrics.clone(),
+            Channels {
+                stop,
+                observation: fixture.observation,
+                controls,
+                inputs,
+                commands,
+            },
+        )
+        .await;
+        assert_eq!(reason, "shutdown");
+        assert_eq!(metrics.snapshot().ticks, 0);
+    }
+    #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+    async fn hardening_saturated_tick_and_controls_allow_data() {
+        struct SlowTick(Arc<std::sync::atomic::AtomicBool>, mpsc::Sender<Control>);
+        impl Game for SlowTick {
+            fn player_joined(&mut self, _: &str) {}
+            fn player_left(&mut self, _: &str) {}
+            fn player_connection_changed(&mut self, player: &str, connected: bool) {
+                if !connected
+                    && player == "flood"
+                    && self.0.load(std::sync::atomic::Ordering::Relaxed)
+                {
+                    let (reply, _) = oneshot::channel();
+                    let _ = self.1.try_send(Control::Disconnect {
+                        player: "flood".into(),
+                        generation: 1,
+                        reply,
+                    });
+                }
+            }
+            fn validate_input(&self, _: &str, _: &Value) -> Result<(), crate::GameError> {
+                Ok(())
+            }
+            fn apply_input(&mut self, _: &str, _: &Value) {}
+            fn tick(&mut self, _: Duration) {
+                if self.0.load(std::sync::atomic::Ordering::Relaxed) {
+                    std::thread::sleep(Duration::from_millis(3));
+                }
+            }
+            fn snapshot(&self) -> Value {
+                json!({})
+            }
+        }
+        let slow = Arc::new(std::sync::atomic::AtomicBool::new(false));
+        let (_room_stop, stop_rx) = watch::channel(false);
+        let (control, controls) = mpsc::channel(64);
+        let (inputs, input_rx) = mpsc::channel(8);
+        let (_commands, command_rx) = mpsc::channel(8);
+        let fixture = room();
+        let actor = tokio::spawn(run(
+            fixture.reference,
+            Config {
+                tick_hz: 1000,
+                snapshot_hz: 1,
+                ..Config::default()
+            },
+            16,
+            Box::new(SlowTick(slow.clone(), control.clone())),
+            Arc::new(Metrics::default()),
+            Channels {
+                stop: stop_rx,
+                observation: fixture.observation,
+                controls,
+                inputs: input_rx,
+                commands: command_rx,
+            },
+        ));
+        let (out, _rx) = output(16);
+        let (reply, joined) = oneshot::channel();
+        control
+            .send(Control::Enter(Admission {
+                player: "p".into(),
+                generation: 1,
+                token_deadline: Instant::now() + Duration::from_secs(60),
+                output: out,
+                request_id: "join".into(),
+                resume: false,
+                identity: PlayerIdentity::Guest,
+                reply,
+            }))
+            .await
+            .unwrap();
+        joined.await.unwrap().unwrap();
+        let (peer, _peer_rx) = output(16);
+        let (reply, joined) = oneshot::channel();
+        control
+            .send(Control::Enter(Admission {
+                player: "flood".into(),
+                generation: 1,
+                token_deadline: Instant::now() + Duration::from_secs(60),
+                output: peer,
+                request_id: "peer".into(),
+                resume: false,
+                identity: PlayerIdentity::Guest,
+                reply,
+            }))
+            .await
+            .unwrap();
+        joined.await.unwrap().unwrap();
+        slow.store(true, std::sync::atomic::Ordering::Relaxed);
+        tokio::time::sleep(Duration::from_millis(10)).await;
+        for _ in 0..64 {
+            let (reply, _) = oneshot::channel();
+            let _ = control.try_send(Control::Disconnect {
+                player: "flood".into(),
+                generation: 1,
+                reply,
+            });
+        }
+        let (reply, received) = oneshot::channel();
+        inputs
+            .send(Input {
+                player: "p".into(),
+                generation: 1,
+                sequence: 1,
+                payload: json!({}),
+                received: Instant::now(),
+                reply,
+            })
+            .await
+            .unwrap();
+        let result = tokio::time::timeout(Duration::from_millis(100), received).await;
+        slow.store(false, std::sync::atomic::Ordering::Relaxed);
+        control.send(Control::Stop).await.unwrap();
+        actor.await.unwrap();
+        assert!(
+            result.is_ok(),
+            "due ticks and queued controls must not starve data"
+        );
+        assert!(result.unwrap().unwrap().is_ok());
+    }
+    #[tokio::test(start_paused = true)]
+    async fn command_replay_does_not_increment_processed() {
+        let mut room = room();
+        let (out, _rx) = output(32);
+        enter(&mut room, out, false, 1).unwrap();
+        command(&mut room, 1, 1, json!({"n":1}), "first").unwrap();
+        command(&mut room, 1, 1, json!({"n":1}), "retry").unwrap();
+        let metrics = serde_json::to_value(room.metrics.snapshot()).unwrap();
+        assert_eq!(metrics["commands_processed"], 1);
+        assert_eq!(metrics["command_replays"], 1);
+        assert_eq!(metrics["recent"]["command_duration"]["sample_count"], 1);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn failed_command_is_counted_once() {
+        let mut room = room();
+        let (out, _rx) = output(32);
+        enter(&mut room, out, false, 1).unwrap();
+        assert_eq!(
+            command(&mut room, 1, 1, json!({"reject":true}), "first").unwrap()["ok"],
+            false
+        );
+        command(&mut room, 1, 1, json!({"reject":true}), "retry").unwrap();
+        assert!(command(&mut room, 1, 3, json!({}), "gap").is_err());
+        let metrics = serde_json::to_value(room.metrics.snapshot()).unwrap();
+        assert_eq!(metrics["commands_processed"], 1);
+        assert_eq!(metrics["commands_failed"], 1);
+        assert_eq!(metrics["command_replays"], 1);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn recent_nearest_rank_percentiles_include_zero() {
+        let mut room = room();
+        let (out, _rx) = output(32);
+        enter(&mut room, out, false, 1).unwrap();
+        for micros in 0..20 {
+            input(&mut room, 1, micros + 1, 1).unwrap();
+            room.members
+                .get_mut("p")
+                .unwrap()
+                .pending
+                .as_mut()
+                .unwrap()
+                .received = Instant::now() - Duration::from_micros(micros);
+            room.step(Duration::from_millis(33));
+            if micros == 0 {
+                let metrics = serde_json::to_value(room.metrics.snapshot()).unwrap();
+                assert_eq!(metrics["recent"]["input_latency"]["p95_micros"], 0);
+            }
+        }
+        let metrics = serde_json::to_value(room.metrics.snapshot()).unwrap();
+        assert_eq!(metrics["recent"]["input_latency"]["sample_count"], 20);
+        assert_eq!(metrics["recent"]["input_latency"]["p95_micros"], 18);
+        assert_eq!(metrics["recent"]["input_latency"]["p99_micros"], 19);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn recent_window_expires_and_caps_512() {
+        let mut room = room();
+        let (out, _rx) = output(32);
+        enter(&mut room, out, false, 1).unwrap();
+        for sequence in 1..=600 {
+            command(&mut room, 1, sequence, json!({}), "command").unwrap();
+        }
+        let before = serde_json::to_value(room.metrics.snapshot()).unwrap();
+        assert_eq!(before["recent"]["window_ms"], 60000);
+        assert_eq!(before["recent"]["command_duration"]["sample_count"], 512);
+        tokio::time::advance(Duration::from_secs(60)).await;
+        let after = serde_json::to_value(room.metrics.snapshot()).unwrap();
+        assert_eq!(after["recent"]["command_duration"]["sample_count"], 0);
+        assert!(after["recent"]["command_duration"]["p95_micros"].is_null());
+        assert_eq!(
+            after["max_command_duration_micros"],
+            before["max_command_duration_micros"]
+        );
     }
     #[tokio::test(start_paused = true)]
     async fn hardening_late_leave_cannot_remove_replacement() {
@@ -1332,6 +1670,7 @@ mod tests {
     }
     #[tokio::test(start_paused = true)]
     async fn cancelled_short_grant_preparation_does_not_shorten_real_actor_reservation() {
+        let (_room_stop, stop_rx) = watch::channel(false);
         let (control, controls) = mpsc::channel(16);
         let (_inputs, input_rx) = mpsc::channel(16);
         let (_commands, command_rx) = mpsc::channel(16);
@@ -1342,6 +1681,7 @@ mod tests {
             Box::<TestGame>::default(),
             Arc::new(Metrics::default()),
             Channels {
+                stop: stop_rx,
                 observation: room().observation,
                 controls,
                 inputs: input_rx,
@@ -1489,7 +1829,8 @@ mod tests {
     #[tokio::test(start_paused = true)]
     async fn queued_old_generation_commands_are_fenced_by_control_barrier() {
         let reference = room().reference;
-        let (control, controls) = mpsc::channel(8);
+        let (_room_stop, stop_rx) = watch::channel(false);
+        let (control, controls) = mpsc::channel(64);
         let (_inputs, input_rx) = mpsc::channel(8);
         let (commands, command_rx) = mpsc::channel(8);
         let (out, _rx) = output(16);
@@ -1513,6 +1854,7 @@ mod tests {
             Box::<TestGame>::default(),
             Arc::new(Metrics::default()),
             Channels {
+                stop: stop_rx,
                 observation: room().observation,
                 controls,
                 inputs: input_rx,
@@ -1531,6 +1873,13 @@ mod tests {
                 reply: old_result,
             })
             .unwrap_or_else(|_| panic!("command queue"));
+        // Place the generation fence at the tail of a full control snapshot.
+        for _ in 0..63 {
+            let (reply, _received) = oneshot::channel();
+            control
+                .try_send(Control::List { reply })
+                .unwrap_or_else(|_| panic!("full control prefix"));
+        }
         let (replaced, replaced_rx) = oneshot::channel();
         control
             .try_send(Control::Replace {

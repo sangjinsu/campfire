@@ -32,12 +32,73 @@ pub(super) struct GameTotals {
 }
 
 // This explicit projection prevents future runtime fields from silently entering the API.
+#[derive(Clone, Default, Serialize)]
+pub(super) struct LatencyMetrics {
+    pub sample_count: u64,
+    pub p95_micros: Option<u64>,
+    pub p99_micros: Option<u64>,
+}
+impl LatencyMetrics {
+    fn new(sample_count: u64, p95_micros: Option<u64>, p99_micros: Option<u64>) -> Self {
+        Self {
+            sample_count,
+            p95_micros,
+            p99_micros,
+        }
+    }
+}
+#[derive(Clone, Default, Serialize)]
+pub(super) struct RecentMetrics {
+    pub window_ms: u64,
+    pub tick_delay: LatencyMetrics,
+    pub tick_duration: LatencyMetrics,
+    pub input_latency: LatencyMetrics,
+    pub input_duration: LatencyMetrics,
+    pub command_duration: LatencyMetrics,
+}
+impl RecentMetrics {
+    fn from_snapshot(source: &MetricsSnapshot) -> Self {
+        Self {
+            window_ms: source.recent.window_ms,
+            tick_delay: LatencyMetrics::new(
+                source.recent.tick_delay.sample_count,
+                source.recent.tick_delay.p95_micros,
+                source.recent.tick_delay.p99_micros,
+            ),
+            tick_duration: LatencyMetrics::new(
+                source.recent.tick_duration.sample_count,
+                source.recent.tick_duration.p95_micros,
+                source.recent.tick_duration.p99_micros,
+            ),
+            input_latency: LatencyMetrics::new(
+                source.recent.input_latency.sample_count,
+                source.recent.input_latency.p95_micros,
+                source.recent.input_latency.p99_micros,
+            ),
+            input_duration: LatencyMetrics::new(
+                source.recent.input_duration.sample_count,
+                source.recent.input_duration.p95_micros,
+                source.recent.input_duration.p99_micros,
+            ),
+            command_duration: LatencyMetrics::new(
+                source.recent.command_duration.sample_count,
+                source.recent.command_duration.p95_micros,
+                source.recent.command_duration.p99_micros,
+            ),
+        }
+    }
+}
 macro_rules! metrics {
     ($($name:ident),* $(,)?) => {
         #[derive(Clone, Default, Serialize)]
-        pub(super) struct Metrics { $(pub $name: u64,)* }
+        pub(super) struct Metrics { $(pub $name: u64,)* pub recent: RecentMetrics }
         impl From<&MetricsSnapshot> for Metrics {
-            fn from(source: &MetricsSnapshot) -> Self { Self { $($name: source.$name,)* } }
+            fn from(source: &MetricsSnapshot) -> Self {
+                Self {
+                    $($name: source.$name,)*
+                    recent: RecentMetrics::from_snapshot(source),
+                }
+            }
         }
     }
 }
@@ -63,7 +124,11 @@ metrics!(
     max_tick_delay_micros,
     max_tick_duration_micros,
     max_input_latency_micros,
-    max_input_duration_micros
+    max_input_duration_micros,
+    commands_processed,
+    commands_failed,
+    command_replays,
+    max_command_duration_micros
 );
 
 #[derive(Clone, Default, Serialize)]

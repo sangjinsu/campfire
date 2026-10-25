@@ -1,5 +1,6 @@
 use crate::{
-    AccountAuthenticator, AuthError, Config, ConfigError, GameContext, GameModule, PlayerIdentity,
+    AccountAuthenticator, AuthError, Config, ConfigError, ConnectionLimits, GameContext,
+    GameModule, PlayerIdentity, RuntimeOptions,
     metrics::{Metrics, MetricsSnapshot, inc},
     observation::{ObservationDirectory, PublishedRoom, RuntimeObserver},
     output::Output,
@@ -21,7 +22,7 @@ use std::{
         Arc, RwLock, Weak,
         atomic::{AtomicBool, Ordering},
     },
-    time::{SystemTime, UNIX_EPOCH},
+    time::{Duration, SystemTime, UNIX_EPOCH},
 };
 use tokio::{
     sync::{Mutex, OwnedMutexGuard, Semaphore, mpsc, oneshot, watch},
@@ -62,6 +63,7 @@ pub(crate) struct State {
 }
 pub(crate) struct Inner {
     pub config: Config,
+    pub connection_limits: ConnectionLimits,
     pub modules: RwLock<HashMap<String, Arc<dyn GameModule>>>,
     pub state: Mutex<State>,
     pub metrics: Arc<Metrics>,
@@ -76,25 +78,44 @@ pub(crate) struct Inner {
     pub clock_origin: Instant,
     unix_origin: u64,
 }
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ShutdownReport {
+    pub completed: bool,
+    pub remaining_rooms: u64,
+    pub remaining_connections: u64,
+    pub remaining_operations: u64,
+}
 #[derive(Clone)]
 pub struct Campfire {
     pub(crate) inner: Arc<Inner>,
 }
 impl Campfire {
     pub fn new(config: Config) -> Result<Self, ConfigError> {
-        Self::build(config, None)
+        Self::new_with_options(config, RuntimeOptions::default())
     }
     pub fn with_authenticator(
         config: Config,
         authenticator: Arc<dyn AccountAuthenticator>,
     ) -> Result<Self, ConfigError> {
-        Self::build(config, Some(authenticator))
+        Self::with_authenticator_and_options(config, authenticator, RuntimeOptions::default())
+    }
+    pub fn new_with_options(config: Config, options: RuntimeOptions) -> Result<Self, ConfigError> {
+        Self::build(config, None, options)
+    }
+    pub fn with_authenticator_and_options(
+        config: Config,
+        authenticator: Arc<dyn AccountAuthenticator>,
+        options: RuntimeOptions,
+    ) -> Result<Self, ConfigError> {
+        Self::build(config, Some(authenticator), options)
     }
     fn build(
         config: Config,
         authenticator: Option<Arc<dyn AccountAuthenticator>>,
+        options: RuntimeOptions,
     ) -> Result<Self, ConfigError> {
         config.validate()?;
+        options.connection_limits.validate()?;
         let (shutdown, _) = watch::channel(false);
         Ok(Self {
             inner: Arc::new(Inner {
@@ -109,6 +130,7 @@ impl Campfire {
                     global_rate: Bucket::new(config.global_guest_burst),
                 }),
                 config,
+                connection_limits: options.connection_limits,
                 modules: RwLock::new(HashMap::new()),
                 metrics: Arc::new(Metrics::default()),
                 shutdown,
@@ -188,40 +210,69 @@ impl Campfire {
             inner: Arc::downgrade(&self.inner),
         }
     }
+    /// Waits up to five seconds for room, transport, and lifecycle tasks to finish.
     pub async fn shutdown(&self) {
+        let report = self.shutdown_with_timeout(Duration::from_secs(5)).await;
+        if !report.completed {
+            tracing::warn!(
+                remaining_rooms = report.remaining_rooms,
+                remaining_connections = report.remaining_connections,
+                remaining_operations = report.remaining_operations,
+                "runtime shutdown deadline reached; tasks remain active"
+            );
+        }
+    }
+    /// Bounds the asynchronous wait using one deadline. Running synchronous callbacks
+    /// cannot be forcibly interrupted and can delay timers on their runtime thread.
+    pub async fn shutdown_with_timeout(&self, timeout: Duration) -> ShutdownReport {
+        let deadline = Instant::now()
+            .checked_add(timeout)
+            .unwrap_or_else(Instant::now);
         self.inner.shutdown.send_replace(true);
-        let mut state = self.inner.state.lock().await;
-        for session in state.sessions.values() {
-            if let Some(output) = &session.output {
-                output.close();
+        let work = async {
+            let mut state = self.inner.state.lock().await;
+            for session in state.sessions.values() {
+                if let Some(output) = &session.output {
+                    output.close();
+                }
             }
-        }
-        let rooms: Vec<_> = state.rooms.values().cloned().collect();
-        state.sessions.clear();
-        state.rate_keys.clear();
-        self.inner
-            .metrics
-            .active_sessions
-            .store(0, Ordering::Relaxed);
-        self.inner.metrics.rate_keys.store(0, Ordering::Relaxed);
-        drop(state);
-        for handle in rooms {
-            let _ = handle.control.send(Control::Stop).await;
-            handle.control.closed().await;
-        }
-        // Acknowledged directory cleanup is performed by the supervisor of each room.
-        while self.inner.metrics.active_rooms.load(Ordering::Acquire) > 0 {
-            tokio::task::yield_now().await;
-        }
-        // Transport tasks observe the shutdown signal and release both admission permits.
-        if let Ok(permits) = self
-            .inner
-            .connections
-            .clone()
-            .acquire_many_owned(self.inner.config.max_connections as u32)
-            .await
-        {
-            drop(permits);
+            for handle in state.rooms.values() {
+                handle.stop.send_replace(true);
+            }
+            state.sessions.clear();
+            state.rate_keys.clear();
+            self.inner
+                .metrics
+                .active_sessions
+                .store(0, Ordering::Relaxed);
+            self.inner.metrics.rate_keys.store(0, Ordering::Relaxed);
+            drop(state);
+            loop {
+                let report = self.shutdown_report();
+                if report.completed {
+                    break;
+                }
+                tokio::time::sleep(Duration::from_millis(1)).await;
+            }
+        };
+        let initialized_and_drained = tokio::time::timeout_at(deadline, work).await.is_ok();
+        let mut report = self.shutdown_report();
+        report.completed &= initialized_and_drained;
+        report
+    }
+    fn shutdown_report(&self) -> ShutdownReport {
+        let remaining_rooms = self.inner.metrics.active_rooms.load(Ordering::Acquire);
+        let remaining_connections =
+            (self.inner.config.max_connections - self.inner.connections.available_permits()) as u64;
+        let remaining_operations =
+            (self.inner.config.max_sessions - self.inner.operations.available_permits()) as u64;
+        ShutdownReport {
+            completed: remaining_rooms == 0
+                && remaining_connections == 0
+                && remaining_operations == 0,
+            remaining_rooms,
+            remaining_connections,
+            remaining_operations,
         }
     }
 }
@@ -1165,6 +1216,7 @@ impl Inner {
                     id: random_id("r_")?,
                     instance: random_id("i_")?,
                 };
+                let (room_stop, stop_rx) = watch::channel(false);
                 let (control, controls) = mpsc::channel(64);
                 let (inputs, input_rx) = mpsc::channel(self.config.room_input_capacity);
                 let (commands, command_rx) = mpsc::channel(self.config.room_input_capacity);
@@ -1172,6 +1224,7 @@ impl Inner {
                     watch::channel(PublishedRoom::new(&reference, public, capacity));
                 let handle = RoomHandle {
                     reference: reference.clone(),
+                    stop: room_stop,
                     control,
                     inputs,
                     commands,
@@ -1208,6 +1261,7 @@ impl Inner {
                     game_state,
                     metrics,
                     room::Channels {
+                        stop: stop_rx,
                         observation,
                         controls,
                         inputs: input_rx,
@@ -1243,7 +1297,7 @@ impl Inner {
                         Ok((response, true))
                     }
                     Err(error) => {
-                        let _ = handle.control.send(Control::Stop).await;
+                        handle.stop.send_replace(true);
                         handle.control.closed().await;
                         let mut state = self.state.lock().await;
                         let slot = (reference.game_id.clone(), reference.id.clone());
@@ -1898,6 +1952,201 @@ mod tests {
         runtime
     }
     #[tokio::test(start_paused = true)]
+    async fn hardening_stop_bypasses_full_control_queue() {
+        let runtime = account_runtime(Config::default(), AccountVerifier);
+        let guest = runtime.inner.issue("a", "source".into()).await.unwrap();
+        let (out, _rx) = output(32);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", guest["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let create = crate::protocol::parse(
+            r#"{"v":1,"type":"room.create","request_id":"create","settings":{}}"#,
+        )
+        .unwrap();
+        runtime
+            .inner
+            .command(key, generation, "a", out, &create)
+            .await
+            .unwrap();
+        let handle = runtime
+            .inner
+            .state
+            .lock()
+            .await
+            .rooms
+            .values()
+            .next()
+            .unwrap()
+            .clone();
+        let mut replies = Vec::new();
+        for _ in 0..handle.control.max_capacity() {
+            let (reply, received) = oneshot::channel();
+            handle.control.try_send(Control::List { reply }).unwrap();
+            replies.push(received);
+        }
+        runtime.shutdown().await;
+        for reply in replies {
+            assert!(reply.await.is_err(), "Stop must bypass queued controls");
+        }
+        assert_eq!(runtime.metrics().active_rooms, 0);
+    }
+    #[tokio::test(start_paused = true)]
+    async fn hardening_shutdown_reports_pending_without_claiming_completion() {
+        let runtime = Campfire::new(Config::default()).unwrap();
+        let connection = runtime
+            .inner
+            .connections
+            .clone()
+            .try_acquire_owned()
+            .unwrap();
+        let operation = runtime
+            .inner
+            .operations
+            .clone()
+            .try_acquire_owned()
+            .unwrap();
+        let began = Instant::now();
+        assert!(
+            tokio::time::timeout(Duration::from_secs(6), runtime.shutdown())
+                .await
+                .is_ok(),
+            "shutdown wrapper must return after its one bounded deadline"
+        );
+        assert_eq!(began.elapsed(), Duration::from_secs(5));
+        let began = Instant::now();
+        let report = runtime.shutdown_with_timeout(Duration::from_secs(2)).await;
+        assert_eq!(
+            report,
+            ShutdownReport {
+                completed: false,
+                remaining_rooms: 0,
+                remaining_connections: 1,
+                remaining_operations: 1
+            }
+        );
+        assert_eq!(began.elapsed(), Duration::from_secs(2));
+        drop(connection);
+        drop(operation);
+        let report = runtime.shutdown_with_timeout(Duration::from_secs(2)).await;
+        assert_eq!(
+            report,
+            ShutdownReport {
+                completed: true,
+                remaining_rooms: 0,
+                remaining_connections: 0,
+                remaining_operations: 0
+            }
+        );
+    }
+    #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+    async fn hardening_shutdown_reports_blocked_callback_until_released() {
+        struct Blocker {
+            armed: AtomicBool,
+            started: std::sync::mpsc::Sender<()>,
+            released: std::sync::Mutex<bool>,
+            release: std::sync::Condvar,
+        }
+        struct Release(Arc<Blocker>);
+        impl Drop for Release {
+            fn drop(&mut self) {
+                *self.0.released.lock().unwrap() = true;
+                self.0.release.notify_all();
+            }
+        }
+        struct BlockingModule(Arc<Blocker>);
+        impl GameModule for BlockingModule {
+            fn create(
+                &self,
+                _: &Value,
+                _: &GameContext,
+            ) -> Result<Box<dyn Game>, crate::GameError> {
+                Ok(Box::new(BlockingGame(self.0.clone())))
+            }
+        }
+        struct BlockingGame(Arc<Blocker>);
+        impl Game for BlockingGame {
+            fn player_joined(&mut self, _: &str) {}
+            fn player_left(&mut self, _: &str) {}
+            fn player_connection_changed(&mut self, _: &str, _: bool) {}
+            fn validate_input(&self, _: &str, _: &Value) -> Result<(), crate::GameError> {
+                Ok(())
+            }
+            fn apply_input(&mut self, _: &str, _: &Value) {}
+            fn tick(&mut self, _: Duration) {
+                if self.0.armed.swap(false, Ordering::Relaxed) {
+                    self.0.started.send(()).unwrap();
+                    let mut released = self.0.released.lock().unwrap();
+                    while !*released {
+                        released = self.0.release.wait(released).unwrap();
+                    }
+                }
+            }
+            fn snapshot(&self) -> Value {
+                json!({})
+            }
+        }
+        let (started, started_rx) = std::sync::mpsc::channel();
+        let blocker = Arc::new(Blocker {
+            armed: AtomicBool::new(false),
+            started,
+            released: std::sync::Mutex::new(false),
+            release: std::sync::Condvar::new(),
+        });
+        let release = Release(blocker.clone());
+        let runtime = Campfire::new(Config::default()).unwrap();
+        runtime
+            .register_game("a", BlockingModule(blocker.clone()))
+            .unwrap();
+        let guest = runtime.inner.issue("a", "source".into()).await.unwrap();
+        let (out, _rx) = output(32);
+        let (key, generation, _, _) = runtime
+            .inner
+            .authenticate("a", guest["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        let create = crate::protocol::parse(
+            r#"{"v":1,"type":"room.create","request_id":"create","settings":{}}"#,
+        )
+        .unwrap();
+        runtime
+            .inner
+            .command(key, generation, "a", out, &create)
+            .await
+            .unwrap();
+        let (reported, received) = oneshot::channel();
+        let shutdown_runtime = runtime.clone();
+        let shutdown_thread = std::thread::spawn(move || {
+            // The deadline runs on a different scheduler from the blocked callback.
+            let _release = release;
+            started_rx.recv_timeout(Duration::from_secs(1)).unwrap();
+            let clock = tokio::runtime::Builder::new_current_thread()
+                .enable_time()
+                .build()
+                .unwrap();
+            let report =
+                clock.block_on(shutdown_runtime.shutdown_with_timeout(Duration::from_millis(20)));
+            assert_eq!(shutdown_runtime.metrics().active_rooms, 1);
+            reported.send(report).unwrap();
+        });
+        blocker.armed.store(true, Ordering::Relaxed);
+        let report = received.await.unwrap();
+        shutdown_thread.join().unwrap();
+        assert_eq!(
+            report,
+            ShutdownReport {
+                completed: false,
+                remaining_rooms: 1,
+                remaining_connections: 0,
+                remaining_operations: 0
+            }
+        );
+        let report = runtime.shutdown_with_timeout(Duration::from_secs(1)).await;
+        assert!(report.completed);
+        assert_eq!(report.remaining_rooms, 0);
+    }
+    #[tokio::test(start_paused = true)]
     async fn account_invalid_grants_are_bounded_and_debug_redacts_identity() {
         let valid = grant();
         let debug = format!("{:?}", PlayerIdentity::Account(valid.identity.clone()));
@@ -2094,6 +2343,7 @@ mod tests {
             ("a".into(), "stub".into()),
             RoomHandle {
                 reference,
+                stop: watch::channel(false).0,
                 control,
                 inputs,
                 commands: commands.clone(),
