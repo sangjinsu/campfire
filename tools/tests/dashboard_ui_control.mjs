@@ -14,11 +14,19 @@ class Element {
     this.classList = { toggle() {} };
   }
   addEventListener(event, handler) { this.listeners.set(event, handler); }
-  emit(event) { return this.listeners.get(event)?.({ preventDefault() {} }); }
+  emit(event, detail = {}) { return this.listeners.get(event)?.({ preventDefault() {}, ...detail }); }
   setAttribute(name, value) { this.attributes[name] = value; }
   append(...children) { this.children.push(...children); }
   replaceChildren(...children) { this.children = children; this.textContent = ''; }
   focus() { this.focused = true; }
+  getBoundingClientRect() { return { left: 0, top: 0, width: 480, height: 140 }; }
+  getScreenCTM() {
+    const box = this.getBoundingClientRect();
+    const scale = Math.min(box.width / 480, box.height / 140);
+    const offsetX = box.left + (box.width - 480 * scale) / 2;
+    const offsetY = box.top + (box.height - 140 * scale) / 2;
+    return { inverse: () => ({ scale, offsetX, offsetY }) };
+  }
   showModal() { this.open = true; }
   close() { this.open = false; this.emit('close'); }
 }
@@ -49,6 +57,7 @@ function harness() {
     return promise;
   }
   const context = vm.createContext({ document, window, fetch, Intl, Date: TestDate, Map, URLSearchParams, AbortController, DOMException,
+    DOMPoint: class { constructor(x, y) { this.x = x; this.y = y; } matrixTransform(matrix) { return { x: (this.x - matrix.offsetX) / matrix.scale, y: (this.y - matrix.offsetY) / matrix.scale }; } },
     Option: function (label, value) { const option = new Element('option'); option.textContent = label; option.value = value; return option; },
   });
   vm.runInContext(source, context);
@@ -249,4 +258,117 @@ async function completeBatch(h, offset = 0, { seq = 1, boot = 'boot-a', data = s
   assert.equal(scroll.scrollTop, 0, 'Applying a filter returns to the top row');
   await completeBatch(h, 9, { seq: 4 });
 }
-console.log('Dashboard UI async controls: 14 scenarios passed (existing 9 controls plus initial range, single sample, null segments, empty/15 minute range, room scroll/focus).');
+// range_filter_keeps_real_samples
+{
+  const h = harness(); await login(h);
+  const points = [sample(1), sample(601), sample(841), sample(901)];
+  await completeBatch(h, 0, { seq: 901, samples: points });
+  assert.equal(h.$('range-15m').attributes['aria-pressed'], 'true');
+  h.$('range-1m').emit('click');
+  assert.match(h.$('history-description').textContent, /2개 표본/);
+  assert.equal(h.$('chart-connections').attributes['data-sample-count'], '2');
+  h.$('range-5m').emit('click');
+  assert.equal(h.$('chart-connections').attributes['data-sample-count'], '3');
+  assert.equal(points.length, 4, 'Range controls never pad or mutate source samples');
+}
+// keyboard_and_hover_read_same_sample
+{
+  const h = harness(); await login(h);
+  await completeBatch(h, 0, { seq: 3, samples: [sample(1), sample(2), sample(3)] });
+  const chart = h.$('chart-connections');
+  chart.emit('keydown', { key: 'Home' });
+  const first = h.$('chart-readout').textContent;
+  assert.match(first, /연결 8개/);
+  assert.match(first, /표본 1/);
+  chart.emit('keydown', { key: 'ArrowRight' });
+  assert.match(h.$('chart-readout').textContent, /표본 2/);
+  chart.emit('keydown', { key: 'End' });
+  assert.match(h.$('chart-readout').textContent, /표본 3/);
+  chart.emit('pointermove', { clientX: 58 });
+  assert.equal(h.$('chart-readout').textContent, first);
+}
+// counter_reset_has_no_negative_delta
+{
+  const h = harness(); await login(h);
+  await completeBatch(h, 0, { seq: 3, samples: [
+    sample(1, { metrics: { admission_rejections: 10, abusive_frames: 2, commands_failed: 1 } }),
+    sample(3, { metrics: { admission_rejections: 2, abusive_frames: 5, commands_failed: 3 } }),
+  ] });
+  assert.equal(h.$('delta-admission_rejections').textContent, '—');
+  assert.equal(h.$('delta-abusive_frames').textContent, '3');
+  assert.equal(h.$('delta-commands_failed').textContent, '2');
+  assert.equal(h.$('delta-total').textContent, '—');
+  assert.match(h.$('error-observation').textContent, /관측 2초/);
+  assert.match(h.$('error-observation').textContent, /중복 집계 가능/);
+}
+{
+  const h = harness(); await login(h);
+  await completeBatch(h, 0, { seq: 3, samples: [
+    sample(1, { metrics: { admission_rejections: 10 } }),
+    sample(2, { metrics: { admission_rejections: 1 } }),
+    sample(3, { metrics: { admission_rejections: 12 } }),
+  ] });
+  assert.equal(h.$('delta-admission_rejections').textContent, '—', 'An intermediate reset invalidates even an increasing first-to-last counter');
+}
+// null_and_zero_remain_distinct
+{
+  const h = harness(); await login(h);
+  await completeBatch(h, 0, { seq: 3, samples: [
+    sample(1, { process: { cpu_percent: 0, rss_bytes: 0 } }),
+    sample(2, { process: { cpu_percent: null, rss_bytes: null } }),
+    sample(3, { process: { cpu_percent: 4, rss_bytes: 1048576 } }),
+  ] });
+  const chart = h.$('chart-cpu');
+  chart.emit('keydown', { key: 'Home' });
+  assert.match(h.$('chart-readout').textContent, /CPU 0%/);
+  chart.emit('keydown', { key: 'ArrowRight' });
+  assert.match(h.$('chart-readout').textContent, /CPU 측정값 없음/);
+}
+// boot_change_clears_selection
+{
+  const h = harness(); await login(h);
+  await completeBatch(h, 0, { seq: 3, samples: [sample(1), sample(2), sample(3)] });
+  h.$('chart-connections').emit('keydown', { key: 'Home' });
+  assert.match(h.$('chart-readout').textContent, /표본 1/);
+  h.$('refresh').emit('click');
+  await completeBatch(h, 3, { seq: 3, boot: 'boot-b', samples: [sample(1), sample(2), sample(3)] });
+  assert.match(h.$('chart-readout').textContent, /표본 3/, 'A reused sequence on a new boot cannot retain the old selection');
+  h.$('logout').emit('click');
+  assert.equal(h.$('chart-readout').textContent, '표본을 선택하면 시각과 값을 확인할 수 있습니다.');
+}
+{
+  const h = harness(); await login(h);
+  await completeBatch(h, 0, { seq: 2, samples: [sample(1), sample(2)] });
+  h.$('chart-connections').emit('keydown', { key: 'Home' });
+  h.$('refresh').emit('click');
+  await completeBatch(h, 3, { seq: 901, samples: [sample(901)], reset: true });
+  assert.match(h.$('chart-readout').textContent, /표본 901/, 'Evicted selection moves to nearest remaining real point');
+}
+{
+  const h = harness(); await login(h);
+  const recent = { window_ms: 60000, command_duration: { sample_count: 1, p95_micros: 0, p99_micros: null } };
+  await completeBatch(h, 0, { data: statusData({ metrics: { ...statusData().metrics, recent } }) });
+  const row = h.$('runtime-metrics').children.find((item) => item.children[0].textContent.includes('명령 처리 시간 p95'));
+  assert.equal(row.children[1].textContent, '0 / — ms · 표본 1개', 'Recent zero, null and sample count stay distinct');
+}
+// SVG screen transform must map the visually rendered point, including viewBox letterboxing.
+{
+  const h = harness(); await login(h);
+  await completeBatch(h, 0, { seq: 61, samples: Array.from({ length: 61 }, (_, index) => sample(index + 1)) });
+  const chart = h.$('chart-connections');
+  chart.getBoundingClientRect = () => ({ left: 80, top: 10, width: 620, height: 140 });
+  chart.emit('keydown', { key: 'Home' });
+  const keyboardFirst = h.$('chart-readout').textContent;
+  chart.emit('pointermove', { clientX: 80 + 70 + 58, clientY: 80 });
+  assert.equal(h.$('chart-readout').textContent, keyboardFirst, 'Desktop pointer on drawn first point matches keyboard Home');
+  for (let step = 0; step < 30; step += 1) chart.emit('keydown', { key: 'ArrowRight' });
+  const keyboardMiddle = h.$('chart-readout').textContent;
+  chart.emit('keydown', { key: 'End' });
+  chart.emit('pointermove', { clientX: 80 + 70 + 58 + 204, clientY: 80 });
+  assert.equal(h.$('chart-readout').textContent, keyboardMiddle, 'Desktop pointer on drawn middle point matches keyboard selection');
+  chart.getBoundingClientRect = () => ({ left: 20, top: 10, width: 390, height: 140 });
+  chart.emit('keydown', { key: 'End' });
+  chart.emit('pointermove', { clientX: 20 + 58 * (390 / 480), clientY: 80 });
+  assert.equal(h.$('chart-readout').textContent, keyboardFirst, 'Mobile SVG scale also maps pointer to keyboard point');
+}
+console.log('Dashboard UI async controls and chart diagnostics: 23 scenarios passed.');

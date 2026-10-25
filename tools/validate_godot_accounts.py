@@ -9,7 +9,6 @@ import os
 from pathlib import Path
 import re
 import secrets
-import shutil
 import signal
 import socket
 import subprocess
@@ -17,11 +16,10 @@ import sys
 import tempfile
 import time
 import urllib.request
+from validation_paths import account_binary, resolve_executable, resolve_target_dir, server_binary
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "examples/godot"
-ACCOUNT_BINARY = ROOT / "target/debug/examples/account_server"
-ARENA_BINARY = ROOT / "target/debug/campfire-server"
 RUNTIME_ERRORS = re.compile(r"SCRIPT ERROR:|Parse Error:|ERROR:|Invalid call\.|Invalid access", re.I)
 TOKEN_VALUE = re.compile(r'"token"\s*:\s*"|Bearer\s+[A-Za-z0-9_-]+')
 
@@ -31,11 +29,11 @@ def sha256(path: Path) -> str:
 
 
 def sources() -> dict[str, str]:
-    paths = [ROOT / "Cargo.toml", ROOT / "Cargo.lock", PROJECT / "project.godot", Path(__file__)]
+    paths = [ROOT / "Cargo.toml", ROOT / "Cargo.lock", PROJECT / "project.godot", Path(__file__), ROOT / "tools/validation_paths.py", ROOT / "tools/validate_godot.py"]
     paths += list((ROOT / "crates").rglob("*.rs")) + list((ROOT / "crates").rglob("Cargo.toml"))
     paths += list((ROOT / "crates/campfire-server/src/dashboard/assets").glob("*"))
     paths += list((ROOT / "tools").glob("*dashboard*"))
-    paths += list((ROOT / "tools/tests").glob("dashboard*"))
+    paths += list((ROOT / "tools/tests").glob("dashboard*")) + list((ROOT / "tools/tests").glob("test_validation_tools.py"))
     for suffix in ("*.gd", "*.gd.uid", "*.tscn"):
         paths += list(PROJECT.rglob(suffix))
     return {str(path.relative_to(ROOT)): sha256(path) for path in sorted(set(paths)) if path.is_file()}
@@ -136,10 +134,22 @@ def validate_native_reports(output: Path) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--godot", default=os.environ.get("GODOT", shutil.which("godot") or "/opt/homebrew/bin/godot"))
+    parser.add_argument("--godot")
+    parser.add_argument("--target-dir")
     parser.add_argument("--output", type=Path, required=True, help="New artifact directory; existing runs are never overwritten")
     parser.add_argument("--skip-build", action="store_true")
     args = parser.parse_args()
+    try:
+        args.godot = str(resolve_executable(args.godot, "GODOT", "godot"))
+        target_dir = resolve_target_dir(args.target_dir)
+    except FileNotFoundError as error:
+        parser.error(str(error))
+    account_path = account_binary(target_dir)
+    arena_path = server_binary(target_dir)
+    if args.skip_build:
+        for binary in (account_path, arena_path):
+            if not binary.is_file():
+                parser.error(f"Required validation binary is missing: {binary}")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     result: dict = {"success": False, "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "invocation": sys.argv, "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(), "godot_version": subprocess.check_output([args.godot, "--version"], text=True).strip(), "runs": []}
@@ -162,23 +172,23 @@ def main() -> int:
     try:
         if not args.skip_build:
             for label, cmd in (("build-account", ["cargo", "build", "-p", "campfire-server", "--no-default-features", "--example", "account_server", "--locked", "--offline"]), ("build-arena", ["cargo", "build", "-p", "campfire-server", "--locked", "--offline"])):
-                process = launch(label, cmd)
+                process = launch(label, cmd, dict(os.environ, CARGO_TARGET_DIR=str(target_dir)))
                 if process.wait(timeout=180):
                     raise RuntimeError(f"{label} failed; see log")
         manifest = sources()
         result["source_sha256_before"] = source_digest(manifest)
         result["source_manifest"] = manifest
-        result["binary_sha256_before"] = {"godot": sha256(Path(args.godot).resolve()), "account_server": sha256(ACCOUNT_BINARY), "arena_server": sha256(ARENA_BINARY)}
+        result["binary_sha256_before"] = {"godot": sha256(Path(args.godot)), "account_server": sha256(account_path), "arena_server": sha256(arena_path)}
         account_port, arena_port = free_port(), free_port()
         while account_port == arena_port:
             arena_port = free_port()
         account_url, arena_url = f"http://127.0.0.1:{account_port}", f"http://127.0.0.1:{arena_port}"
         environment["CAMPFIRE_DEMO_BIND"] = f"127.0.0.1:{account_port}"
         environment["CAMPFIRE_TEST_ACCOUNT_URL"] = account_url
-        arena_cmd = [str(ARENA_BINARY), "--bind", f"127.0.0.1:{arena_port}", "--game", "arena", "--game", "arena-b", "--capacity", "16", "--guest-burst", "100", "--guest-rate-per-second", "100"]
+        arena_cmd = [str(arena_path), "--bind", f"127.0.0.1:{arena_port}", "--game", "arena", "--game", "arena-b", "--capacity", "16", "--guest-burst", "100", "--guest-rate-per-second", "100"]
         arena = launch("arena-server", arena_cmd)
         wait_health(arena_url, arena)
-        account = launch("account-transport-server", [str(ACCOUNT_BINARY)], environment)
+        account = launch("account-transport-server", [str(account_path)], environment)
         wait_health(account_url, account)
         print("Running real guest/account transport regression", flush=True)
         cmd = command(args.godot, "res://tests/client_unit_transport.gd", [arena_url], output / "transport-engine.log", False)
@@ -190,7 +200,7 @@ def main() -> int:
         result["transport_success"] = True
         stop(account)
         # A fresh runtime prevents transport test token rotation from affecting GUI accounts.
-        account = launch("account-native-server", [str(ACCOUNT_BINARY)], environment)
+        account = launch("account-native-server", [str(account_path)], environment)
         wait_health(account_url, account)
         print("Running two independent native production scenes", flush=True)
         with tempfile.TemporaryDirectory(prefix="campfire-account-native-") as temporary:
@@ -216,7 +226,7 @@ def main() -> int:
                 raise RuntimeError(f"Runtime/parse error in {path.name}")
         result["artifact_secret_scan_files"] = check_artifact_secrets(output, generated)
         result["source_sha256_after"] = source_digest(sources())
-        result["binary_sha256_after"] = {"godot": sha256(Path(args.godot).resolve()), "account_server": sha256(ACCOUNT_BINARY), "arena_server": sha256(ARENA_BINARY)}
+        result["binary_sha256_after"] = {"godot": sha256(Path(args.godot)), "account_server": sha256(account_path), "arena_server": sha256(arena_path)}
         if result["source_sha256_before"] != result["source_sha256_after"] or result["binary_sha256_before"] != result["binary_sha256_after"]:
             raise RuntimeError("Source or binary changed during validation")
         result["success"] = True

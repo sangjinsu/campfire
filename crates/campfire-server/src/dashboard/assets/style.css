@@ -72,6 +72,11 @@ main { max-width: 1496px; padding: 28px 28px 0; margin: auto; }
 .section-heading>div>p { margin-top: 4px; }
 .history-heading>p { text-align: right; max-width: 48%; }
 .history-section { margin-bottom: 28px; }
+.history-controls { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.range-controls { display: inline-flex; gap: 4px; flex-shrink: 0; }
+.range-controls button { min-width: 54px; min-height: 44px; padding: 9px 10px; }
+.range-controls button[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: var(--bg); }
+.chart-readout { min-height: 36px; display: flex; align-items: center; color: #edf5ec; font-size: 13px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .chart-panel { min-width: 0; padding: 14px 18px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
 .chart-panel figcaption { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; }
@@ -83,9 +88,18 @@ main { max-width: 1496px; padding: 28px 28px 0; margin: auto; }
 .chart-line.secondary { stroke: var(--amber); }
 .chart-point { fill: var(--teal); }
 .chart-point.secondary { fill: var(--amber); }
+.chart-selection { stroke: var(--amber); stroke-width: 1.5; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
 .chart-label { fill: var(--muted); font-size: 14px; font-family: inherit; font-variant-numeric: tabular-nums; }
 .chart-summary { min-height: 18px; margin-top: 4px; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .chart-legend { display: flex; gap: 14px; font-size: 12px; font-weight: 500; }
+.error-deltas { margin-top: 12px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.error-deltas h3 { font-size: 14px; font-weight: 600; }
+.error-deltas .muted { margin-top: 3px; }
+.error-deltas dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 18px; margin: 10px 0 0; }
+.error-deltas dl>div { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.error-deltas dt { color: var(--muted); }
+.error-deltas dd { margin: 0; font-weight: 600; }
+.error-deltas .delta-total { color: var(--amber); }
 .legend-input { color: var(--teal); }
 .legend-snapshot { color: var(--amber); }
 .legend-input::before, .legend-snapshot::before { content: ''; display: inline-block; width: 14px; height: 2px; margin: 0 5px 3px 0; background: currentColor; }
@@ -171,6 +185,7 @@ footer { display: flex; justify-content: space-between; gap: 20px; padding: 20px
   .filters>div { flex: 1; min-width: 130px; }
   .filters>.room-search { max-width: none; }
   .chart-grid { grid-template-columns: 1fr; }
+  .error-deltas dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .chart-label { font-size: 14px; }
 }
 @media (max-width: 640px) {
@@ -197,6 +212,8 @@ footer { display: flex; justify-content: space-between; gap: 20px; padding: 20px
   .resource-group .group-heading { flex-direction: row; align-items: center; padding-bottom: 14px; }
   .resource-metrics>.metric:first-child { border-left: 0; }
   .chart-grid { grid-template-columns: 1fr; }
+  .history-controls { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .error-deltas dl { grid-template-columns: 1fr; }
   .chart-panel { padding: 14px 16px 12px; }
   .chart { height: 140px; }
   .chart-label { font-size: 20px; }

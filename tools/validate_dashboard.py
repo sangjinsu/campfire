@@ -25,13 +25,10 @@ import urllib.request
 
 import validate_godot as guest
 import validate_godot_accounts as accounts
+from dashboard_ui_probe import run_ui_probe
+from validation_paths import account_binary, resolve_executable, resolve_target_dir, server_binary
 
 ROOT = Path(__file__).resolve().parents[1]
-BINARY = ROOT / "target/debug/campfire-server"
-ACCOUNT = ROOT / "target/debug/examples/account_server"
-BROWSE = Path.home() / ".claude/skills/gstack/browse/dist/browse"
-
-
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -98,12 +95,20 @@ class Monitor:
 
 
 class Runner:
-    def __init__(self, output: Path, godot: str):
+    def __init__(self, output: Path, godot: str, browse: str | None, target_dir: Path):
         self.output, self.godot = output, godot
+        self.browse_binary = browse
+        self.target_dir = target_dir
+        self.binary = server_binary(target_dir)
+        self.account_binary = account_binary(target_dir)
         self.processes, self.handles, self.tokens, self.monitors = [], [], [], []
         self.browse_dir = Path(tempfile.mkdtemp(prefix="campfire-dashboard-browse-"))
-        self.browse_env = dict(os.environ, BROWSE_STATE_FILE=str(self.browse_dir / "state.json"))
+        profile = self.browse_dir / "chromium-profile"
+        profile.mkdir()
+        self.browse_env = dict(os.environ, BROWSE_STATE_FILE=str(self.browse_dir / "state.json"), CHROMIUM_PROFILE=str(profile))
         self.browser_started = False
+        self.closed = False
+        self.cleanup_errors: list[str] = []
 
     def launch(self, label, command, env=None):
         handle = (self.output / (label + ".log")).open("w")
@@ -124,15 +129,18 @@ class Runner:
         if token:
             self.tokens.append(token)
         env = dict(os.environ, CAMPFIRE_ADMIN_TOKEN=token)
-        command = [str(BINARY), "--bind", f"127.0.0.1:{port}", "--game", "arena", "--game", "arena-b", "--capacity", "16", "--reconnect-grace-ms", "2000", "--guest-burst", "200", "--guest-rate-per-second", "200"]
+        command = [str(self.binary), "--bind", f"127.0.0.1:{port}", "--game", "arena", "--game", "arena-b", "--capacity", "16", "--reconnect-grace-ms", "2000", "--guest-burst", "200", "--guest-rate-per-second", "200"]
         process = self.launch(label, command, env)
         accounts.wait_health(base, process)
         return process, base, token
 
     def browse(self, *args, chain=None):
-        command = [str(BROWSE), "chain"] if chain is not None else [str(BROWSE), *map(str, args)]
+        if self.browse_binary is None:
+            raise RuntimeError("Browser suite requires browse executable")
+        command = [self.browse_binary, "chain"] if chain is not None else [self.browse_binary, *map(str, args)]
+        if args != ("stop",):
+            self.browser_started = True
         result = subprocess.run(command, cwd=ROOT, env=self.browse_env, input=json.dumps(chain) if chain is not None else None, text=True, capture_output=True, timeout=45)
-        self.browser_started = True
         content = result.stdout + result.stderr
         for token in self.tokens:
             content = content.replace(token, "[REDACTED]")
@@ -170,17 +178,47 @@ class Runner:
             fifo.unlink(missing_ok=True)
 
     def close(self):
+        if self.closed:
+            return
+        self.cleanup_errors = []
         for monitor in self.monitors:
             monitor.done.set()
         if self.browser_started:
             try:
                 self.browse("stop")
-            except RuntimeError:
-                pass
+                self.browser_started = False
+            except Exception as error:
+                self.cleanup_errors.append(f"browse stop unconfirmed ({type(error).__name__})")
         for process in self.processes:
-            accounts.stop(process)
+            try:
+                accounts.stop(process)
+            except Exception as error:
+                self.cleanup_errors.append(f"owned process stop failed ({type(error).__name__})")
         for handle in self.handles:
-            handle.close()
+            try:
+                handle.close()
+            except Exception as error:
+                self.cleanup_errors.append(f"owned log close failed ({type(error).__name__})")
+        for process in self.processes:
+            try:
+                if process.poll() is None:
+                    self.cleanup_errors.append("owned process still alive")
+            except Exception as error:
+                self.cleanup_errors.append(f"owned process status failed ({type(error).__name__})")
+        self.closed = not self.browser_started and not self.cleanup_errors
+
+    def cleanup(self):
+        if not self.closed:
+            return False
+        if not self.browse_dir.exists():
+            return True
+        try:
+            shutil.rmtree(self.browse_dir)
+            return True
+        except OSError as error:
+            self.cleanup_errors.append(f"owned browser directory cleanup failed ({type(error).__name__})")
+            self.closed = False
+            return False
 
     def scan(self):
         scanned = 0
@@ -314,6 +352,16 @@ def browser_suite(runner: Runner) -> dict:
         runner.js("window.__dashboardQA.mode='cpu-null'; document.getElementById('refresh').click(); true")
         runner.until("document.getElementById('metric-cpu').textContent === '—' && !document.getElementById('refresh').disabled")
         checks.append("Controlled CPU values: measured zero displays 0, unknown null displays dash")
+        runner.js("window.__dashboardQA.mode='chart-diagnostics'; document.getElementById('refresh').click(); true")
+        runner.until("!document.getElementById('refresh').disabled")
+        chart_diagnostics = json.loads(runner.js("JSON.stringify(window.__dashboardQA.verifyChartDiagnostics())"))
+        dump(runner.output / "browser-chart-diagnostics.json", chart_diagnostics)
+        runner.browse("viewport", "390x844")
+        mobile_chart_diagnostics = json.loads(runner.js("JSON.stringify(window.__dashboardQA.verifyChartDiagnostics('mobile'))"))
+        dump(runner.output / "browser-chart-diagnostics-mobile.json", mobile_chart_diagnostics)
+        runner.browse("viewport", "1440x1100")
+        runner.js("window.__dashboardQA.mode='normal'; true")
+        checks.append("Controlled desktop/mobile chart ranges, focus, pointer, counter reset and null/zero")
         runner.browse("click", "#logout")
         state = runner.js("JSON.stringify({localStorageCount:localStorage.length,sessionStorageCount:sessionStorage.length,cookie:document.cookie,inputCleared:document.getElementById('admin-key').value==='',url:location.href,rows:document.querySelectorAll('#room-rows tr').length})")
         (runner.output / "browser-cleared-state.txt").write_text(state)
@@ -402,7 +450,7 @@ def account_suite(runner: Runner) -> dict:
     out = runner.output / "account-regression"
     try:
         subprocess.Popen = hooked
-        sys.argv = ["tools/validate_godot_accounts.py", "--skip-build", "--godot", runner.godot, "--output", str(out)]
+        sys.argv = ["tools/validate_godot_accounts.py", "--skip-build", "--godot", runner.godot, "--target-dir", str(runner.target_dir), "--output", str(out)]
         code = accounts.main()
     finally:
         subprocess.Popen = original
@@ -431,21 +479,49 @@ def account_suite(runner: Runner) -> dict:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--suite", choices=("browser", "load", "accounts", "all"), default="all")
-    parser.add_argument("--godot", default=shutil.which("godot") or "/opt/homebrew/bin/godot")
+    parser.add_argument("--suite", choices=("browser", "ui-probe", "load", "accounts", "all"), default="all")
+    parser.add_argument("--target-dir")
+    parser.add_argument("--godot")
+    parser.add_argument("--browse")
     parser.add_argument("--duration", type=float, default=20)
     args = parser.parse_args()
     if not 20 <= args.duration <= 120:
         parser.error("duration must be 20..120")
+    try:
+        target_dir = resolve_target_dir(args.target_dir)
+        godot = str(resolve_executable(args.godot, "GODOT", "godot"))
+        browse = str(resolve_executable(args.browse, "BROWSE_BIN", "browse")) if args.suite in ("browser", "ui-probe", "all") else None
+    except FileNotFoundError as error:
+        parser.error(str(error))
+    required = [server_binary(target_dir)]
+    if args.suite in ("accounts", "all"):
+        required.append(account_binary(target_dir))
+    for binary in required:
+        if not binary.is_file():
+            parser.error(f"Required validation binary is missing: {binary}")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
-    runner = Runner(output, args.godot)
+    runner = Runner(output, godot, browse, target_dir)
     manifest = source_manifest()
-    binaries = {"server": sha(BINARY), "account_server": sha(ACCOUNT), "godot": sha(Path(args.godot).resolve())}
+    binary_paths = {"server": runner.binary, "godot": Path(godot)}
+    if args.suite in ("accounts", "all"):
+        binary_paths["account_server"] = runner.account_binary
+    binaries = {name: sha(path) for name, path in binary_paths.items()}
+    if browse:
+        binary_paths["browse"] = Path(browse)
+        binaries["browse"] = sha(Path(browse))
     result = {"success": False, "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(), "git_status_before": subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).splitlines(), "source_manifest": manifest, "source_sha256_before": digest(manifest), "binary_sha256_before": binaries, "scope": "Real loopback HTTP only; external HTTPS/TLS deployment and WAN capacity are not tested.", "suite": args.suite, "invocation": sys.argv}
     try:
+        result["godot_version"] = subprocess.check_output([godot, "--version"], text=True).strip()
+        if browse:
+            try:
+                result["browse_version"] = runner.browse("--version").strip()[:120]
+            except RuntimeError:
+                result["browse_version"] = "unavailable; executable SHA256 recorded"
         if args.suite in ("browser", "all"):
             result["browser"] = browser_suite(runner)
+        if args.suite in ("ui-probe", "all"):
+            result["ui_probe"] = run_ui_probe(runner, http, sha, dump)
         if args.suite in ("load", "all"):
             result["load"] = load_suite(runner, args.duration)
         if args.suite in ("accounts", "all"):
@@ -457,17 +533,24 @@ def main():
     finally:
         runner.close()
         result["source_sha256_after"] = digest(source_manifest())
-        result["binary_sha256_after"] = {"server": sha(BINARY), "account_server": sha(ACCOUNT), "godot": sha(Path(args.godot).resolve())}
+        result["binary_sha256_after"] = {name: sha(path) for name, path in binary_paths.items()}
         if result["source_sha256_before"] != result["source_sha256_after"] or binaries != result["binary_sha256_after"]:
             result["success"] = False
             result["failure"] = "Source or binary changed during validation"
         result["owned_processes"] = [{"pid": process.pid, "exit_code": process.returncode, "alive_after_cleanup": process.poll() is None} for process in runner.processes]
         result["owned_process_cleanup_complete"] = all(process.poll() is not None for process in runner.processes)
+        result["browser_stop_confirmed"] = not runner.browser_started
         result["gstack_state_directory"] = str(runner.browse_dir)
         try:
             result["administrator_secret_scan_files"] = runner.scan()
         except RuntimeError as error:
             result["success"], result["failure"] = False, str(error)
+        result["browser_state_cleanup_complete"] = runner.cleanup()
+        result["cleanup_errors"] = runner.cleanup_errors
+        if runner.cleanup_errors or not result["owned_process_cleanup_complete"] or not result["browser_stop_confirmed"]:
+            result["success"] = False
+            reason = "; ".join(runner.cleanup_errors) or "Owned process or browser cleanup incomplete"
+            result["failure"] = (result.get("failure", "") + "; " + reason).strip("; ")
         dump(output / "summary.json", result)
         print(json.dumps({"success": result["success"], "failure": result.get("failure"), "artifact": str(output)}, ensure_ascii=False), flush=True)
     return 0 if result["success"] else 1

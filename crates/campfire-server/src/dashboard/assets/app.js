@@ -18,6 +18,10 @@
   let pageSuspended = false;
   let bootId = null;
   let history = [];
+  let rangeMs = 900000;
+  let selectedSeq = null;
+  let selectedAt = null;
+  let selectedChart = 'connections';
   let latestStatus = null;
   let lastRooms = [];
   let selectedRoom = null;
@@ -66,6 +70,14 @@
   function clearData() {
     latestStatus = null;
     history = [];
+    rangeMs = 900000;
+    selectedSeq = null;
+    selectedAt = null;
+    selectedChart = 'connections';
+    for (const minutes of [1, 5, 15]) $(`range-${minutes}m`).setAttribute('aria-pressed', String(minutes * 60000 === rangeMs));
+    text('chart-readout', '표본을 선택하면 시각과 값을 확인할 수 있습니다.');
+    text('error-observation', '표본 수집 대기 중 · 이벤트는 중복 집계 가능');
+    for (const key of ['admission_rejections', 'abusive_frames', 'abusive_inputs', 'shared_queue_overloads', 'reliable_queue_disconnects', 'write_deadline_disconnects', 'room_panics', 'commands_failed', 'total']) text(`delta-${key}`, '—');
     bootId = null;
     lastSuccess = null;
     connectionError = false;
@@ -210,6 +222,9 @@
       }
       if (newBoot) {
         history = [];
+        selectedSeq = null;
+        selectedAt = null;
+        selectedChart = 'connections';
         $('room-table-scroll').scrollTop = 0;
         pageIndex = 0;
         pageCursors = [null];
@@ -315,11 +330,21 @@
       ['abusive_frames', '누적 비정상 프레임', '건'], ['abusive_inputs', '누적 비정상 입력', '건'],
       ['reliable_queue_disconnects', '누적 reliable 큐 연결 종료', '건'], ['write_deadline_disconnects', '누적 쓰기 기한 연결 종료', '건'],
       ['room_panics', '누적 룸 panic', '건'], ['guests_issued', '누적 게스트 발급', '건'],
-      ['max_input_queue_depth', '최대 입력 큐 깊이', '건'], ['max_reliable_queue_depth', '최대 reliable 큐 깊이', '건'],
-      ['max_tick_delay_micros', '최대 tick 지연', 'ms'], ['max_tick_duration_micros', '최대 tick 실행 시간', 'ms'],
-      ['max_input_latency_micros', '최대 입력 대기', 'ms'], ['max_input_duration_micros', '최대 입력 처리 시간', 'ms'],
+      ['commands_processed', '누적 명령 처리', '건'], ['commands_failed', '누적 명령 실패', '건'],
+      ['command_replays', '누적 명령 재전송', '건'],
+      ['max_input_queue_depth', '생애 최대 입력 큐 깊이', '건'], ['max_reliable_queue_depth', '생애 최대 reliable 큐 깊이', '건'],
+      ['max_tick_delay_micros', '생애 최대 tick 지연', 'ms'], ['max_tick_duration_micros', '생애 최대 tick 실행 시간', 'ms'],
+      ['max_input_latency_micros', '생애 최대 입력 대기', 'ms'], ['max_input_duration_micros', '생애 최대 입력 처리 시간', 'ms'],
+      ['max_command_duration_micros', '생애 최대 명령 처리 시간', 'ms'],
     ];
-    $('runtime-metrics').replaceChildren(...fields.map(([key, label, unit]) => pair(label, `${num(unit === 'ms' && finite(metrics[key]) ? metrics[key] / 1000 : metrics[key], unit === '건')} ${unit}`)));
+    const rows = fields.map(([key, label, unit]) => pair(label, `${num(unit === 'ms' && finite(metrics[key]) ? metrics[key] / 1000 : metrics[key], unit === '건')} ${unit}`));
+    const recent = metrics.recent || {};
+    const windowLabel = finite(recent.window_ms) ? `${num(recent.window_ms / 1000, true)}초` : '최근';
+    for (const [key, label] of [['tick_delay', 'tick 지연'], ['tick_duration', 'tick 실행 시간'], ['input_latency', '입력 대기'], ['input_duration', '입력 처리 시간'], ['command_duration', '명령 처리 시간']]) {
+      const snapshot = recent[key] || {};
+      rows.push(pair(`${windowLabel} ${label} p95 / p99`, `${num(finite(snapshot.p95_micros) ? snapshot.p95_micros / 1000 : null)} / ${num(finite(snapshot.p99_micros) ? snapshot.p99_micros / 1000 : null)} ms · 표본 ${num(snapshot.sample_count, true)}개`));
+    }
+    $('runtime-metrics').replaceChildren(...rows);
   }
 
   function cell(value, className = '') {
@@ -412,30 +437,50 @@
     return element;
   }
 
-  function historyRange() {
+  const chartSeries = {
+    connections: { unit: '개', lines: [{ label: '연결', get: (sample) => sample.metrics?.active_connections }] },
+    throughput: { unit: '건/초', lines: [
+      { label: '입력', get: (sample) => sample.rates?.inputs_per_second },
+      { label: '발행', get: (sample) => sample.rates?.snapshots_per_second },
+    ] },
+    cpu: { unit: '%', lines: [{ label: 'CPU', get: (sample) => sample.process?.cpu_percent }] },
+    rss: { unit: ' MiB', lines: [{ label: 'RSS', get: (sample) => finite(sample.process?.rss_bytes) ? sample.process.rss_bytes / 1048576 : null }] },
+  };
+  const errorCounters = [
+    'admission_rejections', 'abusive_frames', 'abusive_inputs', 'shared_queue_overloads',
+    'reliable_queue_disconnects', 'write_deadline_disconnects', 'room_panics', 'commands_failed',
+  ];
+
+  function visibleHistory() {
+    if (!history.length) return [];
     const end = history[history.length - 1].collected_at;
-    const observed = Math.max(0, end - history[0].collected_at);
+    return history.filter((sample) => sample.collected_at >= end - rangeMs && sample.collected_at <= end);
+  }
+
+  function historyRange(samples) {
+    const end = samples[samples.length - 1].collected_at;
+    const observed = Math.max(0, end - samples[0].collected_at);
     const span = Math.min(900000, Math.max(10000, observed));
     const seconds = Math.floor(observed / 1000);
     const duration = seconds < 60 ? `${num(seconds, true)}초` : `${Math.floor(seconds / 60)}분 ${seconds % 60}초`;
     return { start: end - span, end, span, description: observed ? `관측 ${duration}` : '관측 시작' };
   }
 
-  function chart(name, series, unit) {
+  function chart(name, series, unit, samples) {
     const target = $(`chart-${name}`);
     target.replaceChildren();
-    target.setAttribute('aria-describedby', `chart-${name}-summary`);
-    const valid = series.flatMap((line) => history.map((sample) => line.get(sample))).filter(finite);
+    target.setAttribute('data-sample-count', String(samples.length));
+    const valid = series.flatMap((line) => samples.map((sample) => line.get(sample))).filter(finite);
     const summaryId = `chart-${name}-summary`;
-    if (!history.length || !valid.length) {
-      const unavailable = history.length && ['cpu', 'rss'].includes(name);
+    if (!samples.length || !valid.length) {
+      const unavailable = samples.length && ['cpu', 'rss'].includes(name);
       text(summaryId, unavailable ? '자원 측정 표본 없음 · 수집 상태를 확인하세요.' : '이력 수집 대기 중');
       target.setAttribute('aria-label', `${series.map((line) => line.label).join(', ')} · ${unavailable ? '측정값 없음' : '수집 대기'}`);
       target.append(svgElement('text', { x: 240, y: 75, 'text-anchor': 'middle', class: 'chart-label' }, unavailable ? '측정값 없음' : '수집 대기'));
       return;
     }
-    const { start, end, span, description } = historyRange();
-    target.setAttribute('aria-label', `${series.map((line) => line.label).join(', ')} · ${history.length}개 표본 · ${description} · ${timeFormat.format(start)}부터 ${timeFormat.format(end)}까지`);
+    const { start, end, span, description } = historyRange(samples);
+    target.setAttribute('aria-label', `${series.map((line) => line.label).join(', ')} · ${samples.length}개 표본 · ${description} · ${timeFormat.format(start)}부터 ${timeFormat.format(end)}까지 · 좌우 방향키로 표본 이동`);
     const max = Math.max(1, ...valid) * 1.1;
     const x = (timestamp) => 58 + (timestamp - start) / span * 408;
     const y = (value) => 105 - value / max * 90;
@@ -449,7 +494,7 @@
     series.forEach((line, index) => {
       let path = '';
       let previous = null;
-      for (const sample of history) {
+      for (const sample of samples) {
         const value = line.get(sample);
         if (!finite(value)) { previous = null; continue; }
         const gap = previous === null || sample.collected_at - previous > 2500;
@@ -459,28 +504,69 @@
       }
       target.append(svgElement('path', { d: path, class: `chart-line${index ? ' secondary' : ''}` }));
     });
+    const selected = samples.find((sample) => sample.sample_seq === selectedSeq);
+    if (selected) target.append(svgElement('line', { x1: x(selected.collected_at), x2: x(selected.collected_at), y1: 8, y2: 106, class: 'chart-selection' }));
     const summaries = series.map((line) => {
-      const values = history.map(line.get).filter(finite);
+      const values = samples.map(line.get).filter(finite);
       if (!values.length) return `${line.label} 측정 대기`;
-      const last = line.get(history[history.length - 1]);
+      const last = line.get(samples[samples.length - 1]);
       return `${line.label} 최신 ${num(last)}${unit} / 최대 ${num(Math.max(...values))}${unit}`;
     });
     text(summaryId, summaries.join(' · '));
   }
 
+  function renderReadout(samples) {
+    const selected = samples.find((sample) => sample.sample_seq === selectedSeq);
+    if (!selected) {
+      text('chart-readout', '표본을 선택하면 시각과 값을 확인할 수 있습니다.');
+      return;
+    }
+    const { lines, unit } = chartSeries[selectedChart];
+    const values = lines.map((line) => {
+      const value = line.get(selected);
+      return `${line.label} ${finite(value) ? `${num(value)}${unit}` : '측정값 없음'}`;
+    });
+    text('chart-readout', `표본 ${num(selected.sample_seq, true)} · ${timeFormat.format(selected.collected_at)} · ${values.join(' · ')}`);
+  }
+
+  function renderErrorDeltas(samples) {
+    const observed = samples.length > 1 ? historyRange(samples).description : samples.length ? '관측 시작' : '표본 수집 대기 중';
+    text('error-observation', `${observed} · ${num(samples.length, true)}개 실제 표본 · 이벤트는 중복 집계 가능`);
+    let total = 0;
+    let allKnown = samples.length >= 2;
+    for (const key of errorCounters) {
+      let delta = 0;
+      let known = samples.length >= 2;
+      for (let index = 1; index < samples.length; index += 1) {
+        const before = samples[index - 1].metrics?.[key];
+        const after = samples[index].metrics?.[key];
+        if (!finite(before) || !finite(after) || after < before) { known = false; break; }
+        delta += after - before;
+      }
+      text(`delta-${key}`, known ? num(delta, true) : '—');
+      if (known) total += delta;
+      else allKnown = false;
+    }
+    text('delta-total', allKnown ? num(total, true) : '—');
+  }
+
   function renderCharts() {
-    chart('connections', [{ label: '연결', get: (sample) => sample.metrics?.active_connections }], '개');
-    chart('throughput', [
-      { label: '입력', get: (sample) => sample.rates?.inputs_per_second },
-      { label: '발행', get: (sample) => sample.rates?.snapshots_per_second },
-    ], '건/초');
-    chart('cpu', [{ label: 'CPU', get: (sample) => sample.process?.cpu_percent }], '%');
-    chart('rss', [{ label: 'RSS', get: (sample) => finite(sample.process?.rss_bytes) ? sample.process.rss_bytes / 1048576 : null }], ' MiB');
+    const samples = visibleHistory();
+    if (samples.length) {
+      if (!samples.some((sample) => sample.sample_seq === selectedSeq)) {
+        const nearest = selectedAt === null ? samples[samples.length - 1] : samples.reduce((best, sample) => Math.abs(sample.collected_at - selectedAt) < Math.abs(best.collected_at - selectedAt) ? sample : best);
+        selectedSeq = nearest.sample_seq;
+        selectedAt = nearest.collected_at;
+      }
+    } else { selectedSeq = null; selectedAt = null; }
+    for (const [name, { lines, unit }] of Object.entries(chartSeries)) chart(name, lines, unit, samples);
     const last = history[history.length - 1];
     text('chart-connections-value', last ? `${num(last.metrics?.active_connections, true)}개` : '—');
     text('chart-cpu-value', last ? `${num(last.process?.cpu_percent)}%` : '—');
     text('chart-rss-value', last ? `${num(finite(last.process?.rss_bytes) ? last.process.rss_bytes / 1048576 : null)} MiB` : '—');
-    text('history-description', history.length ? `${num(history.length, true)}개 표본 · ${historyRange().description} · 빈 구간은 연결하지 않습니다.` : '첫 이력 표본을 수집하는 중입니다.');
+    text('history-description', samples.length ? `${num(samples.length, true)}개 표본 · ${historyRange(samples).description} · ${num(rangeMs / 60000, true)}분 표시 범위 · 빈 구간은 연결하지 않습니다.` : '첫 이력 표본을 수집하는 중입니다.');
+    renderReadout(samples);
+    renderErrorDeltas(samples);
   }
 
   function changePage(index, cursor) {
@@ -506,6 +592,46 @@
   });
   $('logout').addEventListener('click', () => logout());
   $('refresh').addEventListener('click', refresh);
+  for (const minutes of [1, 5, 15]) {
+    $(`range-${minutes}m`).addEventListener('click', () => {
+      rangeMs = minutes * 60000;
+      for (const option of [1, 5, 15]) $(`range-${option}m`).setAttribute('aria-pressed', String(option === minutes));
+      renderCharts();
+    });
+  }
+  for (const name of Object.keys(chartSeries)) {
+    const target = $(`chart-${name}`);
+    target.addEventListener('keydown', (event) => {
+      const samples = visibleHistory();
+      if (!samples.length || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const index = samples.findIndex((sample) => sample.sample_seq === selectedSeq);
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? samples.length - 1
+        : event.key === 'ArrowLeft' ? Math.max(0, index - 1) : Math.min(samples.length - 1, index + 1);
+      selectedSeq = samples[next].sample_seq;
+      selectedAt = samples[next].collected_at;
+      selectedChart = name;
+      renderCharts();
+    });
+    const selectPointer = (event) => {
+      const samples = visibleHistory();
+      if (!samples.length) return;
+      const { start, span } = historyRange(samples);
+      const screenCTM = target.getScreenCTM();
+      if (!screenCTM) return;
+      const x = new DOMPoint(event.clientX, event.clientY).matrixTransform(screenCTM.inverse()).x;
+      if (!finite(x)) return;
+      const at = start + Math.max(0, Math.min(1, (x - 58) / 408)) * span;
+      const nearest = samples.reduce((best, sample) => Math.abs(sample.collected_at - at) < Math.abs(best.collected_at - at) ? sample : best);
+      if (nearest.sample_seq === selectedSeq && selectedChart === name) return;
+      selectedSeq = nearest.sample_seq;
+      selectedAt = nearest.collected_at;
+      selectedChart = name;
+      renderCharts();
+    };
+    target.addEventListener('pointermove', selectPointer);
+    target.addEventListener('pointerdown', selectPointer);
+  }
   $('auto-refresh').addEventListener('change', () => {
     clearTimer();
     updateFreshness();

@@ -37,6 +37,9 @@ func _run() -> void:
 		if not failures.is_empty():
 			_finish(false, "unexpected transport error")
 			return
+		# Each iteration authenticates and creates a room. Pace the fixture below
+		# the default 10 control requests/second budget even if limits become shared.
+		await create_timer(0.26).timeout
 	_write("ready.json", {"success": true, "room_count": rooms.size(), "rooms": rooms, "transport": "Production CampfireClient / Godot WebSocketPeer"})
 	while not FileAccess.file_exists(work.path_join("stop.json")):
 		await create_timer(0.1).timeout

@@ -9,13 +9,13 @@ import math
 import os
 from pathlib import Path
 import re
-import shutil
 import socket
 import subprocess
 import sys
 import tempfile
 import time
 import urllib.request
+from validation_paths import resolve_executable, resolve_target_dir, server_binary
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "examples/godot"
@@ -49,8 +49,8 @@ def source_hash():
     paths += list((ROOT / "crates").rglob("Cargo.toml"))
     paths += list((ROOT / "crates/campfire-server/src/dashboard/assets").glob("*"))
     paths += list((ROOT / "tools").glob("*dashboard*"))
-    paths += list((ROOT / "tools/tests").glob("dashboard*"))
-    paths += list(PROJECT.rglob("*.gd")) + list(PROJECT.rglob("*.gd.uid")) + list(PROJECT.rglob("*.tscn")) + [PROJECT / "project.godot", Path(__file__)]
+    paths += list((ROOT / "tools/tests").glob("dashboard*")) + list((ROOT / "tools/tests").glob("test_validation_tools.py"))
+    paths += list(PROJECT.rglob("*.gd")) + list(PROJECT.rglob("*.gd.uid")) + list(PROJECT.rglob("*.tscn")) + [PROJECT / "project.godot", Path(__file__), ROOT / "tools/validation_paths.py", ROOT / "tools/validate_godot_accounts.py"]
     for path in sorted(path for path in paths if path.is_file()):
         digest.update(str(path.relative_to(ROOT)).encode() + b"\0" + path.read_bytes())
     return digest.hexdigest()
@@ -178,7 +178,8 @@ def run_integration(godot, server_url, temporary, out, graphical):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--godot", default=os.environ.get("GODOT", shutil.which("godot") or "/opt/homebrew/bin/godot"))
+    parser.add_argument("--godot")
+    parser.add_argument("--target-dir")
     parser.add_argument("--counts", nargs="+", type=int, default=[8, 16], choices=[8, 16])
     parser.add_argument("--duration", type=float, default=20.0)
     parser.add_argument("--output", type=Path, default=ROOT / "artifacts/godot-validation")
@@ -189,6 +190,14 @@ def main():
     args = parser.parse_args()
     if not 15 <= args.duration <= 120:
         parser.error("duration must be 15..120 seconds")
+    try:
+        args.godot = str(resolve_executable(args.godot, "GODOT", "godot"))
+        target_dir = resolve_target_dir(args.target_dir)
+    except FileNotFoundError as error:
+        parser.error(str(error))
+    binary = server_binary(target_dir)
+    if args.skip_build and not binary.is_file():
+        parser.error(f"Required validation binary is missing: {binary}")
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=True)
     all_processes = []
@@ -196,14 +205,15 @@ def main():
     result = {"success": False, "source_sha256": source_hash(), "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(), "git_status": subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).splitlines(), "godot_version": subprocess.check_output([args.godot, "--version"], text=True).strip(), "invocation": sys.argv, "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
     try:
         if not args.skip_build:
-            subprocess.run(["cargo", "build", "-p", "campfire-server", "--locked", "--offline"], cwd=ROOT, check=True)
-        result["server_binary_sha256"] = hashlib.sha256((ROOT / "target/debug/campfire-server").read_bytes()).hexdigest()
+            subprocess.run(["cargo", "build", "-p", "campfire-server", "--locked", "--offline"], cwd=ROOT, env=dict(os.environ, CARGO_TARGET_DIR=str(target_dir)), check=True)
+        result["server_binary_sha256"] = hashlib.sha256(binary.read_bytes()).hexdigest()
+        result["godot_binary_sha256"] = hashlib.sha256(Path(args.godot).read_bytes()).hexdigest()
         result["rust_version"] = subprocess.check_output(["rustc", "--version"], cwd=ROOT, text=True).strip()
         with socket.socket() as sock:
             sock.bind(("127.0.0.1", 0))
             port = sock.getsockname()[1]
         server_url = f"http://127.0.0.1:{port}"
-        server_command = [str(ROOT / "target/debug/campfire-server"), "--bind", f"127.0.0.1:{port}", "--game", "arena", "--game", "arena-b", "--capacity", "16", "--reconnect-grace-ms", "2000", "--guest-burst", "100", "--guest-rate-per-second", "100"]
+        server_command = [str(binary), "--bind", f"127.0.0.1:{port}", "--game", "arena", "--game", "arena-b", "--capacity", "16", "--reconnect-grace-ms", "2000", "--guest-burst", "100", "--guest-rate-per-second", "100"]
         result["server_command"] = server_command
         result["configuration_note"] = "Validation-only guest burst/rate100 avoids default issuer burst10; reconnect grace shortened from30000 to2000ms. Other server timing/transport defaults retained."
         server_handle = (output / "server.log").open("w")
@@ -237,6 +247,8 @@ def main():
                 raise RuntimeError(f"Credential unexpectedly logged in {path}")
         if source_hash() != result["source_sha256"]:
             raise RuntimeError("Validation source changed during run")
+        if hashlib.sha256(binary.read_bytes()).hexdigest() != result["server_binary_sha256"] or hashlib.sha256(Path(args.godot).read_bytes()).hexdigest() != result["godot_binary_sha256"]:
+            raise RuntimeError("Validation binary changed during run")
         result["success"] = True
     except Exception as error:
         result["failure"] = str(error)
