@@ -5,6 +5,7 @@ import os
 import sys
 import tarfile
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -131,6 +132,63 @@ description = "Test runtime"
             self.assertEqual(summary["target_source"], "temporary")
             self.assertNotEqual(Path(summary["target_dir"]), smoke.ROOT / "target")
             self.assertFalse(Path(summary["target_dir"]).exists())
+
+    def test_unpublished_crates_are_patched_before_each_package_command(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            target = directory / "target"
+            output = directory / "evidence"
+            packaged = []
+
+            def fake_command(command, cwd, env, log):
+                if "generate-lockfile" in command:
+                    Path(cwd, "Cargo.lock").write_text("# generated test lockfile\n")
+                    return
+                if "package" not in command:
+                    return
+                name = command[command.index("-p") + 1]
+                packaged.append(name)
+                self.assertIn("--locked", command)
+                self.assertIn("--offline", command)
+                if name == "campfire-runtime":
+                    self.assertNotIn("--config", command)
+                else:
+                    self.assertIn("--config", command)
+                    self.assertIn("--exclude-lockfile", command)
+                    config = Path(command[command.index("--config") + 1]).read_text()
+                    overrides = tomllib.loads(config)["patch"]["crates-io"]
+                    self.assertEqual(set(overrides), set(packaged[:-1]))
+                    for dependency in overrides.values():
+                        self.assertTrue(Path(dependency["path"]).joinpath("Cargo.toml").is_file())
+                manifest = (
+                    f'[package]\nname = "{name}"\nversion = "0.1.0"\nrust-version = "1.96"\n'
+                    'license = "MIT"\nrepository = "https://github.com/sangjinsu/campfire"\n'
+                    'description = "Package test"\n'
+                )
+                for dependency in ("campfire-runtime", "campfire-arena"):
+                    if dependency in packaged[:-1]:
+                        manifest += f'[dependencies.{dependency}]\nversion = "0.1.0"\n'
+                target.joinpath("package").mkdir(parents=True, exist_ok=True)
+                archive = target / "package" / f"{name}-0.1.0.crate"
+                members = {
+                    f"{name}-0.1.0/Cargo.toml": manifest.encode(),
+                    f"{name}-0.1.0/LICENSE": (smoke.ROOT / "LICENSE").read_bytes(),
+                }
+                if name == "campfire-runtime":
+                    members[f"{name}-0.1.0/Cargo.lock"] = b"# packaged test lockfile\n"
+                self._archive(archive, members)
+
+            with patch.object(sys, "argv", ["package_smoke.py", "--output", str(output), "--target-dir", str(target)]), patch.object(smoke, "run_command", side_effect=fake_command):
+                self.assertEqual(smoke.main(), 0)
+            self.assertEqual(packaged, list(smoke.CRATES))
+            summary = json.loads((output / "summary.json").read_text())
+            self.assertTrue(summary["archives"]["campfire-runtime"]["lockfile_included"])
+            self.assertFalse(summary["archives"]["campfire-arena"]["lockfile_included"])
+            self.assertFalse(summary["archives"]["campfire-server"]["lockfile_included"])
+            self.assertTrue(summary["repository_lockfile"]["unchanged"])
+            for name in ("checkout", "archive", "server_archive"):
+                recorded = summary["consumer_lockfiles"][name]
+                self.assertEqual(smoke.sha256(output / recorded["file"]), recorded["sha256"])
 
 
 if __name__ == "__main__":

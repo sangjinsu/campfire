@@ -100,6 +100,8 @@ Campfire는 `/health`, `/v1/games/{game_id}/guests`, `/v1/games/{game_id}/sessio
 
 관측 전용 `RuntimeObserver`는 runtime의 수명을 연장하지 않습니다. `snapshot()`은 보관된 룸 summary와 atomic metrics를 읽으며 게임 snapshot/private hook을 호출하지 않습니다. 별도 프로세스로 실행한 dashboard는 그 프로세스만 관측하므로 기존 게임 프로세스에 합성해야 합니다. [환경 변수·HTTP·HTTPS 운영 계약](dashboard.md)을 함께 적용하세요.
 
+공개 `MetricsSnapshot`에는 최근 관측값을 담는 `recent`와 `commands_processed`, `commands_failed`, `command_replays`, `max_command_duration_micros`가 추가되었습니다. 이 구조체를 모든 필드가 나열된 literal로 직접 생성하는 소비자는 새 필드를 채우도록 소스를 수정해야 합니다. 기존 `Config` literal과 `RuntimeOptions` 생성 방식은 이 변경의 대상이 아닙니다.
+
 ## 자신의 게임 모듈 만들기
 
 공개 계약은 [`game.rs`](../crates/campfire-runtime/src/game.rs)에 있고, 전체 구현 예제는 [`ArenaModule`](../crates/campfire-arena/src/lib.rs)입니다.
@@ -238,4 +240,4 @@ python3 tools/package_smoke.py --output "$(mktemp -d)/package-smoke"
 
 이 명령은 새 임시 Cargo target을 사용하므로 저장소의 기존 `target` binary를 덮어쓰지 않습니다. `--target-dir`를 주면 그 경로를, 그렇지 않고 `CARGO_TARGET_DIR`가 설정되어 있으면 환경변수 경로를 사용합니다. 선택한 절대 경로와 출처는 출력의 `summary.json`에 남습니다.
 
-도구는 runtime을 정상 `cargo package` 검증으로 빌드합니다. arena와 server는 archive를 `--no-verify`로 생성한 뒤, archive에서 풀어낸 정규화된 manifest를 검사합니다. 별도 임시 consumer가 runtime·arena archive와 자체 `GameModule`을 사용해 등록, Axum router 합성, observer, `RuntimeOptions`, `shutdown_with_timeout`을 컴파일·실행합니다. server archive도 따로 `cargo check`합니다. 이때 임시 `[patch.crates-io]`가 미게시 내부 crate만 풀어낸 archive 경로로 대체합니다. archive SHA-256, 포함 파일 목록, checkout consumer 로그, archive consumer 로그, server archive 컴파일 로그를 출력 디렉터리에 남깁니다. 이는 crates.io 인덱스 등록과 공개 다운로드 검증을 대신하지 않습니다.
+도구는 runtime을 정상 `cargo package` 검증으로 빌드합니다. arena와 server는 앞서 만든 내부 crate archive의 추출 경로를 임시 `[patch.crates-io]`에 지정하고 `--locked --no-verify --exclude-lockfile`로 archive를 생성합니다. `--exclude-lockfile`은 미게시 내부 crate를 crates.io에서 찾으려는 package lockfile 생성 단계를 건너뛰므로, 이 두 archive에는 `Cargo.lock`이 없습니다. 이어서 정규화된 manifest·MIT LICENSE·포함 파일을 검사합니다. 별도 임시 consumer는 자체 lockfile을 만들고 같은 local patch 아래 runtime·arena archive와 자체 `GameModule`을 사용해 등록, Axum router 합성, observer, `RuntimeOptions`, `shutdown_with_timeout`을 컴파일·실행합니다. server archive도 자체 lockfile과 local patch를 사용해 따로 `cargo check --locked`합니다. 출력에는 crate별 archive SHA-256·포함 파일·lockfile 포함 여부와 checkout/archive/server 소비 검증 로그, 생성된 세 consumer `Cargo.lock` 및 각 SHA-256, 저장소 `Cargo.lock` 실행 전후 해시가 남습니다. arena/server archive의 lockfile 기반 재현 설치와 `cargo install --locked`, crates.io 인덱스 등록·공개 다운로드는 검증하지 않았습니다.

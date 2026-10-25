@@ -75,6 +75,15 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def retain_lockfile(source_dir: Path, evidence_dir: Path, label: str) -> dict[str, str]:
+    source = source_dir / "Cargo.lock"
+    if not source.is_file():
+        raise RuntimeError(f"missing consumer lockfile: {source}")
+    retained = evidence_dir / f"{label}.Cargo.lock"
+    shutil.copy2(source, retained)
+    return {"file": str(retained.relative_to(evidence_dir.parent)), "sha256": sha256(retained)}
+
+
 def toml_string(value: Path | str) -> str:
     return json.dumps(str(value))
 
@@ -127,7 +136,8 @@ def local_patch_config(packages: dict[str, Path]) -> str:
     """Override unpublished crates.io versions with the extracted archives."""
     lines = ["[patch.crates-io]"]
     for name in ("campfire-runtime", "campfire-arena"):
-        lines.append(f"{name} = {{ path = {toml_string(packages[name])} }}")
+        if name in packages:
+            lines.append(f"{name} = {{ path = {toml_string(packages[name])} }}")
     return "\n".join(lines) + "\n"
 
 
@@ -205,12 +215,20 @@ def main() -> int:
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     offline = [] if args.online else ["--offline"]
+    repository_lock_sha256 = sha256(ROOT / "Cargo.lock")
     summary: dict[str, object] = {
         "status": "running", "version": VERSION, "msrv": "pending", "target_dir": "pending", "target_source": "pending",
-        "archive_mode": "runtime verified; arena/server archive only, then compiled from extracted archive",
+        "archive_mode": "runtime verified; arena/server archive without lockfile, then compiled from extracted archive",
         "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
         "checkout_consumer": "pending", "archive_consumer": "pending", "server_archive_check": "pending",
-        "archives": {}, "metadata": {}, "registry_publish": "not attempted",
+        "archives": {}, "metadata": {}, "consumer_lockfiles": {},
+        "repository_lockfile": {"before_sha256": repository_lock_sha256, "after_sha256": "pending", "unchanged": False},
+        "lockfile_exclusion_reason": "unpublished internal crate versions are absent from crates.io; root Cargo.lock stays unchanged",
+        "verification_limits": [
+            "arena/server archives omit Cargo.lock; reproducible packaged resolution and cargo install --locked are unverified",
+            "crates.io publication and public registry download are unverified",
+        ],
+        "registry_publish": "not attempted",
     }
     try:
         with tempfile.TemporaryDirectory(prefix="campfire-package-smoke-") as temporary:
@@ -223,31 +241,37 @@ def main() -> int:
             env["CARGO_BUILD_JOBS"] = "4"
             package_dir = output / "packages"
             package_dir.mkdir()
-            # Runtime's normal package verification checks its source independently.
-            run_command(
-                ["cargo", "package", "-p", "campfire-runtime", "--allow-dirty", "--locked", *offline],
-                ROOT, env, output / "package-runtime.log",
-            )
-            for name in CRATES[1:]:
-                # These depend on unpublished internal crate versions. Their extracted archives
-                # are checked below against a temporary local source override.
-                run_command(
-                    ["cargo", "package", "-p", name, "--allow-dirty", "--locked", "--no-verify", *offline],
-                    ROOT, env, output / f"package-{name}.log",
-                )
             extracted = {}
             for name in CRATES:
+                command = ["cargo", "package", "-p", name, "--allow-dirty", "--locked"]
+                if name == "campfire-runtime":
+                    # Runtime's normal package verification checks its source independently.
+                    log = output / "package-runtime.log"
+                else:
+                    # Offer prior archives as local patches; skip package lockfile generation.
+                    config = temp / f"package-{name}-config.toml"
+                    config.write_text(local_patch_config(extracted))
+                    command += ["--no-verify", "--exclude-lockfile", "--config", str(config)]
+                    log = output / f"package-{name}.log"
+                run_command(command + offline, ROOT, env, log)
                 archive = target / "package" / f"{name}-{VERSION}.crate"
                 if not archive.is_file():
                     raise RuntimeError(f"missing archive: {archive}")
                 retained = package_dir / archive.name
                 shutil.copy2(archive, retained)
                 members = package_members(retained, name)
+                lockfile_included = f"{name}-{VERSION}/Cargo.lock" in members
+                if lockfile_included != (name == "campfire-runtime"):
+                    raise ValueError(f"{name} package lockfile inclusion differs from the expected archive mode")
                 (package_dir / f"{name}.files.txt").write_text("\n".join(members) + "\n")
-                summary["archives"][name] = {"sha256": sha256(retained), "files": len(members)}
+                summary["archives"][name] = {
+                    "sha256": sha256(retained), "files": len(members), "lockfile_included": lockfile_included,
+                }
                 extracted[name] = extract_package(retained, temp / "extracted", name)
                 summary["metadata"][name] = validate_package_source(extracted[name], name, members)
             summary["msrv"] = "verified 1.96 in all normalized package manifests"
+            lockfile_dir = output / "lockfiles"
+            lockfile_dir.mkdir()
             checkout = temp / "checkout-consumer"
             checkout.joinpath("src").mkdir(parents=True)
             (checkout / "Cargo.toml").write_text(consumer_manifest({
@@ -255,6 +279,7 @@ def main() -> int:
             }))
             (checkout / "src/main.rs").write_text(CONSUMER)
             run_command(["cargo", "generate-lockfile", *offline], checkout, env, output / "checkout-lock.log")
+            summary["consumer_lockfiles"]["checkout"] = retain_lockfile(checkout, lockfile_dir, "checkout")
             run_command(["cargo", "run", "--locked", *offline], checkout, env, output / "checkout-consumer.log")
             summary["checkout_consumer"] = "passed"
 
@@ -265,6 +290,7 @@ def main() -> int:
             (archive_consumer / "Cargo.toml").write_text(consumer_manifest(extracted))
             (archive_consumer / "src/main.rs").write_text(CONSUMER)
             run_command(["cargo", "generate-lockfile", *offline], archive_consumer, env, output / "archive-lock.log")
+            summary["consumer_lockfiles"]["archive"] = retain_lockfile(archive_consumer, lockfile_dir, "archive")
             run_command(["cargo", "run", "--locked", *offline], archive_consumer, env, output / "archive-consumer.log")
             summary["archive_consumer"] = "passed"
 
@@ -276,6 +302,9 @@ def main() -> int:
                 ["cargo", "generate-lockfile", *offline], extracted["campfire-server"], env,
                 output / "server-archive-lock.log",
             )
+            summary["consumer_lockfiles"]["server_archive"] = retain_lockfile(
+                extracted["campfire-server"], lockfile_dir, "server-archive",
+            )
             run_command(
                 ["cargo", "check", "--manifest-path", str(extracted["campfire-server"] / "Cargo.toml"), "--locked", *offline],
                 extracted["campfire-server"], env, output / "server-archive-check.log",
@@ -285,6 +314,12 @@ def main() -> int:
     except (RuntimeError, ValueError, OSError) as error:
         summary["status"] = "failed"
         summary["error"] = str(error)
+    repository_lock_after_sha256 = sha256(ROOT / "Cargo.lock")
+    summary["repository_lockfile"]["after_sha256"] = repository_lock_after_sha256
+    summary["repository_lockfile"]["unchanged"] = repository_lock_after_sha256 == repository_lock_sha256
+    if not summary["repository_lockfile"]["unchanged"]:
+        summary["status"] = "failed"
+        summary["error"] = "repository Cargo.lock changed during package smoke"
     (output / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0 if summary["status"] == "passed" else 1
