@@ -4,6 +4,8 @@ version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+description = "Reusable room-based multiplayer runtime with sessions, WebSocket transport, and game modules"
 
 [dependencies]
 axum.workspace = true

@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  fast:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+      CARGO_BUILD_JOBS: "4"
+      CARGO_TERM_COLOR: always
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Prepare evidence directory
+        shell: bash
+        run: mkdir -p artifacts/ci
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24.22.1"
+      - name: Set up Rust 1.96
+        shell: bash
+        run: |
+          set -o pipefail
+          rustup toolchain install 1.96.0 --profile minimal --component rustfmt,clippy 2>&1 | tee artifacts/ci/rust-install.log
+          rustup default 1.96.0 2>&1 | tee -a artifacts/ci/rust-install.log
+          rustc --version | tee -a artifacts/ci/rust-install.log
+          cargo --version | tee -a artifacts/ci/rust-install.log
+      - name: Tool and source manifest
+        shell: bash
+        run: |
+          {
+            git rev-parse HEAD
+            git rev-parse 'HEAD^{tree}'
+            sha256sum Cargo.lock
+            rustc --version
+            cargo --version
+            node --version
+            python3 --version
+          } > artifacts/ci/manifest.txt
+      - name: Download locked Rust dependencies
+        shell: bash
+        run: |
+          set -o pipefail
+          cargo fetch --locked 2>&1 | tee artifacts/ci/cargo-fetch.log
+      - name: Rust formatting
+        shell: bash
+        run: |
+          set -o pipefail
+          cargo fmt --all -- --check 2>&1 | tee artifacts/ci/fmt.log
+      - name: Rust lint
+        shell: bash
+        run: |
+          set -o pipefail
+          cargo clippy --workspace --all-targets --locked --offline -- -D warnings 2>&1 | tee artifacts/ci/clippy.log
+      - name: Rust tests
+        shell: bash
+        run: |
+          set -o pipefail
+          cargo test --workspace --all-targets --locked --offline 2>&1 | tee artifacts/ci/rust-tests.log
+      - name: Server without default features
+        shell: bash
+        run: |
+          set -o pipefail
+          cargo check -p campfire-server --no-default-features --all-targets --locked --offline 2>&1 | tee artifacts/ci/server-no-default.log
+      - name: Node UI tests
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test tools/tests/*.mjs 2>&1 | tee artifacts/ci/node-tests.log
+      - name: Python runner and package tests
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s tools/tests -p 'test_*.py' 2>&1 | tee artifacts/ci/python-tests.log
+      - name: Package and independent consumers
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 tools/package_smoke.py --target-dir "$CARGO_TARGET_DIR" --output artifacts/ci/package-smoke 2>&1 | tee artifacts/ci/package-smoke.log
+      - name: Upload fast-check evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: fast-checks-${{ github.run_id }}
+          path: artifacts/ci/
+          if-no-files-found: warn
+          retention-days: 14

@@ -59,7 +59,7 @@ cargo run -p campfire-server --example headless -- http://127.0.0.1:3000 arena
 
 ## 다른 Rust 서버에서 사용하기
 
-**가능합니다.** `campfire-runtime`은 실행 바이너리와 분리된 library crate입니다. 현재 저장소의 crate를 path dependency로 사용해 아래 방식으로 적용할 수 있습니다.
+**가능합니다.** `campfire-runtime`은 실행 바이너리와 분리된 library crate입니다. 현재 저장소의 crate를 path dependency로 사용해 아래 방식으로 적용할 수 있습니다. 세 crate는 MIT 라이선스, Rust 1.96 MSRV, 내부 의존성의 path와 `0.1.0` 버전을 선언합니다. crates.io 등록은 아직 하지 않았습니다.
 
 | 만들고 있는 것 | 활용 방법 |
 |---|---|
@@ -68,6 +68,8 @@ cargo run -p campfire-server --example headless -- http://127.0.0.1:3000 arena
 | 다른 Rust 웹 프레임워크 | Campfire를 별도 서비스로 실행하고 HTTP/JSON WebSocket 프로토콜로 연동할 수 있습니다. 해당 프레임워크 전용 내장 adapter는 제공하지 않습니다. |
 
 `Game`은 최신 이동 입력, FIFO 단발 명령, 공용·수신자별 snapshot을 구분합니다. 기존 로그인은 호스트의 async `AccountAuthenticator`를 `Campfire::with_authenticator()`에 주입해 연결합니다. 기본 CLI는 게스트 흐름을 사용합니다. Godot의 **Account Inventory** 모드는 개발용 계정 서버에 로그인하고 공용 수집 횟수·내 inventory·내 명령 결과를 표시합니다. 실제 계정 공급자의 credential 검증·DB·서비스 설정은 호스트가 담당합니다. [의존성 설정, 계정 서버 예제와 게임 hook](docs/reuse.md)에서 연결 방법을 확인하세요.
+
+패키지 재사용을 확인하려면 `cargo fetch --locked`로 외부 의존성을 준비한 뒤 `python3 tools/package_smoke.py --output "$(mktemp -d)/package-smoke"`를 실행하세요. 이 명령의 Cargo target은 새 임시 디렉터리이며, `CARGO_TARGET_DIR` 환경변수 또는 `--target-dir`로 지정할 수 있습니다. 선택 경로와 출처는 `summary.json`에 기록됩니다. 이 도구는 checkout path consumer와 `.crate` archive를 풀어 사용한 consumer를 각각 실행하고, archive SHA-256·파일 목록·컴파일 로그를 보존합니다. 미게시 내부 crate는 임시 `[patch.crates-io]`로 archive 경로에 연결하며 실제 publish는 하지 않습니다. 자세한 검증 범위는 [재사용 가이드](docs/reuse.md#패키지와-독립-consumer-검증)에 있습니다.
 
 개발용 계정 서버는 서로 다른 두 credential을 환경 변수로 설정한 뒤 `cargo run -p campfire-server --no-default-features --example account_server`로 시작합니다. Godot 두 창에서 **Account Inventory → credential 입력 → 계정 로그인**으로 접속하고 한 창에서 방을 만든 뒤 다른 창에서 목록을 새로고침해 입장하세요. 기본 주소는 `http://127.0.0.1:3001`, game ID는 `inventory`입니다. [계정 실행·조작·재확인 안내](examples/godot/README.md#계정-inventory)가 자세한 절차를 설명합니다.
 
@@ -133,3 +135,4 @@ Godot 계정 UI의 실제 두 native 창 검증은 [계정 클라이언트 검�
 - [관리자 대시보드](docs/dashboard.md) — 키 설정, 지표 해석, API, HTTPS reverse proxy
 - [설계 사양](docs/specification.md) — runtime과 게임 모듈의 책임
 - [서버 검증](docs/verification-results.md) · [Godot 검증](docs/godot-verification.md) — 실행 명령, 측정값, 원본 증거
+- [검증 추적표](docs/verification-coverage.md) — 빠른 CI와 예약·수동 실환경 suite의 범위 및 실행 상태

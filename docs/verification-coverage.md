@@ -1,5 +1,21 @@
 # 검증 추적표
 
+## 2026-10-25 CI·패키지 검증 준비
+
+`.github/workflows/ci.yml`은 PR/push에서 Rust 1.96 fmt, workspace all-targets clippy·test, no-default server check, Node UI test, Python runner unit test, `tools/package_smoke.py`를 실행하도록 설정했다. package smoke는 runtime 정상 package 검증과 arena/server archive 생성 후 별도 컴파일을 구분하고, checkout path와 archive consumer 결과를 각각 보존한다. 외부 의존성을 `cargo fetch --locked`로 받은 다음 smoke는 offline으로 실행한다. 출력에는 crate archive SHA-256·파일 목록·명령 로그·summary가 포함된다. 도구의 target은 `--target-dir`, `CARGO_TARGET_DIR`, 새 임시 target 순으로 선택되고 summary에 기록된다. 실제 crates.io publish와 registry 소비 확인은 범위 밖이다.
+
+`.github/workflows/runtime-validation.yml`은 월요일 03:17 UTC 예약과 수동 실행에서 고정 Rust 1.96, Node 24.22.1, Bun 1.4.3, Godot 4.7.2, gstack commit `e66c43c57209a17e2d9a79847a2e985c27ca80bd`를 준비하도록 설정했다. 고정 gstack commit의 `package.json`은 Bun >=1.4.2를 요구한다. 공식 Godot ZIP SHA-256을 확인하고 새 binary를 빌드한 뒤 `validate_godot.py`의 실제 8·16 client, 독립 account/native suite, `validate_dashboard.py --suite all`의 browser·load·accounts·추가 20개 UI probe를 실행한다. 세 suite는 준비 단계가 성공하면 앞 suite의 실패와 관계없이 각각 실행되고, 실패는 job 실패로 남는다. 준비 실패 시 suite를 건너뛰며 가능한 로그를 artifact로 업로드한다. 각 suite는 별도 출력 디렉터리를 사용하고 실패 시에도 로그와 summary/screenshots를 artifact로 업로드한다. test credential은 account runner가 실행 중 메모리에서 생성한다.
+
+이 문단은 workflow 구성 상태를 기록한다. GitHub runner에서의 최초 CI 실행, 예약 job, workflow_dispatch 결과는 아직 확인되지 않았으며 통과로 취급하지 않는다. 실행 후에는 해당 run URL과 artifact의 source/tree hash, binary/tool hash, suite summary를 이 문서에 추가해야 한다.
+
+## 2026-10-25 검증 runner 준비
+
+세 Python runner는 `--target-dir`(기본 `CARGO_TARGET_DIR`, 없으면 저장소 `target`), `--godot`(기본 `GODOT` 또는 `PATH`)을 사용한다. Dashboard runner의 browser 및 ui-probe suite는 `--browse`(기본 `BROWSE_BIN` 또는 `PATH`)가 필요하다. `--suite load`와 `--suite accounts`는 browse가 없어도 실행할 수 있으며, browser/load/ui-probe는 account 예제 binary를 요구하지 않는다. 필요한 binary가 없으면 해당 suite가 명확히 실패한다. 중첩 계정 runner에도 같은 target·Godot 경로가 전달된다.
+
+Dashboard runner는 실행마다 새 임시 root에 `BROWSE_STATE_FILE`과 `CHROMIUM_PROFILE`을 지정하고 상속된 profile 값을 덮어쓴다. 종료 시 해당 root의 browse state만 stop하고 직접 시작한 프로세스만 정리한다. Python subprocess 회귀는 두 runner의 state/profile 분리, browse와 stop의 동일 환경, 선택 target binary 실행 및 SHA 기록, 사용하지 않는 도구의 비필수성을 확인한다. `python3 -m unittest discover -s tools/tests -p 'test_*.py'`로 재실행한다.
+
+과거 [추가 20개 UI 검사](dashboard-ui-2026-10-23.md)의 개인 경로 스크립트는 원본 증거로 보존한다. 재실행은 `python3 tools/validate_dashboard.py --suite ui-probe --target-dir <build-target> --godot <godot> --browse <browse> --output <new-artifact-dir>`를 사용한다. `--suite all`도 추가 probe를 실행한다. 이 suite는 별도 loopback 서버와 실제 Godot 104룸을 사용해 Chromium layout 10개, scroll·focus·pagination 4개, 제어한 history 응답 5개, 제공 자산 SHA 1개를 확인한다. history 경계 표본은 실제 시간 경과나 OS CPU 부하가 아니라 browser fetch fixture이며 결과에 구분해 기록한다. Browser 기본 suite에는 새 차트의 범위·keyboard·pointer·오류 counter·null/0 제어 검사가 포함된다. 실제 browser 전체 실행과 8·16 client 부하는 최종 통합 QA 결과에서 별도로 보고한다.
+
 실제 TCP WebSocket 검증: `crates/campfire-server/tests/headless.rs`. 빠른 18개는 2026-10-18 승인된 localhost 실행에서 통과했다. 장기 기준의 실행 수치와 fixture 수정 이력은 [결과 보고서](verification-results.md)에 기록한다. `artifacts/fast-headless.json`은 첫 환경 실패와 재실행 결과, 명령 및 환경을 기록한다.
 
 | 사양 기준 | 독립 검증 | 실행 근거/범위 |

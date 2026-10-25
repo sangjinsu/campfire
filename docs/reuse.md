@@ -84,6 +84,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
 `router()`는 만료 정리 task를 시작하므로 Tokio runtime 안에서 호출해야 합니다. 예제의 `#[tokio::main]`이 이를 제공합니다. Ctrl+C를 받으면 `Campfire::shutdown()`으로 WebSocket과 룸을 정리한 뒤 HTTP 서버 종료를 기다립니다. SIGTERM까지 처리하는 구성은 [기존 서버 실행 코드](../crates/campfire-server/src/main.rs)를 참고하세요.
 
+연결당 control·invalid 요청 상한을 선택하려면 `RuntimeOptions`를 `Campfire::new_with_options(config, options)`에 전달할 수 있습니다. 기본 생성자와 기존 `Config` literal은 계속 사용할 수 있습니다. 종료 대기를 직접 제한해야 하면 `shutdown_with_timeout(Duration)`이 반환하는 `ShutdownReport`의 `completed`와 남은 room·connection·operation 수를 확인하세요. 동기 게임 callback이 실행을 멈추지 않으면 Tokio timer도 진행하지 못할 수 있으므로, 이 보고서는 scheduler가 진행되는 동안의 종료 상태입니다.
+
 ### Router와 접속 정보
 
 Campfire는 `/health`, `/v1/games/{game_id}/guests`, `/v1/games/{game_id}/sessions`, `/v1/games/{game_id}/ws`를 등록합니다. 기존 애플리케이션의 동일 route와 충돌하지 않게 구성하세요. 기존 router가 `Router<AppState>`라면 `.with_state(app_state)`로 필요한 state를 제공한 뒤 `Router<()>`를 합성합니다. 같은 state 타입을 요구하는 계약은 [Axum Router 문서](https://docs.rs/axum/0.8.9/axum/struct.Router.html#method.merge)에서 확인할 수 있습니다.
@@ -222,3 +224,18 @@ Campfire를 별도 서비스로 실행하면 Rust 서버의 웹 프레임워크�
 위 path dependency 예제는 **Campfire 저장소 전체**를 유지하는 방식입니다. 하위 crate만 복사하면 `workspace.package`와 `workspace.dependencies` 상속을 해석할 수 없습니다. 팀 프로젝트에서는 저장소 경로를 고정하거나, 원격 push 후 Cargo Git dependency에 검증한 commit의 `rev`를 지정해 재현성을 관리할 수 있습니다. [Cargo 의존성 문서](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html)에서 path·Git 지정 방법을 확인하세요.
 
 현재 이 가이드는 로컬 path dependency를 기준으로 합니다. crates.io 공개 배포나 프레임워크별 공식 adapter 설치를 전제로 하지 않습니다.
+
+## 패키지와 독립 consumer 검증
+
+루트와 세 crate의 manifest는 MIT 라이선스, 저장소 URL, crate별 description, Rust 1.96 MSRV를 선언합니다. `campfire-arena`와 `campfire-server`의 내부 의존성에는 checkout용 `path`와 package용 `version = "0.1.0"`을 함께 둡니다. 공개 registry에 실제 버전이 없다면 후행 crate의 일반 `cargo package` 검증은 registry resolution에 걸릴 수 있습니다.
+
+저장소 루트에서 다음을 실행하면 두 소비 경로를 별도로 확인합니다. 출력 경로는 새 디렉터리여야 합니다. 기본값은 이미 내려받은 외부 dependency를 사용하는 offline 검사이며, 필요한 crate가 아직 cache에 없다면 먼저 `cargo fetch --locked`를 실행하거나 도구에 `--online`을 지정하세요.
+
+```sh
+cargo fetch --locked
+python3 tools/package_smoke.py --output "$(mktemp -d)/package-smoke"
+```
+
+이 명령은 새 임시 Cargo target을 사용하므로 저장소의 기존 `target` binary를 덮어쓰지 않습니다. `--target-dir`를 주면 그 경로를, 그렇지 않고 `CARGO_TARGET_DIR`가 설정되어 있으면 환경변수 경로를 사용합니다. 선택한 절대 경로와 출처는 출력의 `summary.json`에 남습니다.
+
+도구는 runtime을 정상 `cargo package` 검증으로 빌드합니다. arena와 server는 archive를 `--no-verify`로 생성한 뒤, archive에서 풀어낸 정규화된 manifest를 검사합니다. 별도 임시 consumer가 runtime·arena archive와 자체 `GameModule`을 사용해 등록, Axum router 합성, observer, `RuntimeOptions`, `shutdown_with_timeout`을 컴파일·실행합니다. server archive도 따로 `cargo check`합니다. 이때 임시 `[patch.crates-io]`가 미게시 내부 crate만 풀어낸 archive 경로로 대체합니다. archive SHA-256, 포함 파일 목록, checkout consumer 로그, archive consumer 로그, server archive 컴파일 로그를 출력 디렉터리에 남깁니다. 이는 crates.io 인덱스 등록과 공개 다운로드 검증을 대신하지 않습니다.

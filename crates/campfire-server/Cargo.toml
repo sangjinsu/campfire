@@ -2,15 +2,18 @@
 name = "campfire-server"
 version.workspace = true
 edition.workspace = true
+rust-version.workspace = true
 license.workspace = true
+repository.workspace = true
+description = "Example Campfire multiplayer server with CLI, dashboard, and optional arena game"
 
 [features]
 default = ["arena"]
 arena = ["dep:campfire-arena"]
 
 [dependencies]
-campfire-runtime = { path = "../campfire-runtime" }
-campfire-arena = { path = "../campfire-arena", optional = true }
+campfire-runtime = { path = "../campfire-runtime", version = "0.1.0" }
+campfire-arena = { path = "../campfire-arena", version = "0.1.0", optional = true }
 axum.workspace = true
 tokio.workspace = true
 serde_json.workspace = true

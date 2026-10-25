@@ -1,0 +1,129 @@
+name: Runtime validation
+
+on:
+  schedule:
+    - cron: "17 3 * * 1" # Monday 03:17 UTC, latest default-branch commit
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-validation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      CARGO_TARGET_DIR: /tmp/campfire-improvements-20261025-target
+      CARGO_BUILD_JOBS: "4"
+      CARGO_TERM_COLOR: always
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Prepare evidence directory
+        shell: bash
+        run: mkdir -p artifacts/runtime-validation
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24.22.1"
+      - name: Set up Rust 1.96
+        shell: bash
+        run: |
+          set -o pipefail
+          rustup toolchain install 1.96.0 --profile minimal --component rustfmt,clippy 2>&1 | tee artifacts/runtime-validation/rust-install.log
+          rustup default 1.96.0 2>&1 | tee -a artifacts/runtime-validation/rust-install.log
+          rustc --version | tee -a artifacts/runtime-validation/rust-install.log
+      - name: Install Godot 4.7.2 with fixed checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -d "$RUNNER_TEMP/campfire-godot"
+          curl --fail --location --silent --show-error \
+            https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip \
+            --output "$RUNNER_TEMP/campfire-godot/godot.zip"
+          echo 'cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4  '"$RUNNER_TEMP/campfire-godot/godot.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/campfire-godot/godot.zip" -d "$RUNNER_TEMP/campfire-godot"
+          chmod +x "$RUNNER_TEMP/campfire-godot/Godot_v4.7.2-stable_linux.x86_64"
+          echo "GODOT=$RUNNER_TEMP/campfire-godot/Godot_v4.7.2-stable_linux.x86_64" >> "$GITHUB_ENV"
+          "$RUNNER_TEMP/campfire-godot/Godot_v4.7.2-stable_linux.x86_64" --version
+      - name: Set up Bun 1.4.3
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: "1.4.3"
+      - name: Build pinned gstack browser and install Chromium dependencies
+        shell: bash
+        run: |
+          set -o pipefail
+          bash tools/ci-bootstrap-browser.sh 2>&1 | tee artifacts/runtime-validation/gstack-install.log
+      - name: Install native UI display support
+        shell: bash
+        run: |
+          set -o pipefail
+          sudo apt-get update 2>&1 | tee artifacts/runtime-validation/apt-update.log
+          sudo apt-get install -y xvfb xauth libgl1 libasound2t64 libpulse0 2>&1 | tee artifacts/runtime-validation/apt-native.log
+      - name: Import Godot project
+        shell: bash
+        run: |
+          set -o pipefail
+          "$GODOT" --headless --editor --path examples/godot --import --quit 2>&1 | tee artifacts/runtime-validation/godot-import.log
+      - name: Build fresh validation binaries
+        shell: bash
+        run: |
+          set -o pipefail
+          cargo fetch --locked 2>&1 | tee artifacts/runtime-validation/cargo-fetch.log
+          cargo build -p campfire-server --locked --offline 2>&1 | tee artifacts/runtime-validation/build-server.log
+          cargo build -p campfire-server --no-default-features --example account_server --locked --offline 2>&1 | tee artifacts/runtime-validation/build-account.log
+      - name: Record source, binary, and tool identities
+        id: validation_ready
+        shell: bash
+        run: |
+          {
+            git rev-parse HEAD
+            git rev-parse 'HEAD^{tree}'
+            rustc --version
+            cargo --version
+            node --version
+            python3 --version
+            bun --version
+            "$GODOT" --version
+            "$RUNNER_TEMP/campfire-gstack/node_modules/.bin/playwright" --version
+            echo "gstack_commit=$GSTACK_REF"
+            sha256sum "$CARGO_TARGET_DIR/debug/campfire-server" "$CARGO_TARGET_DIR/debug/examples/account_server" "$GODOT" "$BROWSE_BIN"
+          } > artifacts/runtime-validation/manifest.txt
+      - name: Godot 8 and 16 client validation
+        if: ${{ !cancelled() && steps.validation_ready.conclusion == 'success' }}
+        shell: bash
+        run: |
+          set -o pipefail
+          xvfb-run -a -s '-screen 0 1280x800x24' python3 -u tools/validate_godot.py \
+            --target-dir "$CARGO_TARGET_DIR" --godot "$GODOT" --skip-build \
+            --counts 8 16 --duration 20 --output artifacts/runtime-validation/godot \
+            2>&1 | tee artifacts/runtime-validation/godot-run.log
+      - name: Account and native client validation
+        if: ${{ !cancelled() && steps.validation_ready.conclusion == 'success' }}
+        shell: bash
+        run: |
+          set -o pipefail
+          xvfb-run -a -s '-screen 0 1280x800x24' python3 -u tools/validate_godot_accounts.py \
+            --target-dir "$CARGO_TARGET_DIR" --godot "$GODOT" --skip-build \
+            --output artifacts/runtime-validation/accounts \
+            2>&1 | tee artifacts/runtime-validation/accounts-run.log
+      - name: Dashboard browser, load, account, and UI probe validation
+        if: ${{ !cancelled() && steps.validation_ready.conclusion == 'success' }}
+        shell: bash
+        run: |
+          set -o pipefail
+          xvfb-run -a -s '-screen 0 1280x800x24' python3 -u tools/validate_dashboard.py \
+            --suite all --target-dir "$CARGO_TARGET_DIR" --godot "$GODOT" --browse "$BROWSE_BIN" \
+            --duration 20 --output artifacts/runtime-validation/dashboard \
+            2>&1 | tee artifacts/runtime-validation/dashboard-run.log
+      - name: Upload validation evidence even after failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: runtime-validation-${{ github.run_id }}
+          path: artifacts/runtime-validation/
+          if-no-files-found: warn
+          retention-days: 14
