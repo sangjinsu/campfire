@@ -1,0 +1,44 @@
+[
+  {
+    "phase": "fmt",
+    "exit_code": 0,
+    "elapsed_seconds": 0.384,
+    "log": "/tmp/campfire-improvements-20261025/root-final-fmt.log"
+  },
+  {
+    "phase": "clippy",
+    "exit_code": 0,
+    "elapsed_seconds": 1.096,
+    "log": "/tmp/campfire-improvements-20261025/root-final-clippy.log"
+  },
+  {
+    "phase": "tests",
+    "exit_code": 0,
+    "elapsed_seconds": 20.593,
+    "log": "/tmp/campfire-improvements-20261025/root-final-tests.log"
+  },
+  {
+    "phase": "no-default",
+    "exit_code": 0,
+    "elapsed_seconds": 1.47,
+    "log": "/tmp/campfire-improvements-20261025/root-final-no-default.log"
+  },
+  {
+    "phase": "build",
+    "exit_code": 0,
+    "elapsed_seconds": 2.136,
+    "log": "/tmp/campfire-improvements-20261025/root-final-build.log"
+  },
+  {
+    "phase": "build-account",
+    "exit_code": 0,
+    "elapsed_seconds": 5.403,
+    "log": "/tmp/campfire-improvements-20261025/root-final-build-account.log"
+  },
+  {
+    "phase": "ignored",
+    "exit_code": 0,
+    "elapsed_seconds": 168.833,
+    "log": "/tmp/campfire-improvements-20261025/root-final-ignored.log"
+  }
+]

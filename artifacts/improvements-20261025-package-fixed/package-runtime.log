@@ -1,0 +1,10 @@
+cwd: /Users/sangjinsu/Documents/ChatGPT/campfire
+command: cargo package -p campfire-runtime --allow-dirty --locked --offline
+
+   Packaging campfire-runtime v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-runtime)
+    Packaged 20 files, 338.7KiB (63.4KiB compressed)
+   Verifying campfire-runtime v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-runtime)
+   Compiling campfire-runtime v0.1.0 (/private/tmp/campfire-improvements-20261025-target/package/campfire-runtime-0.1.0)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.91s
+
+exit_code: 0

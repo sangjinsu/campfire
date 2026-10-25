@@ -1,0 +1,17 @@
+[
+  {
+    "file": "slow-reader.json",
+    "sha256": "ec2d778a81199f40e3a8d54850de75d6cd37dc750ee8f6dce93acb0459518878",
+    "bytes": 4747
+  },
+  {
+    "file": "soak-16.json",
+    "sha256": "1a294a8d92e8379db1bad84821ea1b2319651be70360bd57b031d92fe9163f01",
+    "bytes": 7304
+  },
+  {
+    "file": "soak-8.json",
+    "sha256": "38b8b0d78dae3738d3a8fb2468ed63fab450b4a4df0126660817d70a2baedc99",
+    "bytes": 5069
+  }
+]

@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "version": "0.1.0",
+  "msrv": "verified 1.96 in all normalized package manifests",
+  "target_dir": "/private/tmp/campfire-improvements-20261025-target",
+  "target_source": "argument",
+  "archive_mode": "runtime verified; arena/server archive only, then compiled from extracted archive",
+  "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+  "checkout_consumer": "passed",
+  "archive_consumer": "passed",
+  "server_archive_check": "passed",
+  "archives": {
+    "campfire-runtime": {
+      "sha256": "67b549eb7ec6593fa479f4ca1872b73e233bc2bcfd44fe0f90b2b75cb1409636",
+      "files": 20
+    },
+    "campfire-arena": {
+      "sha256": "2b502137f528720236e2b1a428028bee846ed4f39406c73464f020abc532d4f6",
+      "files": 5
+    },
+    "campfire-server": {
+      "sha256": "885eee3a63763295b7b62747af732a8902916b79b15393f411d48a7d1054c4bd",
+      "files": 20
+    }
+  },
+  "metadata": {
+    "campfire-runtime": {
+      "name": "campfire-runtime",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Reusable room-based multiplayer runtime with sessions, WebSocket transport, and game modules"
+    },
+    "campfire-arena": {
+      "name": "campfire-arena",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Server-authoritative arena game module for the Campfire runtime"
+    },
+    "campfire-server": {
+      "name": "campfire-server",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Example Campfire multiplayer server with CLI, dashboard, and optional arena game"
+    }
+  },
+  "registry_publish": "not attempted"
+}

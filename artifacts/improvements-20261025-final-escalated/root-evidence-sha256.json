@@ -1,0 +1,67 @@
+{
+  "copy_digest_match": true,
+  "files": {
+    "root-regression-artifacts/sha256.json": {
+      "bytes": 417,
+      "sha256": "056dc878e553a2c33a91fa6579f97adc4dff44fce3010eeab9f8944f0e1d5757"
+    },
+    "root-regression-artifacts/slow-reader.json": {
+      "bytes": 4747,
+      "sha256": "ec2d778a81199f40e3a8d54850de75d6cd37dc750ee8f6dce93acb0459518878"
+    },
+    "root-regression-artifacts/soak-16.json": {
+      "bytes": 7304,
+      "sha256": "1a294a8d92e8379db1bad84821ea1b2319651be70360bd57b031d92fe9163f01"
+    },
+    "root-regression-artifacts/soak-8.json": {
+      "bytes": 5069,
+      "sha256": "38b8b0d78dae3738d3a8fb2468ed63fab450b4a4df0126660817d70a2baedc99"
+    },
+    "root-verification-logs/root-final-build-account.log": {
+      "bytes": 177,
+      "sha256": "8fc642a5d25c35c2a3b6d8d05c1ae969a8f1c9a3600e085a911db126408a3a90"
+    },
+    "root-verification-logs/root-final-build.log": {
+      "bytes": 177,
+      "sha256": "b9d2d1f0a3a3ab482bd54f09776d1065bdbbb80ecbce9835681264f4cfe0e503"
+    },
+    "root-verification-logs/root-final-clippy.log": {
+      "bytes": 175,
+      "sha256": "d54cc004d4d286d29259cf092670ea02685369b71a1c87f79323a03c9bde699d"
+    },
+    "root-verification-logs/root-final-commands.json": {
+      "bytes": 1090,
+      "sha256": "1c2db0646732d91d960a3db9abb565887f24f10a7fdbdd133fbd3a40c9715ac2"
+    },
+    "root-verification-logs/root-final-fmt.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "root-verification-logs/root-final-ignored.log": {
+      "bytes": 2834,
+      "sha256": "f292d34ff7abc96f7e5053ce7cabae10064e0de7bbc631a0ccbebe63224bf6c2"
+    },
+    "root-verification-logs/root-final-no-default.log": {
+      "bytes": 284,
+      "sha256": "eb278749403513db0953f394c65f2521a74e0df5f3d0e4d9d70ee87dcd343f30"
+    },
+    "root-verification-logs/root-final-tests.log": {
+      "bytes": 14839,
+      "sha256": "9685309f79348c7f0c6d01b21f4c5aa0d392f59952eee114059095a36dffdcf8"
+    },
+    "root-verification-logs/root-node-task5-fix1.log": {
+      "bytes": 243,
+      "sha256": "3ba119026e67a456026c61416961b6655ff34895d84e2a684e690100eb54b43f"
+    },
+    "root-verification-logs/root-python-all.log": {
+      "bytes": 1185,
+      "sha256": "9e95b6fe1c231b57ddc8d59a6c54022d02139320697ddd05157844ee8d25e19d"
+    },
+    "root-verification-logs/root-source-freeze-verification.json": {
+      "bytes": 754,
+      "sha256": "e0b312064587adcdb6ca3e180d468b76a97fca2767e3d9978236fe199746a770"
+    }
+  },
+  "scope": "Copied root verification logs and preserved regression JSON only",
+  "secret_shape_scan": "passed"
+}

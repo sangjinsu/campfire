@@ -1,0 +1,6 @@
+cwd: /var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-v2pnrbd7/checkout-consumer
+command: cargo generate-lockfile --offline
+
+     Locking 91 packages to latest Rust 1.96 compatible versions
+
+exit_code: 0

@@ -1,0 +1,115 @@
+........{
+  "status": "failed",
+  "version": "0.1.0",
+  "msrv": "pending",
+  "target_dir": "/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-jv0c79uk/target",
+  "target_source": "temporary",
+  "archive_mode": "runtime verified; arena/server archive without lockfile, then compiled from extracted archive",
+  "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+  "checkout_consumer": "pending",
+  "archive_consumer": "pending",
+  "server_archive_check": "pending",
+  "archives": {},
+  "metadata": {},
+  "consumer_lockfiles": {},
+  "repository_lockfile": {
+    "before_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "after_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "unchanged": true
+  },
+  "lockfile_exclusion_reason": "unpublished internal crate versions are absent from crates.io; root Cargo.lock stays unchanged",
+  "verification_limits": [
+    "arena/server archives omit Cargo.lock; reproducible packaged resolution and cargo install --locked are unverified",
+    "crates.io publication and public registry download are unverified"
+  ],
+  "registry_publish": "not attempted",
+  "error": "dry run"
+}
+{
+  "status": "passed",
+  "version": "0.1.0",
+  "msrv": "verified 1.96 in all normalized package manifests",
+  "target_dir": "/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/tmpdseev6nu/target",
+  "target_source": "argument",
+  "archive_mode": "runtime verified; arena/server archive without lockfile, then compiled from extracted archive",
+  "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+  "checkout_consumer": "passed",
+  "archive_consumer": "passed",
+  "server_archive_check": "passed",
+  "archives": {
+    "campfire-runtime": {
+      "sha256": "ba790022a1e5cf5e12a49e7bad8233a56e29523a27caf04ff1311ab20b0b07e6",
+      "files": 3,
+      "lockfile_included": true
+    },
+    "campfire-arena": {
+      "sha256": "8b3588c1ce9b94fff5c43a6dfaf826e97f7394d2e7a99aa2edbf7d8c59fda834",
+      "files": 2,
+      "lockfile_included": false
+    },
+    "campfire-server": {
+      "sha256": "1ae3e8e0baf512c44a639c7a7b36ee6053e67759fab04f81aa9dab21184bc5fc",
+      "files": 2,
+      "lockfile_included": false
+    }
+  },
+  "metadata": {
+    "campfire-runtime": {
+      "name": "campfire-runtime",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Package test"
+    },
+    "campfire-arena": {
+      "name": "campfire-arena",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Package test"
+    },
+    "campfire-server": {
+      "name": "campfire-server",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Package test"
+    }
+  },
+  "consumer_lockfiles": {
+    "checkout": {
+      "file": "lockfiles/checkout.Cargo.lock",
+      "sha256": "9e254674fc385c9d5bb286300cddda4829dcd462aa391fa05709dde31e417750"
+    },
+    "archive": {
+      "file": "lockfiles/archive.Cargo.lock",
+      "sha256": "9e254674fc385c9d5bb286300cddda4829dcd462aa391fa05709dde31e417750"
+    },
+    "server_archive": {
+      "file": "lockfiles/server-archive.Cargo.lock",
+      "sha256": "9e254674fc385c9d5bb286300cddda4829dcd462aa391fa05709dde31e417750"
+    }
+  },
+  "repository_lockfile": {
+    "before_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "after_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "unchanged": true
+  },
+  "lockfile_exclusion_reason": "unpublished internal crate versions are absent from crates.io; root Cargo.lock stays unchanged",
+  "verification_limits": [
+    "arena/server archives omit Cargo.lock; reproducible packaged resolution and cargo install --locked are unverified",
+    "crates.io publication and public registry download are unverified"
+  ],
+  "registry_publish": "not attempted"
+}
+{"success": false, "failure": "browse stop unconfirmed (RuntimeError)", "artifact": "/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/tmp1o2rl83s/result"}
+..{"success": false, "failure": "browse stop unconfirmed (TimeoutExpired)", "artifact": "/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/tmpb5ixz4gs/result"}
+....{"success": true, "failure": null, "artifact": "/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/tmpr630epbt/result"}
+...
+----------------------------------------------------------------------
+Ran 17 tests in 0.082s
+
+OK

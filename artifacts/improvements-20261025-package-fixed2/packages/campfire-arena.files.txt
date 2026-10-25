@@ -1,0 +1,5 @@
+campfire-arena-0.1.0/.cargo_vcs_info.json
+campfire-arena-0.1.0/Cargo.toml
+campfire-arena-0.1.0/Cargo.toml.orig
+campfire-arena-0.1.0/LICENSE
+campfire-arena-0.1.0/src/lib.rs

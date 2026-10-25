@@ -1,0 +1,7 @@
+{
+  "file": "artifacts/improvements-20261025-final-escalated/root-verification-logs/root-python-final.log",
+  "sha256": "3daa422ee0f23c4df3827826a9134d5e499fa5a83fe102822ac8ea12407291ab",
+  "tests_passed": 17,
+  "exit_code": 0,
+  "scope": "Post package-smoke tooling fix; runtime, web assets, Godot and validation runner inputs unchanged."
+}

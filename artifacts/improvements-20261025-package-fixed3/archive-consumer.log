@@ -1,0 +1,11 @@
+cwd: /var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-v2pnrbd7/archive-consumer
+command: cargo run --locked --offline
+
+   Compiling campfire-runtime v0.1.0 (/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-v2pnrbd7/extracted/campfire-runtime-0.1.0)
+   Compiling campfire-arena v0.1.0 (/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-v2pnrbd7/extracted/campfire-arena-0.1.0)
+   Compiling campfire-package-consumer v0.1.0 (/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-v2pnrbd7/archive-consumer)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.90s
+     Running `/private/tmp/campfire-improvements-20261025-target/debug/campfire-package-consumer`
+consumer_ok games=2 shutdown_completed=true
+
+exit_code: 0

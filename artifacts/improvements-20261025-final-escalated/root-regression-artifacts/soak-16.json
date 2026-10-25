@@ -1,0 +1,240 @@
+{
+  "build": {
+    "arch": "aarch64",
+    "kernel": "Darwin sangjinsuui-MacBookPro.local 27.0.0 Darwin Kernel Version 27.0.0: Tue Aug 11 21:02:16 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T8112 arm64",
+    "os": "macos",
+    "rustc": "rustc 1.96.1 (31fca3adb 2026-06-26)",
+    "source_files": 34,
+    "source_sha256": "e9559feb1dd68011210d20f52fa6439e84d42de872a86ebe9c0e8f3a4f597025"
+  },
+  "client_metrics": [
+    {
+      "client": 0,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 107.867583,
+      "snapshot_gap_p50_ms": 66.78366700000001,
+      "snapshot_gap_p95_ms": 68.772875,
+      "snapshots": 899
+    },
+    {
+      "client": 1,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 108.56887499999999,
+      "snapshot_gap_p50_ms": 66.806667,
+      "snapshot_gap_p95_ms": 68.848375,
+      "snapshots": 899
+    },
+    {
+      "client": 2,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 108.263125,
+      "snapshot_gap_p50_ms": 66.84525,
+      "snapshot_gap_p95_ms": 68.967625,
+      "snapshots": 899
+    },
+    {
+      "client": 3,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 113.70141699999999,
+      "snapshot_gap_p50_ms": 66.814084,
+      "snapshot_gap_p95_ms": 68.768167,
+      "snapshots": 899
+    },
+    {
+      "client": 4,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 107.9595,
+      "snapshot_gap_p50_ms": 66.804125,
+      "snapshot_gap_p95_ms": 68.76308300000001,
+      "snapshots": 899
+    },
+    {
+      "client": 5,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 108.294083,
+      "snapshot_gap_p50_ms": 66.785833,
+      "snapshot_gap_p95_ms": 68.718417,
+      "snapshots": 899
+    },
+    {
+      "client": 6,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 108.053334,
+      "snapshot_gap_p50_ms": 66.825208,
+      "snapshot_gap_p95_ms": 68.8,
+      "snapshots": 899
+    },
+    {
+      "client": 7,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 113.651,
+      "snapshot_gap_p50_ms": 66.797625,
+      "snapshot_gap_p95_ms": 68.829875,
+      "snapshots": 899
+    },
+    {
+      "client": 8,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 113.618917,
+      "snapshot_gap_p50_ms": 66.767959,
+      "snapshot_gap_p95_ms": 68.77437499999999,
+      "snapshots": 899
+    },
+    {
+      "client": 9,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 108.760125,
+      "snapshot_gap_p50_ms": 66.77666599999999,
+      "snapshot_gap_p95_ms": 68.751292,
+      "snapshots": 899
+    },
+    {
+      "client": 10,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 113.741166,
+      "snapshot_gap_p50_ms": 66.774458,
+      "snapshot_gap_p95_ms": 68.691458,
+      "snapshots": 899
+    },
+    {
+      "client": 11,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 113.462625,
+      "snapshot_gap_p50_ms": 66.743166,
+      "snapshot_gap_p95_ms": 68.79100000000001,
+      "snapshots": 899
+    },
+    {
+      "client": 12,
+      "inputs_sent": 601,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 113.60962500000001,
+      "snapshot_gap_p50_ms": 66.779708,
+      "snapshot_gap_p95_ms": 68.69324999999999,
+      "snapshots": 899
+    },
+    {
+      "client": 13,
+      "inputs_sent": 601,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 113.88383400000001,
+      "snapshot_gap_p50_ms": 66.83,
+      "snapshot_gap_p95_ms": 68.867583,
+      "snapshots": 899
+    },
+    {
+      "client": 14,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 113.639667,
+      "snapshot_gap_p50_ms": 66.767875,
+      "snapshot_gap_p95_ms": 68.710542,
+      "snapshots": 899
+    },
+    {
+      "client": 15,
+      "inputs_sent": 600,
+      "last_processed_input_seq": 600,
+      "last_server_tick": 1800,
+      "snapshot_gap_max_ms": 113.71525,
+      "snapshot_gap_p50_ms": 66.77725,
+      "snapshot_gap_p95_ms": 68.68075,
+      "snapshots": 899
+    }
+  ],
+  "clients": 16,
+  "command": "cargo test -p campfire-server --test headless soak_16_clients_60_seconds -- --ignored --nocapture",
+  "config": "Config { room_capacity: 16, tick_hz: 30, snapshot_hz: 15, guest_ttl: 86400s, reconnect_grace: 30s, auth_timeout: 5s, cleanup_interval: 100ms, max_frame_bytes: 16384, input_rate_per_second: 60, input_burst: 30, room_input_capacity: 1024, reliable_capacity: 64, request_cache_capacity: 128, max_input_seq_jump: 10000, max_sessions: 10000, max_connections: 4096, max_unauthenticated_connections: 256, max_rooms: 1024, max_rate_keys: 4096, guest_rate_per_second: 2, guest_burst: 1000, global_guest_rate_per_second: 100, global_guest_burst: 2000, rate_key_ttl: 60s, write_timeout: 2s, max_write_timeouts: 2, max_abuse_violations: 5 }",
+  "elapsed_seconds": 60.007226084,
+  "environment": {
+    "arch": "aarch64",
+    "clock": "real monotonic",
+    "os": "macos",
+    "transport": "TCP loopback"
+  },
+  "metrics": {
+    "abusive_frames": 0,
+    "abusive_inputs": 0,
+    "active_connections": 0,
+    "active_rooms": 0,
+    "active_sessions": 16,
+    "admission_rejections": 0,
+    "command_replays": 0,
+    "commands_failed": 0,
+    "commands_processed": 0,
+    "guests_issued": 16,
+    "inputs_processed": 9600,
+    "max_command_duration_micros": 0,
+    "max_input_duration_micros": 1134,
+    "max_input_latency_micros": 37838,
+    "max_input_queue_depth": 16,
+    "max_reliable_queue_depth": 1,
+    "max_tick_delay_micros": 38456,
+    "max_tick_duration_micros": 8237,
+    "rate_keys": 0,
+    "recent": {
+      "command_duration": {
+        "p95_micros": null,
+        "p99_micros": null,
+        "sample_count": 0
+      },
+      "input_duration": {
+        "p95_micros": 6,
+        "p99_micros": 17,
+        "sample_count": 512
+      },
+      "input_latency": {
+        "p95_micros": 30256,
+        "p99_micros": 30635,
+        "sample_count": 512
+      },
+      "tick_delay": {
+        "p95_micros": 3694,
+        "p99_micros": 3818,
+        "sample_count": 512
+      },
+      "tick_duration": {
+        "p95_micros": 1197,
+        "p99_micros": 1628,
+        "sample_count": 512
+      },
+      "window_ms": 60000
+    },
+    "reliable_queue_disconnects": 0,
+    "room_panics": 0,
+    "shared_queue_overloads": 0,
+    "snapshots": 900,
+    "ticks": 1801,
+    "unauthenticated_connections": 0,
+    "write_deadline_disconnects": 0
+  },
+  "minimum_duration_seconds": 60,
+  "scenario": "real_tcp_websocket_soak"
+}

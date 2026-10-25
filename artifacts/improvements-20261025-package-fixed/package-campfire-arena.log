@@ -1,0 +1,11 @@
+cwd: /Users/sangjinsu/Documents/ChatGPT/campfire
+command: cargo package -p campfire-arena --allow-dirty --locked --no-verify --config /var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-pqs9d3ms/package-campfire-arena-config.toml --offline
+
+warning: patch `campfire-runtime v0.1.0 (/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-pqs9d3ms/extracted/campfire-runtime-0.1.0)` was not used in the crate graph
+  |
+  = help: perhaps you meant one of the following:
+          	/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-runtime
+error: cannot update the lock file /Users/sangjinsu/Documents/ChatGPT/campfire/Cargo.lock because --locked was passed to prevent this
+help: to generate the lock file without accessing the network, remove the --locked flag and use --offline instead.
+
+exit_code: 101

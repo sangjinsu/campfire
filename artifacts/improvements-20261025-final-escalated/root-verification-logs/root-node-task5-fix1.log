@@ -1,0 +1,10 @@
+Dashboard UI async controls and chart diagnostics: 23 scenarios passed.
+✔ tools/tests/dashboard_ui_control.mjs (270.928708ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 276.138708

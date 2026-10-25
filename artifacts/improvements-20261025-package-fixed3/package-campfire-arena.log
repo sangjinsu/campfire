@@ -1,0 +1,7 @@
+cwd: /Users/sangjinsu/Documents/ChatGPT/campfire
+command: cargo package -p campfire-arena --allow-dirty --locked --no-verify --exclude-lockfile --config /var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-v2pnrbd7/package-campfire-arena-config.toml --offline
+
+   Packaging campfire-arena v0.1.0 (/Users/sangjinsu/Documents/ChatGPT/campfire/crates/campfire-arena)
+    Packaged 5 files, 12.1KiB (4.0KiB compressed)
+
+exit_code: 0

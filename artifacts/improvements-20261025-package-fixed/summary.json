@@ -1,0 +1,30 @@
+{
+  "status": "failed",
+  "version": "0.1.0",
+  "msrv": "pending",
+  "target_dir": "/private/tmp/campfire-improvements-20261025-target",
+  "target_source": "argument",
+  "archive_mode": "runtime verified; arena/server archive only, then compiled from extracted archive",
+  "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+  "checkout_consumer": "pending",
+  "archive_consumer": "pending",
+  "server_archive_check": "pending",
+  "archives": {
+    "campfire-runtime": {
+      "sha256": "67b549eb7ec6593fa479f4ca1872b73e233bc2bcfd44fe0f90b2b75cb1409636",
+      "files": 20
+    }
+  },
+  "metadata": {
+    "campfire-runtime": {
+      "name": "campfire-runtime",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Reusable room-based multiplayer runtime with sessions, WebSocket transport, and game modules"
+    }
+  },
+  "registry_publish": "not attempted",
+  "error": "command failed (101); see /Users/sangjinsu/Documents/ChatGPT/campfire/artifacts/improvements-20261025-package-fixed/package-campfire-arena.log"
+}

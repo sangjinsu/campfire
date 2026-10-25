@@ -1,0 +1,9 @@
+cwd: /var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-v2pnrbd7/checkout-consumer
+command: cargo run --locked --offline
+
+   Compiling campfire-package-consumer v0.1.0 (/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-v2pnrbd7/checkout-consumer)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.97s
+     Running `/private/tmp/campfire-improvements-20261025-target/debug/campfire-package-consumer`
+consumer_ok games=2 shutdown_completed=true
+
+exit_code: 0

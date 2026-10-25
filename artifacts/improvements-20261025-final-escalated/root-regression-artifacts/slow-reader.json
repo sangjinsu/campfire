@@ -1,0 +1,179 @@
+{
+  "baseline": {
+    "metrics": {
+      "abusive_frames": 0,
+      "abusive_inputs": 0,
+      "active_connections": 16,
+      "active_rooms": 1,
+      "active_sessions": 16,
+      "admission_rejections": 0,
+      "command_replays": 0,
+      "commands_failed": 0,
+      "commands_processed": 0,
+      "guests_issued": 16,
+      "inputs_processed": 0,
+      "max_command_duration_micros": 0,
+      "max_input_duration_micros": 0,
+      "max_input_latency_micros": 0,
+      "max_input_queue_depth": 0,
+      "max_reliable_queue_depth": 1,
+      "max_tick_delay_micros": 383993,
+      "max_tick_duration_micros": 29336,
+      "rate_keys": 1,
+      "recent": {
+        "command_duration": {
+          "p95_micros": null,
+          "p99_micros": null,
+          "sample_count": 0
+        },
+        "input_duration": {
+          "p95_micros": null,
+          "p99_micros": null,
+          "sample_count": 0
+        },
+        "input_latency": {
+          "p95_micros": null,
+          "p99_micros": null,
+          "sample_count": 0
+        },
+        "tick_delay": {
+          "p95_micros": 18343,
+          "p99_micros": 224222,
+          "sample_count": 211
+        },
+        "tick_duration": {
+          "p95_micros": 964,
+          "p99_micros": 2299,
+          "sample_count": 211
+        },
+        "window_ms": 60000
+      },
+      "reliable_queue_disconnects": 0,
+      "room_panics": 0,
+      "shared_queue_overloads": 0,
+      "snapshots": 105,
+      "ticks": 211,
+      "unauthenticated_connections": 0,
+      "write_deadline_disconnects": 0
+    },
+    "normal_clients": 16,
+    "p95_ms": 124.169708,
+    "per_client_p95_ms": [
+      101.637125,
+      124.169708,
+      119.169084,
+      110.444458,
+      116.506958,
+      110.06125,
+      102.683875,
+      123.54704199999999,
+      108.13825,
+      111.178209,
+      94.54837500000001,
+      107.136375,
+      122.391,
+      119.11770800000001,
+      95.039458,
+      122.80604100000001
+    ],
+    "slow_reader": false,
+    "snapshot_padding_bytes": 262144
+  },
+  "build": {
+    "arch": "aarch64",
+    "kernel": "Darwin sangjinsuui-MacBookPro.local 27.0.0 Darwin Kernel Version 27.0.0: Tue Aug 11 21:02:16 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T8112 arm64",
+    "os": "macos",
+    "rustc": "rustc 1.96.1 (31fca3adb 2026-06-26)",
+    "source_files": 34,
+    "source_sha256": "e9559feb1dd68011210d20f52fa6439e84d42de872a86ebe9c0e8f3a4f597025"
+  },
+  "command": "cargo test -p campfire-server --test headless slow_reader_isolated_and_p95 -- --ignored --nocapture",
+  "config": {
+    "frame_bytes": 1048576,
+    "max_write_timeouts": 2,
+    "snapshot_hz": 15,
+    "write_timeout_ms": 100
+  },
+  "normal_snapshot_p95_ratio": 0.7522721805869108,
+  "scenario": "slow_reader",
+  "slow": {
+    "metrics": {
+      "abusive_frames": 0,
+      "abusive_inputs": 0,
+      "active_connections": 15,
+      "active_rooms": 1,
+      "active_sessions": 16,
+      "admission_rejections": 0,
+      "command_replays": 0,
+      "commands_failed": 0,
+      "commands_processed": 0,
+      "guests_issued": 16,
+      "inputs_processed": 0,
+      "max_command_duration_micros": 0,
+      "max_input_duration_micros": 0,
+      "max_input_latency_micros": 0,
+      "max_input_queue_depth": 0,
+      "max_reliable_queue_depth": 1,
+      "max_tick_delay_micros": 280954,
+      "max_tick_duration_micros": 1983,
+      "rate_keys": 1,
+      "recent": {
+        "command_duration": {
+          "p95_micros": null,
+          "p99_micros": null,
+          "sample_count": 0
+        },
+        "input_duration": {
+          "p95_micros": null,
+          "p99_micros": null,
+          "sample_count": 0
+        },
+        "input_latency": {
+          "p95_micros": null,
+          "p99_micros": null,
+          "sample_count": 0
+        },
+        "tick_delay": {
+          "p95_micros": 12785,
+          "p99_micros": 103019,
+          "sample_count": 234
+        },
+        "tick_duration": {
+          "p95_micros": 1420,
+          "p99_micros": 1819,
+          "sample_count": 234
+        },
+        "window_ms": 60000
+      },
+      "reliable_queue_disconnects": 0,
+      "room_panics": 0,
+      "shared_queue_overloads": 0,
+      "snapshots": 117,
+      "ticks": 234,
+      "unauthenticated_connections": 0,
+      "write_deadline_disconnects": 1
+    },
+    "normal_clients": 15,
+    "p95_ms": 93.40941699999999,
+    "per_client_p95_ms": [
+      91.799875,
+      92.674208,
+      82.796041,
+      93.004416,
+      80.59483300000001,
+      86.677958,
+      85.52720799999999,
+      88.6345,
+      93.40941699999999,
+      85.546792,
+      89.385125,
+      80.178792,
+      85.0415,
+      80.067,
+      82.25183299999999
+    ],
+    "slow_reader": true,
+    "snapshot_padding_bytes": 262144
+  },
+  "threshold": 2.0
+}

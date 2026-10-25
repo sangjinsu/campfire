@@ -58,7 +58,7 @@ WS 연결 뒤 기본 5초 안에 다음 메시지를 먼저 보낸다.
 | `game.input` | `room_id`, `room_instance_id`, `input_seq`, `payload` | `game.input.accepted`: `input_seq` |
 | `game.command` | `room_id`, `room_instance_id`, `command_seq`, `payload` | `game.command.result`: terminal 성공 또는 게임 오류 |
 
-모든 직접 응답과 오류는 `request_id`를 돌려준다. 선택적 `game_id`를 command에 넣으면 인증 경로의 게임과 같아야 한다. 실제 room lookup과 resume은 token/connection/room 게임을 다시 검증한다. 목록은 같은 게임의 공개 룸만 포함하며 항목은 `game_id`, `room_id`, `room_instance_id`, `members`, `capacity`다. 예약 자리도 `members`와 정원에 포함한다. cursor는 서버가 발급한 값을 그대로 사용한다.
+모든 직접 응답과 오류는 `request_id`를 돌려준다. 선택적 `game_id`를 command에 넣으면 인증 경로의 게임과 같아야 한다. 실제 room lookup과 resume은 token/connection/room 게임을 다시 검증한다. 목록은 같은 게임의 공개 룸만 포함하며 항목은 `game_id`, `room_id`, `room_instance_id`, `members`, `capacity`다. 예약 자리도 `members`와 정원에 포함한다. cursor는 서버가 발급한 값을 그대로 사용한다. `room.list`는 각 룸 actor에 왕복하지 않고 마지막으로 발행된 `PublishedRoom` 요약을 읽는다. 따라서 한 응답에 담긴 모든 룸이 동일한 순간에 고정된 원자적 snapshot은 아니며, 입장·퇴장 직후에는 항목별 갱신 시점이 다를 수 있다.
 
 한 플레이어는 예약을 포함해 한 룸만 가질 수 있다. 현재 룸이 있는데 다시 create/join하면 새 membership을 만들지 않는다. 정원 확인과 임시 입장/commit/rollback은 룸 task가 소유한다. commit 전 실패/취소는 자리와 임시 룸을 제거하고, commit 후 응답 실패는 단절 예약으로 복구한다.
 

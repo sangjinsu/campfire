@@ -1,0 +1,24 @@
+.......{
+  "status": "failed",
+  "version": "0.1.0",
+  "msrv": "pending",
+  "target_dir": "/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/campfire-package-smoke-yvt85333/target",
+  "target_source": "temporary",
+  "archive_mode": "runtime verified; arena/server archive only, then compiled from extracted archive",
+  "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+  "checkout_consumer": "pending",
+  "archive_consumer": "pending",
+  "server_archive_check": "pending",
+  "archives": {},
+  "metadata": {},
+  "registry_publish": "not attempted",
+  "error": "dry run"
+}
+{"success": false, "failure": "browse stop unconfirmed (RuntimeError)", "artifact": "/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/tmpo80cx9ic/result"}
+..{"success": false, "failure": "browse stop unconfirmed (TimeoutExpired)", "artifact": "/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/tmptv1p_0lp/result"}
+....{"success": true, "failure": null, "artifact": "/private/var/folders/xm/yx1y5v353g9gnkv94_jzc0w80000gn/T/tmpkn0k2uxw/result"}
+...
+----------------------------------------------------------------------
+Ran 16 tests in 0.093s
+
+OK

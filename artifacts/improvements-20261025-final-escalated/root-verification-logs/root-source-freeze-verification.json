@@ -1,0 +1,12 @@
+{
+  "verified_at": "2026-10-25T03:17:50.981492+00:00",
+  "tested_code_commit": "647aaf1994d58906d70436f90de80827f45d44b5",
+  "source_count": 84,
+  "source_aggregate_sha256": "684240daa66fd580d6569a6261ba9839ec577b806d2d3e822d464eea38e5c0dc",
+  "committed_and_worktree_source_mismatches": [],
+  "binary_sha256": {
+    "/tmp/campfire-improvements-20261025-target/debug/campfire-server": "68f9f31b3187f5023bee93115caa287450603f8489b65d5511536671adc0cfb2",
+    "/tmp/campfire-improvements-20261025-target/debug/examples/account_server": "e32527b99e63a470d7d5aa8dde4306435f8e7908941b44522dd37fb2ef481722",
+    "/Users/sangjinsu/Documents/ChatGPT/campfire/target/debug/campfire-server": "b1338640176776557099605aeaf7046fbd25979b9fea6ffc20551f6459ed34f7"
+  }
+}

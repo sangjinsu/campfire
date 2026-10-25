@@ -1,0 +1,218 @@
+{
+  "success": true,
+  "checks": {
+    "font-at-least-12-1440": {
+      "success": true,
+      "details": {
+        "minimum_effective_px": 14
+      }
+    },
+    "no-svg-label-overlap-1440": {
+      "success": true,
+      "details": []
+    },
+    "touch-targets-44-1440": {
+      "success": true,
+      "details": []
+    },
+    "bounded-sticky-table-1440": {
+      "success": true,
+      "details": {
+        "rows": 100,
+        "clientHeight": 440,
+        "scrollHeight": 8245,
+        "sticky": [
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          }
+        ]
+      }
+    },
+    "no-body-horizontal-overflow-1440": {
+      "success": true,
+      "details": {
+        "root": 1440,
+        "body": 1440
+      }
+    },
+    "font-at-least-12-390": {
+      "success": true,
+      "details": {
+        "minimum_effective_px": 13.5
+      }
+    },
+    "no-svg-label-overlap-390": {
+      "success": true,
+      "details": []
+    },
+    "touch-targets-44-390": {
+      "success": true,
+      "details": []
+    },
+    "bounded-sticky-table-390": {
+      "success": true,
+      "details": {
+        "rows": 100,
+        "clientHeight": 440,
+        "scrollHeight": 8245,
+        "sticky": [
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          },
+          {
+            "position": "sticky",
+            "top": "0px"
+          }
+        ]
+      }
+    },
+    "no-body-horizontal-overflow-390": {
+      "success": true,
+      "details": {
+        "root": 390,
+        "body": 390
+      }
+    },
+    "automatic-five-second-scroll-focus-preserved": {
+      "success": true,
+      "details": {
+        "before": {
+          "scroll": 300,
+          "room": "r_0842cb76cc24e6ce32e5deee2c269f73520330a92d27d4abd40ac5fb333d26ec",
+          "footer": "서버 표본 33 · cache 1초 미만 · 자원 1초 미만",
+          "headY": 1373.1875,
+          "scrollY": 1373.1875
+        },
+        "after": {
+          "scroll": 300,
+          "room": "r_0842cb76cc24e6ce32e5deee2c269f73520330a92d27d4abd40ac5fb333d26ec",
+          "footer": "서버 표본 38 · cache 1초 미만 · 자원 1초 미만"
+        }
+      }
+    },
+    "sticky-header-screen-position": {
+      "success": true,
+      "details": {
+        "headY": 1373.1875,
+        "scrollY": 1373.1875
+      }
+    },
+    "page-resets-table-scroll": {
+      "success": true,
+      "details": {
+        "top": 0,
+        "previousEnabled": true
+      }
+    },
+    "filter-resets-table-scroll": {
+      "success": true,
+      "details": {
+        "top": 0,
+        "text": "arena-b · 전체 공개 설정"
+      }
+    },
+    "controlled-history-empty": {
+      "success": true,
+      "details": {
+        "description": "첫 이력 표본을 수집하는 중입니다.",
+        "cpuValue": "—"
+      }
+    },
+    "controlled-history-one": {
+      "success": true,
+      "details": {
+        "description": "1개 표본 · 관측 시작 · 15분 표시 범위 · 빈 구간은 연결하지 않습니다.",
+        "cpuValue": "20%"
+      }
+    },
+    "controlled-history-eleven": {
+      "success": true,
+      "details": {
+        "description": "11개 표본 · 관측 10초 · 15분 표시 범위 · 빈 구간은 연결하지 않습니다.",
+        "cpuValue": "20%"
+      }
+    },
+    "controlled-history-fifteen": {
+      "success": true,
+      "details": {
+        "description": "2개 표본 · 관측 15분 0초 · 15분 표시 범위 · 빈 구간은 연결하지 않습니다.",
+        "cpuValue": "20%"
+      }
+    },
+    "controlled-history-gap-null-multicore": {
+      "success": true,
+      "details": {
+        "description": "3개 표본 · 관측 5초 · 15분 표시 범위 · 빈 구간은 연결하지 않습니다.",
+        "cpuValue": "125%"
+      }
+    },
+    "actual-served-assets-match-source": {
+      "success": true,
+      "details": {
+        "index.html": {
+          "status": 200,
+          "served": "d4e5d51513fa9cd792283c553becd8fe0ae2a0502ea3b13569be39e51ceabc6f",
+          "source": "d4e5d51513fa9cd792283c553becd8fe0ae2a0502ea3b13569be39e51ceabc6f"
+        },
+        "app.js": {
+          "status": 200,
+          "served": "df9b9dd70437b3d172788a43cf54cbef59b4c649e1aae5d90fabb77ce70ef633",
+          "source": "df9b9dd70437b3d172788a43cf54cbef59b4c649e1aae5d90fabb77ce70ef633"
+        },
+        "style.css": {
+          "status": 200,
+          "served": "15466e94581984445f6097d80b8c62a363daafa1947c8dfd3cf0db9429a9ccc6",
+          "source": "15466e94581984445f6097d80b8c62a363daafa1947c8dfd3cf0db9429a9ccc6"
+        }
+      }
+    }
+  },
+  "failures": [],
+  "scope": "Real loopback server and Godot rooms; Chromium layout is measured. History edge cases use controlled fetch responses."
+}

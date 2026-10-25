@@ -1,0 +1,80 @@
+{
+  "status": "passed",
+  "version": "0.1.0",
+  "msrv": "verified 1.96 in all normalized package manifests",
+  "target_dir": "/private/tmp/campfire-improvements-20261025-target",
+  "target_source": "argument",
+  "archive_mode": "runtime verified; arena/server archive without lockfile, then compiled from extracted archive",
+  "internal_source_override": "temporary [patch.crates-io] paths to extracted package archives",
+  "checkout_consumer": "passed",
+  "archive_consumer": "passed",
+  "server_archive_check": "passed",
+  "archives": {
+    "campfire-runtime": {
+      "sha256": "67b549eb7ec6593fa479f4ca1872b73e233bc2bcfd44fe0f90b2b75cb1409636",
+      "files": 20,
+      "lockfile_included": true
+    },
+    "campfire-arena": {
+      "sha256": "2b502137f528720236e2b1a428028bee846ed4f39406c73464f020abc532d4f6",
+      "files": 5,
+      "lockfile_included": false
+    },
+    "campfire-server": {
+      "sha256": "885eee3a63763295b7b62747af732a8902916b79b15393f411d48a7d1054c4bd",
+      "files": 20,
+      "lockfile_included": false
+    }
+  },
+  "metadata": {
+    "campfire-runtime": {
+      "name": "campfire-runtime",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Reusable room-based multiplayer runtime with sessions, WebSocket transport, and game modules"
+    },
+    "campfire-arena": {
+      "name": "campfire-arena",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Server-authoritative arena game module for the Campfire runtime"
+    },
+    "campfire-server": {
+      "name": "campfire-server",
+      "version": "0.1.0",
+      "rust-version": "1.96",
+      "license": "MIT",
+      "repository": "https://github.com/sangjinsu/campfire",
+      "description": "Example Campfire multiplayer server with CLI, dashboard, and optional arena game"
+    }
+  },
+  "consumer_lockfiles": {
+    "checkout": {
+      "file": "lockfiles/checkout.Cargo.lock",
+      "sha256": "e179f6323eedf2ab86fc43373b51c2aa090aad37f423496b29406ecc28840714"
+    },
+    "archive": {
+      "file": "lockfiles/archive.Cargo.lock",
+      "sha256": "e179f6323eedf2ab86fc43373b51c2aa090aad37f423496b29406ecc28840714"
+    },
+    "server_archive": {
+      "file": "lockfiles/server-archive.Cargo.lock",
+      "sha256": "15b870648b33ed2f5ac5d637a1338f76e221981ef454cf48f4399ebbb0551958"
+    }
+  },
+  "repository_lockfile": {
+    "before_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "after_sha256": "9eac7d6c46e40c63abea7881d151ecebe0e975cbe3c977d7e46efb9c7fd61fe0",
+    "unchanged": true
+  },
+  "lockfile_exclusion_reason": "unpublished internal crate versions are absent from crates.io; root Cargo.lock stays unchanged",
+  "verification_limits": [
+    "arena/server archives omit Cargo.lock; reproducible packaged resolution and cargo install --locked are unverified",
+    "crates.io publication and public registry download are unverified"
+  ],
+  "registry_publish": "not attempted"
+}

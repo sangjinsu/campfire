@@ -1,0 +1,14 @@
+{
+  "viewport": "desktop",
+  "svgWidth": 648,
+  "ranges": [
+    61,
+    62,
+    63
+  ],
+  "keyboardFocus": true,
+  "pointerFirst": true,
+  "pointerMiddle": true,
+  "counterReset": true,
+  "nullVsZero": true
+}
