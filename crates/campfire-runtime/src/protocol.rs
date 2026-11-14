@@ -219,17 +219,7 @@ pub(crate) fn fingerprint(body: &Value) -> [u8; 32] {
 }
 fn hash_canonical(value: &Value, hasher: &mut Sha256) {
     match value {
-        Value::Object(map) => {
-            hasher.update(b"{");
-            if map.keys().is_sorted() {
-                hash_entries(map.iter(), hasher);
-            } else {
-                let mut entries: Vec<_> = map.iter().collect();
-                entries.sort_by(|left, right| left.0.cmp(right.0));
-                hash_entries(entries.into_iter(), hasher);
-            }
-            hasher.update(b"}");
-        }
+        Value::Object(map) => hash_object(map.iter(), hasher),
         Value::Array(items) => {
             hasher.update(b"[");
             for (index, item) in items.iter().enumerate() {
@@ -244,6 +234,24 @@ fn hash_canonical(value: &Value, hasher: &mut Sha256) {
         scalar => serde_json::to_writer(HashWriter(hasher), scalar)
             .expect("hashing a JSON scalar cannot fail"),
     }
+}
+/// Hashes an object with its keys in sorted order, whatever order `entries` yields.
+///
+/// serde_json's default map already iterates sorted; with its `preserve_order`
+/// feature enabled anywhere in the build, it iterates in insertion order instead.
+fn hash_object<'a>(
+    entries: impl Iterator<Item = (&'a String, &'a Value)> + Clone,
+    hasher: &mut Sha256,
+) {
+    hasher.update(b"{");
+    if entries.clone().map(|(key, _)| key).is_sorted() {
+        hash_entries(entries, hasher);
+    } else {
+        let mut entries: Vec<_> = entries.collect();
+        entries.sort_by(|left, right| left.0.cmp(right.0));
+        hash_entries(entries.into_iter(), hasher);
+    }
+    hasher.update(b"}");
 }
 fn hash_entries<'a>(entries: impl Iterator<Item = (&'a String, &'a Value)>, hasher: &mut Sha256) {
     for (index, (key, value)) in entries.enumerate() {
@@ -349,6 +357,26 @@ mod tests {
         let different = parse(r#"{"v":1,"type":"game.input","request_id":"i","room_id":"r","room_instance_id":"x","input_seq":2,"payload":{"move_x":1,"move_y":0}}"#).unwrap();
         assert_eq!(first.fingerprint, reordered.fingerprint);
         assert_ne!(first.fingerprint, different.fingerprint);
+    }
+    #[test]
+    fn object_hash_sorts_keys_that_arrive_unsorted() {
+        // This build's serde_json map is always sorted, so feed the insertion-ordered
+        // case (`preserve_order`) to the object hasher directly.
+        let unsorted = [
+            ("b".to_owned(), json!(1)),
+            ("".to_owned(), json!(null)),
+            ("a".to_owned(), json!({"z":[true]})),
+        ];
+        let mut hasher = Sha256::new();
+        hash_object(
+            unsorted.iter().map(|(key, value)| (key, value)),
+            &mut hasher,
+        );
+        let hashed: [u8; 32] = hasher.finalize().into();
+        assert_eq!(
+            hashed,
+            fingerprint(&json!({"":null,"a":{"z":[true]},"b":1}))
+        );
     }
     #[test]
     fn streamed_fingerprint_equals_hashing_the_sorted_compact_text() {

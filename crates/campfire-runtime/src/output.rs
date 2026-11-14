@@ -68,6 +68,7 @@ pub(crate) struct Output {
 }
 impl Output {
     pub fn send(&self, value: Value) -> bool {
+        // Checked here as well so a closed connection is not encoded for.
         if !self.alive.load(Ordering::Acquire) {
             return false;
         }
