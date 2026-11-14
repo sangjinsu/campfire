@@ -1,4 +1,5 @@
 use crate::metrics::{Metrics, inc, max};
+use axum::extract::ws::Utf8Bytes;
 use serde_json::Value;
 use std::sync::{
     Arc,
@@ -6,9 +7,20 @@ use std::sync::{
 };
 use tokio::sync::{mpsc, watch};
 
+/// A regular snapshot already encoded as its WebSocket text frame.
+///
+/// The room encodes the shared state once per publication; cloning this for a
+/// writer only bumps reference counts.
+#[derive(Clone)]
+pub(crate) struct SnapshotFrame {
+    pub instance: Arc<str>,
+    pub seq: u64,
+    pub text: Utf8Bytes,
+}
+
 pub(crate) struct Output {
     pub reliable: mpsc::Sender<Value>,
-    pub latest: watch::Sender<Option<Value>>,
+    pub latest: watch::Sender<Option<SnapshotFrame>>,
     pub stop: watch::Sender<bool>,
     pub alive: AtomicBool,
     pub metrics: Arc<Metrics>,
