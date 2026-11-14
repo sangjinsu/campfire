@@ -387,3 +387,179 @@ async fn hardening_resume_after_disconnect_uses_control_budget() {
         "room.resumed"
     );
 }
+
+fn heartbeat_config() -> Config {
+    Config {
+        // The idle window spans twenty pings so a scheduling stall cannot look like a dead peer.
+        ping_interval: Duration::from_millis(100),
+        idle_timeout: Duration::from_secs(2),
+        ..Config::default()
+    }
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn silent_connection_is_closed_and_releases_its_permit() {
+    let server = TestServer::new(heartbeat_config()).await;
+    let mut socket = server.authenticated_socket().await;
+    assert_eq!(server.runtime.metrics().active_connections, 1);
+    // Not polling the socket means pings are never answered, like a half-open peer.
+    timeout(Duration::from_secs(20), async {
+        while server.runtime.metrics().active_connections != 0 {
+            tokio::time::sleep(Duration::from_millis(20)).await;
+        }
+    })
+    .await
+    .expect("idle connection must release its permit");
+    assert_eq!(server.runtime.metrics().idle_disconnects, 1);
+    let closed = timeout(Duration::from_secs(3), async {
+        loop {
+            match socket.next().await {
+                Some(Ok(Message::Ping(_) | Message::Pong(_))) => {}
+                Some(Ok(Message::Close(_)) | Err(_)) | None => return true,
+                Some(Ok(other)) => panic!("unexpected websocket frame: {other:?}"),
+            }
+        }
+    })
+    .await
+    .unwrap();
+    assert!(closed);
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn responsive_connection_without_application_traffic_stays_open() {
+    let server = TestServer::new(heartbeat_config()).await;
+    let mut socket = server.authenticated_socket().await;
+    let mut pings = 0;
+    let quiet = tokio::time::Instant::now() + Duration::from_millis(2600);
+    // Polling lets the client answer pings; it sends no application message past the idle window.
+    while let Ok(frame) = tokio::time::timeout_at(quiet, socket.next()).await {
+        match frame {
+            Some(Ok(Message::Ping(_))) => pings += 1,
+            other => panic!("unexpected websocket frame: {other:?}"),
+        }
+    }
+    assert!(pings >= 3, "expected periodic pings, got {pings}");
+    send(&mut socket, list("after-quiet")).await;
+    assert_eq!(
+        response_for(&mut socket, "after-quiet").await["type"],
+        "room.listed"
+    );
+    assert_eq!(server.runtime.metrics().idle_disconnects, 0);
+}
+
+impl TestServer {
+    async fn guest_status(&self, forwarded: &str) -> u16 {
+        reqwest::Client::new()
+            .post(format!("http://{}/v1/games/test/guests", self.address))
+            .header("x-forwarded-for", forwarded)
+            .send()
+            .await
+            .unwrap()
+            .status()
+            .as_u16()
+    }
+
+    async fn connect_forwarded(
+        &self,
+        forwarded: &str,
+    ) -> Result<Socket, tokio_tungstenite::tungstenite::Error> {
+        use tokio_tungstenite::tungstenite::client::IntoClientRequest;
+        let mut request = format!("ws://{}/v1/games/test/ws", self.address)
+            .into_client_request()
+            .unwrap();
+        request
+            .headers_mut()
+            .insert("x-forwarded-for", forwarded.parse().unwrap());
+        connect_async(request).await.map(|(socket, _)| socket)
+    }
+}
+
+// These tests count rate keys rather than 429 responses: a key outlives the test, while a
+// refilled token would depend on how quickly the requests were sent.
+fn long_lived_rate_keys() -> Config {
+    Config {
+        rate_key_ttl: Duration::from_secs(3600),
+        ..Config::default()
+    }
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn forwarded_header_from_untrusted_peer_cannot_split_the_guest_budget() {
+    let server = TestServer::new(long_lived_rate_keys()).await;
+    assert_eq!(server.guest_status("198.51.100.1").await, 201);
+    assert_eq!(server.guest_status("198.51.100.2").await, 201);
+    assert_eq!(server.runtime.metrics().rate_keys, 1);
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn trusted_proxy_gives_each_forwarded_client_its_own_guest_budget() {
+    let server = TestServer::new(Config {
+        trusted_proxies: vec!["127.0.0.1".parse().unwrap()],
+        ..long_lived_rate_keys()
+    })
+    .await;
+    let keys = || server.runtime.metrics().rate_keys;
+    assert_eq!(server.guest_status("198.51.100.1").await, 201);
+    assert_eq!(server.guest_status("198.51.100.1").await, 201);
+    assert_eq!(keys(), 1);
+    assert_eq!(server.guest_status("198.51.100.2").await, 201);
+    assert_eq!(keys(), 2);
+    // A spoofed leading entry does not create a new source: the proxy-observed hop is the key.
+    assert_eq!(server.guest_status("203.0.113.77, 198.51.100.2").await, 201);
+    assert_eq!(keys(), 2);
+    // Addresses inside one IPv6 /64 share a key.
+    assert_eq!(server.guest_status("2001:db8:1:2::1").await, 201);
+    assert_eq!(server.guest_status("2001:db8:1:2:ffff::9").await, 201);
+    assert_eq!(keys(), 3);
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn unreadable_forwarded_line_falls_back_to_the_proxy_address() {
+    let server = TestServer::new(Config {
+        trusted_proxies: vec!["127.0.0.1".parse().unwrap()],
+        ..long_lived_rate_keys()
+    })
+    .await;
+    let post = |lines: Vec<&'static [u8]>| {
+        let mut request =
+            reqwest::Client::new().post(format!("http://{}/v1/games/test/guests", server.address));
+        for line in lines {
+            request = request.header(
+                "x-forwarded-for",
+                reqwest::header::HeaderValue::from_bytes(line).unwrap(),
+            );
+        }
+        async move { request.send().await.unwrap().status().as_u16() }
+    };
+    // Two different claimed clients, each alongside a non-UTF-8 line, resolve to the proxy itself.
+    assert_eq!(post(vec![b"198.51.100.1", b"\x80x"]).await, 201);
+    assert_eq!(post(vec![b"\x80x", b"198.51.100.2"]).await, 201);
+    assert_eq!(server.runtime.metrics().rate_keys, 1);
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn unauthenticated_connections_are_capped_per_source() {
+    let server = TestServer::new(Config {
+        trusted_proxies: vec!["127.0.0.1".parse().unwrap()],
+        max_unauthenticated_per_source: 1,
+        ..Config::default()
+    })
+    .await;
+    let mut first = server.connect_forwarded("198.51.100.1").await.unwrap();
+    assert_eq!(server.runtime.metrics().admission_rejections, 0);
+    assert!(server.connect_forwarded("198.51.100.1").await.is_err());
+    // Another source is unaffected by the first source holding its slot.
+    let _other = server.connect_forwarded("2001:db8:1:2::1").await.unwrap();
+    assert!(server.connect_forwarded("2001:db8:1:2::2").await.is_err());
+    assert_eq!(server.runtime.metrics().unauthenticated_connections, 2);
+    // Authenticating releases the slot while the connection stays open.
+    let guest = server.guest().await;
+    send(
+        &mut first,
+        json!({"v":1,"type":"session.authenticate","request_id":"auth","token":guest["token"]}),
+    )
+    .await;
+    assert_eq!(recv(&mut first).await["type"], "session.authenticated");
+    let _second = server.connect_forwarded("198.51.100.1").await.unwrap();
+    assert_eq!(server.runtime.metrics().active_connections, 3);
+}

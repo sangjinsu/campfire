@@ -1,3 +1,4 @@
+use crate::source::TrustedProxy;
 use std::{fmt, time::Duration};
 
 #[derive(Clone, Debug)]
@@ -6,6 +7,8 @@ pub struct Config {
     pub tick_hz: u32,
     pub snapshot_hz: u32,
     pub guest_ttl: Duration,
+    /// How long an issued guest token may stay unused before its session slot is reclaimed.
+    pub unclaimed_guest_ttl: Duration,
     pub reconnect_grace: Duration,
     pub auth_timeout: Duration,
     pub cleanup_interval: Duration,
@@ -19,6 +22,8 @@ pub struct Config {
     pub max_sessions: usize,
     pub max_connections: usize,
     pub max_unauthenticated_connections: usize,
+    /// Unauthenticated WebSocket connections one source (IPv4 host or IPv6 /64) may hold at once.
+    pub max_unauthenticated_per_source: usize,
     pub max_rooms: usize,
     pub max_rate_keys: usize,
     pub guest_rate_per_second: u32,
@@ -27,6 +32,12 @@ pub struct Config {
     pub global_guest_burst: u32,
     pub rate_key_ttl: Duration,
     pub write_timeout: Duration,
+    /// Interval between server WebSocket pings on each connection.
+    pub ping_interval: Duration,
+    /// A connection that delivers no frame (including pongs) for this long is closed.
+    pub idle_timeout: Duration,
+    /// Reverse proxies whose `X-Forwarded-For` header identifies the client. Empty trusts none.
+    pub trusted_proxies: Vec<TrustedProxy>,
     pub max_write_timeouts: u32,
     pub max_abuse_violations: u32,
 }
@@ -38,6 +49,7 @@ impl Default for Config {
             tick_hz: 30,
             snapshot_hz: 15,
             guest_ttl: Duration::from_secs(86_400),
+            unclaimed_guest_ttl: Duration::from_secs(60),
             reconnect_grace: Duration::from_secs(30),
             auth_timeout: Duration::from_secs(5),
             cleanup_interval: Duration::from_millis(100),
@@ -51,6 +63,7 @@ impl Default for Config {
             max_sessions: 10_000,
             max_connections: 4096,
             max_unauthenticated_connections: 256,
+            max_unauthenticated_per_source: 32,
             max_rooms: 1024,
             max_rate_keys: 4096,
             guest_rate_per_second: 2,
@@ -59,6 +72,9 @@ impl Default for Config {
             global_guest_burst: 200,
             rate_key_ttl: Duration::from_secs(60),
             write_timeout: Duration::from_secs(2),
+            ping_interval: Duration::from_secs(20),
+            idle_timeout: Duration::from_secs(60),
+            trusted_proxies: Vec::new(),
             max_write_timeouts: 2,
             max_abuse_violations: 5,
         }
@@ -94,6 +110,7 @@ impl Config {
             self.max_sessions,
             self.max_connections,
             self.max_unauthenticated_connections,
+            self.max_unauthenticated_per_source,
             self.max_rooms,
             self.max_rate_keys,
         ];
@@ -109,11 +126,14 @@ impl Config {
         ];
         let durations = [
             self.guest_ttl,
+            self.unclaimed_guest_ttl,
             self.reconnect_grace,
             self.auth_timeout,
             self.cleanup_interval,
             self.rate_key_ttl,
             self.write_timeout,
+            self.ping_interval,
+            self.idle_timeout,
         ];
         if capacities.contains(&0)
             || rates.contains(&0)
@@ -134,6 +154,16 @@ impl Config {
         {
             return Err(ConfigError(
                 "configuration exceeds finite resource or time safety bounds".into(),
+            ));
+        }
+        if self.trusted_proxies.len() > 64 {
+            return Err(ConfigError(
+                "at most 64 trusted proxy networks are supported".into(),
+            ));
+        }
+        if self.idle_timeout <= self.ping_interval {
+            return Err(ConfigError(
+                "idle_timeout must be longer than ping_interval".into(),
             ));
         }
         Ok(())

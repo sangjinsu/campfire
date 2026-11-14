@@ -26,8 +26,14 @@ impl Options {
         if let Some(games) = env("CAMPFIRE_GAMES") {
             options.games = games.split(',').map(str::to_owned).collect();
         }
+        if let Some(proxies) = env("CAMPFIRE_TRUSTED_PROXIES") {
+            for proxy in proxies.split(',').filter(|proxy| !proxy.is_empty()) {
+                options.trust(proxy)?;
+            }
+        }
         let mut args = args.into_iter();
         let mut explicit_games = false;
+        let mut explicit_proxies = false;
         while let Some(flag) = args.next() {
             let flag = flag
                 .strip_prefix("--")
@@ -41,6 +47,12 @@ impl Options {
                     explicit_games = true;
                 }
                 options.games.push(value);
+            } else if flag == "trusted-proxy" {
+                if !explicit_proxies {
+                    options.config.trusted_proxies.clear();
+                    explicit_proxies = true;
+                }
+                options.trust(&value)?;
             } else {
                 options.set(flag, &value)?;
             }
@@ -60,6 +72,11 @@ impl Options {
         }
         options.config.validate().map_err(|e| e.to_string())?;
         Ok(options)
+    }
+
+    fn trust(&mut self, network: &str) -> Result<(), String> {
+        self.config.trusted_proxies.push(network.parse()?);
+        Ok(())
     }
 
     fn set(&mut self, flag: &str, value: &str) -> Result<(), String> {
@@ -89,6 +106,7 @@ impl Options {
             "tick-hz" => number!(tick_hz),
             "snapshot-hz" => number!(snapshot_hz),
             "guest-ttl-ms" => milliseconds!(guest_ttl),
+            "unclaimed-guest-ttl-ms" => milliseconds!(unclaimed_guest_ttl),
             "reconnect-grace-ms" => milliseconds!(reconnect_grace),
             "auth-timeout-ms" => milliseconds!(auth_timeout),
             "cleanup-interval-ms" => milliseconds!(cleanup_interval),
@@ -102,6 +120,7 @@ impl Options {
             "max-sessions" => number!(max_sessions),
             "max-connections" => number!(max_connections),
             "max-unauthenticated-connections" => number!(max_unauthenticated_connections),
+            "max-unauthenticated-per-source" => number!(max_unauthenticated_per_source),
             "max-rooms" => number!(max_rooms),
             "max-rate-keys" => number!(max_rate_keys),
             "guest-rate-per-second" => number!(guest_rate_per_second),
@@ -110,6 +129,8 @@ impl Options {
             "global-guest-burst" => number!(global_guest_burst),
             "rate-key-ttl-ms" => milliseconds!(rate_key_ttl),
             "write-timeout-ms" => milliseconds!(write_timeout),
+            "ping-interval-ms" => milliseconds!(ping_interval),
+            "idle-timeout-ms" => milliseconds!(idle_timeout),
             "max-write-timeouts" => number!(max_write_timeouts),
             "max-abuse-violations" => number!(max_abuse_violations),
             _ => return Err(format!("Unknown option --{flag}")),
@@ -124,6 +145,7 @@ pub const FLAGS: &[&str] = &[
     "tick-hz",
     "snapshot-hz",
     "guest-ttl-ms",
+    "unclaimed-guest-ttl-ms",
     "reconnect-grace-ms",
     "auth-timeout-ms",
     "cleanup-interval-ms",
@@ -137,6 +159,7 @@ pub const FLAGS: &[&str] = &[
     "max-sessions",
     "max-connections",
     "max-unauthenticated-connections",
+    "max-unauthenticated-per-source",
     "max-rooms",
     "max-rate-keys",
     "guest-rate-per-second",
@@ -145,13 +168,15 @@ pub const FLAGS: &[&str] = &[
     "global-guest-burst",
     "rate-key-ttl-ms",
     "write-timeout-ms",
+    "ping-interval-ms",
+    "idle-timeout-ms",
     "max-write-timeouts",
     "max-abuse-violations",
 ];
 
 pub fn help() -> String {
     format!(
-        "Campfire server\nUsage: campfire-server [--game ID]... [--OPTION VALUE]\n\nDefault: --bind 127.0.0.1:3000 --game arena --capacity 16 --tick-hz 30 --snapshot-hz 15\n\nOptions:\n  --help\n  --game ID (repeat to register the compiled arena module under distinct game IDs)\n{}\nEnvironment: CAMPFIRE_<OPTION_IN_UPPER_SNAKE_CASE>; CAMPFIRE_GAMES=arena,arena-b. CLI overrides environment. Duration options use integer milliseconds. See docs/configuration.md.\n",
+        "Campfire server\nUsage: campfire-server [--game ID]... [--OPTION VALUE]\n\nDefault: --bind 127.0.0.1:3000 --game arena --capacity 16 --tick-hz 30 --snapshot-hz 15\n\nOptions:\n  --help\n  --game ID (repeat to register the compiled arena module under distinct game IDs)\n  --trusted-proxy ADDRESS[/PREFIX] (repeat; reverse proxies whose X-Forwarded-For is trusted)\n{}\nEnvironment: CAMPFIRE_<OPTION_IN_UPPER_SNAKE_CASE>; CAMPFIRE_GAMES=arena,arena-b; CAMPFIRE_TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8. CLI overrides environment. Duration options use integer milliseconds. See docs/configuration.md.\n",
         FLAGS
             .iter()
             .map(|s| format!("  --{s} VALUE\n"))
@@ -200,6 +225,30 @@ mod tests {
         assert_eq!(options.games.len(), 2);
     }
     #[test]
+    fn trusted_proxies_come_from_environment_and_cli_replaces_them() {
+        let env = |key: &str| match key {
+            "CAMPFIRE_TRUSTED_PROXIES" => Some("127.0.0.1,10.0.0.0/8".into()),
+            _ => None,
+        };
+        assert!(parse(&[]).unwrap().config.trusted_proxies.is_empty());
+        let unset = Options::parse(Vec::new(), |key| {
+            (key == "CAMPFIRE_TRUSTED_PROXIES").then(String::new)
+        });
+        assert!(unset.unwrap().config.trusted_proxies.is_empty());
+        let options = Options::parse(Vec::new(), env).unwrap();
+        assert_eq!(options.config.trusted_proxies.len(), 2);
+        let options = Options::parse(["--trusted-proxy".into(), "fd00::/8".into()], env).unwrap();
+        assert_eq!(options.config.trusted_proxies.len(), 1);
+        assert_eq!(options.config.trusted_proxies[0].to_string(), "fd00::/8");
+        assert!(
+            Options::parse(Vec::new(), |key| match key {
+                "CAMPFIRE_TRUSTED_PROXIES" => Some("127.0.0.1, 10.0.0.0/8".into()),
+                _ => None,
+            })
+            .is_err()
+        );
+    }
+    #[test]
     fn rejects_invalid_unknown_duplicate_and_overflow_values() {
         for args in [
             vec!["--capacity", "0"],
@@ -212,6 +261,10 @@ mod tests {
             vec!["--unknown", "1"],
             vec!["--capacity"],
             vec!["--input-burst", "4294967296"],
+            vec!["--idle-timeout-ms", "20000"],
+            vec!["--trusted-proxy", "10.0.0.0/33"],
+            vec!["--max-unauthenticated-per-source", "0"],
+            vec!["--unclaimed-guest-ttl-ms", "0"],
         ] {
             assert!(parse(&args).is_err(), "{args:?}");
         }

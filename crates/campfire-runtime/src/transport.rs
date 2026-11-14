@@ -6,6 +6,7 @@ use crate::{
     protocol::{self, Command, Error, ResponseCache},
     rate::Bucket,
     session::TokenHash,
+    source::{SourceSlot, client_address, forwarded_entries, source_key},
 };
 use axum::{
     Json,
@@ -13,7 +14,7 @@ use axum::{
         ConnectInfo, Path, State, WebSocketUpgrade,
         ws::{Message, WebSocket},
     },
-    http::StatusCode,
+    http::{HeaderMap, StatusCode},
     response::{IntoResponse, Response},
 };
 use futures_util::{SinkExt, StreamExt};
@@ -21,7 +22,10 @@ use serde::Deserialize;
 use serde_json::{Value, json};
 use std::{
     net::SocketAddr,
-    sync::{Arc, atomic::AtomicBool},
+    sync::{
+        Arc,
+        atomic::{AtomicBool, AtomicU64, Ordering},
+    },
 };
 use tokio::{
     sync::{OwnedSemaphorePermit, mpsc, watch},
@@ -31,16 +35,41 @@ use tokio::{
 pub(crate) async fn health() -> Json<Value> {
     Json(json!({"status":"ok"}))
 }
+type PeerAddress = Result<ConnectInfo<SocketAddr>, axum::extract::rejection::ExtensionRejection>;
+
+/// The shared key of requests served without `ConnectInfo`.
+const UNKNOWN_SOURCE: &str = "unknown";
+
+/// The admission key for a request. `X-Forwarded-For` counts only when the peer is a configured
+/// trusted proxy; a router served without `ConnectInfo` shares [`UNKNOWN_SOURCE`].
+fn request_source(runtime: &Campfire, peer: PeerAddress, headers: &HeaderMap) -> String {
+    let Ok(ConnectInfo(peer)) = peer else {
+        return UNKNOWN_SOURCE.into();
+    };
+    let mut forwarded = Vec::new();
+    for value in headers.get_all("x-forwarded-for") {
+        match value.to_str() {
+            Ok(value) => forwarded.extend(forwarded_entries(value)),
+            // An unreadable line hides which entry the proxy appended, so none of them is used.
+            Err(_) => {
+                forwarded.clear();
+                break;
+            }
+        }
+    }
+    source_key(client_address(
+        peer.ip(),
+        forwarded.into_iter(),
+        &runtime.inner.config.trusted_proxies,
+    ))
+}
 pub(crate) async fn guest(
     State(runtime): State<Campfire>,
     Path(game): Path<String>,
     source: Result<ConnectInfo<SocketAddr>, axum::extract::rejection::ExtensionRejection>,
+    headers: HeaderMap,
 ) -> Response {
-    // Proxies must provide a trusted ConnectInfo implementation; untrusted forwarded headers are ignored.
-    let source = source.map_or_else(
-        |_| "unknown".into(),
-        |ConnectInfo(address)| address.ip().to_string(),
-    );
+    let source = request_source(&runtime, source, &headers);
     match runtime.inner.issue(&game, source).await {
         Ok(value) => (StatusCode::CREATED, Json(value)).into_response(),
         Err(error) => http_error(error),
@@ -55,6 +84,7 @@ pub(crate) async fn account(
     State(runtime): State<Campfire>,
     Path(game): Path<String>,
     source: Result<ConnectInfo<SocketAddr>, axum::extract::rejection::ExtensionRejection>,
+    headers: HeaderMap,
     body: Result<Json<AccountRequest>, axum::extract::rejection::JsonRejection>,
 ) -> Response {
     let Json(body) = match body {
@@ -89,10 +119,7 @@ pub(crate) async fn account(
             ));
         }
     };
-    let source = source.map_or_else(
-        |_| "unknown".into(),
-        |ConnectInfo(address)| address.ip().to_string(),
-    );
+    let source = request_source(&runtime, source, &headers);
     match runtime
         .inner
         .issue_account(&game, &body.credential, source)
@@ -117,6 +144,8 @@ fn http_error(error: Error) -> Response {
 pub(crate) async fn upgrade(
     State(runtime): State<Campfire>,
     Path(game): Path<String>,
+    source: PeerAddress,
+    headers: HeaderMap,
     ws: WebSocketUpgrade,
 ) -> Response {
     if !runtime.inner.has_game(&game) {
@@ -139,6 +168,22 @@ pub(crate) async fn upgrade(
             return http_error(Error::busy());
         }
     };
+    let source = request_source(&runtime, source, &headers);
+    // Without peer addresses every connection is one source, so only the global cap applies.
+    let source_slot = if source == UNKNOWN_SOURCE {
+        None
+    } else {
+        let Some(slot) = runtime
+            .inner
+            .unauthenticated_sources
+            .acquire(&source, runtime.inner.config.max_unauthenticated_per_source)
+        else {
+            inc(&runtime.inner.metrics.admission_rejections);
+            return http_error(Error::busy());
+        };
+        Some(slot)
+    };
+    let unauthenticated = (unauthenticated, source_slot);
     // A bounded transport safety ceiling allows modest application-limit violations to be counted.
     let ceiling = runtime.inner.config.max_frame_bytes.saturating_mul(4);
     ws.max_frame_size(ceiling)
@@ -154,7 +199,7 @@ async fn connection_task(
     game: String,
     socket: WebSocket,
     _connection: OwnedSemaphorePermit,
-    unauthenticated: OwnedSemaphorePermit,
+    unauthenticated: (OwnedSemaphorePermit, Option<SourceSlot>),
 ) {
     if *runtime.inner.shutdown.borrow() {
         return;
@@ -176,8 +221,17 @@ async fn connection_task(
     let writer_config = config.clone();
     let mut writer_stop = output.stop.subscribe();
     let mut global_stop = runtime.inner.shutdown.subscribe();
+    // Milliseconds since `opened` at which the reader last received any frame, pongs included.
+    let opened = Instant::now();
+    let last_received = Arc::new(AtomicU64::new(0));
+    let writer_received = last_received.clone();
     let writer = tokio::spawn(async move {
         let mut last_snapshot: Option<(String, u64)> = None;
+        let mut ping = tokio::time::interval_at(
+            opened + writer_config.ping_interval,
+            writer_config.ping_interval,
+        );
+        ping.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
         loop {
             if *global_stop.borrow() {
                 break;
@@ -186,6 +240,24 @@ async fn connection_task(
                 value=reliable_rx.recv()=>value,
                 _=writer_stop.changed()=>None,
                 _=global_stop.changed()=>None,
+                // Polled before snapshots so a steady snapshot stream cannot starve liveness checks.
+                _=ping.tick()=> {
+                    let silent = opened.elapsed().saturating_sub(std::time::Duration::from_millis(
+                        writer_received.load(Ordering::Relaxed),
+                    ));
+                    if silent >= writer_config.idle_timeout {
+                        inc(&writer_output.metrics.idle_disconnects);
+                        break;
+                    }
+                    match write_message(&mut sink, Message::Ping(Default::default()), &writer_config).await {
+                        Ok(()) => continue,
+                        Err(SendFailure::Deadline) => {
+                            inc(&writer_output.metrics.write_deadline_disconnects);
+                            break;
+                        }
+                        Err(SendFailure::Closed) => break,
+                    }
+                }
                 changed=latest_rx.changed()=> {
                     if changed.is_err(){break;}
                     let value=latest_rx.borrow_and_update().clone();
@@ -248,6 +320,7 @@ async fn connection_task(
             let Some(Ok(message)) = message else {
                 break;
             };
+            last_received.store(opened.elapsed().as_millis() as u64, Ordering::Relaxed);
             let text = match message {
                 Message::Text(text) => text,
                 Message::Close(_) => break,

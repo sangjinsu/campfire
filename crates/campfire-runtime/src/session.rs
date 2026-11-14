@@ -48,8 +48,15 @@ pub(crate) struct Session {
     pub output: Option<Arc<Output>>,
     pub room: Option<RoomRef>,
     pub reservation: Option<Instant>,
+    /// Set for guest tokens that have never authenticated; cleared by the first successful authentication.
+    pub unclaimed_until: Option<Instant>,
     pub identity: PlayerIdentity,
     pub lifecycle: Arc<Mutex<()>>,
+}
+impl Session {
+    fn expired(&self, now: Instant) -> bool {
+        self.deadline <= now || self.unclaimed_until.is_some_and(|until| until <= now)
+    }
 }
 pub(crate) struct RateKey {
     pub bucket: Bucket,
@@ -69,6 +76,7 @@ pub(crate) struct Inner {
     pub metrics: Arc<Metrics>,
     pub connections: Arc<Semaphore>,
     pub unauthenticated: Arc<Semaphore>,
+    pub unauthenticated_sources: Arc<crate::source::SourceSlots>,
     pub shutdown: watch::Sender<bool>,
     pub authenticator: Option<Arc<dyn AccountAuthenticator>>,
     pub observations: ObservationDirectory,
@@ -123,6 +131,7 @@ impl Campfire {
                 identity_gates: std::sync::Mutex::new(HashMap::new()),
                 connections: Arc::new(Semaphore::new(config.max_connections)),
                 unauthenticated: Arc::new(Semaphore::new(config.max_unauthenticated_connections)),
+                unauthenticated_sources: Arc::default(),
                 state: Mutex::new(State {
                     sessions: HashMap::new(),
                     rooms: BTreeMap::new(),
@@ -646,6 +655,7 @@ impl Inner {
                     output: None,
                     room: reference,
                     reservation,
+                    unclaimed_until: None,
                     identity,
                     lifecycle,
                 }
@@ -663,6 +673,7 @@ impl Inner {
                     output: None,
                     room: None,
                     reservation: None,
+                    unclaimed_until: None,
                     identity,
                     lifecycle,
                 }
@@ -742,6 +753,7 @@ impl Inner {
                 output: None,
                 room: None,
                 reservation: None,
+                unclaimed_until: Some(deadline.min(now + self.config.unclaimed_guest_ttl)),
                 identity: PlayerIdentity::Guest,
                 lifecycle: Arc::new(Mutex::new(())),
             },
@@ -847,7 +859,7 @@ impl Inner {
                 .sessions
                 .get_mut(&key)
                 .ok_or_else(|| Error::new("UNAUTHENTICATED", "invalid or expired token"))?;
-            if session.deadline <= Instant::now() {
+            if session.expired(Instant::now()) {
                 return Err(Error::new("UNAUTHENTICATED", "invalid or expired token"));
             }
             if session.game_id != game {
@@ -891,7 +903,7 @@ impl Inner {
             && state
                 .sessions
                 .get(&key)
-                .is_some_and(|s| s.generation == generation && s.deadline > Instant::now());
+                .is_some_and(|s| s.generation == generation && !s.expired(Instant::now()));
         if !valid {
             drop(state);
             if let Some(handle) = handle {
@@ -916,6 +928,7 @@ impl Inner {
             ));
         }
         session.output = Some(output);
+        session.unclaimed_until = None;
         let response = json!({"v":1,"type":"session.authenticated","request_id":request,"guest_id":session.id,"player_id":session.id,
             "expires_at":session.expires_at,"game_id":game,"room_id":session.room.as_ref().map(|r|&r.id),
             "room_instance_id":session.room.as_ref().map(|r|&r.instance),"can_resume":session.reservation.is_some_and(|d|d>Instant::now()),
@@ -1694,7 +1707,7 @@ async fn cleanup(inner: &Arc<Inner>) {
         state
             .sessions
             .iter()
-            .filter(|(_, s)| s.deadline <= now || s.reservation.is_some_and(|d| d <= now))
+            .filter(|(_, s)| s.expired(now) || s.reservation.is_some_and(|d| d <= now))
             .map(|(key, s)| (*key, s.lifecycle.clone()))
             .collect()
     };
@@ -1713,7 +1726,7 @@ async fn cleanup(inner: &Arc<Inner>) {
         else {
             continue;
         };
-        let expired = session.deadline <= Instant::now();
+        let expired = session.expired(Instant::now());
         if !expired && session.reservation.is_none_or(|d| d > Instant::now()) {
             continue;
         }
@@ -3940,6 +3953,94 @@ mod tests {
             first["reservation_expires_at"],
             second["reservation_expires_at"]
         );
+        runtime.shutdown().await;
+    }
+
+    #[tokio::test(start_paused = true)]
+    async fn unclaimed_guest_tokens_release_session_capacity() {
+        let runtime = account_runtime(
+            Config {
+                max_sessions: 2,
+                unclaimed_guest_ttl: Duration::from_secs(5),
+                ..Config::default()
+            },
+            AccountVerifier,
+        );
+        let claimed = runtime.inner.issue("a", "one".into()).await.unwrap();
+        let unused = runtime.inner.issue("a", "two".into()).await.unwrap();
+        let (out, _rx) = output(32);
+        runtime
+            .inner
+            .authenticate("a", claimed["token"].as_str().unwrap(), "auth", out.clone())
+            .await
+            .unwrap();
+        assert_eq!(
+            runtime
+                .inner
+                .issue("a", "three".into())
+                .await
+                .unwrap_err()
+                .code,
+            "SERVER_BUSY"
+        );
+        tokio::time::advance(Duration::from_secs(5)).await;
+        // The unused token is rejected even before the periodic cleanup observes it.
+        let (late, _late_rx) = output(32);
+        assert_eq!(
+            runtime
+                .inner
+                .authenticate("a", unused["token"].as_str().unwrap(), "late", late)
+                .await
+                .unwrap_err()
+                .code,
+            "UNAUTHENTICATED"
+        );
+        cleanup(&runtime.inner).await;
+        {
+            let state = runtime.inner.state.lock().await;
+            assert_eq!(state.sessions.len(), 1);
+            assert!(
+                state
+                    .sessions
+                    .contains_key(&token_hash(claimed["token"].as_str().unwrap()))
+            );
+        }
+        assert_eq!(runtime.metrics().active_sessions, 1);
+        runtime.inner.issue("a", "three".into()).await.unwrap();
+        // A claimed token keeps its full guest lifetime after the connection closes.
+        out.close();
+        tokio::time::advance(Duration::from_secs(60)).await;
+        cleanup(&runtime.inner).await;
+        let (again, _again_rx) = output(32);
+        runtime
+            .inner
+            .authenticate("a", claimed["token"].as_str().unwrap(), "again", again)
+            .await
+            .unwrap();
+        runtime.shutdown().await;
+    }
+    #[tokio::test(start_paused = true)]
+    async fn unclaimed_guest_ttl_never_extends_guest_ttl() {
+        let runtime = account_runtime(
+            Config {
+                guest_ttl: Duration::from_secs(1),
+                unclaimed_guest_ttl: Duration::from_secs(60),
+                ..Config::default()
+            },
+            AccountVerifier,
+        );
+        let guest = runtime.inner.issue("a", "one".into()).await.unwrap();
+        let key = token_hash(guest["token"].as_str().unwrap());
+        {
+            let state = runtime.inner.state.lock().await;
+            assert_eq!(
+                state.sessions[&key].unclaimed_until,
+                Some(state.sessions[&key].deadline)
+            );
+        }
+        tokio::time::advance(Duration::from_secs(1)).await;
+        cleanup(&runtime.inner).await;
+        assert!(runtime.inner.state.lock().await.sessions.is_empty());
         runtime.shutdown().await;
     }
 }
