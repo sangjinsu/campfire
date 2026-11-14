@@ -2,11 +2,12 @@ use crate::{
     Config, Game, PlayerIdentity,
     metrics::{Metrics, inc},
     observation::PublishedRoom,
-    output::Output,
+    output::{Output, SnapshotFrame},
     protocol::{Error, fingerprint},
 };
 use futures_util::FutureExt;
 use serde_json::{Value, json};
+use std::fmt::Write as _;
 use std::{
     collections::{BTreeMap, VecDeque},
     sync::{Arc, Mutex as StdMutex},
@@ -887,7 +888,18 @@ impl Room {
         self.settle_rotations();
         self.snapshot_seq += 1;
         inc(&self.metrics.snapshots);
-        let state = self.game.snapshot();
+        // Encode everything the members share exactly once. Each member then
+        // costs one buffer copy instead of a deep clone plus a serialization.
+        let state = self.game.snapshot().to_string();
+        let head = format!(
+            r#"{{"v":1,"type":"snapshot","game_id":{},"room_id":{},"room_instance_id":{},"server_tick":{},"snapshot_seq":{},"last_processed_input_seq":"#,
+            Value::from(self.reference.game_id.as_str()),
+            Value::from(self.reference.id.as_str()),
+            Value::from(self.reference.instance.as_str()),
+            self.tick,
+            self.snapshot_seq,
+        );
+        let instance: Arc<str> = self.reference.instance.as_str().into();
         for (player, member) in &self.members {
             if let Some(output) = &member.output {
                 if !output.is_alive()
@@ -896,13 +908,30 @@ impl Room {
                 {
                     continue;
                 }
-                let mut value = json!({"v":1,"type":"snapshot","game_id":self.reference.game_id,"room_id":self.reference.id,
-                    "room_instance_id":self.reference.instance,"server_tick":self.tick,"snapshot_seq":self.snapshot_seq,
-                    "last_processed_input_seq":member.processed,"last_processed_command_seq":member.command_processed,"state":state});
-                if let Some(private) = self.game.private_snapshot(player) {
-                    value["private_state"] = private;
+                let private = self
+                    .game
+                    .private_snapshot(player)
+                    .map(|private| private.to_string());
+                let mut text = String::with_capacity(
+                    head.len() + state.len() + private.as_ref().map_or(0, String::len) + 96,
+                );
+                text.push_str(&head);
+                let _ = write!(
+                    text,
+                    r#"{},"last_processed_command_seq":{},"state":"#,
+                    member.processed, member.command_processed
+                );
+                text.push_str(&state);
+                if let Some(private) = &private {
+                    text.push_str(r#","private_state":"#);
+                    text.push_str(private);
                 }
-                output.latest.send_replace(Some(value));
+                text.push('}');
+                output.latest.send_replace(Some(SnapshotFrame {
+                    instance: instance.clone(),
+                    seq: self.snapshot_seq,
+                    text: text.into(),
+                }));
             }
         }
     }
@@ -1503,22 +1532,12 @@ mod tests {
         assert_eq!(first["private_state"], json!({"secret":"p"}));
         assert_eq!(second["private_state"], json!({"secret":"peer"}));
         room.publish();
+        assert_eq!(latest_value(&out)["private_state"], first["private_state"]);
         assert_eq!(
-            out.latest.borrow().as_ref().unwrap()["private_state"],
-            first["private_state"]
-        );
-        assert_eq!(
-            peer.latest.borrow().as_ref().unwrap()["private_state"],
+            latest_value(&peer)["private_state"],
             second["private_state"]
         );
-        assert!(
-            out.latest
-                .borrow()
-                .as_ref()
-                .unwrap()
-                .get("command_results")
-                .is_none()
-        );
+        assert!(latest_value(&out).get("command_results").is_none());
         room.reserve("p", 1);
         let (resumed, _receiver) = output(16);
         assert_eq!(
@@ -1534,10 +1553,7 @@ mod tests {
         assert_eq!(sync["last_processed_command_seq"], 0);
         assert_eq!(sync["command_results"], json!([]));
         room.publish();
-        assert_eq!(
-            out.latest.borrow().as_ref().unwrap()["last_processed_command_seq"],
-            0
-        );
+        assert_eq!(latest_value(&out)["last_processed_command_seq"], 0);
     }
     #[tokio::test(start_paused = true)]
     async fn cancellation_before_admission_has_no_membership_or_game_side_effect() {
@@ -1951,9 +1967,7 @@ mod tests {
         room.step(Duration::from_millis(33));
         room.publish();
         assert!(
-            out.latest.borrow().as_ref().unwrap()["snapshot_seq"]
-                .as_u64()
-                .unwrap()
+            latest_value(&out)["snapshot_seq"].as_u64().unwrap()
                 > sync["snapshot_seq"].as_u64().unwrap()
         );
         room.reserve("p", 1);
@@ -2013,10 +2027,51 @@ mod tests {
                 "shared_score": 12, "goal": {"x": 5.0, "y": 0.0, "radius": 0.5, "active": true}})
         }
     }
+    /// The latest snapshot frame decoded the way a client would decode it.
+    fn latest_value(output: &Output) -> Value {
+        let frame = output.latest.borrow().clone().unwrap();
+        serde_json::from_str(&frame.text).unwrap()
+    }
+    #[tokio::test(start_paused = true)]
+    async fn snapshot_frame_matches_the_documented_message() {
+        // With private state, and identifiers that need JSON escaping.
+        let mut room = room();
+        room.reference.game_id = "a\"b".into();
+        room.reference.instance = "i\\1".into();
+        let (out, _receiver) = output(8);
+        enter(&mut room, out.clone(), false, 1).unwrap();
+        input(&mut room, 1, 7, 1).unwrap();
+        room.step(Duration::from_millis(33));
+        room.publish();
+        let frame = out.latest.borrow().clone().unwrap();
+        assert_eq!(&*frame.instance, "i\\1");
+        assert_eq!(frame.seq, room.snapshot_seq);
+        assert_eq!(
+            latest_value(&out),
+            json!({"v":1,"type":"snapshot","game_id":"a\"b","room_id":"r","room_instance_id":"i\\1",
+                "server_tick":room.tick,"snapshot_seq":room.snapshot_seq,"last_processed_input_seq":7,
+                "last_processed_command_seq":0,"state":room.game.snapshot(),"private_state":{"secret":"p"}})
+        );
+
+        // Without private state the key is absent rather than null.
+        let mut room = self::room();
+        room.game = Box::new(FanoutGame {
+            players: BTreeMap::new(),
+        });
+        let (out, _receiver) = output(8);
+        enter(&mut room, out.clone(), false, 1).unwrap();
+        room.publish();
+        assert_eq!(
+            latest_value(&out),
+            json!({"v":1,"type":"snapshot","game_id":"a","room_id":"r","room_instance_id":"i",
+                "server_tick":0,"snapshot_seq":room.snapshot_seq,"last_processed_input_seq":0,
+                "last_processed_command_seq":0,"state":room.game.snapshot()})
+        );
+    }
     /// What a connection writer does with the latest slot: take it and produce the text frame.
     fn consume_latest(output: &Output) -> usize {
-        let value = output.latest.borrow().clone();
-        value.map_or(0, |value| value.to_string().len())
+        let frame = output.latest.borrow().clone();
+        frame.map_or(0, |frame| frame.text.len())
     }
     #[test]
     #[ignore = "measurement, run with --release --nocapture"]

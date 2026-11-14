@@ -2,7 +2,7 @@ use crate::{
     Campfire,
     connection_limits::ConnectionLimits,
     metrics::inc,
-    output::Output,
+    output::{Output, SnapshotFrame},
     protocol::{self, Command, Error, ResponseCache},
     rate::Bucket,
     session::TokenHash,
@@ -219,7 +219,7 @@ async fn connection_task(
     let config = runtime.inner.config.clone();
     let connection_limits = runtime.inner.connection_limits.clone();
     let (reliable, mut reliable_rx) = mpsc::channel(config.reliable_capacity);
-    let (latest, mut latest_rx) = watch::channel::<Option<Value>>(None);
+    let (latest, mut latest_rx) = watch::channel::<Option<SnapshotFrame>>(None);
     let (stop, _) = watch::channel(false);
     let output = Arc::new(Output {
         reliable,
@@ -249,7 +249,7 @@ async fn connection_task(
                 break;
             }
             let next = tokio::select! {biased;
-                value=reliable_rx.recv()=>value,
+                value=reliable_rx.recv()=>value.map(Outgoing::Reliable),
                 _=writer_stop.changed()=>None,
                 _=global_stop.changed()=>None,
                 // Polled before snapshots so a steady snapshot stream cannot starve liveness checks.
@@ -272,35 +272,39 @@ async fn connection_task(
                 }
                 changed=latest_rx.changed()=> {
                     if changed.is_err(){break;}
-                    let value=latest_rx.borrow_and_update().clone();
-                    if value.is_none(){continue;}
-                    value
+                    let frame=latest_rx.borrow_and_update().clone();
+                    let Some(frame)=frame else{continue;};
+                    Some(Outgoing::Snapshot(frame))
                 }
             };
-            let Some(value) = next else {
+            let Some(next) = next else {
                 break;
             };
-            let kind = value["type"].as_str().unwrap_or_default();
-            let mut next_snapshot = None;
-            if matches!(kind, "room.entered" | "room.resumed" | "snapshot") {
-                let instance = value["room_instance_id"].as_str().unwrap_or_default();
-                let sequence = value["snapshot_seq"].as_u64().unwrap_or(0);
-                if kind == "snapshot"
-                    && last_snapshot
-                        .as_ref()
-                        .is_none_or(|(current, last)| current != instance || sequence <= *last)
-                {
-                    continue;
+            let (text, next_snapshot) = match next {
+                Outgoing::Snapshot(frame) => {
+                    if last_snapshot.as_ref().is_none_or(|(current, last)| {
+                        current.as_str() != &*frame.instance || frame.seq <= *last
+                    }) {
+                        continue;
+                    }
+                    (frame.text, Some((frame.instance.to_string(), frame.seq)))
                 }
-                next_snapshot = Some((instance.to_owned(), sequence));
-            }
-            match write_message(
-                &mut sink,
-                Message::Text(value.to_string().into()),
-                &writer_config,
-            )
-            .await
-            {
+                Outgoing::Reliable(value) => {
+                    let kind = value["type"].as_str().unwrap_or_default();
+                    let next_snapshot =
+                        matches!(kind, "room.entered" | "room.resumed").then(|| {
+                            (
+                                value["room_instance_id"]
+                                    .as_str()
+                                    .unwrap_or_default()
+                                    .to_owned(),
+                                value["snapshot_seq"].as_u64().unwrap_or(0),
+                            )
+                        });
+                    (value.to_string().into(), next_snapshot)
+                }
+            };
+            match write_message(&mut sink, Message::Text(text), &writer_config).await {
                 Ok(()) => {
                     if next_snapshot.is_some() {
                         last_snapshot = next_snapshot;
@@ -564,6 +568,12 @@ fn reject_invalid_frame(
     };
     output.send(error.value(request_id));
     first || !within_rate || *violations >= maximum_violations
+}
+
+/// One item for the connection writer: a queued reliable message or the latest snapshot frame.
+enum Outgoing {
+    Reliable(Value),
+    Snapshot(SnapshotFrame),
 }
 
 #[derive(Debug, PartialEq, Eq)]
