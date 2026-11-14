@@ -11,7 +11,7 @@ repository = "https://github.com/sangjinsu/campfire"
 
 [workspace.dependencies]
 axum = { version = "0.8", features = ["ws"] }
-tokio = { version = "1", features = ["full", "test-util"] }
+tokio = { version = "1", features = ["full"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 futures-util = "0.3"

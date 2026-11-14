@@ -18,5 +18,6 @@ sha2.workspace = true
 tracing.workspace = true
 
 [dev-dependencies]
+tokio = { workspace = true, features = ["test-util"] }
 reqwest.workspace = true
 tokio-tungstenite.workspace = true
