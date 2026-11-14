@@ -132,7 +132,7 @@ server_tick/snapshot_seq는 재접속으로 초기화하지 않는다. snapshot�
 
 | 오류 | 의미 |
 | --- | --- |
-| `UNAUTHENTICATED` | 미인증, 만료/폐기 token, 구 연결 |
+| `UNAUTHENTICATED` | 미인증, 만료/폐기 token, 발급 후 기한 안에 쓰이지 않은 게스트 token, 구 연결 |
 | `GAME_MISMATCH` | token/경로/대상 game 경계 불일치 |
 | `ROOM_NOT_FOUND` | 대상 룸 없음 |
 | `ROOM_FULL` | 활성+예약 자리 정원 초과 |
@@ -153,3 +153,5 @@ server_tick/snapshot_seq는 재접속으로 초기화하지 않는다. snapshot�
 각 WebSocket 연결은 별도의 token bucket 세 개를 사용한다. `session.authenticate`, `room.list`, `room.create`, `room.join`, `room.leave`, `resume`, `session.logout`는 control 예산(기본 초당 10, burst 20)을 소비한다. 같은 `request_id`의 cache replay도 reader에서 먼저 소비한다. `game.input`과 `game.command`는 기존 input 예산(기본 초당 60, burst 30)을 공유하며 control 예산과 독립적이다. 잘못된 JSON·schema, binary, application frame 크기 초과는 invalid 예산(기본 초당 2, burst 4)과 공통 위반 횟수를 소비한다. 최초 인증 오류는 즉시 연결을 닫는다. 이후에도 invalid frame이 반복되면 예산이 남아 있어도 `max_abuse_violations`에 도달해 닫힌다. invalid 예산을 넘으면 `RATE_LIMITED`를 보낸 뒤 연결을 닫을 수 있다. 오류의 `request_id`는 유효한 문자열을 추출할 수 있을 때만 포함하며 자격 증명이나 payload를 반영하지 않는다.
 
 WebSocket `RATE_LIMITED`는 현재 `retryable:false`이고 `Retry-After`를 제공하지 않는다. 클라이언트는 이를 자동 재전송 신호로 취급하지 말고 요청 속도를 낮춰야 한다. 연결이 살아 있고 예산이 다시 충전된 후 재요청할 수 있지만, 반복 초과 시 연결이 종료된다. 연결 종료 후에는 새 연결에서 인증·예약 복귀 절차를 따른다. 공유 queue의 `SERVER_BUSY`는 별도 과부하 오류이며 `retryable:true`다.
+
+서버는 주기적으로 WebSocket Ping frame을 보낸다(기본 20초). client는 표준대로 Pong으로 응답해야 하며, 어떤 frame도 보내지 않은 채 무응답 기한(기본 60초)이 지나면 서버가 다음 Ping 주기에 연결을 닫는다. application 메시지를 보낼 필요는 없다. 닫힌 뒤에는 새 연결에서 인증·예약 복귀 절차를 따른다. 미인증 연결이 한 주체의 동시 상한을 넘으면 WebSocket upgrade가 503 `SERVER_BUSY`로 거부된다.

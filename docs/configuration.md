@@ -12,6 +12,7 @@ CLI가 환경 변수보다 우선한다. 환경 변수 이름은 옵션의 `-`�
 | `--tick-hz` | 30 | 1~1000Hz |
 | `--snapshot-hz` | 15 | 1~tick-hz |
 | `--guest-ttl-ms` | 86400000 | 게스트 TTL 및 계정 session lifetime 상한 |
+| `--unclaimed-guest-ttl-ms` | 60000 | 발급 후 한 번도 WS 인증에 쓰이지 않은 게스트 token의 수명. 첫 인증 성공 뒤에는 `guest-ttl`만 적용 |
 | `--reconnect-grace-ms` | 30000 | 단절/교체 자리 예약 |
 | `--auth-timeout-ms` | 5000 | 첫 WS 인증 메시지 기한 및 계정 verifier 실행 기한 |
 | `--cleanup-interval-ms` | 100 | 만료 session/rate key 정리 주기 |
@@ -25,6 +26,7 @@ CLI가 환경 변수보다 우선한다. 환경 변수 이름은 옵션의 `-`�
 | `--max-sessions` | 10000 | 전체 살아 있는 세션 상한 |
 | `--max-connections` | 4096 | 전체 연결 상한 |
 | `--max-unauthenticated-connections` | 256 | 미인증 WS·진행 중 HTTP verifier의 공유 상한 |
+| `--max-unauthenticated-per-source` | 32 | 한 발급 주체가 동시에 가질 수 있는 미인증 WS 연결 수 |
 | `--max-rooms` | 1024 | 임시 생성 예약 포함 룸 상한 |
 | `--max-rate-keys` | 4096 | 발급 주체별 token bucket key 상한 |
 | `--guest-rate-per-second` | 2 | guest·account 공유 발급 주체별 초당 허용량 |
@@ -33,8 +35,11 @@ CLI가 환경 변수보다 우선한다. 환경 변수 이름은 옵션의 `-`�
 | `--global-guest-burst` | 200 | guest·account 공유 서버 전체 발급 burst |
 | `--rate-key-ttl-ms` | 60000 | 최근 발급 key 만료 |
 | `--write-timeout-ms` | 2000 | 하나의 소켓 send future에 적용하는 재확인 기한 |
+| `--ping-interval-ms` | 20000 | 서버가 각 WS 연결에 Ping을 보내는 주기 |
+| `--idle-timeout-ms` | 60000 | Pong을 포함해 어떤 frame도 받지 못한 연결을 닫는 기한. `ping-interval`보다 길어야 함 |
 | `--max-write-timeouts` | 2 | 동일 send future의 연속 기한 초과 횟수; 초과 후 연결 종료 |
 | `--max-abuse-violations` | 5 | 개인 크기/빈도 위반 종료 기준 |
+| `--trusted-proxy` | 없음 | `X-Forwarded-For`를 신뢰할 reverse proxy의 `주소` 또는 `주소/prefix`. 반복 지정, 최대 64개 |
 
 WebSocket의 control·invalid 예산은 CLI `Options` 필드를 늘리지 않고 다음 환경 변수로 설정한다. 네 값 모두 양의 정수이며 1,000,000 이하여야 한다. 환경 변수가 없으면 표의 기본값을 사용하고, 잘못된 값은 서버 시작 전에 거부한다. 기본 서버와 `account_server` 예제가 같은 helper를 사용한다. 인프로세스 호스트는 `RuntimeOptions { connection_limits: ConnectionLimits { ... } }`를 `Campfire::new_with_options` 또는 `Campfire::with_authenticator_and_options`에 전달한다. 기존 constructor는 기본값을 사용한다.
 
@@ -53,9 +58,17 @@ WebSocket의 control·invalid 예산은 CLI `Options` 필드를 늘리지 않고
 
 WebSocket writer는 `write_buffer_size(0)`와 유한한 `max_write_buffer_size(16MiB)`를 사용한다. 하나의 reliable 메시지를 보내는 future는 기한이 한 번 지났다고 폐기하지 않으며, 같은 future를 유지하다 설정한 기한 횟수까지 완료되지 않으면 해당 연결을 종료한다. 기본 설정의 총 대기 상한은 한 send당 약 4초다. 게임 모듈이 생성하는 공개·비공개 state와 명령 결과도 이 송신 buffer 예산을 고려해야 한다.
 
-발급 빈도의 주체는 서버가 받은 실제 peer IP(`ConnectInfo`)다. client의 forwarded header는 신뢰하지 않는다. 신뢰하는 reverse proxy 뒤에서는 운영자가 검증한 peer 정보 adapter를 구성해야 하며, 그렇지 않으면 여러 사용자가 같은 proxy 주체의 발급 한도를 공유할 수 있다.
+발급 빈도와 미인증 연결 상한의 주체는 기본적으로 서버가 받은 실제 peer IP(`ConnectInfo`)다. IPv4는 주소 하나, IPv6는 `/64` 단위로 한 주체가 된다. client의 `X-Forwarded-For`는 기본적으로 무시한다.
 
-`Campfire::metrics()`는 현재 세션/연결/룸/rate-key 수, 입력 및 snapshot 수, 개인 위반과 공유 queue 과부하, queue 깊이 최댓값, tick 지연/처리 시간, 입력 대기/처리 시간 최댓값을 제공한다. 바이너리는 약 10초마다 이 값을 로그에 기록한다. 관리자 키를 설정하면 [대시보드](dashboard.md)의 인증된 cache 조회 API로도 확인할 수 있다.
+reverse proxy 뒤에서는 `--trusted-proxy`(또는 `CAMPFIRE_TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8`, 공백 없이 쉼표 구분)로 proxy 주소를 등록한다. 명시적 `--trusted-proxy` 목록은 환경 변수 목록을 대체한다. peer가 등록된 proxy일 때만 `X-Forwarded-For`를 오른쪽 항목부터 읽고, 신뢰 목록에 없는 첫 주소를 client로 본다. 따라서 client가 header 앞쪽에 넣은 임의 주소는 주체를 바꾸지 못한다. 해석할 수 없는 항목을 만나면 그 직전까지 확인한 hop을 주체로 쓴다. proxy를 등록하지 않으면 proxy 뒤의 모든 사용자가 한 주체의 한도를 공유한다. proxy가 아닌 주소를 등록하면 그 주소의 client가 주체를 위조할 수 있으므로 실제 proxy 주소만 등록한다. 등록하는 proxy는 받은 `X-Forwarded-For` 끝에 자신이 본 peer 주소를 덧붙이거나 header를 덮어써야 한다. header를 그대로 통과시키는 L4 load balancer를 등록하면 client가 쓴 값이 주체가 된다. 빈 항목은 건너뛴다. 포트가 붙은 항목(`1.2.3.4:5678`)은 해석하지 않으며, UTF-8이 아닌 header 줄이 하나라도 있으면 header 전체를 무시하고 proxy 주소를 주체로 쓴다. `ConnectInfo` 없이 router를 서비스하면 모든 요청이 `unknown` 한 주체가 된다. 이 경우 발급 한도는 공유하고 주체별 미인증 연결 상한은 적용하지 않는다(전역 상한만 적용). 인프로세스 호스트는 `Config::trusted_proxies`에 `TrustedProxy`를 넣는다.
+
+게스트 token은 발급 후 `unclaimed-guest-ttl` 안에 WebSocket 인증에 한 번 성공해야 한다. 그 전에 만료되면 session 자리를 반환하고 token은 `UNAUTHENTICATED`가 된다. 한 번 인증된 token은 연결이 끊겨도 `guest-ttl`까지 유효하다. 계정 session은 검증기가 발급을 통제하고 identity당 하나만 유지하므로 이 기한을 적용하지 않는다.
+
+서버는 `ping-interval`마다 WebSocket Ping을 보낸다. Pong을 포함해 어떤 frame도 `idle-timeout` 동안 받지 못한 연결은 그 뒤의 첫 Ping 주기에 닫고 `idle_disconnects`를 올린다. 따라서 실제 종료는 마지막 수신 후 최대 `idle-timeout + ping-interval` 뒤다. 표준 WebSocket client는 Ping에 자동으로 응답하지만, socket을 주기적으로 poll하지 않는 client는 응답하지 못해 끊길 수 있다. 예를 들어 Godot 예제 client는 `_process`에서만 poll하므로 scene tree를 일시정지하거나 앱이 background에 오래 머물면 연결이 닫힌다.
+
+이 다섯 설정(`unclaimed_guest_ttl`, `ping_interval`, `idle_timeout`, `max_unauthenticated_per_source`, `trusted_proxies`)은 `Config`의 새 공개 필드다. 모든 필드를 나열한 `Config { ... }` literal은 `..Config::default()`를 붙여야 컴파일된다.
+
+`Campfire::metrics()`는 현재 세션/연결/룸/rate-key 수, 입력 및 snapshot 수, 개인 위반과 공유 queue 과부하, 쓰기 기한·무응답(`idle_disconnects`) 연결 종료 수, queue 깊이 최댓값, tick 지연/처리 시간, 입력 대기/처리 시간 최댓값을 제공한다. 바이너리는 약 10초마다 이 값을 로그에 기록한다. 관리자 키를 설정하면 [대시보드](dashboard.md)의 인증된 cache 조회 API로도 확인할 수 있다. 단 `idle_disconnects`는 아직 대시보드에 표시하지 않으며 `Campfire::metrics()`와 로그에서만 볼 수 있다.
 
 ## 관리자 대시보드
 

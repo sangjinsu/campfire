@@ -58,7 +58,7 @@ campfire.example.com {
 }
 ```
 
-Caddy는 domain을 알고 DNS가 해당 서버를 가리키며 80/443 접근이 가능하면 HTTPS 인증서를 자동 관리합니다. WebSocket과 `/admin`을 같은 origin에서 root 경로로 전달하세요. backend 3000 포트는 loopback에 유지하고 방화벽에서 외부 접근을 차단합니다. 별도 host의 proxy라면 private network와 신뢰된 firewall 규칙을 명시적으로 구성합니다. [공식 reverse proxy 안내](https://caddyserver.com/docs/quick-starts/reverse-proxy)의 조건을 확인하세요.
+Caddy는 domain을 알고 DNS가 해당 서버를 가리키며 80/443 접근이 가능하면 HTTPS 인증서를 자동 관리합니다. WebSocket과 `/admin`을 같은 origin에서 root 경로로 전달하세요. 같은 host의 Caddy라면 서버를 `--trusted-proxy 127.0.0.1`로 실행해야 발급 한도와 미인증 연결 상한이 사용자별로 적용됩니다. 등록하지 않으면 모든 사용자가 proxy 한 주체의 한도를 공유합니다. backend 3000 포트는 loopback에 유지하고 방화벽에서 외부 접근을 차단합니다. 별도 host의 proxy라면 private network와 신뢰된 firewall 규칙을 명시적으로 구성합니다. [공식 reverse proxy 안내](https://caddyserver.com/docs/quick-starts/reverse-proxy)의 조건을 확인하세요.
 
 이 예시는 access log를 켜지 않습니다. 운영상 access log를 추가할 때 Caddy의 기본 민감 header redaction을 유지하고 `log_credentials`를 활성화하지 마세요. `Authorization`·Cookie·Set-Cookie를 수집하는 debug/추가 proxy·APM 설정도 배제합니다. [Caddy log 공식 문서](https://caddyserver.com/docs/caddyfile/directives/log)는 Authorization 등 header의 기본 redaction을 설명합니다. 관리자 키를 query·URL·CLI argument로 전달하지 않습니다. 외부 script/font/asset 허용이나 CORS 허용을 추가할 필요가 없습니다.
 

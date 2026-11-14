@@ -90,7 +90,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
 Campfire는 `/health`, `/v1/games/{game_id}/guests`, `/v1/games/{game_id}/sessions`, `/v1/games/{game_id}/ws`를 등록합니다. 기존 애플리케이션의 동일 route와 충돌하지 않게 구성하세요. 기존 router가 `Router<AppState>`라면 `.with_state(app_state)`로 필요한 state를 제공한 뒤 `Router<()>`를 합성합니다. 같은 state 타입을 요구하는 계약은 [Axum Router 문서](https://docs.rs/axum/0.8.9/axum/struct.Router.html#method.merge)에서 확인할 수 있습니다.
 
-[`into_make_service_with_connect_info::<SocketAddr>()`](https://docs.rs/axum/0.8.9/axum/struct.Router.html#method.into_make_service_with_connect_info)는 게스트·계정 발급 제한에 사용할 실제 peer IP를 제공합니다. 이를 생략해도 연결은 가능하지만 발급 주체가 모두 `unknown`으로 처리되어 같은 bucket을 공유합니다. `X-Forwarded-*` header는 자동으로 신뢰하지 않습니다. TLS reverse proxy 뒤에서 원래 사용자 IP를 사용하려면 운영 환경에 맞는 신뢰된 peer 정보 구성이 필요합니다.
+[`into_make_service_with_connect_info::<SocketAddr>()`](https://docs.rs/axum/0.8.9/axum/struct.Router.html#method.into_make_service_with_connect_info)는 게스트·계정 발급 제한에 사용할 실제 peer IP를 제공합니다. 이를 생략해도 연결은 가능하지만 발급 주체가 모두 `unknown`으로 처리되어 같은 bucket을 공유합니다. `X-Forwarded-For` header는 기본적으로 신뢰하지 않습니다. TLS reverse proxy 뒤에서 원래 사용자 IP를 사용하려면 `Config::trusted_proxies`(CLI `--trusted-proxy`)에 proxy 주소를 등록하세요. 자세한 해석 규칙은 [실행 설정](configuration.md)에 있습니다.
 
 예제처럼 root에 `merge`하면 기본 Godot 클라이언트와 바로 연결됩니다. 현재 Godot adapter는 URL의 path prefix를 지원하지 않으므로 `/campfire` 아래에 `nest`하는 구성에는 별도 client 또는 proxy 설정이 필요합니다.
 
