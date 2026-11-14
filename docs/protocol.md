@@ -2,7 +2,7 @@
 
 전송은 UTF-8 JSON WebSocket이다. TLS 외부 노출에서는 HTTPS/WSS를 사용한다. client command에는 `v:1`, `type`, 연결 안에서 고유한 `request_id`(비어 있지 않은 최대 128 byte 문자열)를 넣는다. 미지원 버전, 알 수 없는 type/필드, 누락 필드와 잘못된 타입은 오류다. 입력·명령 sequence는 부호 없는 64-bit 증가 정수이며 JavaScript client는 정밀도 손실에 주의한다.
 
-`POST /v1/games/{game_id}/guests`는 body 없이 호출한다. 성공 HTTP status는 201이며 응답은 `guest_id`, `token`, `expires_at`(Unix milliseconds), `game_id`다. 미등록 게임은 404, 발급 rate 초과는 429, 서버 수용량 거부는 503이다. 토큰은 한 game_id 전용이며 서버에는 SHA-256 hash만 보관한다. URL/query/access log에 토큰을 넣지 않는다. `GET /health`는 게임/토큰 상태를 공개하지 않는다. 계정 교환은 아래 `/sessions` 경로를 사용하며 WebSocket 경로는 `GET /v1/games/{game_id}/ws`다.
+`POST /v1/games/{game_id}/guests`는 body 없이 호출한다. 성공 HTTP status는 201이며 응답은 `guest_id`, `token`, `expires_at`(Unix milliseconds), `game_id`다. 미등록 게임은 404, 발급 rate 초과는 429, 서버 수용량 거부는 503이다. 토큰은 한 game_id 전용이며 서버에는 SHA-256 hash만 보관한다. URL/query/access log에 토큰을 넣지 않는다. `GET /health`는 게임/토큰 상태를 공개하지 않으며 프로세스가 응답하는 동안 항상 200이다. `GET /ready`는 평소 200 `{"status":"ready"}`, 종료가 시작된 뒤에는 503 `{"status":"stopping"}`이다. load balancer의 트래픽 차단 신호로는 `/ready`를 사용한다. 계정 교환은 아래 `/sessions` 경로를 사용하며 WebSocket 경로는 `GET /v1/games/{game_id}/ws`다.
 
 ## 기존 계정의 세션 교환
 

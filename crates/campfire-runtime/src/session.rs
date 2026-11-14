@@ -183,6 +183,7 @@ impl Campfire {
         self.start();
         Router::new()
             .route("/health", get(crate::transport::health))
+            .route("/ready", get(crate::transport::ready))
             .route("/v1/games/{game_id}/guests", post(crate::transport::guest))
             .route(
                 "/v1/games/{game_id}/sessions",

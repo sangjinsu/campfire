@@ -176,7 +176,7 @@ pub const FLAGS: &[&str] = &[
 
 pub fn help() -> String {
     format!(
-        "Campfire server\nUsage: campfire-server [--game ID]... [--OPTION VALUE]\n\nDefault: --bind 127.0.0.1:3000 --game arena --capacity 16 --tick-hz 30 --snapshot-hz 15\n\nOptions:\n  --help\n  --game ID (repeat to register the compiled arena module under distinct game IDs)\n  --trusted-proxy ADDRESS[/PREFIX] (repeat; reverse proxies whose X-Forwarded-For is trusted)\n{}\nEnvironment: CAMPFIRE_<OPTION_IN_UPPER_SNAKE_CASE>; CAMPFIRE_GAMES=arena,arena-b; CAMPFIRE_TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8. CLI overrides environment. Duration options use integer milliseconds. See docs/configuration.md.\n",
+        "Campfire server\nUsage: campfire-server [--game ID]... [--OPTION VALUE]\n\nDefault: --bind 127.0.0.1:3000 --game arena --capacity 16 --tick-hz 30 --snapshot-hz 15\n\nOptions:\n  --help\n  --game ID (repeat to register the compiled arena module under distinct game IDs)\n  --trusted-proxy ADDRESS[/PREFIX] (repeat; reverse proxies whose X-Forwarded-For is trusted)\n{}\nEnvironment: CAMPFIRE_<OPTION_IN_UPPER_SNAKE_CASE>; CAMPFIRE_GAMES=arena,arena-b; CAMPFIRE_TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8. CLI overrides environment. Duration options use integer milliseconds.\nEnvironment only: CAMPFIRE_CONTROL_RATE_PER_SECOND, CAMPFIRE_CONTROL_BURST, CAMPFIRE_INVALID_RATE_PER_SECOND, CAMPFIRE_INVALID_BURST (per-connection budgets); CAMPFIRE_ADMIN_TOKEN (dashboard). See docs/configuration.md.\n",
         FLAGS
             .iter()
             .map(|s| format!("  --{s} VALUE\n"))

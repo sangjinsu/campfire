@@ -7,7 +7,38 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  compatibility:
+    # The fast job pins the minimum supported Rust on Linux; this job covers current stable and macOS.
+    name: stable tests (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    env:
+      CARGO_BUILD_JOBS: "4"
+      CARGO_TERM_COLOR: always
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Set up stable Rust
+        shell: bash
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+          rustc --version
+      - name: Rust tests
+        shell: bash
+        run: cargo test --workspace --all-targets --locked
+
   fast:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
@@ -67,6 +98,13 @@ jobs:
         run: |
           set -o pipefail
           cargo test --workspace --all-targets --locked --offline 2>&1 | tee artifacts/ci/rust-tests.log
+      - name: Rust documentation
+        shell: bash
+        env:
+          RUSTDOCFLAGS: -D warnings
+        run: |
+          set -o pipefail
+          cargo doc --workspace --no-deps --locked --offline 2>&1 | tee artifacts/ci/doc.log
       - name: Server without default features
         shell: bash
         run: |

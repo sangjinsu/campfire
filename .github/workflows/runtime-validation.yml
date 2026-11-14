@@ -92,6 +92,20 @@ jobs:
             echo "gstack_commit=$GSTACK_REF"
             sha256sum "$CARGO_TARGET_DIR/debug/campfire-server" "$CARGO_TARGET_DIR/debug/examples/account_server" "$GODOT" "$BROWSE_BIN"
           } > artifacts/runtime-validation/manifest.txt
+      - name: Long-running Rust transport tests
+        if: ${{ !cancelled() && steps.validation_ready.conclusion == 'success' }}
+        shell: bash
+        run: |
+          set -o pipefail
+          cargo test -p campfire-server --test headless --all-features --locked --offline -- \
+            --ignored --nocapture --test-threads=1 2>&1 | tee artifacts/runtime-validation/rust-ignored.log
+      - name: Godot client unit and scene smoke tests
+        if: ${{ !cancelled() && steps.validation_ready.conclusion == 'success' }}
+        shell: bash
+        run: |
+          set -o pipefail
+          "$GODOT" --headless --path examples/godot --script tests/client_unit.gd 2>&1 | tee artifacts/runtime-validation/godot-client-unit.log
+          "$GODOT" --headless --path examples/godot --script tests/ui_smoke.gd 2>&1 | tee artifacts/runtime-validation/godot-ui-smoke.log
       - name: Godot 8 and 16 client validation
         if: ${{ !cancelled() && steps.validation_ready.conclusion == 'success' }}
         shell: bash

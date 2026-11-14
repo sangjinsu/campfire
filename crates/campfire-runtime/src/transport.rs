@@ -35,6 +35,18 @@ use tokio::{
 pub(crate) async fn health() -> Json<Value> {
     Json(json!({"status":"ok"}))
 }
+/// Readiness for load balancers: unlike `/health`, it fails once shutdown has begun.
+pub(crate) async fn ready(State(runtime): State<Campfire>) -> Response {
+    if *runtime.inner.shutdown.borrow() {
+        (
+            StatusCode::SERVICE_UNAVAILABLE,
+            Json(json!({"status":"stopping"})),
+        )
+            .into_response()
+    } else {
+        Json(json!({"status":"ready"})).into_response()
+    }
+}
 type PeerAddress = Result<ConnectInfo<SocketAddr>, axum::extract::rejection::ExtensionRejection>;
 
 /// The shared key of requests served without `ConnectInfo`.

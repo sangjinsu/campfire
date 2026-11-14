@@ -563,3 +563,20 @@ async fn unauthenticated_connections_are_capped_per_source() {
     let _second = server.connect_forwarded("198.51.100.1").await.unwrap();
     assert_eq!(server.runtime.metrics().active_connections, 3);
 }
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+async fn readiness_fails_after_shutdown_begins_while_liveness_stays_ok() {
+    let server = TestServer::new(Config::default()).await;
+    let get = |path: &'static str| {
+        let url = format!("http://{}{path}", server.address);
+        async move {
+            let response = reqwest::get(url).await.unwrap();
+            let status = response.status().as_u16();
+            (status, response.json::<Value>().await.unwrap())
+        }
+    };
+    assert_eq!(get("/ready").await, (200, json!({"status":"ready"})));
+    server.runtime.shutdown().await;
+    assert_eq!(get("/ready").await, (503, json!({"status":"stopping"})));
+    assert_eq!(get("/health").await, (200, json!({"status":"ok"})));
+}
