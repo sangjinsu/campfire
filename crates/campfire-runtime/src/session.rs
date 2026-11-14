@@ -1855,7 +1855,7 @@ mod tests {
             Some(json!({"secret":"PRIVATE_STATE_SENTINEL"}))
         }
     }
-    fn output(capacity: usize) -> (Arc<Output>, mpsc::Receiver<Value>) {
+    fn output(capacity: usize) -> (Arc<Output>, mpsc::Receiver<crate::output::ReliableFrame>) {
         let (reliable, rx) = mpsc::channel(capacity);
         let (latest, _) = watch::channel(None);
         let (stop, _) = watch::channel(false);
@@ -3173,7 +3173,13 @@ mod tests {
     }
     async fn create_observed_room(
         runtime: &Campfire,
-    ) -> (TokenHash, u64, Arc<Output>, mpsc::Receiver<Value>, Value) {
+    ) -> (
+        TokenHash,
+        u64,
+        Arc<Output>,
+        mpsc::Receiver<crate::output::ReliableFrame>,
+        Value,
+    ) {
         let guest = runtime.inner.issue("a", "creator".into()).await.unwrap();
         let (out, rx) = output(64);
         let (key, generation, _, _) = runtime

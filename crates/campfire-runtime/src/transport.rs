@@ -2,7 +2,7 @@ use crate::{
     Campfire,
     connection_limits::ConnectionLimits,
     metrics::inc,
-    output::{Output, SnapshotFrame},
+    output::{Output, ReliableFrame, SnapshotFrame},
     protocol::{self, Command, Error, ResponseCache},
     rate::Bucket,
     session::TokenHash,
@@ -200,6 +200,7 @@ pub(crate) async fn upgrade(
     let ceiling = runtime.inner.config.max_frame_bytes.saturating_mul(4);
     ws.max_frame_size(ceiling)
         .max_message_size(ceiling)
+        .read_buffer_size(READ_BUFFER_BYTES)
         .write_buffer_size(0)
         .max_write_buffer_size(16 * 1024 * 1024)
         .on_upgrade(move |socket| {
@@ -289,23 +290,7 @@ async fn connection_task(
                     }
                     (frame.text, Some((frame.instance, frame.seq)))
                 }
-                Outgoing::Reliable(value) => {
-                    let kind = value["type"].as_str().unwrap_or_default();
-                    // Regular snapshots only travel through the latest slot, where they are
-                    // deduplicated; one arriving here would bypass that check.
-                    debug_assert_ne!(kind, "snapshot");
-                    let next_snapshot =
-                        matches!(kind, "room.entered" | "room.resumed").then(|| {
-                            (
-                                value["room_instance_id"]
-                                    .as_str()
-                                    .unwrap_or_default()
-                                    .into(),
-                                value["snapshot_seq"].as_u64().unwrap_or(0),
-                            )
-                        });
-                    (value.to_string().into(), next_snapshot)
-                }
+                Outgoing::Reliable(frame) => (frame.text, frame.sync),
             };
             match write_message(&mut sink, Message::Text(text), &writer_config).await {
                 Ok(()) => {
@@ -471,7 +456,7 @@ async fn connection_task(
         match cache.get(&request) {
             Ok(Some(response)) => {
                 if !matches!(request.command, Command::Execute { .. }) {
-                    output.send(response);
+                    output.send_frame(response);
                     continue;
                 }
             }
@@ -487,7 +472,8 @@ async fn connection_task(
                 "command game_id differs from connection game",
             )
             .value(Some(&request.id));
-            output.send(response.clone());
+            let response = ReliableFrame::from(&response);
+            output.send_frame(response.clone());
             cache.insert(&request, response);
             continue;
         }
@@ -504,7 +490,8 @@ async fn connection_task(
                     identity = Some((key, generation));
                     deadline = expires;
                     unauthenticated.take();
-                    output.send(response.clone());
+                    let response = ReliableFrame::from(&response);
+                    output.send_frame(response.clone());
                     cache.insert(&request, response);
                 }
                 Err(error) => {
@@ -521,8 +508,10 @@ async fn connection_task(
             .await
         {
             Ok((response, already_enqueued)) => {
+                // Encode once; the queue and the cache share the same frame.
+                let response = ReliableFrame::from(&response);
                 if !already_enqueued {
-                    output.send(response.clone());
+                    output.send_frame(response.clone());
                 }
                 cache.insert(&request, response);
                 if matches!(request.command, Command::Logout) {
@@ -530,8 +519,8 @@ async fn connection_task(
                 }
             }
             Err(error) => {
-                let response = error.value(Some(&request.id));
-                output.send(response.clone());
+                let response = ReliableFrame::from(&error.value(Some(&request.id)));
+                output.send_frame(response.clone());
                 cache.insert(&request, response);
             }
         }
@@ -573,9 +562,14 @@ fn reject_invalid_frame(
     first || !within_rate || *violations >= maximum_violations
 }
 
+/// Bytes requested from the socket per read. Client messages are a few hundred bytes
+/// and capped by `max_frame_bytes`, so the library default of 128 KiB per connection
+/// only costs memory; larger messages still arrive, over several reads.
+const READ_BUFFER_BYTES: usize = 4096;
+
 /// One item for the connection writer: a queued reliable message or the latest snapshot frame.
 enum Outgoing {
-    Reliable(Value),
+    Reliable(ReliableFrame),
     Snapshot(SnapshotFrame),
 }
 
