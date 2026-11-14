@@ -238,7 +238,7 @@ async fn connection_task(
     let last_received = Arc::new(AtomicU64::new(0));
     let writer_received = last_received.clone();
     let writer = tokio::spawn(async move {
-        let mut last_snapshot: Option<(String, u64)> = None;
+        let mut last_snapshot: Option<(Arc<str>, u64)> = None;
         let mut ping = tokio::time::interval_at(
             opened + writer_config.ping_interval,
             writer_config.ping_interval,
@@ -283,21 +283,24 @@ async fn connection_task(
             let (text, next_snapshot) = match next {
                 Outgoing::Snapshot(frame) => {
                     if last_snapshot.as_ref().is_none_or(|(current, last)| {
-                        current.as_str() != &*frame.instance || frame.seq <= *last
+                        **current != *frame.instance || frame.seq <= *last
                     }) {
                         continue;
                     }
-                    (frame.text, Some((frame.instance.to_string(), frame.seq)))
+                    (frame.text, Some((frame.instance, frame.seq)))
                 }
                 Outgoing::Reliable(value) => {
                     let kind = value["type"].as_str().unwrap_or_default();
+                    // Regular snapshots only travel through the latest slot, where they are
+                    // deduplicated; one arriving here would bypass that check.
+                    debug_assert_ne!(kind, "snapshot");
                     let next_snapshot =
                         matches!(kind, "room.entered" | "room.resumed").then(|| {
                             (
                                 value["room_instance_id"]
                                     .as_str()
                                     .unwrap_or_default()
-                                    .to_owned(),
+                                    .into(),
                                 value["snapshot_seq"].as_u64().unwrap_or(0),
                             )
                         });
