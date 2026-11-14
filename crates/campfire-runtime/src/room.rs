@@ -1032,7 +1032,7 @@ mod tests {
             last_observed: Instant::now(),
         }
     }
-    fn output(capacity: usize) -> (Arc<Output>, mpsc::Receiver<Value>) {
+    fn output(capacity: usize) -> (Arc<Output>, mpsc::Receiver<crate::output::ReliableFrame>) {
         let (reliable, receiver) = mpsc::channel(capacity);
         let (latest, _) = watch::channel(None);
         let (stop, _) = watch::channel(false);
