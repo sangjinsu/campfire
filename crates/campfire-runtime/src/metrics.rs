@@ -50,12 +50,23 @@ impl RecentLatency {
             .samples
             .lock()
             .unwrap_or_else(|error| error.into_inner());
+        // Timestamps are taken under the lock, so the queue is ordered by time and
+        // only its front can have expired. Every room records here several times per
+        // tick, so this section must not scan the whole window.
         let now = Instant::now();
-        samples.retain(|(at, _)| now.saturating_duration_since(*at) < RECENT_WINDOW);
+        Self::expire(&mut samples, now);
         if samples.len() == RECENT_CAPACITY {
             samples.pop_front();
         }
         samples.push_back((now, micros));
+    }
+    fn expire(samples: &mut VecDeque<(Instant, u64)>, now: Instant) {
+        while samples
+            .front()
+            .is_some_and(|(at, _)| now.saturating_duration_since(*at) >= RECENT_WINDOW)
+        {
+            samples.pop_front();
+        }
     }
     fn snapshot(&self, now: Instant) -> LatencySnapshot {
         let mut values: Vec<u64> = {
@@ -63,7 +74,7 @@ impl RecentLatency {
                 .samples
                 .lock()
                 .unwrap_or_else(|error| error.into_inner());
-            samples.retain(|(at, _)| now.saturating_duration_since(*at) < RECENT_WINDOW);
+            Self::expire(&mut samples, now);
             samples.iter().map(|(_, value)| *value).collect()
         };
         // Sorting and percentile calculation never hold the recorder lock.
@@ -207,4 +218,28 @@ pub(crate) fn inc(value: &AtomicU64) {
 }
 pub(crate) fn max(value: &AtomicU64, sample: u64) {
     value.fetch_max(sample, Ordering::Relaxed);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test(start_paused = true)]
+    async fn recent_latency_drops_only_expired_samples() {
+        let latency = RecentLatency::default();
+        let maximum = AtomicU64::new(0);
+        for micros in [10, 20] {
+            latency.record(&maximum, micros);
+        }
+        tokio::time::advance(Duration::from_secs(40)).await;
+        latency.record(&maximum, 30);
+        tokio::time::advance(Duration::from_secs(30)).await;
+        // The first two are 70 seconds old, the third 30 seconds old.
+        let snapshot = latency.snapshot(Instant::now());
+        assert_eq!(snapshot.sample_count, 1);
+        assert_eq!(snapshot.p95_micros, Some(30));
+        latency.record(&maximum, 5);
+        assert_eq!(latency.snapshot(Instant::now()).sample_count, 2);
+        assert_eq!(maximum.load(Ordering::Relaxed), 30);
+    }
 }
