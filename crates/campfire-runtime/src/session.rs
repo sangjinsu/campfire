@@ -4044,4 +4044,100 @@ mod tests {
         assert!(runtime.inner.state.lock().await.sessions.is_empty());
         runtime.shutdown().await;
     }
+
+    /// Accepted-input throughput through the session manager, without sockets.
+    /// Every client sends its inputs one after another, as a connection reader does.
+    #[tokio::test(flavor = "multi_thread", worker_threads = 8)]
+    #[ignore = "measurement, run with --release --nocapture"]
+    async fn input_path_throughput() {
+        const MEMBERS: usize = 16;
+        const INPUTS: u64 = 2_000;
+        for rooms in [1_usize, 4, 16, 64] {
+            let runtime = Campfire::new(Config {
+                guest_burst: 1_000_000,
+                global_guest_burst: 1_000_000,
+                ..Config::default()
+            })
+            .unwrap();
+            runtime
+                .register_game(
+                    "a",
+                    TestModule {
+                        close_on_create: None,
+                    },
+                )
+                .unwrap();
+            let mut clients = Vec::new();
+            for room in 0..rooms {
+                let mut reference: Option<(Value, Value)> = None;
+                for member in 0..MEMBERS {
+                    let issued = runtime
+                        .inner
+                        .issue("a", format!("s{room}-{member}"))
+                        .await
+                        .unwrap();
+                    let (out, rx) = output(64);
+                    let (key, generation, _, _) = runtime
+                        .inner
+                        .authenticate("a", issued["token"].as_str().unwrap(), "auth", out.clone())
+                        .await
+                        .unwrap();
+                    let request = match &reference {
+                        None => {
+                            json!({"v":1,"type":"room.create","request_id":"enter","settings":{}})
+                        }
+                        Some((id, instance)) => {
+                            json!({"v":1,"type":"room.join","request_id":"enter","room_id":id,"room_instance_id":instance})
+                        }
+                    };
+                    let entered = runtime
+                        .inner
+                        .command(
+                            key,
+                            generation,
+                            "a",
+                            out.clone(),
+                            &crate::protocol::parse(&request.to_string()).unwrap(),
+                        )
+                        .await
+                        .unwrap()
+                        .0;
+                    let pair = reference.get_or_insert_with(|| {
+                        (
+                            entered["room_id"].clone(),
+                            entered["room_instance_id"].clone(),
+                        )
+                    });
+                    clients.push((key, generation, out, rx, pair.clone()));
+                }
+            }
+            let began = std::time::Instant::now();
+            let mut tasks = Vec::new();
+            for (key, generation, out, rx, (id, instance)) in clients {
+                let inner = runtime.inner.clone();
+                tasks.push(tokio::spawn(async move {
+                    let _rx = rx;
+                    for sequence in 1..=INPUTS {
+                        let request = crate::protocol::parse(&json!({"v":1,"type":"game.input","request_id":format!("i{sequence}"),"room_id":id,"room_instance_id":instance,"input_seq":sequence,"payload":{"move_x":1,"move_y":0}}).to_string()).unwrap();
+                        inner
+                            .command(key, generation, "a", out.clone(), &request)
+                            .await
+                            .unwrap();
+                    }
+                }));
+            }
+            for task in tasks {
+                task.await.unwrap();
+            }
+            let elapsed = began.elapsed().as_secs_f64();
+            let total = (rooms * MEMBERS) as f64 * INPUTS as f64;
+            println!(
+                "input_path rooms={rooms} clients={} inputs_per_second={:.0} per_input_us={:.2}",
+                rooms * MEMBERS,
+                total / elapsed,
+                elapsed * 1e6 / total
+            );
+            runtime.shutdown().await;
+        }
+    }
 }
