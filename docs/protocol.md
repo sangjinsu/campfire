@@ -27,7 +27,8 @@
 | 미등록 game | 404 / `GAME_NOT_FOUND` |
 | 검증기 미설정 | 501 / `ACCOUNT_AUTH_DISABLED` |
 | JSON/schema 오류, 빈 credential | 400 / `INVALID_MESSAGE` |
-| body 한도 초과 / Content-Type 누락·미지원 | 413 / 415 |
+| body 한도 초과 | 413 / `FRAME_TOO_LARGE` |
+| Content-Type 누락·미지원 | 415 / `INVALID_MESSAGE` |
 | credential 거부 | 401 / `UNAUTHENTICATED` |
 | verifier timeout | 504 / `AUTH_TIMEOUT` |
 | verifier 장애 또는 잘못된 grant | 503 / `AUTH_UNAVAILABLE` |
@@ -146,6 +147,7 @@ server_tick/snapshot_seq는 재접속으로 초기화하지 않는다. snapshot�
 | `SERVER_BUSY` | 공유 queue/서버 수용량 포화, retryable true |
 | `INVALID_MESSAGE`, `UNSUPPORTED_VERSION` | envelope/schema 오류 |
 | `INVALID_INPUT`, `INVALID_SETTINGS` | 게임 입력/설정 거부 |
+| `COMMAND_UNSUPPORTED` | 게임 모듈이 `game.command`를 구현하지 않음 |
 | `REQUEST_ID_CONFLICT` | 같은 요청 ID의 다른 본문 |
 
 추가 오류에는 `GAME_NOT_FOUND`(미등록 게임), `ALREADY_IN_ROOM`(기존 멤버십), `FRAME_TOO_LARGE`(개인 JSON 한도), `CANCELLED`(인증/입장 중 연결 취소), `GAME_FAILED`(factory panic)가 있다. 오류 code의 실제 상세 분류는 runtime tests와 함께 유지한다. 공유 queue 포화는 개인 위반에 포함하지 않는다. JSON application 한도 초과는 처리하지 않고 위반으로 센다. transport는 fragmentation 우회를 제한하는 별도 안전 상한(설정의 4배)을 두며 이를 넘는 frame/message는 즉시 종료될 수 있다. 개인 frame/빈도 위반이 지속되거나 reliable queue가 포화되면 그 연결을 종료하고 예약 절차를 적용한다. writer는 동일 send future를 기한 사이에도 유지하며, 설정한 횟수까지 완료되지 않으면 연결을 종료한다. reliable full sync를 첫 timeout 때 버리고 후속 snapshot으로 진행하지 않는다. snapshot slot은 이전 상태를 대체할 수 있으므로 중간 snapshot 모두 수신할 것을 요구하지 않는다. 명령 결과는 reliable lane으로 전송하며 full sync의 보관 이력으로 복구한다. arena에는 별도 필수 reliable 게임 이벤트가 없으며 최신 full sync로 복구한다.

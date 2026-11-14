@@ -22,7 +22,7 @@
 | 영역 | 소스 및 테스트 판단 |
 |---|---|
 | 게임 경계 | token·connection·command·room game 검사, `(game_id, room_id)` 조회, instance 검사가 있다. |
-| 단일 멤버십 | session state mutex를 유지한 상태로 admission/replace/leave 확인까지 기다린다. 게스트 간에도 직렬화하므로 단순하지만 장래 확장 병목이 될 수 있다. |
+| 단일 멤버십 | session state mutex를 유지한 상태로 admission/replace/leave 확인까지 기다린다. 게스트 간에도 직렬화하므로 단순하지만 장래 확장 병목이 될 수 있다. (검토 시점 기준. 2026-10-25 개선에서 session별 lifecycle gate로 바뀌어 전역 mutex를 잡은 채 actor 응답을 기다리지 않는다.) |
 | admission | commit 전 닫힌 output/reply는 멤버십 변경 없이 거절한다. commit 후 reliable 실패는 자리를 예약으로 전환한다. 임시 생성은 공개 목록에서 숨기고 실패 시 actor 종료를 확인한다. |
 | 재접속과 입력 | 교체 시 pending과 수신 sequencer를 실제 processed 번호로 되돌린다. 입력 수신 및 실제 적용 직전 generation을 검사한다. 예약 기한은 반복 인증으로 연장하지 않는다. |
 | 상태 순서 | full sync는 reliable queue, 후속 상태는 최신 슬롯이다. 단일 writer가 reliable을 우선하고 instance/sequence를 검사한다. |

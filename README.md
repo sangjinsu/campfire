@@ -118,7 +118,7 @@ Godot 계정 UI의 실제 두 native 창 검증은 [계정 클라이언트 검�
 | 실제 Godot 프로세스 8개 / 16개 | 계정 UI 추가 후 각각 약 20초, 전원의 동일 snapshot 상태·원격 이동·동일 게스트 resume | [기존 Arena 회귀](docs/godot-accounts-2026-10-18.md#단위ui-및-기존-arena-회귀) |
 | Native Godot Arena UI | 계정 UI 추가 후 실제 scene의 연결·생성·입장·이동·재접속 등 28개 검사 | [UI 검증과 캡처](docs/godot-accounts-2026-10-18.md#단위ui-및-기존-arena-회귀) |
 | Native Godot 창 두 개 | 같은 방의 참가자 2명, 양방향 이동 반영과 연결 유지 | [두 창 확인](docs/godot-two-windows-2026-10-18.md) |
-| 서버 회귀·경계 조건 | 빠른 테스트 44개, 기본 30초 재접속 경계, 느린 reader 격리, 게임 간 입장 차단 | [요구별 검증 추적표](docs/verification-coverage.md) |
+| 서버 회귀·경계 조건 | 빠른 Rust 테스트 157개(2026-11-14 기준), 기본 30초 재접속 경계, 느린 reader 격리, 게임 간 입장 차단 | [요구별 검증 추적표](docs/verification-coverage.md) |
 
 인터넷 환경의 지연, 대규모 CCU, 장기간 운영 성능은 이 결과에 포함되지 않습니다. 재현 명령과 원본 JSON·로그는 각 문서에 연결되어 있습니다.
 
@@ -136,3 +136,4 @@ Godot 계정 UI의 실제 두 native 창 검증은 [계정 클라이언트 검�
 - [설계 사양](docs/specification.md) — runtime과 게임 모듈의 책임
 - [서버 검증](docs/verification-results.md) · [Godot 검증](docs/godot-verification.md) — 실행 명령, 측정값, 원본 증거
 - [검증 추적표](docs/verification-coverage.md) — 빠른 CI와 예약·수동 실환경 suite의 범위 및 실행 상태
+- [문서 색인](docs/README.md) — 현재 기준 문서와 날짜별 작업 기록의 구분

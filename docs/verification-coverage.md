@@ -6,7 +6,9 @@
 
 `.github/workflows/runtime-validation.yml`은 월요일 03:17 UTC 예약과 수동 실행에서 고정 Rust 1.96, Node 24.22.1, Bun 1.4.3, Godot 4.7.2, gstack commit `e66c43c57209a17e2d9a79847a2e985c27ca80bd`를 준비하도록 설정했다. 고정 gstack commit의 `package.json`은 Bun >=1.4.2를 요구한다. 공식 Godot ZIP SHA-256을 확인하고 새 binary를 빌드한 뒤 `validate_godot.py`의 실제 8·16 client, 독립 account/native suite, `validate_dashboard.py --suite all`의 browser·load·accounts·추가 20개 UI probe를 실행한다. 세 suite는 준비 단계가 성공하면 앞 suite의 실패와 관계없이 각각 실행되고, 실패는 job 실패로 남는다. 준비 실패 시 suite를 건너뛰며 가능한 로그를 artifact로 업로드한다. 각 suite는 별도 출력 디렉터리를 사용하고 실패 시에도 로그와 summary/screenshots를 artifact로 업로드한다. test credential은 account runner가 실행 중 메모리에서 생성한다.
 
-이 문단은 workflow 구성 상태를 기록한다. GitHub runner에서의 최초 CI 실행, 예약 job, workflow_dispatch 결과는 아직 확인되지 않았으며 통과로 취급하지 않는다. 실행 후에는 해당 run URL과 artifact의 source/tree hash, binary/tool hash, suite summary를 이 문서에 추가해야 한다.
+위 두 문단은 workflow 구성을 기록한다. 실제 실행 결과는 다음과 같다. 수동 runtime validation [40158222582](https://github.com/sangjinsu/campfire/actions/runs/40158222582)는 commit `45e87bf`에서 성공했다. 같은 commit의 push quick CI [40158205928](https://github.com/sangjinsu/campfire/actions/runs/40158205928)는 Rust 테스트 한 건으로 실패했고, 테스트 수정 commit `84af2ab`의 quick CI [40159325035](https://github.com/sangjinsu/campfire/actions/runs/40159325035)는 성공했다. hash·artifact와 실패 원인은 [2026-10-25 인계 문서](project-improvements-2026-10-25.md#github-actions-실제-실행과-후속-테스트-수정)에 있다. 주간 예약 실행의 성공 기록은 아직 없다.
+
+2026-11-14에 quick CI에 stable Rust의 Linux·macOS 테스트 job과 `cargo doc -D warnings` 단계를 추가했고, runtime validation에 ignored Rust 테스트 4개(grace 만료, slow reader, 8·16명 60초 soak)와 Godot `client_unit.gd`·`ui_smoke.gd` 단계를 추가했다. 추가한 runtime validation 단계는 GitHub runner에서 아직 실행하지 않았다.
 
 ## 2026-10-25 검증 runner 준비
 

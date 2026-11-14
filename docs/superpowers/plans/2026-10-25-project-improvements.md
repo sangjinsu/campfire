@@ -1,5 +1,7 @@
 # Campfire Project Improvements Implementation Plan
 
+> 실행 기록: 이 계획의 작업은 완료됐고 결과와 증거는 [인계 문서](../../project-improvements-2026-10-25.md)에 있다. 아래 체크박스는 실행 중 갱신하지 않아 미체크로 남아 있으며 진행 상태를 나타내지 않는다.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** room 간 간섭과 제어 요청의 비용을 줄이고, 종료·관측·검증·재사용 계약을 현재 단일 프로세스 구조에서 강화한다.
