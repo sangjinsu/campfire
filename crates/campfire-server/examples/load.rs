@@ -5,6 +5,9 @@
 //!     http://127.0.0.1:3000 arena --rooms 64 --members 16 --seconds 30 --input-hz 20
 //! ```
 //!
+//! `errors` counts closed connections and error replies; a clean run reports 0.
+//! Keep `--input-hz` at or below the server's `--input-rate-per-second` (60 by default).
+//!
 //! The server needs guest limits that admit every client, for example
 //! `--guest-burst 100000 --global-guest-burst 100000`.
 
@@ -17,6 +20,7 @@ use std::{
     },
     time::{Duration, Instant},
 };
+use tokio::sync::watch;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async, tungstenite::Message};
 
 type Socket = WebSocketStream<MaybeTlsStream<tokio::net::TcpStream>>;
@@ -54,8 +58,8 @@ async fn call(socket: &mut Socket, request: Value, expected: &str) -> Result<Val
     }
 }
 
-async fn connect(base: &str, game: &str) -> Result<Socket, String> {
-    let issued: Value = reqwest::Client::new()
+async fn connect(http: &reqwest::Client, base: &str, game: &str) -> Result<Socket, String> {
+    let issued: Value = http
         .post(format!("{base}/v1/games/{game}/guests"))
         .send()
         .await
@@ -84,10 +88,31 @@ async fn play(
     room: Value,
     index: usize,
     period: Duration,
-    deadline: Instant,
+    duration: Duration,
+    mut start: watch::Receiver<bool>,
     totals: Arc<Totals>,
 ) {
+    // Keep reading while the other clients connect. The server sends snapshots from
+    // the moment a client enters, and an unread socket would eventually be closed
+    // by the server's write deadline.
+    loop {
+        tokio::select! {
+            changed = start.changed() => {
+                if changed.is_err() { return; }
+                break;
+            }
+            message = socket.next() => {
+                if !matches!(message, Some(Ok(_))) {
+                    totals.errors.fetch_add(1, Ordering::Relaxed);
+                    return;
+                }
+            }
+        }
+    }
+    let deadline = Instant::now() + duration;
     let mut ticker = tokio::time::interval(period);
+    // After a stall, skip missed sends instead of bursting past the server's input budget.
+    ticker.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
     let mut sequence = 0_u64;
     loop {
         tokio::select! {
@@ -150,47 +175,48 @@ async fn main() {
     let seconds = option(&args, "--seconds", 30);
     let input_hz = option(&args, "--input-hz", 20).max(1);
 
-    let mut clients = Vec::new();
+    let http = reqwest::Client::new();
+    let totals = Arc::new(Totals::default());
+    let (start, started) = watch::channel(false);
+    let period = Duration::from_secs_f64(1.0 / input_hz as f64);
+    let duration = Duration::from_secs(seconds);
+    let mut tasks = Vec::new();
     for _ in 0..rooms {
-        let mut owner = connect(&base, &game).await.expect("owner connects");
-        let room = call(
-            &mut owner,
-            json!({"v":1,"type":"room.create","request_id":"create","settings":{"capacity":members}}),
-            "room.entered",
-        )
-        .await
-        .expect("room is created");
-        clients.push((owner, room.clone()));
-        for _ in 1..members {
-            let mut member = connect(&base, &game).await.expect("member connects");
-            call(
-                &mut member,
-                json!({"v":1,"type":"room.join","request_id":"join","room_id":room["room_id"],
-                    "room_instance_id":room["room_instance_id"]}),
-                "room.entered",
-            )
-            .await
-            .expect("member joins");
-            clients.push((member, room.clone()));
+        let mut room = None;
+        for _ in 0..members {
+            let mut socket = connect(&http, &base, &game).await.expect("client connects");
+            let request = match &room {
+                None => {
+                    json!({"v":1,"type":"room.create","request_id":"enter","settings":{"capacity":members}})
+                }
+                Some(room) => {
+                    let room: &Value = room;
+                    json!({"v":1,"type":"room.join","request_id":"enter","room_id":room["room_id"],
+                        "room_instance_id":room["room_instance_id"]})
+                }
+            };
+            let entered = call(&mut socket, request, "room.entered")
+                .await
+                .expect("client enters the room");
+            let room = room.get_or_insert(entered).clone();
+            tasks.push(tokio::spawn(play(
+                socket,
+                room,
+                tasks.len(),
+                period,
+                duration,
+                started.clone(),
+                totals.clone(),
+            )));
         }
     }
-    eprintln!("connected {} clients in {rooms} rooms", clients.len());
-
-    let totals = Arc::new(Totals::default());
-    let started = Instant::now();
-    let deadline = started + Duration::from_secs(seconds);
-    let period = Duration::from_secs_f64(1.0 / input_hz as f64);
-    let tasks: Vec<_> = clients
-        .into_iter()
-        .enumerate()
-        .map(|(index, (socket, room))| {
-            tokio::spawn(play(socket, room, index, period, deadline, totals.clone()))
-        })
-        .collect();
+    eprintln!("connected {} clients in {rooms} rooms", tasks.len());
+    let began = Instant::now();
+    start.send_replace(true);
     for task in tasks {
         let _ = task.await;
     }
-    let elapsed = started.elapsed().as_secs_f64();
+    let elapsed = began.elapsed().as_secs_f64();
     let load = |counter: &AtomicU64| counter.load(Ordering::Relaxed);
     println!(
         "{}",
