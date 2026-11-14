@@ -1989,4 +1989,77 @@ mod tests {
         assert_eq!(first["before_expiry"]["ack"], 8);
         assert_eq!(first["members_after_expiry"], 0);
     }
+
+    struct FanoutGame {
+        players: BTreeMap<String, (f64, f64, bool)>,
+    }
+    impl Game for FanoutGame {
+        fn player_joined(&mut self, id: &str) {
+            let n = self.players.len() as f64;
+            self.players.insert(id.into(), (n * 0.37, -n * 0.11, true));
+        }
+        fn player_left(&mut self, id: &str) {
+            self.players.remove(id);
+        }
+        fn player_connection_changed(&mut self, _: &str, _: bool) {}
+        fn validate_input(&self, _: &str, _: &Value) -> Result<(), crate::GameError> {
+            Ok(())
+        }
+        fn apply_input(&mut self, _: &str, _: &Value) {}
+        fn tick(&mut self, _: Duration) {}
+        fn snapshot(&self) -> Value {
+            // Same shape as the arena module's public state.
+            json!({"players": self.players.iter().map(|(id, (x, y, connected))| json!({"id":id,"x":x,"y":y,"connected":connected})).collect::<Vec<_>>(),
+                "shared_score": 12, "goal": {"x": 5.0, "y": 0.0, "radius": 0.5, "active": true}})
+        }
+    }
+    /// What a connection writer does with the latest slot: take it and produce the text frame.
+    fn consume_latest(output: &Output) -> usize {
+        let value = output.latest.borrow().clone();
+        value.map_or(0, |value| value.to_string().len())
+    }
+    #[test]
+    #[ignore = "measurement, run with --release --nocapture"]
+    fn publish_fanout_cost() {
+        for members in [16_usize, 64, 256] {
+            let mut room = room();
+            room.capacity = members;
+            room.game = Box::new(FanoutGame {
+                players: BTreeMap::new(),
+            });
+            let mut outputs = Vec::new();
+            for index in 0..members {
+                let (out, receiver) = output(8);
+                let (tx, mut rx) = oneshot::channel();
+                room.enter(Admission {
+                    player: format!("g_{index:064x}"),
+                    generation: 1,
+                    token_deadline: Instant::now() + Duration::from_secs(86400),
+                    output: out.clone(),
+                    request_id: "join".into(),
+                    resume: false,
+                    identity: PlayerIdentity::Guest,
+                    reply: tx,
+                });
+                rx.try_recv().unwrap().unwrap();
+                outputs.push((out, receiver));
+            }
+            let rounds = (20_000 / members).max(50);
+            let mut bytes = 0;
+            let began = std::time::Instant::now();
+            for _ in 0..rounds {
+                room.publish();
+                for (out, _) in &outputs {
+                    bytes += consume_latest(out);
+                }
+            }
+            let micros = began.elapsed().as_secs_f64() * 1e6 / rounds as f64;
+            println!(
+                "publish_fanout members={members} frame_bytes={} per_snapshot_us={micros:.1} per_member_us={:.2}",
+                bytes / rounds / members,
+                micros / members as f64
+            );
+            assert!(bytes > 0);
+        }
+    }
 }
