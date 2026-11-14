@@ -1,0 +1,55 @@
+name: 버그 신고
+description: 문서나 프로토콜 계약과 다르게 동작하는 문제
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 무엇이 잘못됐나요
+      description: 실제 동작과 기대한 동작을 각각 적어 주세요.
+      placeholder: |
+        실제: 재접속 후 snapshot이 오지 않음
+        기대: room.resumed 뒤에 snapshot이 이어짐
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 재현 방법
+      description: 서버 실행 명령과 옵션, client 동작 순서를 그대로 적어 주세요.
+      render: sh
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 영역
+      options:
+        - campfire-runtime
+        - campfire-server (CLI, 대시보드)
+        - campfire-arena
+        - Godot 예제
+        - 문서
+        - CI·도구
+        - 잘 모르겠음
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 커밋 또는 버전
+      description: "`git rev-parse --short HEAD` 결과"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 환경
+      description: OS, `rustc --version`, 해당하면 Godot 버전
+  - type: textarea
+    id: logs
+    attributes:
+      label: 로그와 오류 메시지
+      description: token, credential, 관리자 키는 지우고 붙여 주세요.
+      render: text

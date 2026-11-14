@@ -1,0 +1,54 @@
+name: 기능·개선 제안
+description: 새 기능, 성능 개선, 동작 변경
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 해결하려는 문제
+      description: 지금 무엇이 불편하거나 불가능한지 적어 주세요. 측정값이 있으면 함께 적어 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 제안
+      description: 원하는 동작이나 변경 방향
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 영역
+      options:
+        - campfire-runtime
+        - campfire-server (CLI, 대시보드)
+        - campfire-arena
+        - Godot 예제
+        - 문서
+        - CI·도구
+    validations:
+      required: true
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: 영향 범위
+      description: 해당하는 항목을 모두 선택해 주세요.
+      options:
+        - label: JSON 프로토콜(docs/protocol.md)이 바뀝니다
+        - label: 공개 Rust API(`Config`, `Game`, `GameModule` 등)가 바뀝니다
+        - label: CLI 옵션이나 기본값이 바뀝니다
+        - label: Godot client 수정이 필요합니다
+  - type: textarea
+    id: done
+    attributes:
+      label: 완료 기준
+      description: 무엇을 확인하면 끝났다고 볼 수 있는지 적어 주세요.
+      placeholder: |
+        - [ ] 16명 방 snapshot 비용이 측정 테스트에서 절반 이하
+        - [ ] 기존 테스트와 Runtime validation 통과
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 검토한 다른 방법

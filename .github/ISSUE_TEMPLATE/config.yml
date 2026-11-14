@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 보안 취약점 신고
+    url: https://github.com/sangjinsu/campfire/blob/main/SECURITY.md
+    about: 취약점은 공개 이슈로 올리지 말고 SECURITY.md의 절차를 따라 주세요.
