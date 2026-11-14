@@ -616,7 +616,39 @@ async fn soak_16_clients_60_seconds() {
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
-async fn caps_and_cleanup() {
+async fn session_cap_rejects_http_issuance_and_logout_releases_capacity() {
+    // Admission must not race the short expiration window tested separately below.
+    let server = Server::new(Config {
+        max_sessions: 2,
+        ..Config::default()
+    })
+    .await;
+    let mut one = server.client("a").await;
+    let _two = server.guest("a").await;
+    assert_eq!(server.runtime.metrics().active_sessions, 2);
+    let denied = reqwest::Client::new()
+        .post(format!("http://{}/v1/games/a/guests", server.address))
+        .send()
+        .await
+        .unwrap();
+    assert_eq!(denied.status(), reqwest::StatusCode::SERVICE_UNAVAILABLE);
+    let error: Value = denied.json().await.unwrap();
+    assert_error(&error, "SERVER_BUSY");
+    assert_eq!(error["retryable"], true);
+    assert_eq!(server.runtime.metrics().active_sessions, 2);
+
+    assert_eq!(
+        one.call("session.logout", json!({})).await["type"],
+        "session.logged_out"
+    );
+    assert_eq!(server.runtime.metrics().active_sessions, 1);
+    let replacement = server.guest("a").await;
+    assert_ne!(replacement["token"], one.guest["token"]);
+    assert_eq!(server.runtime.metrics().active_sessions, 2);
+}
+
+#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn expired_guests_and_rate_keys_are_cleaned_up() {
     let config = Config {
         max_sessions: 2,
         guest_ttl: Duration::from_millis(250),
@@ -625,19 +657,26 @@ async fn caps_and_cleanup() {
         ..Config::default()
     };
     let server = Server::new(config).await;
-    let _one = server.guest("a").await;
+    let one = server.guest("a").await;
     let _two = server.guest("a").await;
-    let denied = reqwest::Client::new()
-        .post(format!("http://{}/v1/games/a/guests", server.address))
-        .send()
-        .await
-        .unwrap();
-    assert!(!denied.status().is_success());
-    sleep(Duration::from_millis(350)).await;
+    // Successful HTTP issuance proves insertion; cleanup may precede the response.
+    // Start waiting after issuance: slow HTTP must not change the expected outcome.
+    // The runtime's manual-clock contract tests cover exact expiration boundaries.
+    timeout(Duration::from_secs(4), async {
+        loop {
+            let metrics = server.runtime.metrics();
+            if metrics.active_sessions == 0 && metrics.rate_keys == 0 {
+                break;
+            }
+            sleep(server.config.cleanup_interval).await;
+        }
+    })
+    .await
+    .expect("expired guest sessions and rate keys were not cleaned up");
     assert_eq!(server.runtime.metrics().active_sessions, 0);
     assert_eq!(server.runtime.metrics().rate_keys, 0);
-    let _replacement = server.guest("a").await;
-    assert_eq!(server.runtime.metrics().active_sessions, 1);
+    let replacement = server.guest("a").await;
+    assert_ne!(replacement["token"], one["token"]);
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
